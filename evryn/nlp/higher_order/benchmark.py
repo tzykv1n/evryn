@@ -94,6 +94,12 @@ class HigherOrderBenchmarkRunner:
         paths = {}
 
         p_dist = os.path.join(output_dir, "ho_candidate_distribution.png")
+        if os.path.exists(p_dist):
+            try:
+                os.remove(p_dist)
+            except OSError:
+                pass
+
         semeval_cands = [c for c in candidates if c.source_dataset == "SemEval-2010_Task8"]
         counts = Counter(c.category.value for c in semeval_cands)
 
@@ -115,58 +121,69 @@ class HigherOrderBenchmarkRunner:
             counts.get(HigherOrderCategory.CONFOUNDED.value, 0),
             counts.get(HigherOrderCategory.INSUFFICIENT_EVIDENCE.value, 0),
         ]
-        colors = ["#06b6d4", "#8b5cf6", "#d946ef", "#64748b", "#f59e0b", "#ef4444", "#94a3b8"]
+        import seaborn as sns
+        sns.set_theme(style="whitegrid", font="sans-serif")
+        palette_dist = sns.color_palette(["#0284c7", "#7c3aed", "#c026d3", "#64748b", "#d97706", "#dc2626", "#94a3b8"])
 
-        fig, ax = plt.subplots(figsize=(9, 4.5), dpi=200)
-        bars = ax.bar(labels, vals, color=colors, width=0.55, edgecolor="#1e293b", linewidth=1.2)
-        ax.set_ylabel("Candidate Count", fontweight="bold", fontsize=10)
-        ax.set_title("Audited Distribution of 208 Joint-Cause Candidates", fontweight="bold", fontsize=11, pad=12)
+        fig, ax = plt.subplots(figsize=(9.5, 4.8), dpi=240)
+        bars = ax.bar(labels, vals, color=palette_dist, width=0.55, edgecolor="#0f172a", linewidth=1.1, zorder=3)
+        ax.set_ylabel("Candidate Count", fontweight="bold", fontsize=10.5)
+        ax.set_title("Audited Distribution of 208 Joint-Cause Candidates", fontweight="bold", fontsize=11.5, pad=12)
         ax.set_xticks(range(len(labels)))
-        ax.set_xticklabels(labels, rotation=30, ha="right", fontsize=9, fontweight="bold")
-        ax.grid(axis="y", linestyle=":", alpha=0.4)
+        ax.set_xticklabels(labels, rotation=25, ha="right", fontsize=9, fontweight="bold")
+        ax.grid(axis="y", linestyle="--", alpha=0.35, zorder=0)
+        sns.despine(ax=ax, top=True, right=True)
 
         for bar, val in zip(bars, vals):
             ax.text(
                 bar.get_x() + bar.get_width() / 2,
-                bar.get_height() + 1,
+                bar.get_height() + 1.2,
                 str(val),
                 ha="center",
                 va="bottom",
                 fontsize=9,
                 fontweight="bold",
+                color="#0f172a",
             )
         plt.tight_layout()
-        plt.savefig(p_dist, dpi=200)
+        plt.savefig(p_dist, dpi=240)
         plt.close()
         paths["distribution"] = p_dist
 
         p_comp = os.path.join(output_dir, "ho_nlp_benchmark_comparison.png")
-        fig, ax = plt.subplots(figsize=(10, 4.8), dpi=200)
+        if os.path.exists(p_comp):
+            try:
+                os.remove(p_comp)
+            except OSError:
+                pass
+
+        fig, ax = plt.subplots(figsize=(10.5, 5.0), dpi=240)
 
         names = [r.baseline_name.split(". ")[-1] for r in results]
         x = np.arange(len(names))
-        w = 0.20
+        w = 0.18
 
         j_f1 = [r.joint_cause_f1 for r in results]
         int_f1 = [r.higher_order_interaction_f1 for r in results]
         macro_f1 = [r.macro_f1 for r in results]
         f_rate = [r.false_joint_cause_rate for r in results]
 
-        ax.bar(x - 1.5 * w, j_f1, width=w, label="Joint-Cause F1", color="#06b6d4", edgecolor="#1e293b")
-        ax.bar(x - 0.5 * w, int_f1, width=w, label="Interaction F1", color="#8b5cf6", edgecolor="#1e293b")
-        ax.bar(x + 0.5 * w, macro_f1, width=w, label="Macro-F1", color="#d946ef", edgecolor="#1e293b")
-        ax.bar(x + 1.5 * w, f_rate, width=w, label="False Joint Rate (Lower=Better)", color="#ef4444", edgecolor="#1e293b")
+        ax.bar(x - 1.5 * w, j_f1, width=w, label="Joint-Cause F1", color="#0284c7", edgecolor="#0f172a", linewidth=1.1, zorder=3)
+        ax.bar(x - 0.5 * w, int_f1, width=w, label="Interaction F1", color="#7c3aed", edgecolor="#0f172a", linewidth=1.1, zorder=3)
+        ax.bar(x + 0.5 * w, macro_f1, width=w, label="Macro-F1", color="#c026d3", edgecolor="#0f172a", linewidth=1.1, zorder=3)
+        ax.bar(x + 1.5 * w, f_rate, width=w, label="False Joint Rate (Lower=Better)", color="#ef4444", edgecolor="#0f172a", linewidth=1.1, zorder=3)
 
         ax.set_xticks(x)
-        ax.set_xticklabels(names, rotation=20, ha="right", fontsize=9, fontweight="bold")
-        ax.set_ylabel("Score / Rate", fontweight="bold", fontsize=10)
-        ax.set_title("Higher-Order Scientific NLP Benchmark: Linguistic vs FLUX Integration", fontweight="bold", fontsize=11, pad=12)
+        ax.set_xticklabels(names, rotation=18, ha="right", fontsize=9, fontweight="bold")
+        ax.set_ylabel("Score / Rate", fontweight="bold", fontsize=10.5)
+        ax.set_title("Higher-Order Scientific NLP Benchmark: Linguistic vs FLUX Integration", fontweight="bold", fontsize=11.5, pad=12)
         ax.set_ylim(0, 1.05)
-        ax.legend(loc="upper left", frameon=True, facecolor="white", fontsize=8.5)
-        ax.grid(axis="y", linestyle=":", alpha=0.4)
+        ax.legend(loc="upper left", frameon=True, facecolor="#ffffff", edgecolor="#cbd5e1", fontsize=8.5)
+        ax.grid(axis="y", linestyle="--", alpha=0.35, zorder=0)
+        sns.despine(ax=ax, top=True, right=True)
 
         plt.tight_layout()
-        plt.savefig(p_comp, dpi=200)
+        plt.savefig(p_comp, dpi=240)
         plt.close()
         paths["comparison"] = p_comp
 

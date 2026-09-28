@@ -27,13 +27,26 @@ class GraphFluxReportGenerator:
         self.grid_color = "#374151"
 
     def _setup_fig(self, figsize=(9, 5)):
+        import seaborn as sns
+        sns.set_theme(style="darkgrid", font="sans-serif", rc={"axes.facecolor": self.card_bg, "figure.facecolor": self.dark_bg, "grid.color": self.grid_color})
         fig, ax = plt.subplots(figsize=figsize, facecolor=self.dark_bg)
         ax.set_facecolor(self.card_bg)
         ax.tick_params(colors=self.text_color)
         for spine in ax.spines.values():
             spine.set_color(self.grid_color)
-        ax.grid(True, color=self.grid_color, linestyle="--", alpha=0.5)
+        ax.grid(True, color=self.grid_color, linestyle="--", alpha=0.4)
         return fig, ax
+
+    def _save_fig(self, path: str, dpi: int = 180) -> str:
+        if os.path.exists(path):
+            try:
+                os.remove(path)
+            except OSError:
+                pass
+        plt.tight_layout()
+        plt.savefig(path, dpi=dpi, facecolor=self.dark_bg)
+        plt.close()
+        return path
 
     def plot_all_figures(
         self,
@@ -115,10 +128,7 @@ class GraphFluxReportGenerator:
         ax.text(0.5, 0.10, "Cross-Sentence Convergence: {A, B} -> P -> C", color=self.cyan, fontsize=11, ha="center")
         plt.title("Fig 1: Example Multi-Sentence Causal Graph", color=self.cyan, fontsize=13, pad=15)
         path = os.path.join(self.output_dir, "fig_graph_example_multisentence.png")
-        plt.tight_layout()
-        plt.savefig(path, dpi=160, facecolor=self.dark_bg)
-        plt.close()
-        return path
+        return self._save_fig(path)
 
     def plot_candidate_generation_graph(self) -> str:
         fig, ax = self._setup_fig((8, 5))
@@ -131,10 +141,7 @@ class GraphFluxReportGenerator:
         ax.set_ylabel("Candidate Count", color=self.text_color)
         plt.title("Fig 2: Graph-Locality Constrained Candidate Generation by Pattern", color=self.cyan, fontsize=13, pad=15)
         path = os.path.join(self.output_dir, "fig_graph_candidate_generation.png")
-        plt.tight_layout()
-        plt.savefig(path, dpi=160, facecolor=self.dark_bg)
-        plt.close()
-        return path
+        return self._save_fig(path)
 
     def plot_evidence_flow(self) -> str:
         fig, ax = self._setup_fig((9, 4.5))
@@ -159,10 +166,7 @@ class GraphFluxReportGenerator:
 
         plt.title("Fig 3: Graph-FLUX Multi-Sentence Evidence Fusion Flow", color=self.cyan, fontsize=13, pad=15)
         path = os.path.join(self.output_dir, "fig_graph_evidence_flow.png")
-        plt.tight_layout()
-        plt.savefig(path, dpi=160, facecolor=self.dark_bg)
-        plt.close()
-        return path
+        return self._save_fig(path)
 
     def plot_candidate_distribution(self, candidates: List[GraphHigherOrderCandidate]) -> str:
         fig, ax = self._setup_fig((8, 5))
@@ -177,10 +181,7 @@ class GraphFluxReportGenerator:
         ax.set_ylabel("Count", color=self.text_color)
         plt.title("Fig 4: Cross-Sentence Candidate Distribution by Structural Category", color=self.cyan, fontsize=13, pad=15)
         path = os.path.join(self.output_dir, "fig_graph_candidate_distribution.png")
-        plt.tight_layout()
-        plt.savefig(path, dpi=160, facecolor=self.dark_bg)
-        plt.close()
-        return path
+        return self._save_fig(path)
 
     def plot_joint_f1_by_evidence(self, results: List[GraphFluxBenchmarkResult]) -> str:
         fig, ax = self._setup_fig((9, 5))
@@ -194,10 +195,7 @@ class GraphFluxReportGenerator:
         ax.set_xlabel("Joint Cause F1", color=self.text_color)
         plt.title("Fig 5: Joint Cause F1 by Evidence Configuration", color=self.cyan, fontsize=13, pad=15)
         path = os.path.join(self.output_dir, "fig_graph_joint_f1_by_evidence.png")
-        plt.tight_layout()
-        plt.savefig(path, dpi=160, facecolor=self.dark_bg)
-        plt.close()
-        return path
+        return self._save_fig(path)
 
     def plot_false_joint_rate(self, results: List[GraphFluxBenchmarkResult]) -> str:
         fig, ax = self._setup_fig((9, 5))
@@ -211,10 +209,7 @@ class GraphFluxReportGenerator:
         ax.set_xlabel("False Joint Rate (%)", color=self.text_color)
         plt.title("Fig 6: False Joint Rate by Evidence Source (Proximity vs FLUX)", color=self.cyan, fontsize=13, pad=15)
         path = os.path.join(self.output_dir, "fig_graph_false_joint_rate.png")
-        plt.tight_layout()
-        plt.savefig(path, dpi=160, facecolor=self.dark_bg)
-        plt.close()
-        return path
+        return self._save_fig(path)
 
     def plot_perf_vs_distance(self, candidates: List[GraphHigherOrderCandidate]) -> str:
         fig, ax = self._setup_fig((8, 5))
@@ -230,10 +225,7 @@ class GraphFluxReportGenerator:
         ax.legend(facecolor=self.card_bg, edgecolor=self.grid_color, labelcolor=self.text_color)
         plt.title("Fig 7: Graph-FLUX Performance Across Graph Hop Distances", color=self.cyan, fontsize=13, pad=15)
         path = os.path.join(self.output_dir, "fig_graph_perf_vs_distance.png")
-        plt.tight_layout()
-        plt.savefig(path, dpi=160, facecolor=self.dark_bg)
-        plt.close()
-        return path
+        return self._save_fig(path)
 
     def plot_nlp_noise_robustness(self, noise_results: Dict[float, GraphFluxBenchmarkResult]) -> str:
         fig, ax = self._setup_fig((8, 5))
@@ -248,10 +240,7 @@ class GraphFluxReportGenerator:
         ax.legend(facecolor=self.card_bg, edgecolor=self.grid_color, labelcolor=self.text_color)
         plt.title("Fig 8: Robustness to NLP Relation Extraction Noise", color=self.cyan, fontsize=13, pad=15)
         path = os.path.join(self.output_dir, "fig_graph_nlp_noise_robustness.png")
-        plt.tight_layout()
-        plt.savefig(path, dpi=160, facecolor=self.dark_bg)
-        plt.close()
-        return path
+        return self._save_fig(path)
 
     def plot_confounding_robustness(self, candidates: List[GraphHigherOrderCandidate]) -> str:
         fig, ax = self._setup_fig((8, 5))
@@ -269,10 +258,7 @@ class GraphFluxReportGenerator:
         ax.legend(facecolor=self.card_bg, edgecolor=self.grid_color, labelcolor=self.text_color)
         plt.title("Fig 9: False Joint Inferences from Confounding and Cascades", color=self.cyan, fontsize=13, pad=15)
         path = os.path.join(self.output_dir, "fig_graph_confounding_robustness.png")
-        plt.tight_layout()
-        plt.savefig(path, dpi=160, facecolor=self.dark_bg)
-        plt.close()
-        return path
+        return self._save_fig(path)
 
     def plot_mechanism_performance(self, candidates: List[GraphHigherOrderCandidate]) -> str:
         fig, ax = self._setup_fig((9, 5))
@@ -288,10 +274,7 @@ class GraphFluxReportGenerator:
         plt.xticks(rotation=20, ha="right")
         plt.title("Fig 10: Mechanism Generalization (Train: Seen vs Test: Unseen)", color=self.cyan, fontsize=13, pad=15)
         path = os.path.join(self.output_dir, "fig_graph_mechanism_performance.png")
-        plt.tight_layout()
-        plt.savefig(path, dpi=160, facecolor=self.dark_bg)
-        plt.close()
-        return path
+        return self._save_fig(path)
 
     def plot_feature_ablation(self, ablations: Dict[str, float]) -> str:
         fig, ax = self._setup_fig((9, 5))
@@ -305,10 +288,7 @@ class GraphFluxReportGenerator:
         ax.set_xlabel("Joint Cause F1", color=self.text_color)
         plt.title("Fig 11: Feature Ablation of Graph-FLUX Evidence Components", color=self.cyan, fontsize=13, pad=15)
         path = os.path.join(self.output_dir, "fig_graph_ablation.png")
-        plt.tight_layout()
-        plt.savefig(path, dpi=160, facecolor=self.dark_bg)
-        plt.close()
-        return path
+        return self._save_fig(path)
 
     def plot_candidate_recall(self, results: List[GraphFluxBenchmarkResult]) -> str:
         fig, ax = self._setup_fig((8, 4.5))
@@ -323,10 +303,7 @@ class GraphFluxReportGenerator:
         plt.xticks(rotation=15, ha="right")
         plt.title("Fig 12: Candidate Recall: Single Sentence vs Graph Context", color=self.cyan, fontsize=13, pad=15)
         path = os.path.join(self.output_dir, "fig_graph_candidate_recall.png")
-        plt.tight_layout()
-        plt.savefig(path, dpi=160, facecolor=self.dark_bg)
-        plt.close()
-        return path
+        return self._save_fig(path)
 
     def plot_structural_match(self, results: List[GraphFluxBenchmarkResult]) -> str:
         fig, ax = self._setup_fig((9, 5))
@@ -341,10 +318,7 @@ class GraphFluxReportGenerator:
         plt.xticks(rotation=20, ha="right")
         plt.title("Fig 13: Exact Structural Match Across Baselines", color=self.cyan, fontsize=13, pad=15)
         path = os.path.join(self.output_dir, "fig_graph_structural_match.png")
-        plt.tight_layout()
-        plt.savefig(path, dpi=160, facecolor=self.dark_bg)
-        plt.close()
-        return path
+        return self._save_fig(path)
 
     def plot_discovered_hypotheses(self, candidates: List[GraphHigherOrderCandidate]) -> str:
         fig, ax = self._setup_fig((9, 5))
@@ -365,10 +339,7 @@ class GraphFluxReportGenerator:
 
         plt.title("Fig 14: Discovered Higher-Order Hypotheses with Full Provenance", color=self.cyan, fontsize=13, pad=15)
         path = os.path.join(self.output_dir, "fig_graph_discovered_hypotheses.png")
-        plt.tight_layout()
-        plt.savefig(path, dpi=160, facecolor=self.dark_bg)
-        plt.close()
-        return path
+        return self._save_fig(path)
 
     def save_benchmark_report(
         self,

@@ -18,7 +18,7 @@ def detect_native_graphics_protocol() -> Optional[str]:
         return "kitty"
     if term_prog in ("iTerm.app", "WezTerm"):
         return "iterm2"
-    if "sixel" in term:
+    if "foot" in term or "sixel" in term or "foot" in term_prog or bool(os.environ.get("FOOT_TERMINAL")):
         return "sixel"
     return None
 
@@ -46,6 +46,16 @@ def render_native_protocol(image_path: str, protocol: str) -> Optional[str]:
         elif protocol == "iterm2":
             size = len(raw_bytes)
             return f"\033]1337;File=inline=1;size={size}:{b64_data}\a\n"
+
+        elif protocol == "sixel":
+            if shutil.which("chafa"):
+                cols, rows = get_terminal_geometry()
+                target_cols = min(cols, 84)
+                target_rows = max(8, min(rows - 4, 24))
+                cmd = ["chafa", "-f", "sixels", "--size", f"{target_cols}x{target_rows}", image_path]
+                res = subprocess.run(cmd, capture_output=True)
+                if res.returncode == 0 and res.stdout:
+                    return res.stdout.decode("latin1", errors="replace") + "\n"
 
         return None
     except Exception:
