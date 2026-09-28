@@ -1,0 +1,1580 @@
+{
+  "normalized_relations": [
+    {
+      "relation_id": "rel_0cef42de1782",
+      "source_entities": [
+        {
+          "entity_id": "ent_71132fbb5b12",
+          "canonical_name": "smoking",
+          "surface_forms": [
+            "smoking"
+          ],
+          "entity_type": "concept",
+          "domain": "epidemiology",
+          "ontology_ids": {}
+        }
+      ],
+      "target_entities": [
+        {
+          "entity_id": "ent_c4a60ea41845",
+          "canonical_name": "lung cancer",
+          "surface_forms": [
+            "lung cancer"
+          ],
+          "entity_type": "concept",
+          "domain": "epidemiology",
+          "ontology_ids": {}
+        }
+      ],
+      "relation_type": "FORWARD",
+      "relation_family": "CAUSAL_PRODUCTION",
+      "evidence_spans": [
+        {
+          "text": "smoking",
+          "start_char": 0,
+          "end_char": 7,
+          "sentence": "Cigarette smoking causes lung cancer through DNA adduct formation.",
+          "document_id": "lit_2018_epidemiology",
+          "section": ""
+        },
+        {
+          "text": "lung cancer",
+          "start_char": 25,
+          "end_char": 36,
+          "sentence": "Cigarette smoking causes lung cancer through DNA adduct formation.",
+          "document_id": "lit_2018_epidemiology",
+          "section": ""
+        }
+      ],
+      "confidence": 0.94,
+      "provenance": {
+        "source_id": "lit_2018_epidemiology",
+        "citation": "Cigarette smoking causes lung cancer through DNA adduct form",
+        "timestamp": "",
+        "extractor_model": "evryn-normalizer-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.94,
+        "created_at": 1790585763.6316998
+      },
+      "temporal_year": 2018,
+      "domain": "epidemiology",
+      "higher_order_order": 2,
+      "properties": {}
+    },
+    {
+      "relation_id": "rel_24f4b995e1b5",
+      "source_entities": [
+        {
+          "entity_id": "ent_862f4a1488a6",
+          "canonical_name": "nicotine",
+          "surface_forms": [
+            "nicotine"
+          ],
+          "entity_type": "concept",
+          "domain": "neuroscience",
+          "ontology_ids": {}
+        }
+      ],
+      "target_entities": [
+        {
+          "entity_id": "ent_3566499e1450",
+          "canonical_name": "dopamine release",
+          "surface_forms": [
+            "dopamine release"
+          ],
+          "entity_type": "concept",
+          "domain": "neuroscience",
+          "ontology_ids": {}
+        }
+      ],
+      "relation_type": "FORWARD",
+      "relation_family": "CAUSAL_PRODUCTION",
+      "evidence_spans": [
+        {
+          "text": "nicotine",
+          "start_char": 0,
+          "end_char": 8,
+          "sentence": "Nicotine administration produces rapid dopamine release in nucleus accumbens.",
+          "document_id": "lit_2019_neuroscience",
+          "section": ""
+        },
+        {
+          "text": "dopamine release",
+          "start_char": 32,
+          "end_char": 48,
+          "sentence": "Nicotine administration produces rapid dopamine release in nucleus accumbens.",
+          "document_id": "lit_2019_neuroscience",
+          "section": ""
+        }
+      ],
+      "confidence": 0.91,
+      "provenance": {
+        "source_id": "lit_2019_neuroscience",
+        "citation": "Nicotine administration produces rapid dopamine release in n",
+        "timestamp": "",
+        "extractor_model": "evryn-normalizer-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.91,
+        "created_at": 1790585763.6317384
+      },
+      "temporal_year": 2019,
+      "domain": "neuroscience",
+      "higher_order_order": 2,
+      "properties": {}
+    },
+    {
+      "relation_id": "rel_a92a183bc507",
+      "source_entities": [
+        {
+          "entity_id": "ent_3566499e1450",
+          "canonical_name": "dopamine release",
+          "surface_forms": [
+            "dopamine release"
+          ],
+          "entity_type": "concept",
+          "domain": "neuroscience",
+          "ontology_ids": {}
+        }
+      ],
+      "target_entities": [
+        {
+          "entity_id": "ent_9cb81a49a0c4",
+          "canonical_name": "addiction reinforcement",
+          "surface_forms": [
+            "addiction reinforcement"
+          ],
+          "entity_type": "concept",
+          "domain": "neuroscience",
+          "ontology_ids": {}
+        }
+      ],
+      "relation_type": "FORWARD",
+      "relation_family": "CAUSAL_PRODUCTION",
+      "evidence_spans": [
+        {
+          "text": "dopamine release",
+          "start_char": 9,
+          "end_char": 25,
+          "sentence": "Elevated dopamine release results in strong addiction reinforcement.",
+          "document_id": "lit_2021_neuroscience",
+          "section": ""
+        },
+        {
+          "text": "addiction reinforcement",
+          "start_char": 37,
+          "end_char": 61,
+          "sentence": "Elevated dopamine release results in strong addiction reinforcement.",
+          "document_id": "lit_2021_neuroscience",
+          "section": ""
+        }
+      ],
+      "confidence": 0.88,
+      "provenance": {
+        "source_id": "lit_2021_neuroscience",
+        "citation": "Elevated dopamine release results in strong addiction reinfo",
+        "timestamp": "",
+        "extractor_model": "evryn-normalizer-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.88,
+        "created_at": 1790585763.6317623
+      },
+      "temporal_year": 2021,
+      "domain": "neuroscience",
+      "higher_order_order": 2,
+      "properties": {}
+    },
+    {
+      "relation_id": "rel_4b49304ac83d",
+      "source_entities": [
+        {
+          "entity_id": "ent_78ed06afc599",
+          "canonical_name": "p53 mutation",
+          "surface_forms": [
+            "p53 mutation"
+          ],
+          "entity_type": "concept",
+          "domain": "biomedicine",
+          "ontology_ids": {}
+        }
+      ],
+      "target_entities": [
+        {
+          "entity_id": "ent_19d9e4240612",
+          "canonical_name": "cellular proliferation",
+          "surface_forms": [
+            "cellular proliferation"
+          ],
+          "entity_type": "concept",
+          "domain": "biomedicine",
+          "ontology_ids": {}
+        }
+      ],
+      "relation_type": "FORWARD",
+      "relation_family": "CAUSAL_PRODUCTION",
+      "evidence_spans": [
+        {
+          "text": "p53 mutation",
+          "start_char": 18,
+          "end_char": 30,
+          "sentence": "Loss-of-function p53 mutation induces uncontrolled cellular proliferation.",
+          "document_id": "lit_2020_biomedicine",
+          "section": ""
+        },
+        {
+          "text": "cellular proliferation",
+          "start_char": 39,
+          "end_char": 64,
+          "sentence": "Loss-of-function p53 mutation induces uncontrolled cellular proliferation.",
+          "document_id": "lit_2020_biomedicine",
+          "section": ""
+        }
+      ],
+      "confidence": 0.92,
+      "provenance": {
+        "source_id": "lit_2020_biomedicine",
+        "citation": "Loss-of-function p53 mutation induces uncontrolled cellular ",
+        "timestamp": "",
+        "extractor_model": "evryn-normalizer-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.92,
+        "created_at": 1790585763.6317816
+      },
+      "temporal_year": 2020,
+      "domain": "biomedicine",
+      "higher_order_order": 2,
+      "properties": {}
+    },
+    {
+      "relation_id": "rel_0f573d3a8bb5",
+      "source_entities": [
+        {
+          "entity_id": "ent_78ed06afc599",
+          "canonical_name": "p53 mutation",
+          "surface_forms": [
+            "p53 mutation"
+          ],
+          "entity_type": "concept",
+          "domain": "biomedicine",
+          "ontology_ids": {}
+        }
+      ],
+      "target_entities": [
+        {
+          "entity_id": "ent_19d9e4240612",
+          "canonical_name": "cellular proliferation",
+          "surface_forms": [
+            "cellular proliferation"
+          ],
+          "entity_type": "concept",
+          "domain": "biomedicine",
+          "ontology_ids": {}
+        }
+      ],
+      "relation_type": "CONFOUNDED",
+      "relation_family": "CAUSAL_PRODUCTION",
+      "evidence_spans": [
+        {
+          "text": "p53 mutation",
+          "start_char": 24,
+          "end_char": 36,
+          "sentence": "Co-occurring genomic instability confounds p53 mutation and cellular proliferation.",
+          "document_id": "lit_2023_biomedicine",
+          "section": ""
+        },
+        {
+          "text": "cellular proliferation",
+          "start_char": 41,
+          "end_char": 66,
+          "sentence": "Co-occurring genomic instability confounds p53 mutation and cellular proliferation.",
+          "document_id": "lit_2023_biomedicine",
+          "section": ""
+        }
+      ],
+      "confidence": 0.79,
+      "provenance": {
+        "source_id": "lit_2023_biomedicine",
+        "citation": "Co-occurring genomic instability confounds p53 mutation and ",
+        "timestamp": "",
+        "extractor_model": "evryn-normalizer-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.79,
+        "created_at": 1790585763.631824
+      },
+      "temporal_year": 2023,
+      "domain": "biomedicine",
+      "higher_order_order": 2,
+      "properties": {}
+    },
+    {
+      "relation_id": "rel_c9b1b443d9f6",
+      "source_entities": [
+        {
+          "entity_id": "ent_f71dcc01d10c",
+          "canonical_name": "vegf upregulation",
+          "surface_forms": [
+            "VEGF upregulation"
+          ],
+          "entity_type": "concept",
+          "domain": "biomedicine",
+          "ontology_ids": {}
+        }
+      ],
+      "target_entities": [
+        {
+          "entity_id": "ent_241318c6ca85",
+          "canonical_name": "angiogenesis",
+          "surface_forms": [
+            "angiogenesis"
+          ],
+          "entity_type": "concept",
+          "domain": "biomedicine",
+          "ontology_ids": {}
+        }
+      ],
+      "relation_type": "FORWARD",
+      "relation_family": "POSITIVE_REGULATION",
+      "evidence_spans": [
+        {
+          "text": "VEGF upregulation",
+          "start_char": 16,
+          "end_char": 33,
+          "sentence": "Hypoxia-induced VEGF upregulation promotes tumor angiogenesis.",
+          "document_id": "lit_2022_biomedicine",
+          "section": ""
+        },
+        {
+          "text": "angiogenesis",
+          "start_char": 43,
+          "end_char": 55,
+          "sentence": "Hypoxia-induced VEGF upregulation promotes tumor angiogenesis.",
+          "document_id": "lit_2022_biomedicine",
+          "section": ""
+        }
+      ],
+      "confidence": 0.95,
+      "provenance": {
+        "source_id": "lit_2022_biomedicine",
+        "citation": "Hypoxia-induced VEGF upregulation promotes tumor angiogenesi",
+        "timestamp": "",
+        "extractor_model": "evryn-normalizer-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.95,
+        "created_at": 1790585763.6318464
+      },
+      "temporal_year": 2022,
+      "domain": "biomedicine",
+      "higher_order_order": 2,
+      "properties": {}
+    },
+    {
+      "relation_id": "rel_57a4f0df2c4c",
+      "source_entities": [
+        {
+          "entity_id": "ent_241318c6ca85",
+          "canonical_name": "angiogenesis",
+          "surface_forms": [
+            "angiogenesis"
+          ],
+          "entity_type": "concept",
+          "domain": "biomedicine",
+          "ontology_ids": {}
+        }
+      ],
+      "target_entities": [
+        {
+          "entity_id": "ent_5565886b80ca",
+          "canonical_name": "tumor metastasis",
+          "surface_forms": [
+            "tumor metastasis"
+          ],
+          "entity_type": "concept",
+          "domain": "biomedicine",
+          "ontology_ids": {}
+        }
+      ],
+      "relation_type": "FORWARD",
+      "relation_family": "POSITIVE_REGULATION",
+      "evidence_spans": [
+        {
+          "text": "angiogenesis",
+          "start_char": 10,
+          "end_char": 22,
+          "sentence": "Extensive angiogenesis accelerates subsequent tumor metastasis.",
+          "document_id": "lit_2024_biomedicine",
+          "section": ""
+        },
+        {
+          "text": "tumor metastasis",
+          "start_char": 34,
+          "end_char": 50,
+          "sentence": "Extensive angiogenesis accelerates subsequent tumor metastasis.",
+          "document_id": "lit_2024_biomedicine",
+          "section": ""
+        }
+      ],
+      "confidence": 0.89,
+      "provenance": {
+        "source_id": "lit_2024_biomedicine",
+        "citation": "Extensive angiogenesis accelerates subsequent tumor metastas",
+        "timestamp": "",
+        "extractor_model": "evryn-normalizer-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.89,
+        "created_at": 1790585763.631864
+      },
+      "temporal_year": 2024,
+      "domain": "biomedicine",
+      "higher_order_order": 2,
+      "properties": {}
+    },
+    {
+      "relation_id": "ho_67aa4e07358a",
+      "source_entities": [
+        {
+          "entity_id": "ent_78ed06afc599",
+          "canonical_name": "p53 mutation",
+          "surface_forms": [
+            "p53 mutation"
+          ],
+          "entity_type": "concept",
+          "domain": "biomedicine",
+          "ontology_ids": {}
+        },
+        {
+          "entity_id": "ent_60f2f022b125",
+          "canonical_name": "kras activation",
+          "surface_forms": [
+            "KRAS activation"
+          ],
+          "entity_type": "concept",
+          "domain": "biomedicine",
+          "ontology_ids": {}
+        }
+      ],
+      "target_entities": [
+        {
+          "entity_id": "ent_595357b00792",
+          "canonical_name": "metastatic invasiveness",
+          "surface_forms": [
+            "metastatic invasiveness"
+          ],
+          "entity_type": "concept",
+          "domain": "biomedicine",
+          "ontology_ids": {}
+        }
+      ],
+      "relation_type": "HIGHER_ORDER_JOINT",
+      "relation_family": "SYNERGISTIC_CO_ACTION",
+      "evidence_spans": [
+        {
+          "text": "{p53 mutation, KRAS activation} -> metastatic invasiveness",
+          "start_char": 0,
+          "end_char": 92,
+          "sentence": "Concurrent p53 mutation and KRAS activation synergistically trigger metastatic invasiveness.",
+          "document_id": "",
+          "section": ""
+        }
+      ],
+      "confidence": 0.89,
+      "provenance": {
+        "source_id": "higher_order_discovery",
+        "citation": "Concurrent p53 mutation and KRAS activation synergistically trigger metastatic i",
+        "timestamp": "",
+        "extractor_model": "evryn-higher-order-flux",
+        "extractor_version": "1.0.0",
+        "confidence": 0.89,
+        "created_at": 1790585763.6318896
+      },
+      "temporal_year": 2024,
+      "domain": "biomedicine",
+      "higher_order_order": 2,
+      "properties": {
+        "synergy_score": 0.88,
+        "interaction_type": "synergistic_co_action"
+      }
+    }
+  ],
+  "family_results": {
+    "POSITIVE_REGULATION": {
+      "family_id": "fam_pos_reg",
+      "canonical_name": "Positive Regulation",
+      "description": "Increases, activates, enhances, or upregulates the target process or quantity",
+      "polarity": 1,
+      "count": 2,
+      "sample_relations": [
+        {
+          "relation_id": "rel_c9b1b443d9f6",
+          "source_entities": [
+            {
+              "entity_id": "ent_f71dcc01d10c",
+              "canonical_name": "vegf upregulation",
+              "surface_forms": [
+                "VEGF upregulation"
+              ],
+              "entity_type": "concept",
+              "domain": "biomedicine",
+              "ontology_ids": {}
+            }
+          ],
+          "target_entities": [
+            {
+              "entity_id": "ent_241318c6ca85",
+              "canonical_name": "angiogenesis",
+              "surface_forms": [
+                "angiogenesis"
+              ],
+              "entity_type": "concept",
+              "domain": "biomedicine",
+              "ontology_ids": {}
+            }
+          ],
+          "relation_type": "FORWARD",
+          "relation_family": "POSITIVE_REGULATION",
+          "evidence_spans": [
+            {
+              "text": "VEGF upregulation",
+              "start_char": 16,
+              "end_char": 33,
+              "sentence": "Hypoxia-induced VEGF upregulation promotes tumor angiogenesis.",
+              "document_id": "lit_2022_biomedicine",
+              "section": ""
+            },
+            {
+              "text": "angiogenesis",
+              "start_char": 43,
+              "end_char": 55,
+              "sentence": "Hypoxia-induced VEGF upregulation promotes tumor angiogenesis.",
+              "document_id": "lit_2022_biomedicine",
+              "section": ""
+            }
+          ],
+          "confidence": 0.95,
+          "provenance": {
+            "source_id": "lit_2022_biomedicine",
+            "citation": "Hypoxia-induced VEGF upregulation promotes tumor angiogenesi",
+            "timestamp": "",
+            "extractor_model": "evryn-normalizer-v1",
+            "extractor_version": "1.0.0",
+            "confidence": 0.95,
+            "created_at": 1790585763.6318464
+          },
+          "temporal_year": 2022,
+          "domain": "biomedicine",
+          "higher_order_order": 2,
+          "properties": {}
+        },
+        {
+          "relation_id": "rel_57a4f0df2c4c",
+          "source_entities": [
+            {
+              "entity_id": "ent_241318c6ca85",
+              "canonical_name": "angiogenesis",
+              "surface_forms": [
+                "angiogenesis"
+              ],
+              "entity_type": "concept",
+              "domain": "biomedicine",
+              "ontology_ids": {}
+            }
+          ],
+          "target_entities": [
+            {
+              "entity_id": "ent_5565886b80ca",
+              "canonical_name": "tumor metastasis",
+              "surface_forms": [
+                "tumor metastasis"
+              ],
+              "entity_type": "concept",
+              "domain": "biomedicine",
+              "ontology_ids": {}
+            }
+          ],
+          "relation_type": "FORWARD",
+          "relation_family": "POSITIVE_REGULATION",
+          "evidence_spans": [
+            {
+              "text": "angiogenesis",
+              "start_char": 10,
+              "end_char": 22,
+              "sentence": "Extensive angiogenesis accelerates subsequent tumor metastasis.",
+              "document_id": "lit_2024_biomedicine",
+              "section": ""
+            },
+            {
+              "text": "tumor metastasis",
+              "start_char": 34,
+              "end_char": 50,
+              "sentence": "Extensive angiogenesis accelerates subsequent tumor metastasis.",
+              "document_id": "lit_2024_biomedicine",
+              "section": ""
+            }
+          ],
+          "confidence": 0.89,
+          "provenance": {
+            "source_id": "lit_2024_biomedicine",
+            "citation": "Extensive angiogenesis accelerates subsequent tumor metastas",
+            "timestamp": "",
+            "extractor_model": "evryn-normalizer-v1",
+            "extractor_version": "1.0.0",
+            "confidence": 0.89,
+            "created_at": 1790585763.631864
+          },
+          "temporal_year": 2024,
+          "domain": "biomedicine",
+          "higher_order_order": 2,
+          "properties": {}
+        }
+      ]
+    },
+    "NEGATIVE_REGULATION": {
+      "family_id": "fam_neg_reg",
+      "canonical_name": "Negative Regulation",
+      "description": "Decreases, suppresses, inhibits, or downregulates the target process or quantity",
+      "polarity": -1,
+      "count": 0,
+      "sample_relations": []
+    },
+    "CAUSAL_PRODUCTION": {
+      "family_id": "fam_causal_prod",
+      "canonical_name": "Causal Production / Genesis",
+      "description": "Directly creates, generates, synthesizes, produces, or triggers the target entity",
+      "polarity": 1,
+      "count": 5,
+      "sample_relations": [
+        {
+          "relation_id": "rel_0cef42de1782",
+          "source_entities": [
+            {
+              "entity_id": "ent_71132fbb5b12",
+              "canonical_name": "smoking",
+              "surface_forms": [
+                "smoking"
+              ],
+              "entity_type": "concept",
+              "domain": "epidemiology",
+              "ontology_ids": {}
+            }
+          ],
+          "target_entities": [
+            {
+              "entity_id": "ent_c4a60ea41845",
+              "canonical_name": "lung cancer",
+              "surface_forms": [
+                "lung cancer"
+              ],
+              "entity_type": "concept",
+              "domain": "epidemiology",
+              "ontology_ids": {}
+            }
+          ],
+          "relation_type": "FORWARD",
+          "relation_family": "CAUSAL_PRODUCTION",
+          "evidence_spans": [
+            {
+              "text": "smoking",
+              "start_char": 0,
+              "end_char": 7,
+              "sentence": "Cigarette smoking causes lung cancer through DNA adduct formation.",
+              "document_id": "lit_2018_epidemiology",
+              "section": ""
+            },
+            {
+              "text": "lung cancer",
+              "start_char": 25,
+              "end_char": 36,
+              "sentence": "Cigarette smoking causes lung cancer through DNA adduct formation.",
+              "document_id": "lit_2018_epidemiology",
+              "section": ""
+            }
+          ],
+          "confidence": 0.94,
+          "provenance": {
+            "source_id": "lit_2018_epidemiology",
+            "citation": "Cigarette smoking causes lung cancer through DNA adduct form",
+            "timestamp": "",
+            "extractor_model": "evryn-normalizer-v1",
+            "extractor_version": "1.0.0",
+            "confidence": 0.94,
+            "created_at": 1790585763.6316998
+          },
+          "temporal_year": 2018,
+          "domain": "epidemiology",
+          "higher_order_order": 2,
+          "properties": {}
+        },
+        {
+          "relation_id": "rel_24f4b995e1b5",
+          "source_entities": [
+            {
+              "entity_id": "ent_862f4a1488a6",
+              "canonical_name": "nicotine",
+              "surface_forms": [
+                "nicotine"
+              ],
+              "entity_type": "concept",
+              "domain": "neuroscience",
+              "ontology_ids": {}
+            }
+          ],
+          "target_entities": [
+            {
+              "entity_id": "ent_3566499e1450",
+              "canonical_name": "dopamine release",
+              "surface_forms": [
+                "dopamine release"
+              ],
+              "entity_type": "concept",
+              "domain": "neuroscience",
+              "ontology_ids": {}
+            }
+          ],
+          "relation_type": "FORWARD",
+          "relation_family": "CAUSAL_PRODUCTION",
+          "evidence_spans": [
+            {
+              "text": "nicotine",
+              "start_char": 0,
+              "end_char": 8,
+              "sentence": "Nicotine administration produces rapid dopamine release in nucleus accumbens.",
+              "document_id": "lit_2019_neuroscience",
+              "section": ""
+            },
+            {
+              "text": "dopamine release",
+              "start_char": 32,
+              "end_char": 48,
+              "sentence": "Nicotine administration produces rapid dopamine release in nucleus accumbens.",
+              "document_id": "lit_2019_neuroscience",
+              "section": ""
+            }
+          ],
+          "confidence": 0.91,
+          "provenance": {
+            "source_id": "lit_2019_neuroscience",
+            "citation": "Nicotine administration produces rapid dopamine release in n",
+            "timestamp": "",
+            "extractor_model": "evryn-normalizer-v1",
+            "extractor_version": "1.0.0",
+            "confidence": 0.91,
+            "created_at": 1790585763.6317384
+          },
+          "temporal_year": 2019,
+          "domain": "neuroscience",
+          "higher_order_order": 2,
+          "properties": {}
+        },
+        {
+          "relation_id": "rel_a92a183bc507",
+          "source_entities": [
+            {
+              "entity_id": "ent_3566499e1450",
+              "canonical_name": "dopamine release",
+              "surface_forms": [
+                "dopamine release"
+              ],
+              "entity_type": "concept",
+              "domain": "neuroscience",
+              "ontology_ids": {}
+            }
+          ],
+          "target_entities": [
+            {
+              "entity_id": "ent_9cb81a49a0c4",
+              "canonical_name": "addiction reinforcement",
+              "surface_forms": [
+                "addiction reinforcement"
+              ],
+              "entity_type": "concept",
+              "domain": "neuroscience",
+              "ontology_ids": {}
+            }
+          ],
+          "relation_type": "FORWARD",
+          "relation_family": "CAUSAL_PRODUCTION",
+          "evidence_spans": [
+            {
+              "text": "dopamine release",
+              "start_char": 9,
+              "end_char": 25,
+              "sentence": "Elevated dopamine release results in strong addiction reinforcement.",
+              "document_id": "lit_2021_neuroscience",
+              "section": ""
+            },
+            {
+              "text": "addiction reinforcement",
+              "start_char": 37,
+              "end_char": 61,
+              "sentence": "Elevated dopamine release results in strong addiction reinforcement.",
+              "document_id": "lit_2021_neuroscience",
+              "section": ""
+            }
+          ],
+          "confidence": 0.88,
+          "provenance": {
+            "source_id": "lit_2021_neuroscience",
+            "citation": "Elevated dopamine release results in strong addiction reinfo",
+            "timestamp": "",
+            "extractor_model": "evryn-normalizer-v1",
+            "extractor_version": "1.0.0",
+            "confidence": 0.88,
+            "created_at": 1790585763.6317623
+          },
+          "temporal_year": 2021,
+          "domain": "neuroscience",
+          "higher_order_order": 2,
+          "properties": {}
+        }
+      ]
+    },
+    "PHYSICAL_INTERACTION": {
+      "family_id": "fam_phys_int",
+      "canonical_name": "Physical Binding / Complex Formation",
+      "description": "Direct physical association, binding, or complex formation without net production",
+      "polarity": 0,
+      "count": 0,
+      "sample_relations": []
+    },
+    "SYNERGISTIC_CO_ACTION": {
+      "family_id": "fam_synergy",
+      "canonical_name": "Synergistic Co-Action / Joint Causation",
+      "description": "Multiple sources act conjunctively or nonlinearly to generate an effect",
+      "polarity": 1,
+      "count": 1,
+      "sample_relations": [
+        {
+          "relation_id": "ho_67aa4e07358a",
+          "source_entities": [
+            {
+              "entity_id": "ent_78ed06afc599",
+              "canonical_name": "p53 mutation",
+              "surface_forms": [
+                "p53 mutation"
+              ],
+              "entity_type": "concept",
+              "domain": "biomedicine",
+              "ontology_ids": {}
+            },
+            {
+              "entity_id": "ent_60f2f022b125",
+              "canonical_name": "kras activation",
+              "surface_forms": [
+                "KRAS activation"
+              ],
+              "entity_type": "concept",
+              "domain": "biomedicine",
+              "ontology_ids": {}
+            }
+          ],
+          "target_entities": [
+            {
+              "entity_id": "ent_595357b00792",
+              "canonical_name": "metastatic invasiveness",
+              "surface_forms": [
+                "metastatic invasiveness"
+              ],
+              "entity_type": "concept",
+              "domain": "biomedicine",
+              "ontology_ids": {}
+            }
+          ],
+          "relation_type": "HIGHER_ORDER_JOINT",
+          "relation_family": "SYNERGISTIC_CO_ACTION",
+          "evidence_spans": [
+            {
+              "text": "{p53 mutation, KRAS activation} -> metastatic invasiveness",
+              "start_char": 0,
+              "end_char": 92,
+              "sentence": "Concurrent p53 mutation and KRAS activation synergistically trigger metastatic invasiveness.",
+              "document_id": "",
+              "section": ""
+            }
+          ],
+          "confidence": 0.89,
+          "provenance": {
+            "source_id": "higher_order_discovery",
+            "citation": "Concurrent p53 mutation and KRAS activation synergistically trigger metastatic i",
+            "timestamp": "",
+            "extractor_model": "evryn-higher-order-flux",
+            "extractor_version": "1.0.0",
+            "confidence": 0.89,
+            "created_at": 1790585763.6318896
+          },
+          "temporal_year": 2024,
+          "domain": "biomedicine",
+          "higher_order_order": 2,
+          "properties": {
+            "synergy_score": 0.88,
+            "interaction_type": "synergistic_co_action"
+          }
+        }
+      ]
+    },
+    "METABOLIC_CONVERSION": {
+      "family_id": "fam_metab_conv",
+      "canonical_name": "Metabolic / Chemical Transformation",
+      "description": "Direct chemical conversion or catalytic breakdown from substrate to product",
+      "polarity": 0,
+      "count": 0,
+      "sample_relations": []
+    }
+  },
+  "temporal_sequences": {
+    "smoking->lung cancer": {
+      "sequence_id": "seq_0000",
+      "relation_key": "smoking->lung cancer",
+      "source_name": "smoking",
+      "target_name": "lung cancer",
+      "relation_family": "CAUSAL_PRODUCTION",
+      "years": [
+        2018
+      ],
+      "confidences": [
+        0.94
+      ],
+      "evidence_counts": [
+        1
+      ],
+      "status": "STABLE",
+      "emergence_year": 2018,
+      "velocity": 0.0,
+      "is_contradicted": false
+    },
+    "nicotine->dopamine release": {
+      "sequence_id": "seq_0001",
+      "relation_key": "nicotine->dopamine release",
+      "source_name": "nicotine",
+      "target_name": "dopamine release",
+      "relation_family": "CAUSAL_PRODUCTION",
+      "years": [
+        2019
+      ],
+      "confidences": [
+        0.91
+      ],
+      "evidence_counts": [
+        1
+      ],
+      "status": "STABLE",
+      "emergence_year": 2019,
+      "velocity": 0.0,
+      "is_contradicted": false
+    },
+    "dopamine release->addiction reinforcement": {
+      "sequence_id": "seq_0002",
+      "relation_key": "dopamine release->addiction reinforcement",
+      "source_name": "dopamine release",
+      "target_name": "addiction reinforcement",
+      "relation_family": "CAUSAL_PRODUCTION",
+      "years": [
+        2021
+      ],
+      "confidences": [
+        0.88
+      ],
+      "evidence_counts": [
+        1
+      ],
+      "status": "STABLE",
+      "emergence_year": 2021,
+      "velocity": 0.0,
+      "is_contradicted": false
+    },
+    "p53 mutation->cellular proliferation": {
+      "sequence_id": "seq_0003",
+      "relation_key": "p53 mutation->cellular proliferation",
+      "source_name": "p53 mutation",
+      "target_name": "cellular proliferation",
+      "relation_family": "CAUSAL_PRODUCTION",
+      "years": [
+        2020,
+        2023
+      ],
+      "confidences": [
+        0.92,
+        0.79
+      ],
+      "evidence_counts": [
+        1,
+        1
+      ],
+      "status": "CONTRADICTED",
+      "emergence_year": 2020,
+      "velocity": -0.043333333333333335,
+      "is_contradicted": true
+    },
+    "vegf upregulation->angiogenesis": {
+      "sequence_id": "seq_0004",
+      "relation_key": "vegf upregulation->angiogenesis",
+      "source_name": "vegf upregulation",
+      "target_name": "angiogenesis",
+      "relation_family": "POSITIVE_REGULATION",
+      "years": [
+        2022
+      ],
+      "confidences": [
+        0.95
+      ],
+      "evidence_counts": [
+        1
+      ],
+      "status": "STABLE",
+      "emergence_year": 2022,
+      "velocity": 0.0,
+      "is_contradicted": false
+    },
+    "angiogenesis->tumor metastasis": {
+      "sequence_id": "seq_0005",
+      "relation_key": "angiogenesis->tumor metastasis",
+      "source_name": "angiogenesis",
+      "target_name": "tumor metastasis",
+      "relation_family": "POSITIVE_REGULATION",
+      "years": [
+        2024
+      ],
+      "confidences": [
+        0.89
+      ],
+      "evidence_counts": [
+        1
+      ],
+      "status": "STABLE",
+      "emergence_year": 2024,
+      "velocity": 0.0,
+      "is_contradicted": false
+    },
+    "kras activation_p53 mutation->metastatic invasiveness": {
+      "sequence_id": "seq_0006",
+      "relation_key": "kras activation_p53 mutation->metastatic invasiveness",
+      "source_name": "p53 mutation_kras activation",
+      "target_name": "metastatic invasiveness",
+      "relation_family": "SYNERGISTIC_CO_ACTION",
+      "years": [
+        2024
+      ],
+      "confidences": [
+        0.89
+      ],
+      "evidence_counts": [
+        1
+      ],
+      "status": "STABLE",
+      "emergence_year": 2024,
+      "velocity": 0.0,
+      "is_contradicted": false
+    }
+  },
+  "forecasts": [
+    {
+      "forecast_id": "fc_8c5de2ccd14d",
+      "source_names": [
+        "p53 mutation",
+        "kras activation"
+      ],
+      "target_name": "metastatic invasiveness",
+      "forecasted_family": "SYNERGISTIC_CO_ACTION",
+      "horizon_year": 2029,
+      "probability": 0.801,
+      "confidence_interval": [
+        0.751,
+        0.851
+      ],
+      "rationale": "Higher-Order Synergy Hypothesis: 'p53 mutation' (conf 0.89) and 'kras activation' (conf 0.89) both independently regulate 'metastatic invasiveness'. High probability of joint synergy {p53 mutation, kras activation} -> metastatic invasiveness.",
+      "provenance": {
+        "source_id": "synergy_forecast_p53 mutation_kras activation_metastatic invasiveness",
+        "citation": "Higher-Order Synergy Hypothesis: 'p53 mutation' (conf 0.89) and 'kras activation' (conf 0.89) both independently regulate 'metastatic invasiveness'. High probability of joint synergy {p53 mutation, kras activation} -> metastatic invasiveness.",
+        "timestamp": "",
+        "extractor_model": "evryn-forecaster-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.801,
+        "created_at": 1790585763.632938
+      }
+    },
+    {
+      "forecast_id": "fc_c9b832d71251",
+      "source_names": [
+        "vegf upregulation"
+      ],
+      "target_name": "tumor metastasis",
+      "forecasted_family": "CAUSAL_PRODUCTION",
+      "horizon_year": 2028,
+      "probability": 0.6764,
+      "confidence_interval": [
+        0.651,
+        0.702
+      ],
+      "rationale": "Transitive discovery via bridge entity 'angiogenesis': 'vegf upregulation' -> 'angiogenesis' (conf 0.95) and 'angiogenesis' -> 'tumor metastasis' (conf 0.89) with mean evidence velocity +0.000/yr",
+      "provenance": {
+        "source_id": "forecast_vegf upregulation_tumor metastasis",
+        "citation": "Transitive discovery via bridge entity 'angiogenesis': 'vegf upregulation' -> 'angiogenesis' (conf 0.95) and 'angiogenesis' -> 'tumor metastasis' (conf 0.89) with mean evidence velocity +0.000/yr",
+        "timestamp": "",
+        "extractor_model": "evryn-forecaster-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.6764,
+        "created_at": 1790585763.6329043
+      }
+    },
+    {
+      "forecast_id": "fc_8da31e10593b",
+      "source_names": [
+        "nicotine"
+      ],
+      "target_name": "addiction reinforcement",
+      "forecasted_family": "CAUSAL_PRODUCTION",
+      "horizon_year": 2028,
+      "probability": 0.6406,
+      "confidence_interval": [
+        0.612,
+        0.669
+      ],
+      "rationale": "Transitive discovery via bridge entity 'dopamine release': 'nicotine' -> 'dopamine release' (conf 0.91) and 'dopamine release' -> 'addiction reinforcement' (conf 0.88) with mean evidence velocity +0.000/yr",
+      "provenance": {
+        "source_id": "forecast_nicotine_addiction reinforcement",
+        "citation": "Transitive discovery via bridge entity 'dopamine release': 'nicotine' -> 'dopamine release' (conf 0.91) and 'dopamine release' -> 'addiction reinforcement' (conf 0.88) with mean evidence velocity +0.000/yr",
+        "timestamp": "",
+        "extractor_model": "evryn-forecaster-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.6406400000000001,
+        "created_at": 1790585763.6328738
+      }
+    }
+  ],
+  "analogies": [
+    {
+      "analogy_id": "ana_5ce2fdf5bedc",
+      "source_domain": "biomedicine",
+      "target_domain": "neuroscience",
+      "source_relation_repr": "p53 mutation -> cellular proliferation",
+      "candidate_target_repr": "nicotine -> dopamine release",
+      "structural_isomorphism_score": 0.78,
+      "mechanism_match_score": 0.8,
+      "transferable_hypothesis": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics.",
+      "provenance": {
+        "source_id": "transfer_biomedicine_neuroscience",
+        "citation": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics.",
+        "timestamp": "",
+        "extractor_model": "evryn-transfer-engine-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.79,
+        "created_at": 1790585763.6330268
+      }
+    },
+    {
+      "analogy_id": "ana_57ae6c27bc99",
+      "source_domain": "biomedicine",
+      "target_domain": "neuroscience",
+      "source_relation_repr": "p53 mutation -> cellular proliferation",
+      "candidate_target_repr": "dopamine release -> addiction reinforcement",
+      "structural_isomorphism_score": 0.78,
+      "mechanism_match_score": 0.8,
+      "transferable_hypothesis": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (dopamine release -> addiction reinforcement). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics.",
+      "provenance": {
+        "source_id": "transfer_biomedicine_neuroscience",
+        "citation": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (dopamine release -> addiction reinforcement). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics.",
+        "timestamp": "",
+        "extractor_model": "evryn-transfer-engine-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.79,
+        "created_at": 1790585763.6330466
+      }
+    },
+    {
+      "analogy_id": "ana_5ce2fdf5bedc",
+      "source_domain": "biomedicine",
+      "target_domain": "neuroscience",
+      "source_relation_repr": "p53 mutation -> cellular proliferation",
+      "candidate_target_repr": "nicotine -> dopamine release",
+      "structural_isomorphism_score": 0.78,
+      "mechanism_match_score": 0.8,
+      "transferable_hypothesis": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics.",
+      "provenance": {
+        "source_id": "transfer_biomedicine_neuroscience",
+        "citation": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics.",
+        "timestamp": "",
+        "extractor_model": "evryn-transfer-engine-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.79,
+        "created_at": 1790585763.633055
+      }
+    },
+    {
+      "analogy_id": "ana_57ae6c27bc99",
+      "source_domain": "biomedicine",
+      "target_domain": "neuroscience",
+      "source_relation_repr": "p53 mutation -> cellular proliferation",
+      "candidate_target_repr": "dopamine release -> addiction reinforcement",
+      "structural_isomorphism_score": 0.78,
+      "mechanism_match_score": 0.8,
+      "transferable_hypothesis": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (dopamine release -> addiction reinforcement). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics.",
+      "provenance": {
+        "source_id": "transfer_biomedicine_neuroscience",
+        "citation": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (dopamine release -> addiction reinforcement). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics.",
+        "timestamp": "",
+        "extractor_model": "evryn-transfer-engine-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.79,
+        "created_at": 1790585763.63306
+      }
+    },
+    {
+      "analogy_id": "ana_0c035eb6e4f0",
+      "source_domain": "biomedicine",
+      "target_domain": "neuroscience",
+      "source_relation_repr": "vegf upregulation -> angiogenesis",
+      "candidate_target_repr": "nicotine -> dopamine release",
+      "structural_isomorphism_score": 0.78,
+      "mechanism_match_score": 0.65,
+      "transferable_hypothesis": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (vegf upregulation -> angiogenesis) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under POSITIVE_REGULATION dynamics.",
+      "provenance": {
+        "source_id": "transfer_biomedicine_neuroscience",
+        "citation": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (vegf upregulation -> angiogenesis) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under POSITIVE_REGULATION dynamics.",
+        "timestamp": "",
+        "extractor_model": "evryn-transfer-engine-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.7150000000000001,
+        "created_at": 1790585763.6330662
+      }
+    },
+    {
+      "analogy_id": "ana_efea612443c6",
+      "source_domain": "biomedicine",
+      "target_domain": "neuroscience",
+      "source_relation_repr": "vegf upregulation -> angiogenesis",
+      "candidate_target_repr": "dopamine release -> addiction reinforcement",
+      "structural_isomorphism_score": 0.78,
+      "mechanism_match_score": 0.65,
+      "transferable_hypothesis": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (vegf upregulation -> angiogenesis) maps structurally to neuroscience (dopamine release -> addiction reinforcement). Predicts parallel mechanism conservation under POSITIVE_REGULATION dynamics.",
+      "provenance": {
+        "source_id": "transfer_biomedicine_neuroscience",
+        "citation": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (vegf upregulation -> angiogenesis) maps structurally to neuroscience (dopamine release -> addiction reinforcement). Predicts parallel mechanism conservation under POSITIVE_REGULATION dynamics.",
+        "timestamp": "",
+        "extractor_model": "evryn-transfer-engine-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.7150000000000001,
+        "created_at": 1790585763.6330724
+      }
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_id": "hyp_contra_seq_0003",
+      "title": "Contradiction Resolution: 'p53 mutation->cellular proliferation'",
+      "statement": "Hypothesis of context-dependent bifurcation for relation 'p53 mutation->cellular proliferation' exhibiting conflicting causal polarities.",
+      "hypothesis_type": "CONTRADICTION_RESOLUTION",
+      "involved_entities": [
+        {
+          "entity_id": "ent_p53 mutation",
+          "canonical_name": "p53 mutation",
+          "surface_forms": [],
+          "entity_type": "concept",
+          "domain": "general_science",
+          "ontology_ids": {}
+        },
+        {
+          "entity_id": "ent_cellular proliferation",
+          "canonical_name": "cellular proliferation",
+          "surface_forms": [],
+          "entity_type": "concept",
+          "domain": "general_science",
+          "ontology_ids": {}
+        }
+      ],
+      "plausibility_score": 0.82,
+      "reasoning_chain": [
+        "Temporal sequence for 'p53 mutation->cellular proliferation' exhibits simultaneous positive and negative/confounded evidence reports.",
+        "Suggests presence of an unmeasured latent modifier or cell-type specific regulatory switch.",
+        "First observed in 2020 with 2 total observations."
+      ],
+      "supporting_relation_ids": [],
+      "provenance": {
+        "source_id": "contradiction_seq_0003",
+        "citation": "Hypothesis of context-dependent bifurcation for relation 'p53 mutation->cellular proliferation' exhibiting conflicting causal polarities.",
+        "timestamp": "",
+        "extractor_model": "evryn-hypothesis-generator-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.82,
+        "created_at": 1790585763.633205
+      }
+    },
+    {
+      "hypothesis_id": "hyp_fc_fc_8c5de2c",
+      "title": "Emerging Link Prediction: p53 mutation + kras activation -> metastatic invasiveness",
+      "statement": "Predicted future causal link: p53 mutation + kras activation -> metastatic invasiveness (SYNERGISTIC_CO_ACTION) by 2029.",
+      "hypothesis_type": "TEMPORAL_EXTRAPOLATION",
+      "involved_entities": [
+        {
+          "entity_id": "ent_p53 mutation",
+          "canonical_name": "p53 mutation",
+          "surface_forms": [],
+          "entity_type": "concept",
+          "domain": "general_science",
+          "ontology_ids": {}
+        },
+        {
+          "entity_id": "ent_kras activation",
+          "canonical_name": "kras activation",
+          "surface_forms": [],
+          "entity_type": "concept",
+          "domain": "general_science",
+          "ontology_ids": {}
+        },
+        {
+          "entity_id": "ent_metastatic invasiveness",
+          "canonical_name": "metastatic invasiveness",
+          "surface_forms": [],
+          "entity_type": "concept",
+          "domain": "general_science",
+          "ontology_ids": {}
+        }
+      ],
+      "plausibility_score": 0.801,
+      "reasoning_chain": [
+        "Higher-Order Synergy Hypothesis: 'p53 mutation' (conf 0.89) and 'kras activation' (conf 0.89) both independently regulate 'metastatic invasiveness'. High probability of joint synergy {p53 mutation, kras activation} -> metastatic invasiveness.",
+        "Calibrated path confidence: 0.801 within 95% CI [0.751, 0.851].",
+        "Forecast horizon targeted for year 2029."
+      ],
+      "supporting_relation_ids": [],
+      "provenance": {
+        "source_id": "fc_8c5de2ccd14d",
+        "citation": "Higher-Order Synergy Hypothesis: 'p53 mutation' (conf 0.89) and 'kras activation' (conf 0.89) both independently regulate 'metastatic invasiveness'. High probability of joint synergy {p53 mutation, kras activation} -> metastatic invasiveness.",
+        "timestamp": "",
+        "extractor_model": "evryn-hypothesis-generator-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.801,
+        "created_at": 1790585763.6331418
+      }
+    },
+    {
+      "hypothesis_id": "hyp_trans_ana_5ce2fd",
+      "title": "Cross-Domain Analogy: biomedicine -> neuroscience",
+      "statement": "Cross-domain structural transfer: biomedicine motif (p53 mutation -> cellular proliferation) transfers to neuroscience (nicotine -> dopamine release).",
+      "hypothesis_type": "CROSS_DOMAIN_TRANSFER",
+      "involved_entities": [],
+      "plausibility_score": 0.79,
+      "reasoning_chain": [
+        "Structural isomorphism score: 0.780",
+        "Mechanism match score: 0.800",
+        "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics."
+      ],
+      "supporting_relation_ids": [],
+      "provenance": {
+        "source_id": "ana_5ce2fdf5bedc",
+        "citation": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics.",
+        "timestamp": "",
+        "extractor_model": "evryn-hypothesis-generator-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.79,
+        "created_at": 1790585763.6331832
+      }
+    },
+    {
+      "hypothesis_id": "hyp_trans_ana_57ae6c",
+      "title": "Cross-Domain Analogy: biomedicine -> neuroscience",
+      "statement": "Cross-domain structural transfer: biomedicine motif (p53 mutation -> cellular proliferation) transfers to neuroscience (dopamine release -> addiction reinforcement).",
+      "hypothesis_type": "CROSS_DOMAIN_TRANSFER",
+      "involved_entities": [],
+      "plausibility_score": 0.79,
+      "reasoning_chain": [
+        "Structural isomorphism score: 0.780",
+        "Mechanism match score: 0.800",
+        "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (dopamine release -> addiction reinforcement). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics."
+      ],
+      "supporting_relation_ids": [],
+      "provenance": {
+        "source_id": "ana_57ae6c27bc99",
+        "citation": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (dopamine release -> addiction reinforcement). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics.",
+        "timestamp": "",
+        "extractor_model": "evryn-hypothesis-generator-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.79,
+        "created_at": 1790585763.6331894
+      }
+    },
+    {
+      "hypothesis_id": "hyp_trans_ana_5ce2fd",
+      "title": "Cross-Domain Analogy: biomedicine -> neuroscience",
+      "statement": "Cross-domain structural transfer: biomedicine motif (p53 mutation -> cellular proliferation) transfers to neuroscience (nicotine -> dopamine release).",
+      "hypothesis_type": "CROSS_DOMAIN_TRANSFER",
+      "involved_entities": [],
+      "plausibility_score": 0.79,
+      "reasoning_chain": [
+        "Structural isomorphism score: 0.780",
+        "Mechanism match score: 0.800",
+        "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics."
+      ],
+      "supporting_relation_ids": [],
+      "provenance": {
+        "source_id": "ana_5ce2fdf5bedc",
+        "citation": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics.",
+        "timestamp": "",
+        "extractor_model": "evryn-hypothesis-generator-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.79,
+        "created_at": 1790585763.6331947
+      }
+    },
+    {
+      "hypothesis_id": "hyp_ho_4ce784f276",
+      "title": "Higher-Order Synergy: {avian influenza A, secondary bacterial infection}",
+      "statement": "Synergistic co-action {avian influenza A, secondary bacterial infection} exhibits joint causal interaction beyond independent additive effects.",
+      "hypothesis_type": "HIGHER_ORDER_SYNERGY",
+      "involved_entities": [
+        {
+          "entity_id": "ent_avian influenza A",
+          "canonical_name": "avian influenza A",
+          "surface_forms": [],
+          "entity_type": "concept",
+          "domain": "general_science",
+          "ontology_ids": {}
+        },
+        {
+          "entity_id": "ent_secondary bacterial infection",
+          "canonical_name": "secondary bacterial infection",
+          "surface_forms": [],
+          "entity_type": "concept",
+          "domain": "general_science",
+          "ontology_ids": {}
+        }
+      ],
+      "plausibility_score": 0.74,
+      "reasoning_chain": [
+        "Linguistic co-occurrence identified nominal coordination in text: 'Co-infection of avian influenza A and secondary bacterial infection triggers severe pneumo...'",
+        "Entities 'avian influenza A' and 'secondary bacterial infection' co-regulate downstream outcome.",
+        "Partial Information Decomposition (PID) candidate test flags potential non-zero synergistic information gain."
+      ],
+      "supporting_relation_ids": [
+        "jc_001"
+      ],
+      "provenance": {
+        "source_id": "higher_order_nlp_screening",
+        "citation": "Co-infection of avian influenza A and secondary bacterial infection triggers sev",
+        "timestamp": "",
+        "extractor_model": "evryn-hypothesis-generator-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.74,
+        "created_at": 1790585763.6330998
+      }
+    },
+    {
+      "hypothesis_id": "hyp_ho_134ed7f93b",
+      "title": "Higher-Order Synergy: {chronic inflammation, epigenetic silencing}",
+      "statement": "Synergistic co-action {chronic inflammation, epigenetic silencing} exhibits joint causal interaction beyond independent additive effects.",
+      "hypothesis_type": "HIGHER_ORDER_SYNERGY",
+      "involved_entities": [
+        {
+          "entity_id": "ent_chronic inflammation",
+          "canonical_name": "chronic inflammation",
+          "surface_forms": [],
+          "entity_type": "concept",
+          "domain": "general_science",
+          "ontology_ids": {}
+        },
+        {
+          "entity_id": "ent_epigenetic silencing",
+          "canonical_name": "epigenetic silencing",
+          "surface_forms": [],
+          "entity_type": "concept",
+          "domain": "general_science",
+          "ontology_ids": {}
+        }
+      ],
+      "plausibility_score": 0.74,
+      "reasoning_chain": [
+        "Linguistic co-occurrence identified nominal coordination in text: 'Combined chronic inflammation and epigenetic silencing jointly accelerate oncogenesis....'",
+        "Entities 'chronic inflammation' and 'epigenetic silencing' co-regulate downstream outcome.",
+        "Partial Information Decomposition (PID) candidate test flags potential non-zero synergistic information gain."
+      ],
+      "supporting_relation_ids": [
+        "jc_002"
+      ],
+      "provenance": {
+        "source_id": "higher_order_nlp_screening",
+        "citation": "Combined chronic inflammation and epigenetic silencing jointly accelerate oncoge",
+        "timestamp": "",
+        "extractor_model": "evryn-hypothesis-generator-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.74,
+        "created_at": 1790585763.633123
+      }
+    },
+    {
+      "hypothesis_id": "hyp_fc_fc_c9b832d",
+      "title": "Emerging Link Prediction: vegf upregulation -> tumor metastasis",
+      "statement": "Predicted future causal link: vegf upregulation -> tumor metastasis (CAUSAL_PRODUCTION) by 2028.",
+      "hypothesis_type": "TEMPORAL_EXTRAPOLATION",
+      "involved_entities": [
+        {
+          "entity_id": "ent_vegf upregulation",
+          "canonical_name": "vegf upregulation",
+          "surface_forms": [],
+          "entity_type": "concept",
+          "domain": "general_science",
+          "ontology_ids": {}
+        },
+        {
+          "entity_id": "ent_tumor metastasis",
+          "canonical_name": "tumor metastasis",
+          "surface_forms": [],
+          "entity_type": "concept",
+          "domain": "general_science",
+          "ontology_ids": {}
+        }
+      ],
+      "plausibility_score": 0.6764,
+      "reasoning_chain": [
+        "Transitive discovery via bridge entity 'angiogenesis': 'vegf upregulation' -> 'angiogenesis' (conf 0.95) and 'angiogenesis' -> 'tumor metastasis' (conf 0.89) with mean evidence velocity +0.000/yr",
+        "Calibrated path confidence: 0.676 within 95% CI [0.651, 0.702].",
+        "Forecast horizon targeted for year 2028."
+      ],
+      "supporting_relation_ids": [],
+      "provenance": {
+        "source_id": "fc_c9b832d71251",
+        "citation": "Transitive discovery via bridge entity 'angiogenesis': 'vegf upregulation' -> 'angiogenesis' (conf 0.95) and 'angiogenesis' -> 'tumor metastasis' (conf 0.89) with mean evidence velocity +0.000/yr",
+        "timestamp": "",
+        "extractor_model": "evryn-hypothesis-generator-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.6764,
+        "created_at": 1790585763.6331615
+      }
+    },
+    {
+      "hypothesis_id": "hyp_fc_fc_8da31e1",
+      "title": "Emerging Link Prediction: nicotine -> addiction reinforcement",
+      "statement": "Predicted future causal link: nicotine -> addiction reinforcement (CAUSAL_PRODUCTION) by 2028.",
+      "hypothesis_type": "TEMPORAL_EXTRAPOLATION",
+      "involved_entities": [
+        {
+          "entity_id": "ent_nicotine",
+          "canonical_name": "nicotine",
+          "surface_forms": [],
+          "entity_type": "concept",
+          "domain": "general_science",
+          "ontology_ids": {}
+        },
+        {
+          "entity_id": "ent_addiction reinforcement",
+          "canonical_name": "addiction reinforcement",
+          "surface_forms": [],
+          "entity_type": "concept",
+          "domain": "general_science",
+          "ontology_ids": {}
+        }
+      ],
+      "plausibility_score": 0.6406,
+      "reasoning_chain": [
+        "Transitive discovery via bridge entity 'dopamine release': 'nicotine' -> 'dopamine release' (conf 0.91) and 'dopamine release' -> 'addiction reinforcement' (conf 0.88) with mean evidence velocity +0.000/yr",
+        "Calibrated path confidence: 0.641 within 95% CI [0.612, 0.669].",
+        "Forecast horizon targeted for year 2028."
+      ],
+      "supporting_relation_ids": [],
+      "provenance": {
+        "source_id": "fc_8da31e10593b",
+        "citation": "Transitive discovery via bridge entity 'dopamine release': 'nicotine' -> 'dopamine release' (conf 0.91) and 'dopamine release' -> 'addiction reinforcement' (conf 0.88) with mean evidence velocity +0.000/yr",
+        "timestamp": "",
+        "extractor_model": "evryn-hypothesis-generator-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.6406,
+        "created_at": 1790585763.6331744
+      }
+    }
+  ]
+}

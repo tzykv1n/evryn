@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "evryn"
+version = "1.0.0"
+description = "EVRYN : Unified Scientific Knowledge Discovery Platform"
+authors = [{ name = "EVRYN Team" }]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "causality-in-flux",
+    "flux-nlp",
+    "rich",
+    "pillow",
+]
+
+[project.scripts]
+evryn = "evryn.cli:main"
