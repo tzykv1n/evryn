@@ -5,7 +5,10 @@
 # evryn -s multivariate
 # evryn -s nlp
 # evryn -s higher-order
+# evryn -s graph
 # evryn -s hypothesize
+# evryn graph
+# evryn graph-flux
 # evryn view <image_path>
 # evryn view <image_path> --ascii
 # evryn all
@@ -24,6 +27,7 @@ from evryn.pipelines.flux_pipeline import run_flux_pipeline
 from evryn.pipelines.multivariate_pipeline import run_multivariate_pipeline
 from evryn.pipelines.nlp_pipeline import run_nlp_pipeline
 from evryn.pipelines.higher_order_pipeline import run_higher_order_pipeline
+from evryn.pipelines.graph_pipeline import run_graph_flux_pipeline
 from evryn.pipelines.evryn_pipeline import run_evryn_pipeline
 from evryn.visualization.terminal_graphics import (
     TerminalGraphicsRenderer,
@@ -67,6 +71,14 @@ def cmd_higher_order(args):
     cfg.cache.force_rebuild = is_scratch
     cache = EvrynCache(cache_dir=cfg.cache.cache_dir, enabled=cfg.cache.enabled, force_rebuild=is_scratch)
     run_higher_order_pipeline(cfg, cache)
+
+
+def cmd_graph(args):
+    is_scratch = _is_scratch_mode(args)
+    cfg = EvrynConfig(seed=getattr(args, "seed", 42), verbose=getattr(args, "verbose", False))
+    cfg.cache.force_rebuild = is_scratch
+    cache = EvrynCache(cache_dir=cfg.cache.cache_dir, enabled=cfg.cache.enabled, force_rebuild=is_scratch)
+    run_graph_flux_pipeline(config=cfg, cache=cache, from_scratch=is_scratch, verbose=cfg.verbose)
 
 
 def cmd_hypothesize(args):
@@ -166,6 +178,7 @@ def cmd_all(args):
     m_res = run_multivariate_pipeline(cfg, cache)
     n_res = run_nlp_pipeline(cfg, cache)
     ho_res = run_higher_order_pipeline(cfg, cache)
+    g_res = run_graph_flux_pipeline(config=cfg, cache=cache, from_scratch=is_scratch, verbose=cfg.verbose)
     e_res = run_evryn_pipeline(cfg, cache)
 
     duration = time.time() - t0
@@ -227,6 +240,10 @@ def build_parser() -> argparse.ArgumentParser:
     p_ho = subparsers.add_parser("higher-order", help="Higher-Order Scientific NLP candidate audit & FLUX benchmark")
     _add_scratch_opt(p_ho)
     p_ho.set_defaults(func=cmd_higher_order)
+
+    p_graph = subparsers.add_parser("graph", aliases=["graph-flux"], help="Run Graph-FLUX cross-sentence higher-order discovery & benchmark")
+    _add_scratch_opt(p_graph)
+    p_graph.set_defaults(func=cmd_graph)
 
     p_hypo = subparsers.add_parser("hypothesize", help="Run end-to-end relation normalization & hypothesis generation")
     _add_scratch_opt(p_hypo)
