@@ -149,19 +149,11 @@ def run_nlp_pipeline(config: EvrynConfig, cache: EvrynCache) -> Dict[str, Any]:
         }
         plot_comparison_chart(comparison_payload, cmp_path)
 
+        all_candidates = err.get("all_joint_cause_candidates", err.get("joint_cause_samples", []))
         results = {
             "metrics": metrics,
             "error_analysis": err,
-            "joint_cause_candidates": [
-                {
-                    "id": item.get("id", ""),
-                    "e1": item.get("e1", ""),
-                    "e2": item.get("e2", ""),
-                    "text": item.get("sentence", ""),
-                    "true_rel": item.get("true_relation", ""),
-                }
-                for item in err.get("joint_cause_samples", [])
-            ],
+            "joint_cause_candidates": all_candidates,
             "frozen_status": "FROZEN (F1 >= 0.70 Target Exceeded)",
             "artifacts": default_artifacts,
         }

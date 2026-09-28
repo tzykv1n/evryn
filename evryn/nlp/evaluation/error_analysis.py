@@ -100,6 +100,8 @@ class ErrorAnalyzer:
                 correct_causal.append(ex)
 
             if has_joint_markers and (yt > 0 or yp > 0):
+                matched_jm = [m for m in joint_markers if m in sent_lower]
+                matched_tm = [t for t in temporal_words if t in sent_lower]
                 joint_cause_candidates.append({
                     "id": ex.example_id,
                     "sentence": ex.sentence,
@@ -107,6 +109,13 @@ class ErrorAnalyzer:
                     "pred_relation": CausalRelationType(yp).name,
                     "e1": ex.entity1_text,
                     "e2": ex.entity2_text,
+                    "e1_span": ex.entity1_span,
+                    "e2_span": ex.entity2_span,
+                    "middle": ex.middle_context,
+                    "raw_label": ex.raw_label,
+                    "joint_markers": matched_jm,
+                    "temporal_markers": matched_tm,
+                    "has_explicit_trigger": has_explicit_trigger,
                 })
 
         total_errors = len(reversals) + len(false_positives) + len(false_negatives)
@@ -125,4 +134,5 @@ class ErrorAnalyzer:
             "long_distance_error_count": long_distance_errors,
             "joint_cause_candidate_count": len(joint_cause_candidates),
             "joint_cause_samples": joint_cause_candidates[:6],
+            "all_joint_cause_candidates": joint_cause_candidates,
         }

@@ -100,7 +100,7 @@ def test_render_missing_image_graceful():
     renderer = TerminalGraphicsRenderer()
     result = renderer.render_image("/nonexistent/path/to/missing_image.png")
     assert "FIGURE" in result or "missing_image.png" in result
-    assert "VIEW" in result
+    assert "VIEW" in result or "OPEN" in result
 
 
 def test_fallback_card():

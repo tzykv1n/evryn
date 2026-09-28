@@ -1,11 +1,83 @@
 # evryn view <image_path>
-# evryn view <image_path> --width 100
+# evryn view <image_path> --ascii
 
 import os
 import sys
 import shutil
+import base64
+import subprocess
 from typing import Optional, Tuple
 from PIL import Image
+
+
+def detect_native_graphics_protocol() -> Optional[str]:
+    term = os.environ.get("TERM", "").lower()
+    term_prog = os.environ.get("TERM_PROGRAM", "")
+
+    if "KITTY_WINDOW_ID" in os.environ or "kitty" in term:
+        return "kitty"
+    if term_prog in ("iTerm.app", "WezTerm"):
+        return "iterm2"
+    if "sixel" in term:
+        return "sixel"
+    return None
+
+
+def render_native_protocol(image_path: str, protocol: str) -> Optional[str]:
+    if not os.path.exists(image_path):
+        return None
+
+    try:
+        with open(image_path, "rb") as f:
+            raw_bytes = f.read()
+        b64_data = base64.b64encode(raw_bytes).decode("ascii")
+
+        if protocol == "kitty":
+            chunks = [b64_data[i:i + 4096] for i in range(0, len(b64_data), 4096)]
+            out = []
+            for idx, chunk in enumerate(chunks):
+                m = 0 if idx == len(chunks) - 1 else 1
+                if idx == 0:
+                    out.append(f"\033_Gf=100,a=T,m={m};{chunk}\033\\")
+                else:
+                    out.append(f"\033_Gm={m};{chunk}\033\\")
+            return "".join(out) + "\n"
+
+        elif protocol == "iterm2":
+            size = len(raw_bytes)
+            return f"\033]1337;File=inline=1;size={size}:{b64_data}\a\n"
+
+        return None
+    except Exception:
+        return None
+
+
+def find_available_viewer() -> Optional[str]:
+    viewers = ["imv", "sxiv", "nsxiv", "feh", "xdg-open"]
+    for v in viewers:
+        if shutil.which(v):
+            return v
+    return None
+
+
+def open_in_external_viewer(image_path: str) -> Tuple[bool, str]:
+    if not os.path.exists(image_path):
+        return False, "File does not exist"
+
+    viewer = find_available_viewer()
+    if viewer:
+        v_path = shutil.which(viewer)
+        try:
+            subprocess.Popen(
+                [v_path, image_path],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                start_new_session=True,
+            )
+            return True, viewer
+        except Exception:
+            return False, ""
+    return False, ""
 
 
 def get_terminal_geometry(fallback_cols: int = 80, fallback_rows: int = 24) -> Tuple[int, int]:
@@ -26,10 +98,6 @@ class TerminalGraphicsRenderer:
         term = os.environ.get("TERM", "").lower()
         colorterm = os.environ.get("COLORTERM", "").lower()
 
-        if "KITTY_WINDOW_ID" in os.environ or "kitty" in term:
-            return "kitty"
-        if "sixel" in term:
-            return "sixel"
         if colorterm in ("truecolor", "24bit") or any(t in term for t in ("alacritty", "xterm", "tmux", "screen", "rxvt")):
             return "truecolor_blocks"
         return "unicode_blocks"
@@ -101,7 +169,7 @@ class TerminalGraphicsRenderer:
                     explicit_width=max_width or self.explicit_width,
                 )
 
-            if self.mode in ("kitty", "sixel", "truecolor_blocks", "unicode_blocks"):
+            if self.mode in ("truecolor_blocks", "unicode_blocks"):
                 return self._render_truecolor_blocks(image_path, cols, pixel_h, center=center)
             else:
                 return self._render_ascii_fallback(image_path, cols, pixel_h, center=center)
@@ -172,21 +240,25 @@ class TerminalGraphicsRenderer:
     def render_fallback_card(image_path: str, title: str = "Graphic Artifact", reason: str = "") -> str:
         basename = os.path.basename(image_path)
         term_cols, _ = get_terminal_geometry()
-        box_w = max(40, min(term_cols - 4, 76))
+        box_w = max(44, min(term_cols - 4, 76))
         inner_w = box_w - 4
 
         line_top = "╭" + "─" * (box_w - 2) + "╮"
         line_bot = "╰" + "─" * (box_w - 2) + "╯"
 
+        lines = [line_top]
+        if title and title != "Graphic Artifact":
+            t_str = f"  TITLE  : {title}"[:inner_w]
+            lines.append(f"│ {t_str:<{inner_w}} │")
         title_str = f"  FIGURE : {basename}"[:inner_w]
-        title_line = f"│ {title_str:<{inner_w}} │"
+        lines.append(f"│ {title_str:<{inner_w}} │")
 
-        view_cmd = f"  VIEW   : evryn view {image_path}"[:inner_w]
-        view_line = f"│ {view_cmd:<{inner_w}} │"
+        view_cmd = f"  OPEN   : evryn view {image_path}"[:inner_w]
+        lines.append(f"│ {view_cmd:<{inner_w}} │")
 
-        extra_lines = []
         if reason:
             r_str = f"  STATUS : {reason}"[:inner_w]
-            extra_lines.append(f"│ {r_str:<{inner_w}} │")
+            lines.append(f"│ {r_str:<{inner_w}} │")
 
-        return "\n".join([line_top, title_line, view_line] + extra_lines + [line_bot])
+        lines.append(line_bot)
+        return "\n".join(lines)

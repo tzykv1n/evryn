@@ -4,8 +4,10 @@
 # evryn -s flux
 # evryn -s multivariate
 # evryn -s nlp
+# evryn -s higher-order
 # evryn -s hypothesize
 # evryn view <image_path>
+# evryn view <image_path> --ascii
 # evryn all
 
 import os
@@ -21,8 +23,14 @@ from evryn.ui.console import print_evryn_banner, print_box, print_table, console
 from evryn.pipelines.flux_pipeline import run_flux_pipeline
 from evryn.pipelines.multivariate_pipeline import run_multivariate_pipeline
 from evryn.pipelines.nlp_pipeline import run_nlp_pipeline
+from evryn.pipelines.higher_order_pipeline import run_higher_order_pipeline
 from evryn.pipelines.evryn_pipeline import run_evryn_pipeline
-from evryn.visualization.terminal_graphics import TerminalGraphicsRenderer, get_terminal_geometry
+from evryn.visualization.terminal_graphics import (
+    TerminalGraphicsRenderer,
+    detect_native_graphics_protocol,
+    render_native_protocol,
+    open_in_external_viewer,
+)
 
 
 def _is_scratch_mode(args) -> bool:
@@ -53,6 +61,14 @@ def cmd_nlp(args):
     run_nlp_pipeline(cfg, cache)
 
 
+def cmd_higher_order(args):
+    is_scratch = _is_scratch_mode(args)
+    cfg = EvrynConfig(seed=getattr(args, "seed", 42), verbose=getattr(args, "verbose", False))
+    cfg.cache.force_rebuild = is_scratch
+    cache = EvrynCache(cache_dir=cfg.cache.cache_dir, enabled=cfg.cache.enabled, force_rebuild=is_scratch)
+    run_higher_order_pipeline(cfg, cache)
+
+
 def cmd_hypothesize(args):
     is_scratch = _is_scratch_mode(args)
     cfg = EvrynConfig(seed=getattr(args, "seed", 42), verbose=getattr(args, "verbose", False))
@@ -62,16 +78,44 @@ def cmd_hypothesize(args):
 
 
 def cmd_view(args):
-    target_w = getattr(args, "width", None)
-    term_cols, term_rows = get_terminal_geometry()
-    print_box(
-        f"Terminal Graphics Viewer : {os.path.basename(args.image_path)}",
-        f"Terminal Geometry: {term_cols}x{term_rows} | Rendering Mode: Adaptive",
+    image_path = args.image_path
+    if not os.path.exists(image_path):
+        console.print(f"[bold red]Error: Image file not found at '{image_path}'[/bold red]")
+        sys.exit(1)
+
+    if getattr(args, "ascii", False):
+        target_w = getattr(args, "width", None)
+        renderer = TerminalGraphicsRenderer(target_width=target_w)
+        rendered = renderer.render_image(image_path, max_width=target_w, center=True)
+        sys.stdout.write(rendered + "\n")
+        sys.stdout.flush()
+        return
+
+    protocol = detect_native_graphics_protocol()
+    if protocol:
+        native_out = render_native_protocol(image_path, protocol)
+        if native_out:
+            sys.stdout.write(native_out)
+            sys.stdout.flush()
+            return
+
+    opened, viewer_name = open_in_external_viewer(image_path)
+    if opened:
+        console.print(
+            f"[bold cyan]IMAGE VIEWER[/bold cyan]\n"
+            f"  {os.path.basename(image_path)}\n"
+            f"[dim white]Opened via external viewer: [bold green]{viewer_name}[/bold green][/dim white]"
+        )
+        return
+
+    console.print(
+        f"[bold cyan]IMAGE VIEWER[/bold cyan]\n"
+        f"  {os.path.basename(image_path)}\n\n"
+        f"[yellow]No native terminal graphics protocol detected.[/yellow]\n"
+        f"[yellow]No graphical image viewer found (checked imv, sxiv, nsxiv, feh, xdg-open).[/yellow]\n\n"
+        f"Install an image viewer or use:\n"
+        f"  [bold white]evryn view --ascii {image_path}[/bold white]"
     )
-    renderer = TerminalGraphicsRenderer(target_width=target_w)
-    rendered = renderer.render_image(args.image_path, max_width=target_w, center=True)
-    sys.stdout.write(rendered + "\n")
-    sys.stdout.flush()
 
 
 def cmd_cache(args):
@@ -121,12 +165,13 @@ def cmd_all(args):
     f_res = run_flux_pipeline(cfg, cache)
     m_res = run_multivariate_pipeline(cfg, cache)
     n_res = run_nlp_pipeline(cfg, cache)
+    ho_res = run_higher_order_pipeline(cfg, cache)
     e_res = run_evryn_pipeline(cfg, cache)
 
     duration = time.time() - t0
     print_box(
         "EVRYN Suite Execution Complete",
-        f"All 4 Core Subsystems Verified | Mode: {'from-scratch' if is_scratch else 'cached'} | Runtime: {duration:.2f}s | Output: {cfg.output_dir}",
+        f"All Subsystems Verified | Mode: {'from-scratch' if is_scratch else 'cached'} | Runtime: {duration:.2f}s | Output: {cfg.output_dir}",
     )
 
 
@@ -179,13 +224,18 @@ def build_parser() -> argparse.ArgumentParser:
     _add_scratch_opt(p_nlp)
     p_nlp.set_defaults(func=cmd_nlp)
 
+    p_ho = subparsers.add_parser("higher-order", help="Higher-Order Scientific NLP candidate audit & FLUX benchmark")
+    _add_scratch_opt(p_ho)
+    p_ho.set_defaults(func=cmd_higher_order)
+
     p_hypo = subparsers.add_parser("hypothesize", help="Run end-to-end relation normalization & hypothesis generation")
     _add_scratch_opt(p_hypo)
     p_hypo.set_defaults(func=cmd_hypothesize)
 
-    p_view = subparsers.add_parser("view", help="Render scientific figures directly in the terminal")
-    p_view.add_argument("image_path", type=str, help="Path to PNG image to view")
-    p_view.add_argument("--width", type=int, default=None, help="Target column width (default: automatic)")
+    p_view = subparsers.add_parser("view", help="View scientific images at full visual quality")
+    p_view.add_argument("image_path", type=str, help="Path to image to view")
+    p_view.add_argument("--ascii", "-a", action="store_true", help="Render as half-block truecolor ASCII in terminal")
+    p_view.add_argument("--width", type=int, default=None, help="Target column width when using --ascii")
     p_view.set_defaults(func=cmd_view)
 
     p_cache = subparsers.add_parser("cache", help="Manage EVRYN cache")
@@ -194,7 +244,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_cache.add_argument("--stage", type=str, default=None, help="Clear specific cache stage")
     p_cache.set_defaults(func=cmd_cache)
 
-    p_all = subparsers.add_parser("all", help="Execute full platform verification across all 4 modules")
+    p_all = subparsers.add_parser("all", help="Execute full platform verification across all modules")
     _add_scratch_opt(p_all)
     p_all.set_defaults(func=cmd_all)
 
