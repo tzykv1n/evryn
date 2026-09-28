@@ -5,13 +5,13 @@ import sys
 import numpy as np
 from typing import Dict, Any, List
 
-from flux_nlp.core.config import ExperimentConfig as NLPExperimentConfig
-from flux_nlp.core.cache import ArtifactCache as NLPCache
-from flux_nlp.datasets.semeval import SemEval2010Dataset
-from flux_nlp.features.tfidf_extractor import TFIDFExtractor
-from flux_nlp.models.classical_baseline import LogisticRegressionBaseline
-from flux_nlp.evaluation.metrics import compute_relation_metrics
-from flux_nlp.evaluation.error_analysis import ErrorAnalyzer
+from ..nlp.core.config import ExperimentConfig as NLPExperimentConfig
+from ..nlp.core.cache import ArtifactCache as NLPCache
+from ..nlp.datasets.semeval import SemEval2010Dataset
+from ..nlp.features.tfidf_extractor import TFIDFExtractor
+from ..nlp.models.classical_baseline import LogisticRegressionBaseline
+from ..nlp.evaluation.metrics import compute_relation_metrics
+from ..nlp.evaluation.error_analysis import ErrorAnalyzer
 
 from ..core.config import EvrynConfig
 from ..core.cache import EvrynCache

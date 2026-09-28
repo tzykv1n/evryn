@@ -27,33 +27,29 @@ from evryn.visualization.terminal_graphics import TerminalGraphicsRenderer
 def cmd_flux(args):
     cfg = EvrynConfig(seed=getattr(args, "seed", 42))
     cache = EvrynCache(cache_dir=cfg.cache.cache_dir, enabled=cfg.cache.enabled, force_rebuild=getattr(args, "force", False))
-    print_evryn_banner("Subsystem: Pairwise Causal Evidence Matching (FLUX)")
     run_flux_pipeline(cfg, cache)
 
 
 def cmd_multivariate(args):
     cfg = EvrynConfig(seed=getattr(args, "seed", 42))
     cache = EvrynCache(cache_dir=cfg.cache.cache_dir, enabled=cfg.cache.enabled, force_rebuild=getattr(args, "force", False))
-    print_evryn_banner("Subsystem: Multivariate & Higher-Order FLUX")
     run_multivariate_pipeline(cfg, cache)
 
 
 def cmd_nlp(args):
     cfg = EvrynConfig(seed=getattr(args, "seed", 42))
     cache = EvrynCache(cache_dir=cfg.cache.cache_dir, enabled=cfg.cache.enabled, force_rebuild=getattr(args, "force", False))
-    print_evryn_banner("Subsystem: Scientific NLP Frozen Pairwise Baseline")
     run_nlp_pipeline(cfg, cache)
 
 
 def cmd_hypothesize(args):
     cfg = EvrynConfig(seed=getattr(args, "seed", 42))
     cache = EvrynCache(cache_dir=cfg.cache.cache_dir, enabled=cfg.cache.enabled, force_rebuild=getattr(args, "force", False))
-    print_evryn_banner("Subsystem: End-to-End Hypothesis Generation Pipeline")
     run_evryn_pipeline(cfg, cache)
 
 
 def cmd_view(args):
-    print_evryn_banner(f"Terminal Graphics Viewer : {os.path.basename(args.image_path)}")
+    print_box(f"Terminal Graphics Viewer : {os.path.basename(args.image_path)}")
     renderer = TerminalGraphicsRenderer(target_width=getattr(args, "width", 76))
     rendered = renderer.render_image(args.image_path)
     sys.stdout.write(rendered + "\n")
@@ -61,7 +57,6 @@ def cmd_view(args):
 
 
 def cmd_cache(args):
-    print_evryn_banner("Artifact Cache & Provenance Engine")
     cache = EvrynCache(cache_dir="cache", enabled=True)
 
     if getattr(args, "clear", False):

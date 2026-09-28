@@ -54,7 +54,7 @@
         "extractor_model": "evryn-normalizer-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.94,
-        "created_at": 1790585763.6316998
+        "created_at": 1790588417.1168249
       },
       "temporal_year": 2018,
       "domain": "epidemiology",
@@ -115,7 +115,7 @@
         "extractor_model": "evryn-normalizer-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.91,
-        "created_at": 1790585763.6317384
+        "created_at": 1790588417.1168644
       },
       "temporal_year": 2019,
       "domain": "neuroscience",
@@ -176,7 +176,7 @@
         "extractor_model": "evryn-normalizer-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.88,
-        "created_at": 1790585763.6317623
+        "created_at": 1790588417.1168902
       },
       "temporal_year": 2021,
       "domain": "neuroscience",
@@ -237,7 +237,7 @@
         "extractor_model": "evryn-normalizer-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.92,
-        "created_at": 1790585763.6317816
+        "created_at": 1790588417.116911
       },
       "temporal_year": 2020,
       "domain": "biomedicine",
@@ -298,7 +298,7 @@
         "extractor_model": "evryn-normalizer-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.79,
-        "created_at": 1790585763.631824
+        "created_at": 1790588417.1169317
       },
       "temporal_year": 2023,
       "domain": "biomedicine",
@@ -359,7 +359,7 @@
         "extractor_model": "evryn-normalizer-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.95,
-        "created_at": 1790585763.6318464
+        "created_at": 1790588417.1169615
       },
       "temporal_year": 2022,
       "domain": "biomedicine",
@@ -420,7 +420,7 @@
         "extractor_model": "evryn-normalizer-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.89,
-        "created_at": 1790585763.631864
+        "created_at": 1790588417.1170237
       },
       "temporal_year": 2024,
       "domain": "biomedicine",
@@ -483,7 +483,7 @@
         "extractor_model": "evryn-higher-order-flux",
         "extractor_version": "1.0.0",
         "confidence": 0.89,
-        "created_at": 1790585763.6318896
+        "created_at": 1790588417.1170533
       },
       "temporal_year": 2024,
       "domain": "biomedicine",
@@ -556,7 +556,7 @@
             "extractor_model": "evryn-normalizer-v1",
             "extractor_version": "1.0.0",
             "confidence": 0.95,
-            "created_at": 1790585763.6318464
+            "created_at": 1790588417.1169615
           },
           "temporal_year": 2022,
           "domain": "biomedicine",
@@ -617,7 +617,7 @@
             "extractor_model": "evryn-normalizer-v1",
             "extractor_version": "1.0.0",
             "confidence": 0.89,
-            "created_at": 1790585763.631864
+            "created_at": 1790588417.1170237
           },
           "temporal_year": 2024,
           "domain": "biomedicine",
@@ -695,7 +695,7 @@
             "extractor_model": "evryn-normalizer-v1",
             "extractor_version": "1.0.0",
             "confidence": 0.94,
-            "created_at": 1790585763.6316998
+            "created_at": 1790588417.1168249
           },
           "temporal_year": 2018,
           "domain": "epidemiology",
@@ -756,7 +756,7 @@
             "extractor_model": "evryn-normalizer-v1",
             "extractor_version": "1.0.0",
             "confidence": 0.91,
-            "created_at": 1790585763.6317384
+            "created_at": 1790588417.1168644
           },
           "temporal_year": 2019,
           "domain": "neuroscience",
@@ -817,7 +817,7 @@
             "extractor_model": "evryn-normalizer-v1",
             "extractor_version": "1.0.0",
             "confidence": 0.88,
-            "created_at": 1790585763.6317623
+            "created_at": 1790588417.1168902
           },
           "temporal_year": 2021,
           "domain": "neuroscience",
@@ -897,7 +897,7 @@
             "extractor_model": "evryn-higher-order-flux",
             "extractor_version": "1.0.0",
             "confidence": 0.89,
-            "created_at": 1790585763.6318896
+            "created_at": 1790588417.1170533
           },
           "temporal_year": 2024,
           "domain": "biomedicine",
@@ -1086,7 +1086,7 @@
         "extractor_model": "evryn-forecaster-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.801,
-        "created_at": 1790585763.632938
+        "created_at": 1790588417.1178155
       }
     },
     {
@@ -1110,7 +1110,7 @@
         "extractor_model": "evryn-forecaster-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.6764,
-        "created_at": 1790585763.6329043
+        "created_at": 1790588417.1177926
       }
     },
     {
@@ -1134,13 +1134,13 @@
         "extractor_model": "evryn-forecaster-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.6406400000000001,
-        "created_at": 1790585763.6328738
+        "created_at": 1790588417.117767
       }
     }
   ],
   "analogies": [
     {
-      "analogy_id": "ana_5ce2fdf5bedc",
+      "analogy_id": "ana_b5efe636590a",
       "source_domain": "biomedicine",
       "target_domain": "neuroscience",
       "source_relation_repr": "p53 mutation -> cellular proliferation",
@@ -1155,11 +1155,11 @@
         "extractor_model": "evryn-transfer-engine-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.79,
-        "created_at": 1790585763.6330268
+        "created_at": 1790588417.1178906
       }
     },
     {
-      "analogy_id": "ana_57ae6c27bc99",
+      "analogy_id": "ana_f160b2b68719",
       "source_domain": "biomedicine",
       "target_domain": "neuroscience",
       "source_relation_repr": "p53 mutation -> cellular proliferation",
@@ -1174,49 +1174,11 @@
         "extractor_model": "evryn-transfer-engine-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.79,
-        "created_at": 1790585763.6330466
+        "created_at": 1790588417.117908
       }
     },
     {
-      "analogy_id": "ana_5ce2fdf5bedc",
-      "source_domain": "biomedicine",
-      "target_domain": "neuroscience",
-      "source_relation_repr": "p53 mutation -> cellular proliferation",
-      "candidate_target_repr": "nicotine -> dopamine release",
-      "structural_isomorphism_score": 0.78,
-      "mechanism_match_score": 0.8,
-      "transferable_hypothesis": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics.",
-      "provenance": {
-        "source_id": "transfer_biomedicine_neuroscience",
-        "citation": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics.",
-        "timestamp": "",
-        "extractor_model": "evryn-transfer-engine-v1",
-        "extractor_version": "1.0.0",
-        "confidence": 0.79,
-        "created_at": 1790585763.633055
-      }
-    },
-    {
-      "analogy_id": "ana_57ae6c27bc99",
-      "source_domain": "biomedicine",
-      "target_domain": "neuroscience",
-      "source_relation_repr": "p53 mutation -> cellular proliferation",
-      "candidate_target_repr": "dopamine release -> addiction reinforcement",
-      "structural_isomorphism_score": 0.78,
-      "mechanism_match_score": 0.8,
-      "transferable_hypothesis": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (dopamine release -> addiction reinforcement). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics.",
-      "provenance": {
-        "source_id": "transfer_biomedicine_neuroscience",
-        "citation": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (dopamine release -> addiction reinforcement). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics.",
-        "timestamp": "",
-        "extractor_model": "evryn-transfer-engine-v1",
-        "extractor_version": "1.0.0",
-        "confidence": 0.79,
-        "created_at": 1790585763.63306
-      }
-    },
-    {
-      "analogy_id": "ana_0c035eb6e4f0",
+      "analogy_id": "ana_2549c698c101",
       "source_domain": "biomedicine",
       "target_domain": "neuroscience",
       "source_relation_repr": "vegf upregulation -> angiogenesis",
@@ -1231,11 +1193,11 @@
         "extractor_model": "evryn-transfer-engine-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.7150000000000001,
-        "created_at": 1790585763.6330662
+        "created_at": 1790588417.1179187
       }
     },
     {
-      "analogy_id": "ana_efea612443c6",
+      "analogy_id": "ana_9f0e973d044c",
       "source_domain": "biomedicine",
       "target_domain": "neuroscience",
       "source_relation_repr": "vegf upregulation -> angiogenesis",
@@ -1250,7 +1212,45 @@
         "extractor_model": "evryn-transfer-engine-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.7150000000000001,
-        "created_at": 1790585763.6330724
+        "created_at": 1790588417.1179247
+      }
+    },
+    {
+      "analogy_id": "ana_9f1de0172109",
+      "source_domain": "biomedicine",
+      "target_domain": "neuroscience",
+      "source_relation_repr": "angiogenesis -> tumor metastasis",
+      "candidate_target_repr": "nicotine -> dopamine release",
+      "structural_isomorphism_score": 0.78,
+      "mechanism_match_score": 0.65,
+      "transferable_hypothesis": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (angiogenesis -> tumor metastasis) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under POSITIVE_REGULATION dynamics.",
+      "provenance": {
+        "source_id": "transfer_biomedicine_neuroscience",
+        "citation": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (angiogenesis -> tumor metastasis) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under POSITIVE_REGULATION dynamics.",
+        "timestamp": "",
+        "extractor_model": "evryn-transfer-engine-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.7150000000000001,
+        "created_at": 1790588417.117931
+      }
+    },
+    {
+      "analogy_id": "ana_3e44da68e3c3",
+      "source_domain": "biomedicine",
+      "target_domain": "neuroscience",
+      "source_relation_repr": "angiogenesis -> tumor metastasis",
+      "candidate_target_repr": "dopamine release -> addiction reinforcement",
+      "structural_isomorphism_score": 0.78,
+      "mechanism_match_score": 0.65,
+      "transferable_hypothesis": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (angiogenesis -> tumor metastasis) maps structurally to neuroscience (dopamine release -> addiction reinforcement). Predicts parallel mechanism conservation under POSITIVE_REGULATION dynamics.",
+      "provenance": {
+        "source_id": "transfer_biomedicine_neuroscience",
+        "citation": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (angiogenesis -> tumor metastasis) maps structurally to neuroscience (dopamine release -> addiction reinforcement). Predicts parallel mechanism conservation under POSITIVE_REGULATION dynamics.",
+        "timestamp": "",
+        "extractor_model": "evryn-transfer-engine-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.7150000000000001,
+        "created_at": 1790588417.1179368
       }
     }
   ],
@@ -1292,7 +1292,7 @@
         "extractor_model": "evryn-hypothesis-generator-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.82,
-        "created_at": 1790585763.633205
+        "created_at": 1790588417.1180623
       }
     },
     {
@@ -1340,11 +1340,11 @@
         "extractor_model": "evryn-hypothesis-generator-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.801,
-        "created_at": 1790585763.6331418
+        "created_at": 1790588417.1180084
       }
     },
     {
-      "hypothesis_id": "hyp_trans_ana_5ce2fd",
+      "hypothesis_id": "hyp_trans_ana_b5efe6",
       "title": "Cross-Domain Analogy: biomedicine -> neuroscience",
       "statement": "Cross-domain structural transfer: biomedicine motif (p53 mutation -> cellular proliferation) transfers to neuroscience (nicotine -> dopamine release).",
       "hypothesis_type": "CROSS_DOMAIN_TRANSFER",
@@ -1357,17 +1357,17 @@
       ],
       "supporting_relation_ids": [],
       "provenance": {
-        "source_id": "ana_5ce2fdf5bedc",
+        "source_id": "ana_b5efe636590a",
         "citation": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics.",
         "timestamp": "",
         "extractor_model": "evryn-hypothesis-generator-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.79,
-        "created_at": 1790585763.6331832
+        "created_at": 1790588417.1180425
       }
     },
     {
-      "hypothesis_id": "hyp_trans_ana_57ae6c",
+      "hypothesis_id": "hyp_trans_ana_f160b2",
       "title": "Cross-Domain Analogy: biomedicine -> neuroscience",
       "statement": "Cross-domain structural transfer: biomedicine motif (p53 mutation -> cellular proliferation) transfers to neuroscience (dopamine release -> addiction reinforcement).",
       "hypothesis_type": "CROSS_DOMAIN_TRANSFER",
@@ -1380,36 +1380,13 @@
       ],
       "supporting_relation_ids": [],
       "provenance": {
-        "source_id": "ana_57ae6c27bc99",
+        "source_id": "ana_f160b2b68719",
         "citation": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (dopamine release -> addiction reinforcement). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics.",
         "timestamp": "",
         "extractor_model": "evryn-hypothesis-generator-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.79,
-        "created_at": 1790585763.6331894
-      }
-    },
-    {
-      "hypothesis_id": "hyp_trans_ana_5ce2fd",
-      "title": "Cross-Domain Analogy: biomedicine -> neuroscience",
-      "statement": "Cross-domain structural transfer: biomedicine motif (p53 mutation -> cellular proliferation) transfers to neuroscience (nicotine -> dopamine release).",
-      "hypothesis_type": "CROSS_DOMAIN_TRANSFER",
-      "involved_entities": [],
-      "plausibility_score": 0.79,
-      "reasoning_chain": [
-        "Structural isomorphism score: 0.780",
-        "Mechanism match score: 0.800",
-        "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics."
-      ],
-      "supporting_relation_ids": [],
-      "provenance": {
-        "source_id": "ana_5ce2fdf5bedc",
-        "citation": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics.",
-        "timestamp": "",
-        "extractor_model": "evryn-hypothesis-generator-v1",
-        "extractor_version": "1.0.0",
-        "confidence": 0.79,
-        "created_at": 1790585763.6331947
+        "created_at": 1790588417.1180487
       }
     },
     {
@@ -1451,7 +1428,7 @@
         "extractor_model": "evryn-hypothesis-generator-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.74,
-        "created_at": 1790585763.6330998
+        "created_at": 1790588417.1179702
       }
     },
     {
@@ -1493,7 +1470,30 @@
         "extractor_model": "evryn-hypothesis-generator-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.74,
-        "created_at": 1790585763.633123
+        "created_at": 1790588417.1179914
+      }
+    },
+    {
+      "hypothesis_id": "hyp_trans_ana_2549c6",
+      "title": "Cross-Domain Analogy: biomedicine -> neuroscience",
+      "statement": "Cross-domain structural transfer: biomedicine motif (vegf upregulation -> angiogenesis) transfers to neuroscience (nicotine -> dopamine release).",
+      "hypothesis_type": "CROSS_DOMAIN_TRANSFER",
+      "involved_entities": [],
+      "plausibility_score": 0.715,
+      "reasoning_chain": [
+        "Structural isomorphism score: 0.780",
+        "Mechanism match score: 0.650",
+        "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (vegf upregulation -> angiogenesis) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under POSITIVE_REGULATION dynamics."
+      ],
+      "supporting_relation_ids": [],
+      "provenance": {
+        "source_id": "ana_2549c698c101",
+        "citation": "Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (vegf upregulation -> angiogenesis) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under POSITIVE_REGULATION dynamics.",
+        "timestamp": "",
+        "extractor_model": "evryn-hypothesis-generator-v1",
+        "extractor_version": "1.0.0",
+        "confidence": 0.7150000000000001,
+        "created_at": 1790588417.1180544
       }
     },
     {
@@ -1533,7 +1533,7 @@
         "extractor_model": "evryn-hypothesis-generator-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.6764,
-        "created_at": 1790585763.6331615
+        "created_at": 1790588417.1180203
       }
     },
     {
@@ -1573,7 +1573,7 @@
         "extractor_model": "evryn-hypothesis-generator-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.6406,
-        "created_at": 1790585763.6331744
+        "created_at": 1790588417.1180289
       }
     }
   ]

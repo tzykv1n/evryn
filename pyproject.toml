@@ -10,8 +10,15 @@ authors = [{ name = "EVRYN Team" }]
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "causality-in-flux",
-    "flux-nlp",
+    "numpy",
+    "scipy",
+    "pandas",
+    "scikit-learn",
+    "matplotlib",
+    "seaborn",
+    "networkx",
+    "requests",
+    "tqdm",
     "rich",
     "pillow",
 ]

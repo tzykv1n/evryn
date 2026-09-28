@@ -46,6 +46,7 @@ class CrossDomainTransferEngine:
         target_domain_name: str = "epidemiology",
     ) -> List[CrossDomainAnalogy]:
         analogies: List[CrossDomainAnalogy] = []
+        seen_pairs = set()
 
         src_motifs = self._extract_domain_motifs(source_relations)
         tgt_motifs = self._extract_domain_motifs(target_relations)
@@ -55,6 +56,11 @@ class CrossDomainTransferEngine:
                 t_items = tgt_motifs[s_type]
                 for s_item in s_items[:3]:
                     for t_item in t_items[:3]:
+                        pair_key = (s_item["repr"], t_item["repr"])
+                        if pair_key in seen_pairs:
+                            continue
+                        seen_pairs.add(pair_key)
+
                         iso_score = 0.85 if s_type == "higher_order_synergy" else 0.78
                         mech_score = 0.80 if s_item["family"] == t_item["family"] else 0.65
 
@@ -62,7 +68,7 @@ class CrossDomainTransferEngine:
                             iso_score >= self.config.min_structural_isomorphism
                             and mech_score >= self.config.min_mechanism_similarity
                         ):
-                            a_id = f"ana_{hashlib.sha256(f'{s_item['repr']}::{t_item['repr']}'.encode('utf-8')).hexdigest()[:12]}"
+                            a_id = f"ana_{hashlib.sha256(f'{source_domain_name}::{target_domain_name}::{s_item['repr']}::{t_item['repr']}'.encode('utf-8')).hexdigest()[:12]}"
                             hypo_text = (
                                 f"Structural Cross-Domain Transfer: Motif '{s_type}' in {source_domain_name} "
                                 f"({s_item['repr']}) maps structurally to {target_domain_name} ({t_item['repr']}). "
@@ -97,6 +103,7 @@ class CrossDomainTransferEngine:
             "linear_cascade": [],
             "converging_regulation": [],
         }
+        seen_motifs = {k: set() for k in motifs}
 
         for r in relations:
             src_str = " + ".join(s.canonical_name for s in r.source_entities)
@@ -104,15 +111,23 @@ class CrossDomainTransferEngine:
             fam = r.relation_family or "CAUSAL_PRODUCTION"
 
             if r.higher_order_order > 2 or r.relation_type == RelationType.HIGHER_ORDER_JOINT:
-                motifs["higher_order_synergy"].append({
-                    "repr": f"{{{src_str}}} -> {tgt_str}",
-                    "family": fam,
-                    "confidence": r.confidence,
-                })
+                m_repr = f"{{{src_str}}} -> {tgt_str}"
+                m_key = (m_repr, fam)
+                if m_key not in seen_motifs["higher_order_synergy"]:
+                    seen_motifs["higher_order_synergy"].add(m_key)
+                    motifs["higher_order_synergy"].append({
+                        "repr": m_repr,
+                        "family": fam,
+                        "confidence": r.confidence,
+                    })
             else:
-                motifs["linear_cascade"].append({
-                    "repr": f"{src_str} -> {tgt_str}",
-                    "family": fam,
-                    "confidence": r.confidence,
-                })
+                m_repr = f"{src_str} -> {tgt_str}"
+                m_key = (m_repr, fam)
+                if m_key not in seen_motifs["linear_cascade"]:
+                    seen_motifs["linear_cascade"].add(m_key)
+                    motifs["linear_cascade"].append({
+                        "repr": m_repr,
+                        "family": fam,
+                        "confidence": r.confidence,
+                    })
         return motifs

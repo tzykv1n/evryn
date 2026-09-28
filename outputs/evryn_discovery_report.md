@@ -1,6 +1,6 @@
 # EVRYN Scientific Discovery Master Report
 
-Generated: 2026-09-28 14:26:03
+Generated: 2026-09-28 15:10:17
 
 ## 1. Discovered Relation Families
 
@@ -46,7 +46,7 @@ Generated: 2026-09-28 14:26:03
 1. Calibrated path confidence: 0.801 within 95% CI [0.751, 0.851].
 1. Forecast horizon targeted for year 2029.
 
-### Cross-Domain Analogy: biomedicine -> neuroscience (`hyp_trans_ana_5ce2fd`)
+### Cross-Domain Analogy: biomedicine -> neuroscience (`hyp_trans_ana_b5efe6`)
 **Plausibility**: 0.790 | **Type**: `CROSS_DOMAIN_TRANSFER`
 
 > Cross-domain structural transfer: biomedicine motif (p53 mutation -> cellular proliferation) transfers to neuroscience (nicotine -> dopamine release).
@@ -56,7 +56,7 @@ Generated: 2026-09-28 14:26:03
 1. Mechanism match score: 0.800
 1. Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics.
 
-### Cross-Domain Analogy: biomedicine -> neuroscience (`hyp_trans_ana_57ae6c`)
+### Cross-Domain Analogy: biomedicine -> neuroscience (`hyp_trans_ana_f160b2`)
 **Plausibility**: 0.790 | **Type**: `CROSS_DOMAIN_TRANSFER`
 
 > Cross-domain structural transfer: biomedicine motif (p53 mutation -> cellular proliferation) transfers to neuroscience (dopamine release -> addiction reinforcement).
@@ -65,16 +65,6 @@ Generated: 2026-09-28 14:26:03
 1. Structural isomorphism score: 0.780
 1. Mechanism match score: 0.800
 1. Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (dopamine release -> addiction reinforcement). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics.
-
-### Cross-Domain Analogy: biomedicine -> neuroscience (`hyp_trans_ana_5ce2fd`)
-**Plausibility**: 0.790 | **Type**: `CROSS_DOMAIN_TRANSFER`
-
-> Cross-domain structural transfer: biomedicine motif (p53 mutation -> cellular proliferation) transfers to neuroscience (nicotine -> dopamine release).
-
-**Reasoning Chain**:
-1. Structural isomorphism score: 0.780
-1. Mechanism match score: 0.800
-1. Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (p53 mutation -> cellular proliferation) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under CAUSAL_PRODUCTION dynamics.
 
 ### Higher-Order Synergy: {avian influenza A, secondary bacterial infection} (`hyp_ho_4ce784f276`)
 **Plausibility**: 0.740 | **Type**: `HIGHER_ORDER_SYNERGY`
@@ -95,6 +85,16 @@ Generated: 2026-09-28 14:26:03
 1. Linguistic co-occurrence identified nominal coordination in text: 'Combined chronic inflammation and epigenetic silencing jointly accelerate oncogenesis....'
 1. Entities 'chronic inflammation' and 'epigenetic silencing' co-regulate downstream outcome.
 1. Partial Information Decomposition (PID) candidate test flags potential non-zero synergistic information gain.
+
+### Cross-Domain Analogy: biomedicine -> neuroscience (`hyp_trans_ana_2549c6`)
+**Plausibility**: 0.715 | **Type**: `CROSS_DOMAIN_TRANSFER`
+
+> Cross-domain structural transfer: biomedicine motif (vegf upregulation -> angiogenesis) transfers to neuroscience (nicotine -> dopamine release).
+
+**Reasoning Chain**:
+1. Structural isomorphism score: 0.780
+1. Mechanism match score: 0.650
+1. Structural Cross-Domain Transfer: Motif 'linear_cascade' in biomedicine (vegf upregulation -> angiogenesis) maps structurally to neuroscience (nicotine -> dopamine release). Predicts parallel mechanism conservation under POSITIVE_REGULATION dynamics.
 
 ### Emerging Link Prediction: vegf upregulation -> tumor metastasis (`hyp_fc_fc_c9b832d`)
 **Plausibility**: 0.676 | **Type**: `TEMPORAL_EXTRAPOLATION`

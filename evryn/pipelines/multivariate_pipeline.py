@@ -5,10 +5,10 @@ import sys
 import numpy as np
 from typing import Dict, Any
 
-from causality_in_flux.matching.higher_order_framework import HigherOrderEvidenceMatchingFramework
-from causality_in_flux.discovery.hcam_baseline import HCAMBaseline
-from causality_in_flux.scm.independent_hcam_generator import IndependentHCAMGenerator
-from causality_in_flux.experiments.feature_ablation_nested import run_nested_feature_ablation
+from ..causal.matching.higher_order_framework import HigherOrderEvidenceMatchingFramework
+from ..causal.discovery.hcam_baseline import HCAMBaseline
+from ..causal.scm.independent_hcam_generator import IndependentHCAMGenerator
+from ..causal.experiments.feature_ablation_nested import run_nested_feature_ablation
 
 from ..core.config import EvrynConfig
 from ..core.cache import EvrynCache

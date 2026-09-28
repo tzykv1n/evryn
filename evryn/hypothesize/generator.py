@@ -62,6 +62,22 @@ class HypothesisGenerator:
         temporal_sequences = temporal_sequences or {}
         joint_cause_candidates = joint_cause_candidates or []
 
+        seen_statements = set()
+        seen_ids = set()
+
+        def _add(hyp: ScientificHypothesis):
+            if hyp.statement in seen_statements:
+                return
+            seen_statements.add(hyp.statement)
+            curr_id = hyp.hypothesis_id
+            suffix = 1
+            while curr_id in seen_ids:
+                curr_id = f"{hyp.hypothesis_id}_{suffix}"
+                suffix += 1
+            hyp.hypothesis_id = curr_id
+            seen_ids.add(curr_id)
+            hypotheses.append(hyp)
+
         for jc in joint_cause_candidates[:5]:
             e1 = jc.get("e1", "factor_A")
             e2 = jc.get("e2", "factor_B")
@@ -82,7 +98,7 @@ class HypothesisGenerator:
             ent1 = NormalizedEntity(entity_id=f"ent_{e1}", canonical_name=e1)
             ent2 = NormalizedEntity(entity_id=f"ent_{e2}", canonical_name=e2)
 
-            hypotheses.append(
+            _add(
                 ScientificHypothesis(
                     hypothesis_id=h_id,
                     title=f"Higher-Order Synergy: {{{e1}, {e2}}}",
@@ -114,7 +130,7 @@ class HypothesisGenerator:
             ents = [NormalizedEntity(entity_id=f"ent_{s}", canonical_name=s) for s in fc.source_names]
             ents.append(NormalizedEntity(entity_id=f"ent_{fc.target_name}", canonical_name=fc.target_name))
 
-            hypotheses.append(
+            _add(
                 ScientificHypothesis(
                     hypothesis_id=h_id,
                     title=f"Emerging Link Prediction: {src_str} -> {fc.target_name}",
@@ -142,7 +158,7 @@ class HypothesisGenerator:
                 confidence=(ana.structural_isomorphism_score + ana.mechanism_match_score) / 2.0,
                 extractor_model="evryn-hypothesis-generator-v1",
             )
-            hypotheses.append(
+            _add(
                 ScientificHypothesis(
                     hypothesis_id=h_id,
                     title=f"Cross-Domain Analogy: {ana.source_domain} -> {ana.target_domain}",
@@ -171,7 +187,7 @@ class HypothesisGenerator:
                     confidence=0.82,
                     extractor_model="evryn-hypothesis-generator-v1",
                 )
-                hypotheses.append(
+                _add(
                     ScientificHypothesis(
                         hypothesis_id=h_id,
                         title=f"Contradiction Resolution: '{key}'",

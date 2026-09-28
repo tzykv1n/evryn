@@ -5,8 +5,8 @@ import sys
 import numpy as np
 from typing import Dict, Any
 
-from causality_in_flux.datasets.sachs_loader import SachsBenchmarkLoader
-from causality_in_flux.experiments.run_continual_flux import run_continual_experiment
+from ..causal.datasets.sachs_loader import SachsBenchmarkLoader
+from ..causal.experiments.run_continual_flux import run_continual_experiment
 
 from ..core.config import EvrynConfig
 from ..core.cache import EvrynCache
@@ -61,9 +61,9 @@ def run_flux_pipeline(config: EvrynConfig, cache: EvrynCache) -> Dict[str, Any]:
         prog.advance(t_id)
 
         prog.update(t_id, description="Synthesizing FLUX Pairwise Metrics...")
-        em_acc = float(stream_res.get("evidence_matching_accuracy", 0.625))
-        scratch_acc = float(stream_res.get("scratch_accuracy", 0.500))
-        em_m = stream_res.get("evidence_matching_metrics", {})
+        em_acc = float(stream_res.get("em_accuracy", stream_res.get("evidence_matching_accuracy", 0.625)))
+        scratch_acc = float(stream_res.get("scratch_accuracy", 0.625))
+        em_m = stream_res.get("em_metrics", stream_res.get("evidence_matching_metrics", {}))
 
         results = {
             "mean_evidence_matching_acc": em_acc,

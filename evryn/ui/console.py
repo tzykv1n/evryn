@@ -11,14 +11,10 @@ from rich.align import Align
 
 console = Console()
 
-EVRYN_ASCII_LOGO = """
-\033[1;37m███████╗██╗   ██╗██████╗ ██╗   ██╗███╗   ██╗
-██╔════╝██║   ██║██╔══██╗╚██╗ ██╔╝████╗  ██║
-█████╗  ██║   ██║██████╔╝ ╚████╔╝ ██╔██╗ ██║
-██╔══╝  ╚██╗ ██╔╝██╔══██╗  ╚██╔╝  ██║╚██╗██║
-███████╗ ╚████╔╝ ██║  ██║   ██║   ██║ ╚████║
-╚══════╝  ╚═══╝  ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═══╝\033[0m
-"""
+EVRYN_ASCII_LOGO = """\033[1;36m  ╔═╗╦  ╦╦═╗╦ ╦╔╗╔\033[0m
+\033[1;37m  ║╣ ╚╗╔╝╠╦╝╚╦╝║║║\033[0m
+\033[1;35m  ╚═╝ ╚╝ ╩╚═ ╩ ╝╚╝\033[0m"""
+
 
 def print_evryn_banner(subtitle: str = "Unified Scientific Knowledge Discovery Platform"):
     print(EVRYN_ASCII_LOGO)
