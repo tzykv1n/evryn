@@ -53,7 +53,7 @@ def render_native_protocol(image_path: str, protocol: str) -> Optional[str]:
 
 
 def find_available_viewer() -> Optional[str]:
-    viewers = ["imv", "sxiv", "nsxiv", "feh", "xdg-open"]
+    viewers = ["photos", "vlc", "imv", "sxiv", "nsxiv", "feh", "xdg-open"]
     for v in viewers:
         if shutil.which(v):
             return v

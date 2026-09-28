@@ -181,7 +181,7 @@ def test_baseline_predictions_and_metrics():
 
 def test_viewer_discovery(monkeypatch):
     viewer = find_available_viewer()
-    assert viewer in ("imv", "sxiv", "nsxiv", "feh", "xdg-open", None)
+    assert viewer in ("photos", "vlc", "imv", "sxiv", "nsxiv", "feh", "xdg-open", None)
 
     class DummyProc:
         def __init__(self):
