@@ -1,4 +1,5 @@
 # evryn hypothesize
+# evryn hypothesize -s
 
 import os
 import json
@@ -15,13 +16,95 @@ from ..prediction.forecasting import FutureRelationForecaster
 from ..transfer.cross_domain import CrossDomainTransferEngine
 from ..hypothesize.generator import HypothesisGenerator, ScientificHypothesis
 from ..ui.console import print_box, print_table, get_progress_bar
+from ..visualization.presenter import VisualArtifact, present_artifacts
+from ..visualization.figures import plot_temporal_forecast
+
+
+def _display_evryn_results(
+    family_results: Dict[str, Any],
+    forecasts: List[Any],
+    hypotheses: List[Any],
+    artifacts: List[VisualArtifact],
+    verbose: bool = False,
+) -> None:
+    fam_headers = ["Relation Family", "Polarity", "Active Members", "Canonical Description"]
+    fam_rows = []
+    for f_name, f_data in family_results.items():
+        if f_data.get("count", 0) > 0:
+            fam_rows.append([
+                f_data["canonical_name"],
+                f"{'+' if f_data['polarity']>0 else ('-' if f_data['polarity']<0 else '0')}",
+                str(f_data["count"]),
+                f_data["description"][:50] + "...",
+            ])
+    print_table(fam_headers, fam_rows, title="Discovered Relation Families")
+
+    fc_headers = ["Forecast Candidate", "Family", "Target Year", "Prob (95% CI)", "Discovery Rationale"]
+    fc_rows = []
+    for fc in forecasts[:4]:
+        src_names = getattr(fc, "source_names", fc.get("source_names", [])) if isinstance(fc, dict) else fc.source_names
+        tgt_name = getattr(fc, "target_name", fc.get("target_name", "")) if isinstance(fc, dict) else fc.target_name
+        fam = getattr(fc, "forecasted_family", fc.get("forecasted_family", "")) if isinstance(fc, dict) else fc.forecasted_family
+        h_yr = getattr(fc, "horizon_year", fc.get("horizon_year", 2028)) if isinstance(fc, dict) else fc.horizon_year
+        prob = getattr(fc, "probability", fc.get("probability", 0.7)) if isinstance(fc, dict) else fc.probability
+        ci = getattr(fc, "confidence_interval", fc.get("confidence_interval", (0.6, 0.8))) if isinstance(fc, dict) else fc.confidence_interval
+        rat = getattr(fc, "rationale", fc.get("rationale", "")) if isinstance(fc, dict) else fc.rationale
+
+        src = " + ".join(src_names)
+        ci_str = f"[{ci[0]:.2f}, {ci[1]:.2f}]"
+        fc_rows.append([
+            f"{src} -> {tgt_name}",
+            str(fam),
+            str(h_yr),
+            f"{prob:.3f} {ci_str}",
+            rat[:55] + "...",
+        ])
+    print_table(fc_headers, fc_rows, title="Future Relation Forecasts")
+
+    hypo_headers = ["Hypothesis ID", "Type", "Plausibility", "Candidate Scientific Statement"]
+    hypo_rows = []
+    for h in hypotheses[:5]:
+        h_id = getattr(h, "hypothesis_id", h.get("hypothesis_id", "")) if isinstance(h, dict) else h.hypothesis_id
+        h_type = getattr(h, "hypothesis_type", h.get("hypothesis_type", "")) if isinstance(h, dict) else h.hypothesis_type
+        p_score = getattr(h, "plausibility_score", h.get("plausibility_score", 0.7)) if isinstance(h, dict) else h.plausibility_score
+        stmt = getattr(h, "statement", h.get("statement", "")) if isinstance(h, dict) else h.statement
+
+        hypo_rows.append([
+            h_id,
+            str(h_type),
+            f"{p_score:.3f}",
+            stmt[:65] + "...",
+        ])
+    print_table(hypo_headers, hypo_rows, title="Synthesized Scientific Hypotheses")
+
+    present_artifacts(artifacts, verbose=verbose)
 
 
 def run_evryn_pipeline(config: EvrynConfig, cache: EvrynCache) -> Dict[str, Any]:
     print_box(
         "EVRYN : End-to-End Scientific Knowledge Discovery",
         "Evidence -> Normalization -> Families -> Temporal -> Forecasting -> Transfer -> Hypotheses",
+        is_scratch=cache.force_rebuild,
     )
+
+    forecast_plot = os.path.join(config.output_dir, "evryn_temporal_forecast.png")
+    default_artifact = VisualArtifact(
+        path=forecast_plot,
+        title="Temporal Knowledge Velocity & Forecast Trajectories (2018-2029)",
+        role="primary",
+        description="Cross-domain evidence accumulation and forecast probability confidence intervals",
+    )
+
+    cached_res = cache.get("benchmarks", f"evryn_discovery_{config.seed}")
+    if cached_res is not None and not cache.force_rebuild:
+        _display_evryn_results(
+            cached_res.get("family_results", {}),
+            cached_res.get("forecasts", []),
+            cached_res.get("hypotheses", []),
+            cached_res.get("artifacts", [default_artifact]),
+            verbose=config.verbose,
+        )
+        return cached_res
 
     normalizer = RelationNormalizer(config.normalization)
     family_discoverer = RelationFamilyDiscoverer(config.families)
@@ -104,44 +187,8 @@ def run_evryn_pipeline(config: EvrynConfig, cache: EvrynCache) -> Dict[str, Any]
             temporal_sequences=temporal_seqs,
             joint_cause_candidates=joint_candidates,
         )
+        plot_temporal_forecast(forecasts, forecast_plot)
         prog.advance(t_id)
-
-    fam_headers = ["Relation Family", "Polarity", "Active Members", "Canonical Description"]
-    fam_rows = []
-    for f_name, f_data in family_results.items():
-        if f_data["count"] > 0:
-            fam_rows.append([
-                f_data["canonical_name"],
-                f"{'+' if f_data['polarity']>0 else ('-' if f_data['polarity']<0 else '0')}",
-                str(f_data["count"]),
-                f_data["description"][:50] + "...",
-            ])
-    print_table(fam_headers, fam_rows, title="Discovered Relation Families")
-
-    fc_headers = ["Forecast Candidate", "Family", "Target Year", "Prob (95% CI)", "Discovery Rationale"]
-    fc_rows = []
-    for fc in forecasts[:4]:
-        src = " + ".join(fc.source_names)
-        ci_str = f"[{fc.confidence_interval[0]:.2f}, {fc.confidence_interval[1]:.2f}]"
-        fc_rows.append([
-            f"{src} -> {fc.target_name}",
-            fc.forecasted_family,
-            str(fc.horizon_year),
-            f"{fc.probability:.3f} {ci_str}",
-            fc.rationale[:55] + "...",
-        ])
-    print_table(fc_headers, fc_rows, title="Future Relation Forecasts")
-
-    hypo_headers = ["Hypothesis ID", "Type", "Plausibility", "Candidate Scientific Statement"]
-    hypo_rows = []
-    for h in hypotheses[:5]:
-        hypo_rows.append([
-            h.hypothesis_id,
-            h.hypothesis_type,
-            f"{h.plausibility_score:.3f}",
-            h.statement[:65] + "...",
-        ])
-    print_table(hypo_headers, hypo_rows, title="Synthesized Scientific Hypotheses")
 
     os.makedirs(config.output_dir, exist_ok=True)
     out_json = os.path.join(config.output_dir, "evryn_discovery_state.json")
@@ -184,11 +231,22 @@ def run_evryn_pipeline(config: EvrynConfig, cache: EvrynCache) -> Dict[str, Any]
                 f.write(f"1. {step}\n")
             f.write("\n")
 
-    return {
+    artifacts = [default_artifact]
+    _display_evryn_results(family_results, forecasts, hypotheses, artifacts, verbose=config.verbose)
+
+    results = {
         "num_relations": len(normalized_relations),
         "num_families": len([f for f in family_results.values() if f["count"] > 0]),
         "num_forecasts": len(forecasts),
         "num_analogies": len(analogies),
         "num_hypotheses": len(hypotheses),
+        "family_results": family_results,
+        "forecasts": [fc.to_dict() for fc in forecasts],
+        "hypotheses": [h.to_dict() for h in hypotheses],
         "report_path": out_md,
+        "state_path": out_json,
+        "plot_path": forecast_plot,
+        "artifacts": artifacts,
     }
+    cache.set("benchmarks", f"evryn_discovery_{config.seed}", results)
+    return results

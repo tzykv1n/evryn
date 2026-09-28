@@ -1,4 +1,5 @@
 # evryn flux
+# evryn flux -s
 
 import os
 import sys
@@ -11,6 +12,7 @@ from ..causal.experiments.run_continual_flux import run_continual_experiment
 from ..core.config import EvrynConfig
 from ..core.cache import EvrynCache
 from ..ui.console import print_box, print_table, get_progress_bar
+from ..visualization.presenter import VisualArtifact, present_artifacts
 
 
 def _display_flux_results(results: Dict[str, Any]) -> None:
@@ -31,16 +33,25 @@ def run_flux_pipeline(config: EvrynConfig, cache: EvrynCache) -> Dict[str, Any]:
     print_box(
         "FLUX : Pairwise Causal Evidence Matching",
         "Mixed-Graph SCM Discovery, Continual Stream & Sachs Benchmark",
+        is_scratch=cache.force_rebuild,
+    )
+
+    out_plot = os.path.join(config.output_dir, "continual_flux_results.png")
+    default_artifact = VisualArtifact(
+        path=out_plot,
+        title="Continual FLUX Adaptation & Retention Trajectory (8 SCM Tasks)",
+        role="primary",
+        description="Stream accuracy, zero-catastrophic forgetting retention, and SHD distance over 8 tasks",
     )
 
     cached_res = cache.get("benchmarks", f"flux_pairwise_{config.seed}")
-    if cached_res is not None:
+    if cached_res is not None and not cache.force_rebuild:
         _display_flux_results(cached_res)
+        artifacts = cached_res.get("artifacts", [default_artifact])
+        present_artifacts(artifacts, verbose=config.verbose)
         return cached_res
 
     os.makedirs(config.output_dir, exist_ok=True)
-    out_plot = os.path.join(config.output_dir, "continual_flux_results.png")
-
     results = {}
     with get_progress_bar("Executing Pairwise FLUX Benchmark") as prog:
         t_id = prog.add_task("Running Continual Evidence Matching Stream...", total=3)
@@ -76,10 +87,12 @@ def run_flux_pipeline(config: EvrynConfig, cache: EvrynCache) -> Dict[str, Any]:
             "sachs_variable_count": len(loader.PROTEINS),
             "sachs_possible_pairs": 55,
             "plot_path": out_plot,
+            "artifacts": [default_artifact],
         }
         prog.advance(t_id)
 
     _display_flux_results(results)
+    present_artifacts(results["artifacts"], verbose=config.verbose)
 
     cache.set("benchmarks", f"flux_pairwise_{config.seed}", results)
     return results

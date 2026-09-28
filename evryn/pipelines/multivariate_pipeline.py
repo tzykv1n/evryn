@@ -1,4 +1,5 @@
 # evryn multivariate
+# evryn multivariate -s
 
 import os
 import sys
@@ -13,6 +14,8 @@ from ..causal.experiments.feature_ablation_nested import run_nested_feature_abla
 from ..core.config import EvrynConfig
 from ..core.cache import EvrynCache
 from ..ui.console import print_box, print_table, get_progress_bar
+from ..visualization.presenter import VisualArtifact, present_artifacts
+from ..visualization.figures import plot_multivariate_recovery
 
 
 def _display_multivariate_results(results: Dict[str, Any]) -> None:
@@ -33,13 +36,25 @@ def run_multivariate_pipeline(config: EvrynConfig, cache: EvrynCache) -> Dict[st
     print_box(
         "Higher-Order FLUX : Multivariate & Higher-Order Discovery",
         "Order-2/Order-3 Hyperedges, Synergy / PID Features & Independent HCAM Benchmark",
+        is_scratch=cache.force_rebuild,
+    )
+
+    out_plot = os.path.join(config.output_dir, "higher_order_mechanisms.png")
+    default_artifact = VisualArtifact(
+        path=out_plot,
+        title="Higher-Order Synergy Recovery & Mechanism Generalization Benchmark",
+        role="primary",
+        description="Order-2 and Order-3 recovery against HCAM and pairwise baselines across 6 synthetic mechanisms",
     )
 
     cached_res = cache.get("benchmarks", f"ho_flux_{config.seed}")
-    if cached_res is not None:
+    if cached_res is not None and not cache.force_rebuild:
         _display_multivariate_results(cached_res)
+        artifacts = cached_res.get("artifacts", [default_artifact])
+        present_artifacts(artifacts, verbose=config.verbose)
         return cached_res
 
+    os.makedirs(config.output_dir, exist_ok=True)
     results = {}
     with get_progress_bar("Executing Higher-Order FLUX Suite") as prog:
         t_id = prog.add_task("Running Independent HCAM Mechanism Suite...", total=3)
@@ -79,8 +94,13 @@ def run_multivariate_pipeline(config: EvrynConfig, cache: EvrynCache) -> Dict[st
                 "confounded": 0.283,
             },
         }
+        plot_multivariate_recovery(results, out_plot)
+        results["plot_path"] = out_plot
+        results["artifacts"] = [default_artifact]
         prog.advance(t_id)
 
     _display_multivariate_results(results)
+    present_artifacts(results["artifacts"], verbose=config.verbose)
+
     cache.set("benchmarks", f"ho_flux_{config.seed}", results)
     return results

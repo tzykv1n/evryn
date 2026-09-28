@@ -54,7 +54,7 @@
         "extractor_model": "evryn-normalizer-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.94,
-        "created_at": 1790588417.1168249
+        "created_at": 1790590739.8105314
       },
       "temporal_year": 2018,
       "domain": "epidemiology",
@@ -115,7 +115,7 @@
         "extractor_model": "evryn-normalizer-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.91,
-        "created_at": 1790588417.1168644
+        "created_at": 1790590739.8105772
       },
       "temporal_year": 2019,
       "domain": "neuroscience",
@@ -176,7 +176,7 @@
         "extractor_model": "evryn-normalizer-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.88,
-        "created_at": 1790588417.1168902
+        "created_at": 1790590739.810603
       },
       "temporal_year": 2021,
       "domain": "neuroscience",
@@ -237,7 +237,7 @@
         "extractor_model": "evryn-normalizer-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.92,
-        "created_at": 1790588417.116911
+        "created_at": 1790590739.8106246
       },
       "temporal_year": 2020,
       "domain": "biomedicine",
@@ -298,7 +298,7 @@
         "extractor_model": "evryn-normalizer-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.79,
-        "created_at": 1790588417.1169317
+        "created_at": 1790590739.810649
       },
       "temporal_year": 2023,
       "domain": "biomedicine",
@@ -359,7 +359,7 @@
         "extractor_model": "evryn-normalizer-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.95,
-        "created_at": 1790588417.1169615
+        "created_at": 1790590739.8106709
       },
       "temporal_year": 2022,
       "domain": "biomedicine",
@@ -420,7 +420,7 @@
         "extractor_model": "evryn-normalizer-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.89,
-        "created_at": 1790588417.1170237
+        "created_at": 1790590739.8106902
       },
       "temporal_year": 2024,
       "domain": "biomedicine",
@@ -483,7 +483,7 @@
         "extractor_model": "evryn-higher-order-flux",
         "extractor_version": "1.0.0",
         "confidence": 0.89,
-        "created_at": 1790588417.1170533
+        "created_at": 1790590739.8107207
       },
       "temporal_year": 2024,
       "domain": "biomedicine",
@@ -556,7 +556,7 @@
             "extractor_model": "evryn-normalizer-v1",
             "extractor_version": "1.0.0",
             "confidence": 0.95,
-            "created_at": 1790588417.1169615
+            "created_at": 1790590739.8106709
           },
           "temporal_year": 2022,
           "domain": "biomedicine",
@@ -617,7 +617,7 @@
             "extractor_model": "evryn-normalizer-v1",
             "extractor_version": "1.0.0",
             "confidence": 0.89,
-            "created_at": 1790588417.1170237
+            "created_at": 1790590739.8106902
           },
           "temporal_year": 2024,
           "domain": "biomedicine",
@@ -695,7 +695,7 @@
             "extractor_model": "evryn-normalizer-v1",
             "extractor_version": "1.0.0",
             "confidence": 0.94,
-            "created_at": 1790588417.1168249
+            "created_at": 1790590739.8105314
           },
           "temporal_year": 2018,
           "domain": "epidemiology",
@@ -756,7 +756,7 @@
             "extractor_model": "evryn-normalizer-v1",
             "extractor_version": "1.0.0",
             "confidence": 0.91,
-            "created_at": 1790588417.1168644
+            "created_at": 1790590739.8105772
           },
           "temporal_year": 2019,
           "domain": "neuroscience",
@@ -817,7 +817,7 @@
             "extractor_model": "evryn-normalizer-v1",
             "extractor_version": "1.0.0",
             "confidence": 0.88,
-            "created_at": 1790588417.1168902
+            "created_at": 1790590739.810603
           },
           "temporal_year": 2021,
           "domain": "neuroscience",
@@ -897,7 +897,7 @@
             "extractor_model": "evryn-higher-order-flux",
             "extractor_version": "1.0.0",
             "confidence": 0.89,
-            "created_at": 1790588417.1170533
+            "created_at": 1790590739.8107207
           },
           "temporal_year": 2024,
           "domain": "biomedicine",
@@ -1086,7 +1086,7 @@
         "extractor_model": "evryn-forecaster-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.801,
-        "created_at": 1790588417.1178155
+        "created_at": 1790590739.811649
       }
     },
     {
@@ -1110,7 +1110,7 @@
         "extractor_model": "evryn-forecaster-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.6764,
-        "created_at": 1790588417.1177926
+        "created_at": 1790590739.8116198
       }
     },
     {
@@ -1134,7 +1134,7 @@
         "extractor_model": "evryn-forecaster-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.6406400000000001,
-        "created_at": 1790588417.117767
+        "created_at": 1790590739.8115802
       }
     }
   ],
@@ -1155,7 +1155,7 @@
         "extractor_model": "evryn-transfer-engine-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.79,
-        "created_at": 1790588417.1178906
+        "created_at": 1790590739.8117797
       }
     },
     {
@@ -1174,7 +1174,7 @@
         "extractor_model": "evryn-transfer-engine-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.79,
-        "created_at": 1790588417.117908
+        "created_at": 1790590739.811813
       }
     },
     {
@@ -1193,7 +1193,7 @@
         "extractor_model": "evryn-transfer-engine-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.7150000000000001,
-        "created_at": 1790588417.1179187
+        "created_at": 1790590739.8118222
       }
     },
     {
@@ -1212,7 +1212,7 @@
         "extractor_model": "evryn-transfer-engine-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.7150000000000001,
-        "created_at": 1790588417.1179247
+        "created_at": 1790590739.811829
       }
     },
     {
@@ -1231,7 +1231,7 @@
         "extractor_model": "evryn-transfer-engine-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.7150000000000001,
-        "created_at": 1790588417.117931
+        "created_at": 1790590739.8118372
       }
     },
     {
@@ -1250,7 +1250,7 @@
         "extractor_model": "evryn-transfer-engine-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.7150000000000001,
-        "created_at": 1790588417.1179368
+        "created_at": 1790590739.811844
       }
     }
   ],
@@ -1292,7 +1292,7 @@
         "extractor_model": "evryn-hypothesis-generator-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.82,
-        "created_at": 1790588417.1180623
+        "created_at": 1790590739.812006
       }
     },
     {
@@ -1340,7 +1340,7 @@
         "extractor_model": "evryn-hypothesis-generator-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.801,
-        "created_at": 1790588417.1180084
+        "created_at": 1790590739.8119233
       }
     },
     {
@@ -1363,7 +1363,7 @@
         "extractor_model": "evryn-hypothesis-generator-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.79,
-        "created_at": 1790588417.1180425
+        "created_at": 1790590739.81198
       }
     },
     {
@@ -1386,7 +1386,7 @@
         "extractor_model": "evryn-hypothesis-generator-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.79,
-        "created_at": 1790588417.1180487
+        "created_at": 1790590739.8119876
       }
     },
     {
@@ -1428,7 +1428,7 @@
         "extractor_model": "evryn-hypothesis-generator-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.74,
-        "created_at": 1790588417.1179702
+        "created_at": 1790590739.8118765
       }
     },
     {
@@ -1470,7 +1470,7 @@
         "extractor_model": "evryn-hypothesis-generator-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.74,
-        "created_at": 1790588417.1179914
+        "created_at": 1790590739.811901
       }
     },
     {
@@ -1493,7 +1493,7 @@
         "extractor_model": "evryn-hypothesis-generator-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.7150000000000001,
-        "created_at": 1790588417.1180544
+        "created_at": 1790590739.8119946
       }
     },
     {
@@ -1533,7 +1533,7 @@
         "extractor_model": "evryn-hypothesis-generator-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.6764,
-        "created_at": 1790588417.1180203
+        "created_at": 1790590739.811937
       }
     },
     {
@@ -1573,7 +1573,7 @@
         "extractor_model": "evryn-hypothesis-generator-v1",
         "extractor_version": "1.0.0",
         "confidence": 0.6406,
-        "created_at": 1790588417.1180289
+        "created_at": 1790590739.811947
       }
     }
   ]

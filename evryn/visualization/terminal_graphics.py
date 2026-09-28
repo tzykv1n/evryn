@@ -1,15 +1,25 @@
 # evryn view <image_path>
+# evryn view <image_path> --width 100
 
 import os
 import sys
+import shutil
 from typing import Optional, Tuple
 from PIL import Image
 
 
+def get_terminal_geometry(fallback_cols: int = 80, fallback_rows: int = 24) -> Tuple[int, int]:
+    try:
+        size = shutil.get_terminal_size(fallback=(fallback_cols, fallback_rows))
+        return max(20, size.columns), max(8, size.lines)
+    except Exception:
+        return fallback_cols, fallback_rows
+
+
 class TerminalGraphicsRenderer:
 
-    def __init__(self, target_width: int = 76):
-        self.target_width = target_width
+    def __init__(self, target_width: Optional[int] = None):
+        self.explicit_width = target_width
         self.mode = self._detect_terminal_capability()
 
     def _detect_terminal_capability(self) -> str:
@@ -20,42 +30,106 @@ class TerminalGraphicsRenderer:
             return "kitty"
         if "sixel" in term:
             return "sixel"
-        if colorterm in ("truecolor", "24bit") or "alacritty" in term or "xterm" in term:
+        if colorterm in ("truecolor", "24bit") or any(t in term for t in ("alacritty", "xterm", "tmux", "screen", "rxvt")):
             return "truecolor_blocks"
         return "unicode_blocks"
 
-    def render_image(self, image_path: str, max_width: Optional[int] = None) -> str:
-        if not os.path.exists(image_path):
-            return f"[Error: Image file not found at '{image_path}']"
+    def compute_render_dimensions(
+        self,
+        orig_w: int,
+        orig_h: int,
+        max_cols: Optional[int] = None,
+        max_lines: Optional[int] = None,
+        explicit_width: Optional[int] = None,
+    ) -> Tuple[int, int, int]:
+        term_cols, term_rows = get_terminal_geometry()
+        aspect_ratio = float(orig_h) / float(max(1, orig_w))
 
-        width = max_width or self.target_width
+        if explicit_width is not None or self.explicit_width is not None:
+            w = int(explicit_width or self.explicit_width)
+            w = max(10, min(w, term_cols))
+            pixel_h = max(4, int(round(w * aspect_ratio)))
+            if pixel_h % 2 != 0:
+                pixel_h += 1
+            char_lines = pixel_h // 2
+            return w, pixel_h, char_lines
 
-        if self.mode == "kitty":
-            return self._render_truecolor_blocks(image_path, width)
-        elif self.mode == "sixel":
-            return self._render_truecolor_blocks(image_path, width)
-        elif self.mode in ("truecolor_blocks", "unicode_blocks"):
-            return self._render_truecolor_blocks(image_path, width)
+        avail_cols = max(16, term_cols - 4)
+        if max_cols is not None:
+            avail_cols = min(avail_cols, max_cols)
         else:
-            return self._render_ascii_fallback(image_path, width)
+            if term_cols >= 120:
+                avail_cols = min(avail_cols, 92)
+            elif term_cols >= 90:
+                avail_cols = min(avail_cols, 80)
+            else:
+                avail_cols = min(avail_cols, 72)
 
-    def _render_truecolor_blocks(self, image_path: str, width: int) -> str:
+        avail_lines = max_lines if max_lines is not None else max(6, min(term_rows - 4, 22))
+
+        target_w = avail_cols
+        needed_lines = max(2, int(round(target_w * aspect_ratio / 2.0)))
+
+        if needed_lines > avail_lines:
+            target_w = max(12, int(round(avail_lines * 2.0 / aspect_ratio)))
+            target_w = min(target_w, avail_cols)
+
+        pixel_h = max(4, int(round(target_w * aspect_ratio)))
+        if pixel_h % 2 != 0:
+            pixel_h += 1
+        char_lines = pixel_h // 2
+        return target_w, pixel_h, char_lines
+
+    def render_image(
+        self,
+        image_path: str,
+        max_width: Optional[int] = None,
+        max_lines: Optional[int] = None,
+        center: bool = True,
+    ) -> str:
+        if not os.path.exists(image_path):
+            return self.render_fallback_card(image_path, title="File Not Found", reason="Path does not exist on disk")
+
+        try:
+            with Image.open(image_path) as img:
+                orig_w, orig_h = img.size
+                cols, pixel_h, char_lines = self.compute_render_dimensions(
+                    orig_w,
+                    orig_h,
+                    max_cols=max_width,
+                    max_lines=max_lines,
+                    explicit_width=max_width or self.explicit_width,
+                )
+
+            if self.mode in ("kitty", "sixel", "truecolor_blocks", "unicode_blocks"):
+                return self._render_truecolor_blocks(image_path, cols, pixel_h, center=center)
+            else:
+                return self._render_ascii_fallback(image_path, cols, pixel_h, center=center)
+        except Exception as e:
+            return self.render_fallback_card(image_path, title="Rendering Error", reason=str(e))
+
+    def _render_truecolor_blocks(
+        self,
+        image_path: str,
+        width: int,
+        pixel_h: int,
+        center: bool = True,
+    ) -> str:
         try:
             img = Image.open(image_path).convert("RGB")
-            orig_w, orig_h = img.size
-            aspect_ratio = orig_h / orig_w
-            target_h = int(width * aspect_ratio * 0.5)
-            target_h = max(4, target_h if target_h % 2 == 0 else target_h + 1)
-
-            img_resized = img.resize((width, target_h), Image.Resampling.BILINEAR)
+            img_resized = img.resize((width, pixel_h), Image.Resampling.BILINEAR)
             pixels = img_resized.load()
 
+            term_cols, _ = get_terminal_geometry()
+            pad_len = max(0, (term_cols - width) // 2) if center else 2
+            pad = " " * pad_len
+
             lines = []
-            for y in range(0, target_h, 2):
-                row_str = ""
+            for y in range(0, pixel_h, 2):
+                row_str = pad
                 for x in range(width):
                     r_top, g_top, b_top = pixels[x, y]
-                    if y + 1 < target_h:
+                    if y + 1 < pixel_h:
                         r_bot, g_bot, b_bot = pixels[x, y + 1]
                     else:
                         r_bot, g_bot, b_bot = (0, 0, 0)
@@ -63,20 +137,28 @@ class TerminalGraphicsRenderer:
                 lines.append(row_str)
             return "\n".join(lines)
         except Exception as e:
-            return f"[Render fallback: {e}]"
+            return self.render_fallback_card(image_path, title="Decode Error", reason=str(e))
 
-    def _render_ascii_fallback(self, image_path: str, width: int) -> str:
+    def _render_ascii_fallback(
+        self,
+        image_path: str,
+        width: int,
+        pixel_h: int,
+        center: bool = True,
+    ) -> str:
         try:
             img = Image.open(image_path).convert("L")
-            orig_w, orig_h = img.size
-            aspect_ratio = orig_h / orig_w
-            target_h = int(width * aspect_ratio * 0.45)
-            img_resized = img.resize((width, target_h))
+            char_lines = max(2, pixel_h // 2)
+            img_resized = img.resize((width, char_lines))
+
+            term_cols, _ = get_terminal_geometry()
+            pad_len = max(0, (term_cols - width) // 2) if center else 2
+            pad = " " * pad_len
 
             chars = [" ", ".", ":", "-", "=", "+", "*", "#", "%", "@"]
             lines = []
-            for y in range(target_h):
-                row = ""
+            for y in range(char_lines):
+                row = pad
                 for x in range(width):
                     val = img_resized.getpixel((x, y))
                     idx = int(val / 256.0 * len(chars))
@@ -84,4 +166,27 @@ class TerminalGraphicsRenderer:
                 lines.append(row)
             return "\n".join(lines)
         except Exception as e:
-            return f"[ASCII fallback error: {e}]"
+            return self.render_fallback_card(image_path, title="ASCII Fallback Error", reason=str(e))
+
+    @staticmethod
+    def render_fallback_card(image_path: str, title: str = "Graphic Artifact", reason: str = "") -> str:
+        basename = os.path.basename(image_path)
+        term_cols, _ = get_terminal_geometry()
+        box_w = max(40, min(term_cols - 4, 76))
+        inner_w = box_w - 4
+
+        line_top = "╭" + "─" * (box_w - 2) + "╮"
+        line_bot = "╰" + "─" * (box_w - 2) + "╯"
+
+        title_str = f"  FIGURE : {basename}"[:inner_w]
+        title_line = f"│ {title_str:<{inner_w}} │"
+
+        view_cmd = f"  VIEW   : evryn view {image_path}"[:inner_w]
+        view_line = f"│ {view_cmd:<{inner_w}} │"
+
+        extra_lines = []
+        if reason:
+            r_str = f"  STATUS : {reason}"[:inner_w]
+            extra_lines.append(f"│ {r_str:<{inner_w}} │")
+
+        return "\n".join([line_top, title_line, view_line] + extra_lines + [line_bot])
