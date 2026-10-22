@@ -1,0 +1,230 @@
+[
+  {
+    "hypothesis_id": "hyp_contra_seq_0003",
+    "statement": "Hypothesis of context-dependent bifurcation for relation 'p53 mutation->cellular proliferation' exhibiting conflicting causal polarities.",
+    "hypothesis_type": "CONTRADICTION_RESOLUTION",
+    "search_query": "p53 mutation AND cellular proliferation",
+    "validation_status": "SUPPORTED_PARALLEL",
+    "calibrated_confidence": 0.92,
+    "retrieved_pmids": [
+      "42502958",
+      "42163716",
+      "42480805"
+    ],
+    "evidence_count": 3,
+    "traceable_citations": [
+      {
+        "pmid": "42502958",
+        "citation": "Targeting molecular and genetic pathways driving tumorigenesis for precision therapy in colorectal cancer. (Cancer Biol Ther, 2026 Dec 31)",
+        "type": "CO_OCCURRENCE_AND_DIRECTIONAL_REGULATION"
+      },
+      {
+        "pmid": "42163716",
+        "citation": "In vitro screening of compounds for targeting gastric cancer with Y220C p53 mutation: a molecule combining zinc chelation and a Michael acceptor drives CDKN1 and BBC3 expression to restore a p53-dependent cytotoxicity. (J Enzyme Inhib Med Chem, 2026 Dec)",
+        "type": "CO_OCCURRENCE_AND_DIRECTIONAL_REGULATION"
+      },
+      {
+        "pmid": "42480805",
+        "citation": "IER5L promotes p53 degradation via TRAF7-mediated ubiquitination to facilitate EMT and colorectal cancer malignancy. (Cell Signal, 2026 Nov)",
+        "type": "CO_OCCURRENCE_AND_DIRECTIONAL_REGULATION"
+      }
+    ],
+    "contradictory_evidence": []
+  },
+  {
+    "hypothesis_id": "hyp_fc_fc_8c5de2c",
+    "statement": "Predicted future causal link: p53 mutation + kras activation -> metastatic invasiveness (SYNERGISTIC_CO_ACTION) by 2029.",
+    "hypothesis_type": "TEMPORAL_EXTRAPOLATION",
+    "search_query": "p53 mutation AND kras activation AND metastatic invasiveness",
+    "validation_status": "CONFIRMED_IN_LITERATURE",
+    "calibrated_confidence": 0.901,
+    "retrieved_pmids": [
+      "42203767",
+      "40796953",
+      "40062171"
+    ],
+    "evidence_count": 3,
+    "traceable_citations": [
+      {
+        "pmid": "42203767",
+        "citation": "NF-\u03baB inducing kinase (NIK) deletion accelerates KRAS-driven pancreatic cancer in association with tumor microenvironment remodeling. (Cell Death Dis, 2026 May 27)",
+        "type": "CO_OCCURRENCE_AND_DIRECTIONAL_REGULATION"
+      },
+      {
+        "pmid": "40796953",
+        "citation": "Coexistence of P53 and KRAS mutations enhances ERK1/2 signaling by inducing EGR1 expression through mutp53 and c-JUN interaction. (Oncogene, 2025 Oct)",
+        "type": "CO_OCCURRENCE_AND_DIRECTIONAL_REGULATION"
+      },
+      {
+        "pmid": "40062171",
+        "citation": "Exploring the Enigma of a Urachal Mucinous Cystic Tumor of Low Malignant Potential (MCTLMP): A Case Report and Literature Review. (Cureus, 2025 Feb)",
+        "type": "CO_OCCURRENCE_AND_DIRECTIONAL_REGULATION"
+      }
+    ],
+    "contradictory_evidence": []
+  },
+  {
+    "hypothesis_id": "hyp_trans_ana_b5efe6",
+    "statement": "Cross-domain structural transfer: biomedicine motif (p53 mutation -> cellular proliferation) transfers to neuroscience (nicotine -> dopamine release).",
+    "hypothesis_type": "CROSS_DOMAIN_TRANSFER",
+    "search_query": "Cross-domain structural transfer: biomedicine motif (p53 mutation AND cellular proliferation) transfers to neuroscience (nicotine",
+    "validation_status": "UNVERIFIED_IN_LITERATURE",
+    "calibrated_confidence": 0.671,
+    "retrieved_pmids": [],
+    "evidence_count": 0,
+    "traceable_citations": [],
+    "contradictory_evidence": []
+  },
+  {
+    "hypothesis_id": "hyp_trans_ana_f160b2",
+    "statement": "Cross-domain structural transfer: biomedicine motif (p53 mutation -> cellular proliferation) transfers to neuroscience (dopamine release -> addiction reinforcement).",
+    "hypothesis_type": "CROSS_DOMAIN_TRANSFER",
+    "search_query": "Cross-domain structural transfer: biomedicine motif (p53 mutation AND cellular proliferation) transfers to neuroscience (dopamine release",
+    "validation_status": "UNVERIFIED_IN_LITERATURE",
+    "calibrated_confidence": 0.671,
+    "retrieved_pmids": [],
+    "evidence_count": 0,
+    "traceable_citations": [],
+    "contradictory_evidence": []
+  },
+  {
+    "hypothesis_id": "hyp_ho_4ce784f276",
+    "statement": "Synergistic co-action {avian influenza A, secondary bacterial infection} exhibits joint causal interaction beyond independent additive effects.",
+    "hypothesis_type": "HIGHER_ORDER_SYNERGY",
+    "search_query": "avian influenza A AND secondary bacterial infection",
+    "validation_status": "SUPPORTED_PARALLEL",
+    "calibrated_confidence": 0.84,
+    "retrieved_pmids": [
+      "42123397",
+      "41764915",
+      "41475192"
+    ],
+    "evidence_count": 3,
+    "traceable_citations": [
+      {
+        "pmid": "42123397",
+        "citation": "In Silico Study of Anti-CD40 DNA Aptamers as Vaccine Adjuvants for Chickens. (Int J Mol Sci, 2026 Apr 24)",
+        "type": "CO_OCCURRENCE_AND_DIRECTIONAL_REGULATION"
+      },
+      {
+        "pmid": "41764915",
+        "citation": "FAdV-4-induced secondary Pasteurella multocida infection potentiates bacterial adherence and aggravates pathological damage in SPF chickens. (Vet Microbiol, 2026 Apr)",
+        "type": "CO_OCCURRENCE_AND_DIRECTIONAL_REGULATION"
+      },
+      {
+        "pmid": "41475192",
+        "citation": "Synergistic virulence of H9N2 AIV and APEC co-infection in laying hens involves a critical role for macrophage-mediated hyper-inflammation via the MAPK/NF-\u03baB axis. (Vet Microbiol, 2026 Feb)",
+        "type": "CO_OCCURRENCE_AND_DIRECTIONAL_REGULATION"
+      }
+    ],
+    "contradictory_evidence": []
+  },
+  {
+    "hypothesis_id": "hyp_ho_134ed7f93b",
+    "statement": "Synergistic co-action {chronic inflammation, epigenetic silencing} exhibits joint causal interaction beyond independent additive effects.",
+    "hypothesis_type": "HIGHER_ORDER_SYNERGY",
+    "search_query": "chronic inflammation AND epigenetic silencing",
+    "validation_status": "SUPPORTED_PARALLEL",
+    "calibrated_confidence": 0.84,
+    "retrieved_pmids": [
+      "42628813",
+      "42832683",
+      "42870021"
+    ],
+    "evidence_count": 3,
+    "traceable_citations": [
+      {
+        "pmid": "42628813",
+        "citation": "Environmental endocrine disruptors activate CBX2 to disrupt cholesterol homeostasis in PCOS. (J Steroid Biochem Mol Biol, 2027 Jan)",
+        "type": "CO_OCCURRENCE_AND_DIRECTIONAL_REGULATION"
+      },
+      {
+        "pmid": "42832683",
+        "citation": "Chronic cigarette smoke exposure induces distinct stem cell states driving genetic driver-specific non-small cell lung cancer subtypes. (Proc Natl Acad Sci U S A, 2026 Oct 20)",
+        "type": "CO_OCCURRENCE_AND_DIRECTIONAL_REGULATION"
+      },
+      {
+        "pmid": "42870021",
+        "citation": "Liraglutide ameliorates obese type 2 diabetes by regulating macrophage cholesterol metabolism and H3K27ac modification to promote M2 polarization and adipocyte thermogenic activation. (J Mol Histol, 2026 Oct 14)",
+        "type": "CO_OCCURRENCE_AND_DIRECTIONAL_REGULATION"
+      }
+    ],
+    "contradictory_evidence": []
+  },
+  {
+    "hypothesis_id": "hyp_trans_ana_2549c6",
+    "statement": "Cross-domain structural transfer: biomedicine motif (vegf upregulation -> angiogenesis) transfers to neuroscience (nicotine -> dopamine release).",
+    "hypothesis_type": "CROSS_DOMAIN_TRANSFER",
+    "search_query": "Cross-domain structural transfer: biomedicine motif (vegf upregulation AND angiogenesis) transfers to neuroscience (nicotine",
+    "validation_status": "UNVERIFIED_IN_LITERATURE",
+    "calibrated_confidence": 0.608,
+    "retrieved_pmids": [],
+    "evidence_count": 0,
+    "traceable_citations": [],
+    "contradictory_evidence": []
+  },
+  {
+    "hypothesis_id": "hyp_fc_fc_c9b832d",
+    "statement": "Predicted future causal link: vegf upregulation -> tumor metastasis (CAUSAL_PRODUCTION) by 2028.",
+    "hypothesis_type": "TEMPORAL_EXTRAPOLATION",
+    "search_query": "vegf upregulation AND tumor metastasis",
+    "validation_status": "SUPPORTED_PARALLEL",
+    "calibrated_confidence": 0.776,
+    "retrieved_pmids": [
+      "42594793",
+      "42617799",
+      "42886654"
+    ],
+    "evidence_count": 3,
+    "traceable_citations": [
+      {
+        "pmid": "42594793",
+        "citation": "Physicochemical remodeling of osteoblast-derived decellularized matrix by tumor extracellular vesicles creates a pro-metastatic biointerface. (Colloids Surf B Biointerfaces, 2026 Dec)",
+        "type": "CO_OCCURRENCE_AND_DIRECTIONAL_REGULATION"
+      },
+      {
+        "pmid": "42617799",
+        "citation": "The Vascular Endothelial Growth Factor A-Vascular Endothelial Growth Factor Receptor 2 Axis Drives Malignant Potential in Oral Squamous Cell Carcinoma by Promoting Stemness and Cell Proliferation. (Am J Pathol, 2026 Nov)",
+        "type": "CO_OCCURRENCE_AND_DIRECTIONAL_REGULATION"
+      },
+      {
+        "pmid": "42886654",
+        "citation": "Proteomic Landscape and Clinical Implications of Ovarian Carcinosarcoma. (FASEB J, 2026 Oct 31)",
+        "type": "CO_OCCURRENCE_AND_DIRECTIONAL_REGULATION"
+      }
+    ],
+    "contradictory_evidence": []
+  },
+  {
+    "hypothesis_id": "hyp_fc_fc_8da31e1",
+    "statement": "Predicted future causal link: nicotine -> addiction reinforcement (CAUSAL_PRODUCTION) by 2028.",
+    "hypothesis_type": "TEMPORAL_EXTRAPOLATION",
+    "search_query": "nicotine AND addiction reinforcement",
+    "validation_status": "SUPPORTED_PARALLEL",
+    "calibrated_confidence": 0.741,
+    "retrieved_pmids": [
+      "42288322",
+      "42863773",
+      "42848037"
+    ],
+    "evidence_count": 3,
+    "traceable_citations": [
+      {
+        "pmid": "42288322",
+        "citation": "Epilepsy associated cognitive dysfunction and addiction: Possible mechanisms and clinical challenges. (Physiol Behav, 2026 Oct 15)",
+        "type": "CO_OCCURRENCE_AND_DIRECTIONAL_REGULATION"
+      },
+      {
+        "pmid": "42863773",
+        "citation": "Cannabis Co-use and endocannabinoid system modulation in tobacco use disorder. (Neurosci Biobehav Rev, 2026 Oct 12)",
+        "type": "CO_OCCURRENCE_AND_DIRECTIONAL_REGULATION"
+      },
+      {
+        "pmid": "42848037",
+        "citation": "Remotely delivered episodic future thinking and contingency management for smoking cessation: A randomized feasibility trial among military veterans in the United States. (Exp Clin Psychopharmacol, 2026 Oct)",
+        "type": "CO_OCCURRENCE_AND_DIRECTIONAL_REGULATION"
+      }
+    ],
+    "contradictory_evidence": []
+  }
+]
