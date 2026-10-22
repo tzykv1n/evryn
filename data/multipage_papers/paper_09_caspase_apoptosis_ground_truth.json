@@ -1,0 +1,36 @@
+{
+  "canonical_entities": [
+    "BAX",
+    "Cytochrome c",
+    "Caspase-9",
+    "Caspase-3"
+  ],
+  "direct_edges": [
+    [
+      "BAX",
+      "Cytochrome c"
+    ],
+    [
+      "Cytochrome c",
+      "Caspase-9"
+    ],
+    [
+      "Caspase-9",
+      "Caspase-3"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "BAX",
+      "Caspase-9"
+    ],
+    [
+      "Cytochrome c",
+      "Caspase-3"
+    ],
+    [
+      "BAX",
+      "Caspase-3"
+    ]
+  ]
+}

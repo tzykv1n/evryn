@@ -1,0 +1,36 @@
+{
+  "canonical_entities": [
+    "IFN-gamma",
+    "JAK1",
+    "STAT1",
+    "IRF1"
+  ],
+  "direct_edges": [
+    [
+      "IFN-gamma",
+      "JAK1"
+    ],
+    [
+      "JAK1",
+      "STAT1"
+    ],
+    [
+      "STAT1",
+      "IRF1"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "IFN-gamma",
+      "STAT1"
+    ],
+    [
+      "JAK1",
+      "IRF1"
+    ],
+    [
+      "IFN-gamma",
+      "IRF1"
+    ]
+  ]
+}

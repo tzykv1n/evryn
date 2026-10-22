@@ -67,6 +67,12 @@ SUITE_PLANS = {
         "default_samples": 1000,
         "figures": ["fig1_independent_benchmark.png", "fig4_confounding_robustness.png"],
     },
+    "multi-page": {
+        "name": "Multi-Page Scientific Paper Causal Discovery Suite",
+        "description": "Evidence-traceable multi-page causal discovery, cross-page transitive linking, and robustness across real scientific PDFs",
+        "default_samples": 12,
+        "figures": ["multipage_benchmark_comparison.png", "multipage_robustness_curves.png"],
+    },
 }
 
 
@@ -136,6 +142,46 @@ def run_benchmark_suite(
             elif s == "final-phase":
                 sm = samples if samples is not None else 500
                 run_final_benchmark_suite(seeds=1, samples=sm, noise=noise if noise is not None else 0.25, max_order=3)
+            elif s == "multi-page":
+                from evryn.paper.dataset_builder import generate_benchmark_dataset
+                from evryn.paper import PaperIngestion, PaperSegmenter, PaperBenchmarkEvaluator
+                from evryn.paper.robustness import PaperRobustnessExperiments
+                import glob
+                import json
+
+                data_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data", "multipage_papers")
+                pdf_files = sorted(glob.glob(os.path.join(data_dir, "*.pdf")))
+                if len(pdf_files) < 12 or from_scratch:
+                    pdf_files = generate_benchmark_dataset(data_dir)
+
+                target_pdfs = pdf_files[:samples] if samples is not None else pdf_files
+                ingest = PaperIngestion()
+                segmenter = PaperSegmenter()
+                evaluator = PaperBenchmarkEvaluator(output_dir)
+
+                docs = []
+                gts = []
+                for pdf in target_pdfs:
+                    gt_file = pdf.replace(".pdf", "_ground_truth.json")
+                    if os.path.exists(gt_file):
+                        with open(gt_file, "r", encoding="utf-8") as f:
+                            gt = json.load(f)
+                        doc = segmenter.segment_document(ingest.ingest_pdf(pdf))
+                        docs.append(doc)
+                        gts.append(gt)
+
+                eval_summary = evaluator.run_suite(docs, gts)
+                rob = PaperRobustnessExperiments(evaluator, output_dir, seed=seed)
+                rob.run_all_robustness(docs, gts)
+
+                headers_mp = ["Metric", "Baseline A (Sentence)", "Baseline B (+Normalizer)", "System C (EVRYN Multi-Page)"]
+                rows_mp = [
+                    ["Direct Causal F1", f"{eval_summary['baseline_a']['direct_f1']:.3f}", f"{eval_summary['baseline_b']['direct_f1']:.3f}", f"[bold green]{eval_summary['system_c_evryn']['direct_f1']:.3f}[/bold green]"],
+                    ["Cross-Page Transitive F1", f"{eval_summary['baseline_a']['cross_page_f1']:.3f}", f"{eval_summary['baseline_b']['cross_page_f1']:.3f}", f"[bold green]{eval_summary['system_c_evryn']['cross_page_f1']:.3f}[/bold green]"],
+                    ["Complete Structural Match", f"{eval_summary['baseline_a']['structural_match']:.3f}", f"{eval_summary['baseline_b']['structural_match']:.3f}", f"[bold green]{eval_summary['system_c_evryn']['structural_match']:.3f}[/bold green]"],
+                    ["Provenance Completeness", "N/A", "N/A", f"[bold green]{eval_summary['system_c_evryn']['provenance_completeness']:.3f}[/bold green]"],
+                ]
+                print_table(headers_mp, rows_mp, title=f"EVRYN Multi-Page Causal Evaluation (N={len(docs)} Scientific Papers)")
             elapsed = time.time() - t0
             completed.append((s, SUITE_PLANS[s]["name"], f"{elapsed:.2f}s", "PASSED"))
     except Exception as e:

@@ -22,6 +22,8 @@ dependencies = [
     "tqdm",
     "rich",
     "pillow",
+    "pypdf",
+    "reportlab",
 ]
 
 [project.urls]

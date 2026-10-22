@@ -1,0 +1,2142 @@
+{
+  "document": {
+    "doc_id": "doc_49acd11a19c9",
+    "file_path": "/home/tk/projects/evryn/data/multipage_papers/paper_01_egfr_mapk.pdf",
+    "metadata": {
+      "title": "(anonymous)",
+      "authors": [
+        "(anonymous)"
+      ],
+      "doi": "10.1038/s41586-024-00101-x",
+      "pmid": "38291001",
+      "pmcid": "PMC10821001",
+      "year": null,
+      "journal": "",
+      "page_count": 5
+    },
+    "full_text": "Epidermal Growth Factor Receptor Activation of the MAPK Pathway in\nCarcinoma Progression\nAuthors: Elena Vance, PhD, Marcus Thorne, MD, Alistair Chen, PhD\nDOI: 10.1038/s41586-024-00101-x | PMID: 38291001 | PMCID: PMC10821001\nPage 1 \u2014 Abstract & Introduction\nThe epidermal growth factor receptor (EGFR) plays a central regulatory role in cellular proliferation and\noncogenic transformation. Binding of extracellular epidermal growth factor activates EGFR through receptor\ndimerization. We investigate the sequential downstream signal transduction across cellular compartments.\n\nPage 2 \u2014 Methods & Early Signaling\nPhosphorylated EGFR recruits the adaptor protein GRB2 via its SH2 domain. Subsequently, GRB2 binds the\nguanine nucleotide exchange factor SOS1 to form a stable binary signaling complex at the cell membrane.\n\nPage 3 \u2014 Intermediate Cascade\nMembrane-anchored SOS1 stimulates RAS by catalyzing GDP-GTP exchange. Active GTP-bound RAS directly\nbinds and activates RAF serine/threonine kinase, initiating the cytoplasmic kinase cascade.\n\nPage 4 \u2014 Results & Kinase Phosphorylation\nIn our experimental assays, active RAF phosphorylates MEK at dual serine residues Ser217 and Ser221.\nActivated MEK directly phosphorylates ERK to elicit full enzymatic activation of MAPK.\n\nPage 5 \u2014 Discussion & Conclusions\nOur findings demonstrate that active ERK translocates into the nucleus to stimulate transcription factors.\nConsequently, EGFR signaling drives cellular proliferation through sequential MAPK activation. Inhibition of\n",
+    "pages": [
+      {
+        "page_number": 1,
+        "start_char": 0,
+        "end_char": 575,
+        "char_count": 575
+      },
+      {
+        "page_number": 2,
+        "start_char": 576,
+        "end_char": 818,
+        "char_count": 242
+      },
+      {
+        "page_number": 3,
+        "start_char": 819,
+        "end_char": 1041,
+        "char_count": 222
+      },
+      {
+        "page_number": 4,
+        "start_char": 1042,
+        "end_char": 1272,
+        "char_count": 230
+      },
+      {
+        "page_number": 5,
+        "start_char": 1273,
+        "end_char": 1523,
+        "char_count": 250
+      }
+    ],
+    "sections": [
+      {
+        "section_title": "Page 1 \u2014 Abstract & Introduction",
+        "section_type": "ABSTRACT",
+        "page_number": 1,
+        "start_char": 224,
+        "end_char": 576
+      },
+      {
+        "section_title": "Page 2 \u2014 Methods & Early Signaling",
+        "section_type": "METHODS",
+        "page_number": 2,
+        "start_char": 576,
+        "end_char": 1042
+      },
+      {
+        "section_title": "Page 4 \u2014 Results & Kinase Phosphorylation",
+        "section_type": "RESULTS",
+        "page_number": 4,
+        "start_char": 1042,
+        "end_char": 1273
+      },
+      {
+        "section_title": "Page 5 \u2014 Discussion & Conclusions",
+        "section_type": "DISCUSSION",
+        "page_number": 5,
+        "start_char": 1273,
+        "end_char": 1523
+      }
+    ],
+    "paragraphs": [
+      {
+        "paragraph_id": "para_1_0001",
+        "page_number": 1,
+        "section_title": "Title & Abstract",
+        "start_char": 0,
+        "end_char": 224,
+        "text": "Epidermal Growth Factor Receptor Activation of the MAPK Pathway in\nCarcinoma Progression\nAuthors: Elena Vance, PhD, Marcus Thorne, MD, Alistair Chen, PhD\nDOI: 10.1038/s41586-024-00101-x | PMID: 38291001 | PMCID: PMC10821001"
+      },
+      {
+        "paragraph_id": "para_1_0002",
+        "page_number": 1,
+        "section_title": "Page 1 \u2014 Abstract & Introduction",
+        "start_char": 257,
+        "end_char": 575,
+        "text": "The epidermal growth factor receptor (EGFR) plays a central regulatory role in cellular proliferation and\noncogenic transformation. Binding of extracellular epidermal growth factor activates EGFR through receptor\ndimerization. We investigate the sequential downstream signal transduction across cellular compartments."
+      },
+      {
+        "paragraph_id": "para_2_0003",
+        "page_number": 2,
+        "section_title": "Page 2 \u2014 Methods & Early Signaling",
+        "start_char": 611,
+        "end_char": 818,
+        "text": "Phosphorylated EGFR recruits the adaptor protein GRB2 via its SH2 domain. Subsequently, GRB2 binds the\nguanine nucleotide exchange factor SOS1 to form a stable binary signaling complex at the cell membrane."
+      },
+      {
+        "paragraph_id": "para_3_0004",
+        "page_number": 3,
+        "section_title": "Page 2 \u2014 Methods & Early Signaling",
+        "start_char": 819,
+        "end_char": 1041,
+        "text": "Page 3 \u2014 Intermediate Cascade\nMembrane-anchored SOS1 stimulates RAS by catalyzing GDP-GTP exchange. Active GTP-bound RAS directly\nbinds and activates RAF serine/threonine kinase, initiating the cytoplasmic kinase cascade."
+      },
+      {
+        "paragraph_id": "para_4_0005",
+        "page_number": 4,
+        "section_title": "Page 4 \u2014 Results & Kinase Phosphorylation",
+        "start_char": 1084,
+        "end_char": 1272,
+        "text": "In our experimental assays, active RAF phosphorylates MEK at dual serine residues Ser217 and Ser221.\nActivated MEK directly phosphorylates ERK to elicit full enzymatic activation of MAPK."
+      },
+      {
+        "paragraph_id": "para_5_0006",
+        "page_number": 5,
+        "section_title": "Page 5 \u2014 Discussion & Conclusions",
+        "start_char": 1307,
+        "end_char": 1523,
+        "text": "Our findings demonstrate that active ERK translocates into the nucleus to stimulate transcription factors.\nConsequently, EGFR signaling drives cellular proliferation through sequential MAPK activation. Inhibition of"
+      }
+    ],
+    "sentences": [
+      {
+        "sentence_id": "sent_1_0001",
+        "page_number": 1,
+        "section_title": "Title & Abstract",
+        "paragraph_id": "para_1_0001",
+        "start_char": 0,
+        "end_char": 227,
+        "text": "Epidermal Growth Factor Receptor Activation of the MAPK Pathway in\nCarcinoma Progression\nAuthors: Elena Vance, PhD, Marcus Thorne, MD, Alistair Chen, PhD\nDOI: 10.1038/s41586-024-00101-x | PMID: 38291001 | PMCID: PMC10821001"
+      },
+      {
+        "sentence_id": "sent_1_0002",
+        "page_number": 1,
+        "section_title": "Page 1 \u2014 Abstract & Introduction",
+        "paragraph_id": "para_1_0002",
+        "start_char": 257,
+        "end_char": 389,
+        "text": "The epidermal growth factor receptor (EGFR) plays a central regulatory role in cellular proliferation and\noncogenic transformation."
+      },
+      {
+        "sentence_id": "sent_1_0003",
+        "page_number": 1,
+        "section_title": "Page 1 \u2014 Abstract & Introduction",
+        "paragraph_id": "para_1_0002",
+        "start_char": 389,
+        "end_char": 484,
+        "text": "Binding of extracellular epidermal growth factor activates EGFR through receptor\ndimerization."
+      },
+      {
+        "sentence_id": "sent_1_0004",
+        "page_number": 1,
+        "section_title": "Page 1 \u2014 Abstract & Introduction",
+        "paragraph_id": "para_1_0002",
+        "start_char": 484,
+        "end_char": 574,
+        "text": "We investigate the sequential downstream signal transduction across cellular compartments."
+      },
+      {
+        "sentence_id": "sent_2_0005",
+        "page_number": 2,
+        "section_title": "Page 2 \u2014 Methods & Early Signaling",
+        "paragraph_id": "para_2_0003",
+        "start_char": 611,
+        "end_char": 685,
+        "text": "Phosphorylated EGFR recruits the adaptor protein GRB2 via its SH2 domain."
+      },
+      {
+        "sentence_id": "sent_2_0006",
+        "page_number": 2,
+        "section_title": "Page 2 \u2014 Methods & Early Signaling",
+        "paragraph_id": "para_2_0003",
+        "start_char": 685,
+        "end_char": 817,
+        "text": "Subsequently, GRB2 binds the\nguanine nucleotide exchange factor SOS1 to form a stable binary signaling complex at the cell membrane."
+      },
+      {
+        "sentence_id": "sent_3_0007",
+        "page_number": 3,
+        "section_title": "Page 2 \u2014 Methods & Early Signaling",
+        "paragraph_id": "para_3_0004",
+        "start_char": 819,
+        "end_char": 919,
+        "text": "Page 3 \u2014 Intermediate Cascade\nMembrane-anchored SOS1 stimulates RAS by catalyzing GDP-GTP exchange."
+      },
+      {
+        "sentence_id": "sent_3_0008",
+        "page_number": 3,
+        "section_title": "Page 2 \u2014 Methods & Early Signaling",
+        "paragraph_id": "para_3_0004",
+        "start_char": 919,
+        "end_char": 1040,
+        "text": "Active GTP-bound RAS directly\nbinds and activates RAF serine/threonine kinase, initiating the cytoplasmic kinase cascade."
+      },
+      {
+        "sentence_id": "sent_4_0009",
+        "page_number": 4,
+        "section_title": "Page 4 \u2014 Results & Kinase Phosphorylation",
+        "paragraph_id": "para_4_0005",
+        "start_char": 1084,
+        "end_char": 1185,
+        "text": "In our experimental assays, active RAF phosphorylates MEK at dual serine residues Ser217 and Ser221."
+      },
+      {
+        "sentence_id": "sent_4_0010",
+        "page_number": 4,
+        "section_title": "Page 4 \u2014 Results & Kinase Phosphorylation",
+        "paragraph_id": "para_4_0005",
+        "start_char": 1185,
+        "end_char": 1271,
+        "text": "Activated MEK directly phosphorylates ERK to elicit full enzymatic activation of MAPK."
+      },
+      {
+        "sentence_id": "sent_5_0011",
+        "page_number": 5,
+        "section_title": "Page 5 \u2014 Discussion & Conclusions",
+        "paragraph_id": "para_5_0006",
+        "start_char": 1307,
+        "end_char": 1414,
+        "text": "Our findings demonstrate that active ERK translocates into the nucleus to stimulate transcription factors."
+      },
+      {
+        "sentence_id": "sent_5_0012",
+        "page_number": 5,
+        "section_title": "Page 5 \u2014 Discussion & Conclusions",
+        "paragraph_id": "para_5_0006",
+        "start_char": 1414,
+        "end_char": 1509,
+        "text": "Consequently, EGFR signaling drives cellular proliferation through sequential MAPK activation."
+      },
+      {
+        "sentence_id": "sent_5_0013",
+        "page_number": 5,
+        "section_title": "Page 5 \u2014 Discussion & Conclusions",
+        "paragraph_id": "para_5_0006",
+        "start_char": 1509,
+        "end_char": 1522,
+        "text": "Inhibition of"
+      }
+    ]
+  },
+  "assertions": [
+    {
+      "assertion_id": "asrt_doc_49_2_0001",
+      "cause": "EGFR",
+      "cause_canonical": "EGFR",
+      "effect": "GRB2",
+      "effect_canonical": "GRB2",
+      "direction": "FORWARD",
+      "relation_type": "UPREGULATES",
+      "is_negated": false,
+      "uncertainty_score": 0.1,
+      "sentence_id": "sent_2_0005",
+      "page_number": 2,
+      "section_title": "Page 2 \u2014 Methods & Early Signaling",
+      "confidence": 0.9,
+      "evidence_quote": "Phosphorylated EGFR recruits the adaptor protein GRB2 via its SH2 domain.",
+      "char_span": [
+        611,
+        685
+      ],
+      "evidence_status": "MEASURED_FACT"
+    },
+    {
+      "assertion_id": "asrt_doc_49_2_0002",
+      "cause": "GRB2",
+      "cause_canonical": "GRB2",
+      "effect": "SOS1",
+      "effect_canonical": "SOS1",
+      "direction": "FORWARD",
+      "relation_type": "UPREGULATES",
+      "is_negated": false,
+      "uncertainty_score": 0.1,
+      "sentence_id": "sent_2_0006",
+      "page_number": 2,
+      "section_title": "Page 2 \u2014 Methods & Early Signaling",
+      "confidence": 0.9,
+      "evidence_quote": "Subsequently, GRB2 binds the\nguanine nucleotide exchange factor SOS1 to form a stable binary signaling complex at the cell membrane.",
+      "char_span": [
+        685,
+        817
+      ],
+      "evidence_status": "MEASURED_FACT"
+    },
+    {
+      "assertion_id": "asrt_doc_49_3_0003",
+      "cause": "SOS1",
+      "cause_canonical": "SOS1",
+      "effect": "RAS",
+      "effect_canonical": "RAS",
+      "direction": "FORWARD",
+      "relation_type": "UPREGULATES",
+      "is_negated": false,
+      "uncertainty_score": 0.1,
+      "sentence_id": "sent_3_0007",
+      "page_number": 3,
+      "section_title": "Page 2 \u2014 Methods & Early Signaling",
+      "confidence": 0.9,
+      "evidence_quote": "Page 3 \u2014 Intermediate Cascade\nMembrane-anchored SOS1 stimulates RAS by catalyzing GDP-GTP exchange.",
+      "char_span": [
+        819,
+        919
+      ],
+      "evidence_status": "MEASURED_FACT"
+    },
+    {
+      "assertion_id": "asrt_doc_49_3_0004",
+      "cause": "RAS",
+      "cause_canonical": "RAS",
+      "effect": "RAF",
+      "effect_canonical": "RAF",
+      "direction": "FORWARD",
+      "relation_type": "UPREGULATES",
+      "is_negated": false,
+      "uncertainty_score": 0.1,
+      "sentence_id": "sent_3_0008",
+      "page_number": 3,
+      "section_title": "Page 2 \u2014 Methods & Early Signaling",
+      "confidence": 0.9,
+      "evidence_quote": "Active GTP-bound RAS directly\nbinds and activates RAF serine/threonine kinase, initiating the cytoplasmic kinase cascade.",
+      "char_span": [
+        919,
+        1040
+      ],
+      "evidence_status": "MEASURED_FACT"
+    },
+    {
+      "assertion_id": "asrt_doc_49_4_0005",
+      "cause": "RAF",
+      "cause_canonical": "RAF",
+      "effect": "MEK",
+      "effect_canonical": "MEK",
+      "direction": "FORWARD",
+      "relation_type": "UPREGULATES",
+      "is_negated": false,
+      "uncertainty_score": 0.1,
+      "sentence_id": "sent_4_0009",
+      "page_number": 4,
+      "section_title": "Page 4 \u2014 Results & Kinase Phosphorylation",
+      "confidence": 0.9,
+      "evidence_quote": "In our experimental assays, active RAF phosphorylates MEK at dual serine residues Ser217 and Ser221.",
+      "char_span": [
+        1084,
+        1185
+      ],
+      "evidence_status": "MEASURED_FACT"
+    },
+    {
+      "assertion_id": "asrt_doc_49_4_0006",
+      "cause": "MEK",
+      "cause_canonical": "MEK",
+      "effect": "ERK",
+      "effect_canonical": "ERK",
+      "direction": "FORWARD",
+      "relation_type": "UPREGULATES",
+      "is_negated": false,
+      "uncertainty_score": 0.1,
+      "sentence_id": "sent_4_0010",
+      "page_number": 4,
+      "section_title": "Page 4 \u2014 Results & Kinase Phosphorylation",
+      "confidence": 0.9,
+      "evidence_quote": "Activated MEK directly phosphorylates ERK to elicit full enzymatic activation of MAPK.",
+      "char_span": [
+        1185,
+        1271
+      ],
+      "evidence_status": "MEASURED_FACT"
+    },
+    {
+      "assertion_id": "asrt_doc_49_4_0007",
+      "cause": "MEK",
+      "cause_canonical": "MEK",
+      "effect": "MAPK",
+      "effect_canonical": "MAPK",
+      "direction": "FORWARD",
+      "relation_type": "UPREGULATES",
+      "is_negated": false,
+      "uncertainty_score": 0.1,
+      "sentence_id": "sent_4_0010",
+      "page_number": 4,
+      "section_title": "Page 4 \u2014 Results & Kinase Phosphorylation",
+      "confidence": 0.9,
+      "evidence_quote": "Activated MEK directly phosphorylates ERK to elicit full enzymatic activation of MAPK.",
+      "char_span": [
+        1185,
+        1271
+      ],
+      "evidence_status": "MEASURED_FACT"
+    },
+    {
+      "assertion_id": "asrt_doc_49_5_0008",
+      "cause": "EGFR",
+      "cause_canonical": "EGFR",
+      "effect": "MAPK",
+      "effect_canonical": "MAPK",
+      "direction": "FORWARD",
+      "relation_type": "UPREGULATES",
+      "is_negated": false,
+      "uncertainty_score": 0.3,
+      "sentence_id": "sent_5_0012",
+      "page_number": 5,
+      "section_title": "Page 5 \u2014 Discussion & Conclusions",
+      "confidence": 0.9,
+      "evidence_quote": "Consequently, EGFR signaling drives cellular proliferation through sequential MAPK activation.",
+      "char_span": [
+        1414,
+        1509
+      ],
+      "evidence_status": "MEASURED_FACT"
+    }
+  ],
+  "cross_page_links": [
+    {
+      "link_id": "cplink_trans_0001",
+      "cause_assertion_id": "asrt_doc_49_2_0001",
+      "effect_assertion_id": "asrt_doc_49_2_0002",
+      "source_entity": "EGFR",
+      "intermediate_entity": "GRB2",
+      "target_entity": "SOS1",
+      "cause_page": 2,
+      "effect_page": 2,
+      "distance_pages": 0,
+      "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+      "effect_section": "Page 2 \u2014 Methods & Early Signaling",
+      "linking_mechanism": "transitive_chain",
+      "confidence": 0.81,
+      "provenance_chain": [
+        "asrt_doc_49_2_0001",
+        "asrt_doc_49_2_0002"
+      ]
+    },
+    {
+      "link_id": "cplink_trans_0005",
+      "cause_assertion_id": "asrt_doc_49_2_0002",
+      "effect_assertion_id": "asrt_doc_49_3_0003",
+      "source_entity": "GRB2",
+      "intermediate_entity": "SOS1",
+      "target_entity": "RAS",
+      "cause_page": 2,
+      "effect_page": 3,
+      "distance_pages": 1,
+      "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+      "effect_section": "Page 2 \u2014 Methods & Early Signaling",
+      "linking_mechanism": "transitive_chain",
+      "confidence": 0.81,
+      "provenance_chain": [
+        "asrt_doc_49_2_0002",
+        "asrt_doc_49_3_0003"
+      ]
+    },
+    {
+      "link_id": "cplink_trans_0010",
+      "cause_assertion_id": "asrt_doc_49_3_0003",
+      "effect_assertion_id": "asrt_doc_49_3_0004",
+      "source_entity": "SOS1",
+      "intermediate_entity": "RAS",
+      "target_entity": "RAF",
+      "cause_page": 3,
+      "effect_page": 3,
+      "distance_pages": 0,
+      "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+      "effect_section": "Page 2 \u2014 Methods & Early Signaling",
+      "linking_mechanism": "transitive_chain",
+      "confidence": 0.81,
+      "provenance_chain": [
+        "asrt_doc_49_3_0003",
+        "asrt_doc_49_3_0004"
+      ]
+    },
+    {
+      "link_id": "cplink_trans_0014",
+      "cause_assertion_id": "asrt_doc_49_3_0004",
+      "effect_assertion_id": "asrt_doc_49_4_0005",
+      "source_entity": "RAS",
+      "intermediate_entity": "RAF",
+      "target_entity": "MEK",
+      "cause_page": 3,
+      "effect_page": 4,
+      "distance_pages": 1,
+      "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+      "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+      "linking_mechanism": "transitive_chain",
+      "confidence": 0.81,
+      "provenance_chain": [
+        "asrt_doc_49_3_0004",
+        "asrt_doc_49_4_0005"
+      ]
+    },
+    {
+      "link_id": "cplink_trans_0017",
+      "cause_assertion_id": "asrt_doc_49_4_0005",
+      "effect_assertion_id": "asrt_doc_49_4_0006",
+      "source_entity": "RAF",
+      "intermediate_entity": "MEK",
+      "target_entity": "ERK",
+      "cause_page": 4,
+      "effect_page": 4,
+      "distance_pages": 0,
+      "cause_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+      "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+      "linking_mechanism": "transitive_chain",
+      "confidence": 0.81,
+      "provenance_chain": [
+        "asrt_doc_49_4_0005",
+        "asrt_doc_49_4_0006"
+      ]
+    },
+    {
+      "link_id": "cplink_trans_0018",
+      "cause_assertion_id": "asrt_doc_49_4_0005",
+      "effect_assertion_id": "asrt_doc_49_4_0007",
+      "source_entity": "RAF",
+      "intermediate_entity": "MEK",
+      "target_entity": "MAPK",
+      "cause_page": 4,
+      "effect_page": 4,
+      "distance_pages": 0,
+      "cause_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+      "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+      "linking_mechanism": "transitive_chain",
+      "confidence": 0.81,
+      "provenance_chain": [
+        "asrt_doc_49_4_0005",
+        "asrt_doc_49_4_0007"
+      ]
+    },
+    {
+      "link_id": "cplink_trans_0002",
+      "cause_assertion_id": "asrt_doc_49_2_0001",
+      "effect_assertion_id": "asrt_doc_49_3_0003",
+      "source_entity": "EGFR",
+      "intermediate_entity": "GRB2 -> SOS1",
+      "target_entity": "RAS",
+      "cause_page": 2,
+      "effect_page": 3,
+      "distance_pages": 1,
+      "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+      "effect_section": "Page 2 \u2014 Methods & Early Signaling",
+      "linking_mechanism": "transitive_chain",
+      "confidence": 0.729,
+      "provenance_chain": [
+        "asrt_doc_49_2_0001",
+        "asrt_doc_49_2_0002",
+        "asrt_doc_49_3_0003"
+      ]
+    },
+    {
+      "link_id": "cplink_trans_0006",
+      "cause_assertion_id": "asrt_doc_49_2_0002",
+      "effect_assertion_id": "asrt_doc_49_3_0004",
+      "source_entity": "GRB2",
+      "intermediate_entity": "SOS1 -> RAS",
+      "target_entity": "RAF",
+      "cause_page": 2,
+      "effect_page": 3,
+      "distance_pages": 1,
+      "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+      "effect_section": "Page 2 \u2014 Methods & Early Signaling",
+      "linking_mechanism": "transitive_chain",
+      "confidence": 0.729,
+      "provenance_chain": [
+        "asrt_doc_49_2_0002",
+        "asrt_doc_49_3_0003",
+        "asrt_doc_49_3_0004"
+      ]
+    },
+    {
+      "link_id": "cplink_trans_0011",
+      "cause_assertion_id": "asrt_doc_49_3_0003",
+      "effect_assertion_id": "asrt_doc_49_4_0005",
+      "source_entity": "SOS1",
+      "intermediate_entity": "RAS -> RAF",
+      "target_entity": "MEK",
+      "cause_page": 3,
+      "effect_page": 4,
+      "distance_pages": 1,
+      "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+      "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+      "linking_mechanism": "transitive_chain",
+      "confidence": 0.729,
+      "provenance_chain": [
+        "asrt_doc_49_3_0003",
+        "asrt_doc_49_3_0004",
+        "asrt_doc_49_4_0005"
+      ]
+    },
+    {
+      "link_id": "cplink_trans_0015",
+      "cause_assertion_id": "asrt_doc_49_3_0004",
+      "effect_assertion_id": "asrt_doc_49_4_0006",
+      "source_entity": "RAS",
+      "intermediate_entity": "RAF -> MEK",
+      "target_entity": "ERK",
+      "cause_page": 3,
+      "effect_page": 4,
+      "distance_pages": 1,
+      "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+      "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+      "linking_mechanism": "transitive_chain",
+      "confidence": 0.729,
+      "provenance_chain": [
+        "asrt_doc_49_3_0004",
+        "asrt_doc_49_4_0005",
+        "asrt_doc_49_4_0006"
+      ]
+    },
+    {
+      "link_id": "cplink_trans_0016",
+      "cause_assertion_id": "asrt_doc_49_3_0004",
+      "effect_assertion_id": "asrt_doc_49_4_0007",
+      "source_entity": "RAS",
+      "intermediate_entity": "RAF -> MEK",
+      "target_entity": "MAPK",
+      "cause_page": 3,
+      "effect_page": 4,
+      "distance_pages": 1,
+      "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+      "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+      "linking_mechanism": "transitive_chain",
+      "confidence": 0.729,
+      "provenance_chain": [
+        "asrt_doc_49_3_0004",
+        "asrt_doc_49_4_0005",
+        "asrt_doc_49_4_0007"
+      ]
+    },
+    {
+      "link_id": "cplink_trans_0003",
+      "cause_assertion_id": "asrt_doc_49_2_0001",
+      "effect_assertion_id": "asrt_doc_49_3_0004",
+      "source_entity": "EGFR",
+      "intermediate_entity": "GRB2 -> SOS1 -> RAS",
+      "target_entity": "RAF",
+      "cause_page": 2,
+      "effect_page": 3,
+      "distance_pages": 1,
+      "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+      "effect_section": "Page 2 \u2014 Methods & Early Signaling",
+      "linking_mechanism": "transitive_chain",
+      "confidence": 0.656,
+      "provenance_chain": [
+        "asrt_doc_49_2_0001",
+        "asrt_doc_49_2_0002",
+        "asrt_doc_49_3_0003",
+        "asrt_doc_49_3_0004"
+      ]
+    },
+    {
+      "link_id": "cplink_trans_0012",
+      "cause_assertion_id": "asrt_doc_49_3_0003",
+      "effect_assertion_id": "asrt_doc_49_4_0006",
+      "source_entity": "SOS1",
+      "intermediate_entity": "RAS -> RAF -> MEK",
+      "target_entity": "ERK",
+      "cause_page": 3,
+      "effect_page": 4,
+      "distance_pages": 1,
+      "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+      "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+      "linking_mechanism": "transitive_chain",
+      "confidence": 0.656,
+      "provenance_chain": [
+        "asrt_doc_49_3_0003",
+        "asrt_doc_49_3_0004",
+        "asrt_doc_49_4_0005",
+        "asrt_doc_49_4_0006"
+      ]
+    },
+    {
+      "link_id": "cplink_trans_0013",
+      "cause_assertion_id": "asrt_doc_49_3_0003",
+      "effect_assertion_id": "asrt_doc_49_4_0007",
+      "source_entity": "SOS1",
+      "intermediate_entity": "RAS -> RAF -> MEK",
+      "target_entity": "MAPK",
+      "cause_page": 3,
+      "effect_page": 4,
+      "distance_pages": 1,
+      "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+      "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+      "linking_mechanism": "transitive_chain",
+      "confidence": 0.656,
+      "provenance_chain": [
+        "asrt_doc_49_3_0003",
+        "asrt_doc_49_3_0004",
+        "asrt_doc_49_4_0005",
+        "asrt_doc_49_4_0007"
+      ]
+    },
+    {
+      "link_id": "cplink_trans_0007",
+      "cause_assertion_id": "asrt_doc_49_2_0002",
+      "effect_assertion_id": "asrt_doc_49_4_0005",
+      "source_entity": "GRB2",
+      "intermediate_entity": "SOS1 -> RAS -> RAF",
+      "target_entity": "MEK",
+      "cause_page": 2,
+      "effect_page": 4,
+      "distance_pages": 2,
+      "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+      "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+      "linking_mechanism": "transitive_chain",
+      "confidence": 0.63,
+      "provenance_chain": [
+        "asrt_doc_49_2_0002",
+        "asrt_doc_49_3_0003",
+        "asrt_doc_49_3_0004",
+        "asrt_doc_49_4_0005"
+      ]
+    },
+    {
+      "link_id": "cplink_trans_0004",
+      "cause_assertion_id": "asrt_doc_49_2_0001",
+      "effect_assertion_id": "asrt_doc_49_4_0005",
+      "source_entity": "EGFR",
+      "intermediate_entity": "GRB2 -> SOS1 -> RAS -> RAF",
+      "target_entity": "MEK",
+      "cause_page": 2,
+      "effect_page": 4,
+      "distance_pages": 2,
+      "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+      "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+      "linking_mechanism": "transitive_chain",
+      "confidence": 0.567,
+      "provenance_chain": [
+        "asrt_doc_49_2_0001",
+        "asrt_doc_49_2_0002",
+        "asrt_doc_49_3_0003",
+        "asrt_doc_49_3_0004",
+        "asrt_doc_49_4_0005"
+      ]
+    },
+    {
+      "link_id": "cplink_trans_0008",
+      "cause_assertion_id": "asrt_doc_49_2_0002",
+      "effect_assertion_id": "asrt_doc_49_4_0006",
+      "source_entity": "GRB2",
+      "intermediate_entity": "SOS1 -> RAS -> RAF -> MEK",
+      "target_entity": "ERK",
+      "cause_page": 2,
+      "effect_page": 4,
+      "distance_pages": 2,
+      "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+      "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+      "linking_mechanism": "transitive_chain",
+      "confidence": 0.567,
+      "provenance_chain": [
+        "asrt_doc_49_2_0002",
+        "asrt_doc_49_3_0003",
+        "asrt_doc_49_3_0004",
+        "asrt_doc_49_4_0005",
+        "asrt_doc_49_4_0006"
+      ]
+    },
+    {
+      "link_id": "cplink_trans_0009",
+      "cause_assertion_id": "asrt_doc_49_2_0002",
+      "effect_assertion_id": "asrt_doc_49_4_0007",
+      "source_entity": "GRB2",
+      "intermediate_entity": "SOS1 -> RAS -> RAF -> MEK",
+      "target_entity": "MAPK",
+      "cause_page": 2,
+      "effect_page": 4,
+      "distance_pages": 2,
+      "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+      "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+      "linking_mechanism": "transitive_chain",
+      "confidence": 0.567,
+      "provenance_chain": [
+        "asrt_doc_49_2_0002",
+        "asrt_doc_49_3_0003",
+        "asrt_doc_49_3_0004",
+        "asrt_doc_49_4_0005",
+        "asrt_doc_49_4_0007"
+      ]
+    }
+  ],
+  "graph": {
+    "doc_id": "doc_49acd11a19c9",
+    "title": "(anonymous)",
+    "nodes": [
+      {
+        "id": "EGFR",
+        "name": "EGFR",
+        "mention_count": 2,
+        "pages": [
+          2,
+          5
+        ]
+      },
+      {
+        "id": "GRB2",
+        "name": "GRB2",
+        "mention_count": 2,
+        "pages": [
+          2
+        ]
+      },
+      {
+        "id": "SOS1",
+        "name": "SOS1",
+        "mention_count": 2,
+        "pages": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": "RAS",
+        "name": "RAS",
+        "mention_count": 2,
+        "pages": [
+          3
+        ]
+      },
+      {
+        "id": "RAF",
+        "name": "RAF",
+        "mention_count": 2,
+        "pages": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": "MEK",
+        "name": "MEK",
+        "mention_count": 3,
+        "pages": [
+          4
+        ]
+      },
+      {
+        "id": "ERK",
+        "name": "ERK",
+        "mention_count": 1,
+        "pages": [
+          4
+        ]
+      },
+      {
+        "id": "MAPK",
+        "name": "MAPK",
+        "mention_count": 2,
+        "pages": [
+          4,
+          5
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "EGFR",
+        "target": "GRB2",
+        "relation_type": "UPREGULATES",
+        "is_direct": true,
+        "is_negated": false,
+        "confidence": 0.9,
+        "pages": [
+          2
+        ],
+        "evidence_status": "MEASURED_FACT",
+        "sentence_ids": [
+          "sent_2_0005"
+        ],
+        "quotes": [
+          "Phosphorylated EGFR recruits the adaptor protein GRB2 via its SH2 domain."
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_2_0001"
+        ]
+      },
+      {
+        "source": "EGFR",
+        "target": "MAPK",
+        "relation_type": "UPREGULATES",
+        "is_direct": true,
+        "is_negated": false,
+        "confidence": 0.9,
+        "pages": [
+          5
+        ],
+        "evidence_status": "MEASURED_FACT",
+        "sentence_ids": [
+          "sent_5_0012"
+        ],
+        "quotes": [
+          "Consequently, EGFR signaling drives cellular proliferation through sequential MAPK activation."
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_5_0008"
+        ]
+      },
+      {
+        "source": "EGFR",
+        "target": "SOS1",
+        "relation_type": "DIRECT_CAUSE",
+        "is_direct": false,
+        "is_negated": false,
+        "confidence": 0.81,
+        "pages": [
+          2
+        ],
+        "evidence_status": "CROSS_PAGE_INFERENCE",
+        "sentence_ids": [],
+        "quotes": [
+          "Transitive inference via GRB2 spanning pages 2 and 2"
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_2_0001",
+          "asrt_doc_49_2_0002"
+        ]
+      },
+      {
+        "source": "EGFR",
+        "target": "RAS",
+        "relation_type": "DIRECT_CAUSE",
+        "is_direct": false,
+        "is_negated": false,
+        "confidence": 0.729,
+        "pages": [
+          2,
+          3
+        ],
+        "evidence_status": "CROSS_PAGE_INFERENCE",
+        "sentence_ids": [],
+        "quotes": [
+          "Transitive inference via GRB2 -> SOS1 spanning pages 2 and 3"
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_2_0001",
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003"
+        ]
+      },
+      {
+        "source": "EGFR",
+        "target": "RAF",
+        "relation_type": "DIRECT_CAUSE",
+        "is_direct": false,
+        "is_negated": false,
+        "confidence": 0.656,
+        "pages": [
+          2,
+          3
+        ],
+        "evidence_status": "CROSS_PAGE_INFERENCE",
+        "sentence_ids": [],
+        "quotes": [
+          "Transitive inference via GRB2 -> SOS1 -> RAS spanning pages 2 and 3"
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_2_0001",
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004"
+        ]
+      },
+      {
+        "source": "EGFR",
+        "target": "MEK",
+        "relation_type": "DIRECT_CAUSE",
+        "is_direct": false,
+        "is_negated": false,
+        "confidence": 0.567,
+        "pages": [
+          2,
+          4
+        ],
+        "evidence_status": "CROSS_PAGE_INFERENCE",
+        "sentence_ids": [],
+        "quotes": [
+          "Transitive inference via GRB2 -> SOS1 -> RAS -> RAF spanning pages 2 and 4"
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_2_0001",
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005"
+        ]
+      },
+      {
+        "source": "GRB2",
+        "target": "SOS1",
+        "relation_type": "UPREGULATES",
+        "is_direct": true,
+        "is_negated": false,
+        "confidence": 0.9,
+        "pages": [
+          2
+        ],
+        "evidence_status": "MEASURED_FACT",
+        "sentence_ids": [
+          "sent_2_0006"
+        ],
+        "quotes": [
+          "Subsequently, GRB2 binds the\nguanine nucleotide exchange factor SOS1 to form a stable binary signaling complex at the cell membrane."
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_2_0002"
+        ]
+      },
+      {
+        "source": "GRB2",
+        "target": "RAS",
+        "relation_type": "DIRECT_CAUSE",
+        "is_direct": false,
+        "is_negated": false,
+        "confidence": 0.81,
+        "pages": [
+          2,
+          3
+        ],
+        "evidence_status": "CROSS_PAGE_INFERENCE",
+        "sentence_ids": [],
+        "quotes": [
+          "Transitive inference via SOS1 spanning pages 2 and 3"
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003"
+        ]
+      },
+      {
+        "source": "GRB2",
+        "target": "RAF",
+        "relation_type": "DIRECT_CAUSE",
+        "is_direct": false,
+        "is_negated": false,
+        "confidence": 0.729,
+        "pages": [
+          2,
+          3
+        ],
+        "evidence_status": "CROSS_PAGE_INFERENCE",
+        "sentence_ids": [],
+        "quotes": [
+          "Transitive inference via SOS1 -> RAS spanning pages 2 and 3"
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004"
+        ]
+      },
+      {
+        "source": "GRB2",
+        "target": "MEK",
+        "relation_type": "DIRECT_CAUSE",
+        "is_direct": false,
+        "is_negated": false,
+        "confidence": 0.63,
+        "pages": [
+          2,
+          4
+        ],
+        "evidence_status": "CROSS_PAGE_INFERENCE",
+        "sentence_ids": [],
+        "quotes": [
+          "Transitive inference via SOS1 -> RAS -> RAF spanning pages 2 and 4"
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005"
+        ]
+      },
+      {
+        "source": "GRB2",
+        "target": "ERK",
+        "relation_type": "DIRECT_CAUSE",
+        "is_direct": false,
+        "is_negated": false,
+        "confidence": 0.567,
+        "pages": [
+          2,
+          4
+        ],
+        "evidence_status": "CROSS_PAGE_INFERENCE",
+        "sentence_ids": [],
+        "quotes": [
+          "Transitive inference via SOS1 -> RAS -> RAF -> MEK spanning pages 2 and 4"
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0006"
+        ]
+      },
+      {
+        "source": "GRB2",
+        "target": "MAPK",
+        "relation_type": "DIRECT_CAUSE",
+        "is_direct": false,
+        "is_negated": false,
+        "confidence": 0.567,
+        "pages": [
+          2,
+          4
+        ],
+        "evidence_status": "CROSS_PAGE_INFERENCE",
+        "sentence_ids": [],
+        "quotes": [
+          "Transitive inference via SOS1 -> RAS -> RAF -> MEK spanning pages 2 and 4"
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0007"
+        ]
+      },
+      {
+        "source": "SOS1",
+        "target": "RAS",
+        "relation_type": "UPREGULATES",
+        "is_direct": true,
+        "is_negated": false,
+        "confidence": 0.9,
+        "pages": [
+          3
+        ],
+        "evidence_status": "MEASURED_FACT",
+        "sentence_ids": [
+          "sent_3_0007"
+        ],
+        "quotes": [
+          "Page 3 \u2014 Intermediate Cascade\nMembrane-anchored SOS1 stimulates RAS by catalyzing GDP-GTP exchange."
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_3_0003"
+        ]
+      },
+      {
+        "source": "SOS1",
+        "target": "RAF",
+        "relation_type": "DIRECT_CAUSE",
+        "is_direct": false,
+        "is_negated": false,
+        "confidence": 0.81,
+        "pages": [
+          3
+        ],
+        "evidence_status": "CROSS_PAGE_INFERENCE",
+        "sentence_ids": [],
+        "quotes": [
+          "Transitive inference via RAS spanning pages 3 and 3"
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004"
+        ]
+      },
+      {
+        "source": "SOS1",
+        "target": "MEK",
+        "relation_type": "DIRECT_CAUSE",
+        "is_direct": false,
+        "is_negated": false,
+        "confidence": 0.729,
+        "pages": [
+          3,
+          4
+        ],
+        "evidence_status": "CROSS_PAGE_INFERENCE",
+        "sentence_ids": [],
+        "quotes": [
+          "Transitive inference via RAS -> RAF spanning pages 3 and 4"
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005"
+        ]
+      },
+      {
+        "source": "SOS1",
+        "target": "ERK",
+        "relation_type": "DIRECT_CAUSE",
+        "is_direct": false,
+        "is_negated": false,
+        "confidence": 0.656,
+        "pages": [
+          3,
+          4
+        ],
+        "evidence_status": "CROSS_PAGE_INFERENCE",
+        "sentence_ids": [],
+        "quotes": [
+          "Transitive inference via RAS -> RAF -> MEK spanning pages 3 and 4"
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0006"
+        ]
+      },
+      {
+        "source": "SOS1",
+        "target": "MAPK",
+        "relation_type": "DIRECT_CAUSE",
+        "is_direct": false,
+        "is_negated": false,
+        "confidence": 0.656,
+        "pages": [
+          3,
+          4
+        ],
+        "evidence_status": "CROSS_PAGE_INFERENCE",
+        "sentence_ids": [],
+        "quotes": [
+          "Transitive inference via RAS -> RAF -> MEK spanning pages 3 and 4"
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0007"
+        ]
+      },
+      {
+        "source": "RAS",
+        "target": "RAF",
+        "relation_type": "UPREGULATES",
+        "is_direct": true,
+        "is_negated": false,
+        "confidence": 0.9,
+        "pages": [
+          3
+        ],
+        "evidence_status": "MEASURED_FACT",
+        "sentence_ids": [
+          "sent_3_0008"
+        ],
+        "quotes": [
+          "Active GTP-bound RAS directly\nbinds and activates RAF serine/threonine kinase, initiating the cytoplasmic kinase cascade."
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_3_0004"
+        ]
+      },
+      {
+        "source": "RAS",
+        "target": "MEK",
+        "relation_type": "DIRECT_CAUSE",
+        "is_direct": false,
+        "is_negated": false,
+        "confidence": 0.81,
+        "pages": [
+          3,
+          4
+        ],
+        "evidence_status": "CROSS_PAGE_INFERENCE",
+        "sentence_ids": [],
+        "quotes": [
+          "Transitive inference via RAF spanning pages 3 and 4"
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005"
+        ]
+      },
+      {
+        "source": "RAS",
+        "target": "ERK",
+        "relation_type": "DIRECT_CAUSE",
+        "is_direct": false,
+        "is_negated": false,
+        "confidence": 0.729,
+        "pages": [
+          3,
+          4
+        ],
+        "evidence_status": "CROSS_PAGE_INFERENCE",
+        "sentence_ids": [],
+        "quotes": [
+          "Transitive inference via RAF -> MEK spanning pages 3 and 4"
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0006"
+        ]
+      },
+      {
+        "source": "RAS",
+        "target": "MAPK",
+        "relation_type": "DIRECT_CAUSE",
+        "is_direct": false,
+        "is_negated": false,
+        "confidence": 0.729,
+        "pages": [
+          3,
+          4
+        ],
+        "evidence_status": "CROSS_PAGE_INFERENCE",
+        "sentence_ids": [],
+        "quotes": [
+          "Transitive inference via RAF -> MEK spanning pages 3 and 4"
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0007"
+        ]
+      },
+      {
+        "source": "RAF",
+        "target": "MEK",
+        "relation_type": "UPREGULATES",
+        "is_direct": true,
+        "is_negated": false,
+        "confidence": 0.9,
+        "pages": [
+          4
+        ],
+        "evidence_status": "MEASURED_FACT",
+        "sentence_ids": [
+          "sent_4_0009"
+        ],
+        "quotes": [
+          "In our experimental assays, active RAF phosphorylates MEK at dual serine residues Ser217 and Ser221."
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_4_0005"
+        ]
+      },
+      {
+        "source": "RAF",
+        "target": "ERK",
+        "relation_type": "DIRECT_CAUSE",
+        "is_direct": false,
+        "is_negated": false,
+        "confidence": 0.81,
+        "pages": [
+          4
+        ],
+        "evidence_status": "CROSS_PAGE_INFERENCE",
+        "sentence_ids": [],
+        "quotes": [
+          "Transitive inference via MEK spanning pages 4 and 4"
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0006"
+        ]
+      },
+      {
+        "source": "RAF",
+        "target": "MAPK",
+        "relation_type": "DIRECT_CAUSE",
+        "is_direct": false,
+        "is_negated": false,
+        "confidence": 0.81,
+        "pages": [
+          4
+        ],
+        "evidence_status": "CROSS_PAGE_INFERENCE",
+        "sentence_ids": [],
+        "quotes": [
+          "Transitive inference via MEK spanning pages 4 and 4"
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0007"
+        ]
+      },
+      {
+        "source": "MEK",
+        "target": "ERK",
+        "relation_type": "UPREGULATES",
+        "is_direct": true,
+        "is_negated": false,
+        "confidence": 0.9,
+        "pages": [
+          4
+        ],
+        "evidence_status": "MEASURED_FACT",
+        "sentence_ids": [
+          "sent_4_0010"
+        ],
+        "quotes": [
+          "Activated MEK directly phosphorylates ERK to elicit full enzymatic activation of MAPK."
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_4_0006"
+        ]
+      },
+      {
+        "source": "MEK",
+        "target": "MAPK",
+        "relation_type": "UPREGULATES",
+        "is_direct": true,
+        "is_negated": false,
+        "confidence": 0.9,
+        "pages": [
+          4
+        ],
+        "evidence_status": "MEASURED_FACT",
+        "sentence_ids": [
+          "sent_4_0010"
+        ],
+        "quotes": [
+          "Activated MEK directly phosphorylates ERK to elicit full enzymatic activation of MAPK."
+        ],
+        "assertion_ids": [
+          "asrt_doc_49_4_0007"
+        ]
+      }
+    ],
+    "cross_page_links": [
+      {
+        "link_id": "cplink_trans_0001",
+        "cause_assertion_id": "asrt_doc_49_2_0001",
+        "effect_assertion_id": "asrt_doc_49_2_0002",
+        "source_entity": "EGFR",
+        "intermediate_entity": "GRB2",
+        "target_entity": "SOS1",
+        "cause_page": 2,
+        "effect_page": 2,
+        "distance_pages": 0,
+        "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+        "effect_section": "Page 2 \u2014 Methods & Early Signaling",
+        "linking_mechanism": "transitive_chain",
+        "confidence": 0.81,
+        "provenance_chain": [
+          "asrt_doc_49_2_0001",
+          "asrt_doc_49_2_0002"
+        ]
+      },
+      {
+        "link_id": "cplink_trans_0005",
+        "cause_assertion_id": "asrt_doc_49_2_0002",
+        "effect_assertion_id": "asrt_doc_49_3_0003",
+        "source_entity": "GRB2",
+        "intermediate_entity": "SOS1",
+        "target_entity": "RAS",
+        "cause_page": 2,
+        "effect_page": 3,
+        "distance_pages": 1,
+        "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+        "effect_section": "Page 2 \u2014 Methods & Early Signaling",
+        "linking_mechanism": "transitive_chain",
+        "confidence": 0.81,
+        "provenance_chain": [
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003"
+        ]
+      },
+      {
+        "link_id": "cplink_trans_0010",
+        "cause_assertion_id": "asrt_doc_49_3_0003",
+        "effect_assertion_id": "asrt_doc_49_3_0004",
+        "source_entity": "SOS1",
+        "intermediate_entity": "RAS",
+        "target_entity": "RAF",
+        "cause_page": 3,
+        "effect_page": 3,
+        "distance_pages": 0,
+        "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+        "effect_section": "Page 2 \u2014 Methods & Early Signaling",
+        "linking_mechanism": "transitive_chain",
+        "confidence": 0.81,
+        "provenance_chain": [
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004"
+        ]
+      },
+      {
+        "link_id": "cplink_trans_0014",
+        "cause_assertion_id": "asrt_doc_49_3_0004",
+        "effect_assertion_id": "asrt_doc_49_4_0005",
+        "source_entity": "RAS",
+        "intermediate_entity": "RAF",
+        "target_entity": "MEK",
+        "cause_page": 3,
+        "effect_page": 4,
+        "distance_pages": 1,
+        "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+        "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+        "linking_mechanism": "transitive_chain",
+        "confidence": 0.81,
+        "provenance_chain": [
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005"
+        ]
+      },
+      {
+        "link_id": "cplink_trans_0017",
+        "cause_assertion_id": "asrt_doc_49_4_0005",
+        "effect_assertion_id": "asrt_doc_49_4_0006",
+        "source_entity": "RAF",
+        "intermediate_entity": "MEK",
+        "target_entity": "ERK",
+        "cause_page": 4,
+        "effect_page": 4,
+        "distance_pages": 0,
+        "cause_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+        "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+        "linking_mechanism": "transitive_chain",
+        "confidence": 0.81,
+        "provenance_chain": [
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0006"
+        ]
+      },
+      {
+        "link_id": "cplink_trans_0018",
+        "cause_assertion_id": "asrt_doc_49_4_0005",
+        "effect_assertion_id": "asrt_doc_49_4_0007",
+        "source_entity": "RAF",
+        "intermediate_entity": "MEK",
+        "target_entity": "MAPK",
+        "cause_page": 4,
+        "effect_page": 4,
+        "distance_pages": 0,
+        "cause_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+        "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+        "linking_mechanism": "transitive_chain",
+        "confidence": 0.81,
+        "provenance_chain": [
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0007"
+        ]
+      },
+      {
+        "link_id": "cplink_trans_0002",
+        "cause_assertion_id": "asrt_doc_49_2_0001",
+        "effect_assertion_id": "asrt_doc_49_3_0003",
+        "source_entity": "EGFR",
+        "intermediate_entity": "GRB2 -> SOS1",
+        "target_entity": "RAS",
+        "cause_page": 2,
+        "effect_page": 3,
+        "distance_pages": 1,
+        "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+        "effect_section": "Page 2 \u2014 Methods & Early Signaling",
+        "linking_mechanism": "transitive_chain",
+        "confidence": 0.729,
+        "provenance_chain": [
+          "asrt_doc_49_2_0001",
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003"
+        ]
+      },
+      {
+        "link_id": "cplink_trans_0006",
+        "cause_assertion_id": "asrt_doc_49_2_0002",
+        "effect_assertion_id": "asrt_doc_49_3_0004",
+        "source_entity": "GRB2",
+        "intermediate_entity": "SOS1 -> RAS",
+        "target_entity": "RAF",
+        "cause_page": 2,
+        "effect_page": 3,
+        "distance_pages": 1,
+        "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+        "effect_section": "Page 2 \u2014 Methods & Early Signaling",
+        "linking_mechanism": "transitive_chain",
+        "confidence": 0.729,
+        "provenance_chain": [
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004"
+        ]
+      },
+      {
+        "link_id": "cplink_trans_0011",
+        "cause_assertion_id": "asrt_doc_49_3_0003",
+        "effect_assertion_id": "asrt_doc_49_4_0005",
+        "source_entity": "SOS1",
+        "intermediate_entity": "RAS -> RAF",
+        "target_entity": "MEK",
+        "cause_page": 3,
+        "effect_page": 4,
+        "distance_pages": 1,
+        "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+        "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+        "linking_mechanism": "transitive_chain",
+        "confidence": 0.729,
+        "provenance_chain": [
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005"
+        ]
+      },
+      {
+        "link_id": "cplink_trans_0015",
+        "cause_assertion_id": "asrt_doc_49_3_0004",
+        "effect_assertion_id": "asrt_doc_49_4_0006",
+        "source_entity": "RAS",
+        "intermediate_entity": "RAF -> MEK",
+        "target_entity": "ERK",
+        "cause_page": 3,
+        "effect_page": 4,
+        "distance_pages": 1,
+        "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+        "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+        "linking_mechanism": "transitive_chain",
+        "confidence": 0.729,
+        "provenance_chain": [
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0006"
+        ]
+      },
+      {
+        "link_id": "cplink_trans_0016",
+        "cause_assertion_id": "asrt_doc_49_3_0004",
+        "effect_assertion_id": "asrt_doc_49_4_0007",
+        "source_entity": "RAS",
+        "intermediate_entity": "RAF -> MEK",
+        "target_entity": "MAPK",
+        "cause_page": 3,
+        "effect_page": 4,
+        "distance_pages": 1,
+        "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+        "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+        "linking_mechanism": "transitive_chain",
+        "confidence": 0.729,
+        "provenance_chain": [
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0007"
+        ]
+      },
+      {
+        "link_id": "cplink_trans_0003",
+        "cause_assertion_id": "asrt_doc_49_2_0001",
+        "effect_assertion_id": "asrt_doc_49_3_0004",
+        "source_entity": "EGFR",
+        "intermediate_entity": "GRB2 -> SOS1 -> RAS",
+        "target_entity": "RAF",
+        "cause_page": 2,
+        "effect_page": 3,
+        "distance_pages": 1,
+        "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+        "effect_section": "Page 2 \u2014 Methods & Early Signaling",
+        "linking_mechanism": "transitive_chain",
+        "confidence": 0.656,
+        "provenance_chain": [
+          "asrt_doc_49_2_0001",
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004"
+        ]
+      },
+      {
+        "link_id": "cplink_trans_0012",
+        "cause_assertion_id": "asrt_doc_49_3_0003",
+        "effect_assertion_id": "asrt_doc_49_4_0006",
+        "source_entity": "SOS1",
+        "intermediate_entity": "RAS -> RAF -> MEK",
+        "target_entity": "ERK",
+        "cause_page": 3,
+        "effect_page": 4,
+        "distance_pages": 1,
+        "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+        "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+        "linking_mechanism": "transitive_chain",
+        "confidence": 0.656,
+        "provenance_chain": [
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0006"
+        ]
+      },
+      {
+        "link_id": "cplink_trans_0013",
+        "cause_assertion_id": "asrt_doc_49_3_0003",
+        "effect_assertion_id": "asrt_doc_49_4_0007",
+        "source_entity": "SOS1",
+        "intermediate_entity": "RAS -> RAF -> MEK",
+        "target_entity": "MAPK",
+        "cause_page": 3,
+        "effect_page": 4,
+        "distance_pages": 1,
+        "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+        "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+        "linking_mechanism": "transitive_chain",
+        "confidence": 0.656,
+        "provenance_chain": [
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0007"
+        ]
+      },
+      {
+        "link_id": "cplink_trans_0007",
+        "cause_assertion_id": "asrt_doc_49_2_0002",
+        "effect_assertion_id": "asrt_doc_49_4_0005",
+        "source_entity": "GRB2",
+        "intermediate_entity": "SOS1 -> RAS -> RAF",
+        "target_entity": "MEK",
+        "cause_page": 2,
+        "effect_page": 4,
+        "distance_pages": 2,
+        "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+        "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+        "linking_mechanism": "transitive_chain",
+        "confidence": 0.63,
+        "provenance_chain": [
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005"
+        ]
+      },
+      {
+        "link_id": "cplink_trans_0004",
+        "cause_assertion_id": "asrt_doc_49_2_0001",
+        "effect_assertion_id": "asrt_doc_49_4_0005",
+        "source_entity": "EGFR",
+        "intermediate_entity": "GRB2 -> SOS1 -> RAS -> RAF",
+        "target_entity": "MEK",
+        "cause_page": 2,
+        "effect_page": 4,
+        "distance_pages": 2,
+        "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+        "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+        "linking_mechanism": "transitive_chain",
+        "confidence": 0.567,
+        "provenance_chain": [
+          "asrt_doc_49_2_0001",
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005"
+        ]
+      },
+      {
+        "link_id": "cplink_trans_0008",
+        "cause_assertion_id": "asrt_doc_49_2_0002",
+        "effect_assertion_id": "asrt_doc_49_4_0006",
+        "source_entity": "GRB2",
+        "intermediate_entity": "SOS1 -> RAS -> RAF -> MEK",
+        "target_entity": "ERK",
+        "cause_page": 2,
+        "effect_page": 4,
+        "distance_pages": 2,
+        "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+        "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+        "linking_mechanism": "transitive_chain",
+        "confidence": 0.567,
+        "provenance_chain": [
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0006"
+        ]
+      },
+      {
+        "link_id": "cplink_trans_0009",
+        "cause_assertion_id": "asrt_doc_49_2_0002",
+        "effect_assertion_id": "asrt_doc_49_4_0007",
+        "source_entity": "GRB2",
+        "intermediate_entity": "SOS1 -> RAS -> RAF -> MEK",
+        "target_entity": "MAPK",
+        "cause_page": 2,
+        "effect_page": 4,
+        "distance_pages": 2,
+        "cause_section": "Page 2 \u2014 Methods & Early Signaling",
+        "effect_section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+        "linking_mechanism": "transitive_chain",
+        "confidence": 0.567,
+        "provenance_chain": [
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0007"
+        ]
+      }
+    ],
+    "provenance_map": {
+      "asrt_doc_49_2_0001": {
+        "source": "EGFR",
+        "target": "GRB2",
+        "page": 2,
+        "section": "Page 2 \u2014 Methods & Early Signaling",
+        "sentence_id": "sent_2_0005",
+        "quote": "Phosphorylated EGFR recruits the adaptor protein GRB2 via its SH2 domain.",
+        "status": "MEASURED_FACT",
+        "negated": false
+      },
+      "asrt_doc_49_2_0002": {
+        "source": "GRB2",
+        "target": "SOS1",
+        "page": 2,
+        "section": "Page 2 \u2014 Methods & Early Signaling",
+        "sentence_id": "sent_2_0006",
+        "quote": "Subsequently, GRB2 binds the\nguanine nucleotide exchange factor SOS1 to form a stable binary signaling complex at the cell membrane.",
+        "status": "MEASURED_FACT",
+        "negated": false
+      },
+      "asrt_doc_49_3_0003": {
+        "source": "SOS1",
+        "target": "RAS",
+        "page": 3,
+        "section": "Page 2 \u2014 Methods & Early Signaling",
+        "sentence_id": "sent_3_0007",
+        "quote": "Page 3 \u2014 Intermediate Cascade\nMembrane-anchored SOS1 stimulates RAS by catalyzing GDP-GTP exchange.",
+        "status": "MEASURED_FACT",
+        "negated": false
+      },
+      "asrt_doc_49_3_0004": {
+        "source": "RAS",
+        "target": "RAF",
+        "page": 3,
+        "section": "Page 2 \u2014 Methods & Early Signaling",
+        "sentence_id": "sent_3_0008",
+        "quote": "Active GTP-bound RAS directly\nbinds and activates RAF serine/threonine kinase, initiating the cytoplasmic kinase cascade.",
+        "status": "MEASURED_FACT",
+        "negated": false
+      },
+      "asrt_doc_49_4_0005": {
+        "source": "RAF",
+        "target": "MEK",
+        "page": 4,
+        "section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+        "sentence_id": "sent_4_0009",
+        "quote": "In our experimental assays, active RAF phosphorylates MEK at dual serine residues Ser217 and Ser221.",
+        "status": "MEASURED_FACT",
+        "negated": false
+      },
+      "asrt_doc_49_4_0006": {
+        "source": "MEK",
+        "target": "ERK",
+        "page": 4,
+        "section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+        "sentence_id": "sent_4_0010",
+        "quote": "Activated MEK directly phosphorylates ERK to elicit full enzymatic activation of MAPK.",
+        "status": "MEASURED_FACT",
+        "negated": false
+      },
+      "asrt_doc_49_4_0007": {
+        "source": "MEK",
+        "target": "MAPK",
+        "page": 4,
+        "section": "Page 4 \u2014 Results & Kinase Phosphorylation",
+        "sentence_id": "sent_4_0010",
+        "quote": "Activated MEK directly phosphorylates ERK to elicit full enzymatic activation of MAPK.",
+        "status": "MEASURED_FACT",
+        "negated": false
+      },
+      "asrt_doc_49_5_0008": {
+        "source": "EGFR",
+        "target": "MAPK",
+        "page": 5,
+        "section": "Page 5 \u2014 Discussion & Conclusions",
+        "sentence_id": "sent_5_0012",
+        "quote": "Consequently, EGFR signaling drives cellular proliferation through sequential MAPK activation.",
+        "status": "MEASURED_FACT",
+        "negated": false
+      },
+      "cplink_trans_0001": {
+        "source": "EGFR",
+        "target": "SOS1",
+        "intermediate": "GRB2",
+        "cause_page": 2,
+        "effect_page": 2,
+        "distance_pages": 0,
+        "status": "CROSS_PAGE_INFERENCE",
+        "provenance_chain": [
+          "asrt_doc_49_2_0001",
+          "asrt_doc_49_2_0002"
+        ]
+      },
+      "cplink_trans_0005": {
+        "source": "GRB2",
+        "target": "RAS",
+        "intermediate": "SOS1",
+        "cause_page": 2,
+        "effect_page": 3,
+        "distance_pages": 1,
+        "status": "CROSS_PAGE_INFERENCE",
+        "provenance_chain": [
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003"
+        ]
+      },
+      "cplink_trans_0010": {
+        "source": "SOS1",
+        "target": "RAF",
+        "intermediate": "RAS",
+        "cause_page": 3,
+        "effect_page": 3,
+        "distance_pages": 0,
+        "status": "CROSS_PAGE_INFERENCE",
+        "provenance_chain": [
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004"
+        ]
+      },
+      "cplink_trans_0014": {
+        "source": "RAS",
+        "target": "MEK",
+        "intermediate": "RAF",
+        "cause_page": 3,
+        "effect_page": 4,
+        "distance_pages": 1,
+        "status": "CROSS_PAGE_INFERENCE",
+        "provenance_chain": [
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005"
+        ]
+      },
+      "cplink_trans_0017": {
+        "source": "RAF",
+        "target": "ERK",
+        "intermediate": "MEK",
+        "cause_page": 4,
+        "effect_page": 4,
+        "distance_pages": 0,
+        "status": "CROSS_PAGE_INFERENCE",
+        "provenance_chain": [
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0006"
+        ]
+      },
+      "cplink_trans_0018": {
+        "source": "RAF",
+        "target": "MAPK",
+        "intermediate": "MEK",
+        "cause_page": 4,
+        "effect_page": 4,
+        "distance_pages": 0,
+        "status": "CROSS_PAGE_INFERENCE",
+        "provenance_chain": [
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0007"
+        ]
+      },
+      "cplink_trans_0002": {
+        "source": "EGFR",
+        "target": "RAS",
+        "intermediate": "GRB2 -> SOS1",
+        "cause_page": 2,
+        "effect_page": 3,
+        "distance_pages": 1,
+        "status": "CROSS_PAGE_INFERENCE",
+        "provenance_chain": [
+          "asrt_doc_49_2_0001",
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003"
+        ]
+      },
+      "cplink_trans_0006": {
+        "source": "GRB2",
+        "target": "RAF",
+        "intermediate": "SOS1 -> RAS",
+        "cause_page": 2,
+        "effect_page": 3,
+        "distance_pages": 1,
+        "status": "CROSS_PAGE_INFERENCE",
+        "provenance_chain": [
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004"
+        ]
+      },
+      "cplink_trans_0011": {
+        "source": "SOS1",
+        "target": "MEK",
+        "intermediate": "RAS -> RAF",
+        "cause_page": 3,
+        "effect_page": 4,
+        "distance_pages": 1,
+        "status": "CROSS_PAGE_INFERENCE",
+        "provenance_chain": [
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005"
+        ]
+      },
+      "cplink_trans_0015": {
+        "source": "RAS",
+        "target": "ERK",
+        "intermediate": "RAF -> MEK",
+        "cause_page": 3,
+        "effect_page": 4,
+        "distance_pages": 1,
+        "status": "CROSS_PAGE_INFERENCE",
+        "provenance_chain": [
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0006"
+        ]
+      },
+      "cplink_trans_0016": {
+        "source": "RAS",
+        "target": "MAPK",
+        "intermediate": "RAF -> MEK",
+        "cause_page": 3,
+        "effect_page": 4,
+        "distance_pages": 1,
+        "status": "CROSS_PAGE_INFERENCE",
+        "provenance_chain": [
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0007"
+        ]
+      },
+      "cplink_trans_0003": {
+        "source": "EGFR",
+        "target": "RAF",
+        "intermediate": "GRB2 -> SOS1 -> RAS",
+        "cause_page": 2,
+        "effect_page": 3,
+        "distance_pages": 1,
+        "status": "CROSS_PAGE_INFERENCE",
+        "provenance_chain": [
+          "asrt_doc_49_2_0001",
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004"
+        ]
+      },
+      "cplink_trans_0012": {
+        "source": "SOS1",
+        "target": "ERK",
+        "intermediate": "RAS -> RAF -> MEK",
+        "cause_page": 3,
+        "effect_page": 4,
+        "distance_pages": 1,
+        "status": "CROSS_PAGE_INFERENCE",
+        "provenance_chain": [
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0006"
+        ]
+      },
+      "cplink_trans_0013": {
+        "source": "SOS1",
+        "target": "MAPK",
+        "intermediate": "RAS -> RAF -> MEK",
+        "cause_page": 3,
+        "effect_page": 4,
+        "distance_pages": 1,
+        "status": "CROSS_PAGE_INFERENCE",
+        "provenance_chain": [
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0007"
+        ]
+      },
+      "cplink_trans_0007": {
+        "source": "GRB2",
+        "target": "MEK",
+        "intermediate": "SOS1 -> RAS -> RAF",
+        "cause_page": 2,
+        "effect_page": 4,
+        "distance_pages": 2,
+        "status": "CROSS_PAGE_INFERENCE",
+        "provenance_chain": [
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005"
+        ]
+      },
+      "cplink_trans_0004": {
+        "source": "EGFR",
+        "target": "MEK",
+        "intermediate": "GRB2 -> SOS1 -> RAS -> RAF",
+        "cause_page": 2,
+        "effect_page": 4,
+        "distance_pages": 2,
+        "status": "CROSS_PAGE_INFERENCE",
+        "provenance_chain": [
+          "asrt_doc_49_2_0001",
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005"
+        ]
+      },
+      "cplink_trans_0008": {
+        "source": "GRB2",
+        "target": "ERK",
+        "intermediate": "SOS1 -> RAS -> RAF -> MEK",
+        "cause_page": 2,
+        "effect_page": 4,
+        "distance_pages": 2,
+        "status": "CROSS_PAGE_INFERENCE",
+        "provenance_chain": [
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0006"
+        ]
+      },
+      "cplink_trans_0009": {
+        "source": "GRB2",
+        "target": "MAPK",
+        "intermediate": "SOS1 -> RAS -> RAF -> MEK",
+        "cause_page": 2,
+        "effect_page": 4,
+        "distance_pages": 2,
+        "status": "CROSS_PAGE_INFERENCE",
+        "provenance_chain": [
+          "asrt_doc_49_2_0002",
+          "asrt_doc_49_3_0003",
+          "asrt_doc_49_3_0004",
+          "asrt_doc_49_4_0005",
+          "asrt_doc_49_4_0007"
+        ]
+      }
+    }
+  },
+  "summary": {
+    "total_pages": 5,
+    "total_sections": 4,
+    "total_sentences": 13,
+    "total_assertions": 8,
+    "measured_facts_count": 8,
+    "hypotheses_count": 0,
+    "negated_count": 0,
+    "cross_page_links_count": 18,
+    "graph_nodes_count": 8,
+    "graph_edges_count": 26
+  }
+}

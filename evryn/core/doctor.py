@@ -66,6 +66,8 @@ def run_doctor_checks() -> Dict[str, Any]:
         ("pillow", "PIL"),
         ("torch", "torch"),
         ("transformers", "transformers"),
+        ("pypdf", "pypdf"),
+        ("reportlab", "reportlab"),
     ]
 
     for pkg_name, import_name in required_pkgs:

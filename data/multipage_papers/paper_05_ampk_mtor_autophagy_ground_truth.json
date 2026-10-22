@@ -1,0 +1,36 @@
+{
+  "canonical_entities": [
+    "AMPK",
+    "TSC2",
+    "mTORC1",
+    "ULK1"
+  ],
+  "direct_edges": [
+    [
+      "AMPK",
+      "TSC2"
+    ],
+    [
+      "TSC2",
+      "mTORC1"
+    ],
+    [
+      "mTORC1",
+      "ULK1"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "AMPK",
+      "mTORC1"
+    ],
+    [
+      "TSC2",
+      "ULK1"
+    ],
+    [
+      "AMPK",
+      "ULK1"
+    ]
+  ]
+}

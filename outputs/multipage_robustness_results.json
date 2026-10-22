@@ -1,0 +1,48 @@
+{
+  "sentence_dropout_ablation": {
+    "0%": {
+      "rate": 0.0,
+      "direct_f1": 0.6988,
+      "cross_page_f1": 0.4764,
+      "structural_match": 0.7689
+    },
+    "10%": {
+      "rate": 0.1,
+      "direct_f1": 0.6859,
+      "cross_page_f1": 0.4954,
+      "structural_match": 0.7266
+    },
+    "20%": {
+      "rate": 0.2,
+      "direct_f1": 0.5599,
+      "cross_page_f1": 0.2917,
+      "structural_match": 0.5995
+    },
+    "30%": {
+      "rate": 0.3,
+      "direct_f1": 0.5985,
+      "cross_page_f1": 0.2624,
+      "structural_match": 0.5336
+    }
+  },
+  "distractor_noise_experiment": {
+    "0%": {
+      "rate": 0.0,
+      "direct_f1": 0.6988,
+      "cross_page_f1": 0.4764,
+      "structural_match": 0.7689
+    },
+    "15%": {
+      "rate": 0.15,
+      "direct_f1": 0.6988,
+      "cross_page_f1": 0.4764,
+      "structural_match": 0.7689
+    },
+    "30%": {
+      "rate": 0.3,
+      "direct_f1": 0.6943,
+      "cross_page_f1": 0.4764,
+      "structural_match": 0.7624
+    }
+  }
+}

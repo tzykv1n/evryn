@@ -1,19 +1,5 @@
 #!/usr/bin/env python3
 # evryn --help
-# evryn doctor
-# evryn doctor --json
-# evryn benchmark --suite all
-# evryn benchmark --suite graph --dry-run
-# evryn run --pipeline all
-# evryn validate
-# evryn -s all
-# evryn -s flux
-# evryn -s multivariate
-# evryn -s nlp
-# evryn -s higher-order
-# evryn -s graph
-# evryn -s hypothesize
-# evryn view <image_path>
 
 import os
 import sys
@@ -304,6 +290,117 @@ def cmd_validate(args):
     console.print(f"[bold green][✓] Traceable literature audit complete. Saved to: {os.path.join(output_dir, 'hypothesis_literature_validation.json')}[/bold green]\n")
 
 
+def cmd_paper(args):
+    action = getattr(args, "paper_action", None)
+    pdf_path = getattr(args, "pdf_path", None)
+    output_dir = getattr(args, "output_dir", "outputs")
+
+    from evryn.paper import (
+        PaperIngestion,
+        PaperSegmenter,
+        PaperEntityNormalizer,
+        PaperCausalExtractor,
+        CrossPageLinker,
+        PaperGraphBuilder,
+        PaperEvidenceReporter,
+        PaperBenchmarkEvaluator,
+    )
+
+    if action == "evaluate":
+        import glob
+        import json
+        data_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "multipage_papers")
+        pdf_files = sorted(glob.glob(os.path.join(data_dir, "*.pdf")))
+        if not pdf_files:
+            from evryn.paper.dataset_builder import generate_benchmark_dataset
+            pdf_files = generate_benchmark_dataset(data_dir)
+        ingest = PaperIngestion()
+        segmenter = PaperSegmenter()
+        evaluator = PaperBenchmarkEvaluator(output_dir)
+        docs = []
+        gts = []
+        for pdf in pdf_files:
+            gt_file = pdf.replace(".pdf", "_ground_truth.json")
+            if os.path.exists(gt_file):
+                with open(gt_file, "r", encoding="utf-8") as f:
+                    gt = json.load(f)
+                docs.append(segmenter.segment_document(ingest.ingest_pdf(pdf)))
+                gts.append(gt)
+        summary = evaluator.run_suite(docs, gts)
+        headers = ["Metric", "Baseline A (Sentence)", "Baseline B (+Normalizer)", "System C (EVRYN Multi-Page)"]
+        rows = [
+            ["Direct Causal F1", f"{summary['baseline_a']['direct_f1']:.3f}", f"{summary['baseline_b']['direct_f1']:.3f}", f"[bold green]{summary['system_c_evryn']['direct_f1']:.3f}[/bold green]"],
+            ["Cross-Page Transitive F1", f"{summary['baseline_a']['cross_page_f1']:.3f}", f"{summary['baseline_b']['cross_page_f1']:.3f}", f"[bold green]{summary['system_c_evryn']['cross_page_f1']:.3f}[/bold green]"],
+            ["Complete Structural Match", f"{summary['baseline_a']['structural_match']:.3f}", f"{summary['baseline_b']['structural_match']:.3f}", f"[bold green]{summary['system_c_evryn']['structural_match']:.3f}[/bold green]"],
+            ["Provenance Completeness", "N/A", "N/A", f"[bold green]{summary['system_c_evryn']['provenance_completeness']:.3f}[/bold green]"],
+        ]
+        print_table(headers, rows, title=f"EVRYN Multi-Page Causal Evaluation (N={len(docs)} Scientific Papers)")
+        return
+
+    if not pdf_path or not os.path.isfile(pdf_path):
+        console.print(f"[bold red]Error: Scientific PDF file not found at '{pdf_path}'[/bold red]")
+        sys.exit(1)
+
+    ingest = PaperIngestion()
+    doc = ingest.ingest_pdf(pdf_path)
+    segmenter = PaperSegmenter()
+    doc = segmenter.segment_document(doc)
+
+    if action == "inspect":
+        print_box(
+            "EVRYN Multi-Page Paper Inspection",
+            f"Document: {doc.metadata.title} | Pages: {doc.metadata.page_count}",
+        )
+        headers = ["Attribute", "Value"]
+        rows = [
+            ["Title", doc.metadata.title],
+            ["Authors", ", ".join(doc.metadata.authors) or "N/A"],
+            ["DOI", doc.metadata.doi or "N/A"],
+            ["PMID", doc.metadata.pmid or "N/A"],
+            ["PMCID", doc.metadata.pmcid or "N/A"],
+            ["Page Count", str(doc.metadata.page_count)],
+            ["Sections Detected", str(len(doc.sections))],
+            ["Paragraphs", str(len(doc.paragraphs))],
+            ["Sentences", str(len(doc.sentences))],
+        ]
+        print_table(headers, rows, title="Paper Ingestion Provenance")
+        sec_headers = ["Page", "Section Title", "Type", "Span"]
+        sec_rows = [[f"p.{s.page_number}", s.section_title, s.section_type.value, f"{s.start_char}..{s.end_char}"] for s in doc.sections]
+        print_table(sec_headers, sec_rows, title="Detected Document Sections")
+
+    elif action == "extract":
+        extractor = PaperCausalExtractor()
+        assertions = extractor.extract_assertions(doc)
+        headers = ["Page", "Cause Entity", "Relation", "Effect Entity", "Status", "Confidence"]
+        rows = [[f"p.{a.page_number}", a.cause_canonical, a.relation_type.value, a.effect_canonical, a.evidence_status.value, f"{a.confidence:.2f}"] for a in assertions[:25]]
+        print_table(headers, rows, title=f"Extracted Sentence-Level Assertions ({len(assertions)} total)")
+
+    elif action == "graph":
+        extractor = PaperCausalExtractor()
+        assertions = extractor.extract_assertions(doc)
+        linker = CrossPageLinker()
+        links = linker.find_cross_page_links(assertions)
+        builder = PaperGraphBuilder()
+        graph = builder.build_graph(doc.doc_id, doc.metadata.title, assertions, links)
+        headers = ["Source", "Direction", "Target", "Type", "Page Provenance"]
+        rows = [[e["source"], "→", e["target"], "Direct" if e["is_direct"] else "[bold purple]Inferred[/bold purple]", ", ".join(f"p.{p}" for p in e["pages"])] for e in graph.edges]
+        print_table(headers, rows, title=f"Reconstructed Causal Graph ({len(graph.nodes)} nodes, {len(graph.edges)} edges)")
+
+    elif action == "report":
+        extractor = PaperCausalExtractor()
+        assertions = extractor.extract_assertions(doc)
+        linker = CrossPageLinker()
+        links = linker.find_cross_page_links(assertions)
+        builder = PaperGraphBuilder()
+        graph = builder.build_graph(doc.doc_id, doc.metadata.title, assertions, links)
+        reporter = PaperEvidenceReporter(output_dir)
+        rep_files = reporter.generate_report(doc, assertions, links, graph)
+        print_box(
+            "EVRYN Multi-Page Evidence Report Generated",
+            f"Markdown: {rep_files['markdown_report']}\nJSON: {rep_files['json_evidence']}\nGraph Figure: {rep_files['graph_figure']}",
+        )
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="evryn",
@@ -389,13 +486,20 @@ def build_parser() -> argparse.ArgumentParser:
     p_run.set_defaults(func=cmd_run)
 
     p_bench = subparsers.add_parser("benchmark", help="Run configurable empirical benchmarks across EVRYN suites")
-    p_bench.add_argument("--suite", type=str, default="all", choices=["all", "flux", "multivariate", "nlp", "higher-order", "graph", "hypothesize", "final-phase"], help="Benchmark suite to execute")
+    p_bench.add_argument("--suite", type=str, default="all", choices=["all", "flux", "multivariate", "nlp", "higher-order", "graph", "hypothesize", "final-phase", "multi-page"], help="Benchmark suite to execute")
     p_bench.add_argument("--samples", type=int, default=None, help="Sample count or document count")
     p_bench.add_argument("--noise", type=float, default=None, help="Noise injection rate")
     p_bench.add_argument("--output-dir", type=str, default="outputs", help="Output directory for generated artifacts")
     _add_scratch_opt(p_bench)
     p_bench.add_argument("--dry-run", action="store_true", help="Preview benchmark execution plan without computing")
     p_bench.set_defaults(func=cmd_benchmark)
+
+    p_paper = subparsers.add_parser("paper", help="Evidence-traceable multi-page scientific paper discovery pipeline")
+    p_paper.add_argument("paper_action", choices=["inspect", "extract", "graph", "report", "evaluate"], help="Action to execute on scientific paper(s)")
+    p_paper.add_argument("pdf_path", nargs="?", default=None, help="Path to scientific PDF file")
+    p_paper.add_argument("--output-dir", type=str, default="outputs", help="Output directory for generated reports and figures")
+    _add_scratch_opt(p_paper)
+    p_paper.set_defaults(func=cmd_paper)
 
     p_val = subparsers.add_parser("validate", help="Validate generated scientific hypotheses against traceable PubMed peer-reviewed literature")
     p_val.add_argument("--output-dir", type=str, default="outputs", help="Output directory for validation artifacts")

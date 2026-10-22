@@ -1,0 +1,36 @@
+{
+  "canonical_entities": [
+    "ATM",
+    "p53",
+    "p21",
+    "CDK2"
+  ],
+  "direct_edges": [
+    [
+      "ATM",
+      "p53"
+    ],
+    [
+      "p53",
+      "p21"
+    ],
+    [
+      "p21",
+      "CDK2"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "ATM",
+      "p21"
+    ],
+    [
+      "p53",
+      "CDK2"
+    ],
+    [
+      "ATM",
+      "CDK2"
+    ]
+  ]
+}

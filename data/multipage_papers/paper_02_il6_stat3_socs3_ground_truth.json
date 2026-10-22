@@ -1,0 +1,40 @@
+{
+  "canonical_entities": [
+    "IL-6",
+    "JAK2",
+    "STAT3",
+    "SOCS3"
+  ],
+  "direct_edges": [
+    [
+      "IL-6",
+      "JAK2"
+    ],
+    [
+      "JAK2",
+      "STAT3"
+    ],
+    [
+      "STAT3",
+      "SOCS3"
+    ],
+    [
+      "SOCS3",
+      "JAK2"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "IL-6",
+      "STAT3"
+    ],
+    [
+      "JAK2",
+      "SOCS3"
+    ],
+    [
+      "IL-6",
+      "SOCS3"
+    ]
+  ]
+}

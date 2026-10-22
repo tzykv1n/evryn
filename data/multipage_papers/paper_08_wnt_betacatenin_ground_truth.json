@@ -1,0 +1,36 @@
+{
+  "canonical_entities": [
+    "Wnt3a",
+    "Dishevelled",
+    "GSK3-beta",
+    "beta-catenin"
+  ],
+  "direct_edges": [
+    [
+      "Wnt3a",
+      "Dishevelled"
+    ],
+    [
+      "Dishevelled",
+      "GSK3-beta"
+    ],
+    [
+      "GSK3-beta",
+      "beta-catenin"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "Wnt3a",
+      "GSK3-beta"
+    ],
+    [
+      "Dishevelled",
+      "beta-catenin"
+    ],
+    [
+      "Wnt3a",
+      "beta-catenin"
+    ]
+  ]
+}

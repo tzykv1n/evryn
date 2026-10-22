@@ -1,0 +1,36 @@
+{
+  "canonical_entities": [
+    "TGF-beta",
+    "TGFBR1",
+    "SMAD3",
+    "Collagen"
+  ],
+  "direct_edges": [
+    [
+      "TGF-beta",
+      "TGFBR1"
+    ],
+    [
+      "TGFBR1",
+      "SMAD3"
+    ],
+    [
+      "SMAD3",
+      "Collagen"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "TGF-beta",
+      "SMAD3"
+    ],
+    [
+      "TGFBR1",
+      "Collagen"
+    ],
+    [
+      "TGF-beta",
+      "Collagen"
+    ]
+  ]
+}

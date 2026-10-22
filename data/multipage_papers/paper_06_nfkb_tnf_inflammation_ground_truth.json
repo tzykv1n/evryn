@@ -1,0 +1,36 @@
+{
+  "canonical_entities": [
+    "TNF-alpha",
+    "IKK",
+    "NF-kB",
+    "IL-6"
+  ],
+  "direct_edges": [
+    [
+      "TNF-alpha",
+      "IKK"
+    ],
+    [
+      "IKK",
+      "NF-kB"
+    ],
+    [
+      "NF-kB",
+      "IL-6"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "TNF-alpha",
+      "NF-kB"
+    ],
+    [
+      "IKK",
+      "IL-6"
+    ],
+    [
+      "TNF-alpha",
+      "IL-6"
+    ]
+  ]
+}

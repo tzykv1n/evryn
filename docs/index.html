@@ -22,6 +22,7 @@
         <a href="#overview">Overview</a>
         <a href="#architecture">Architecture</a>
         <a href="#benchmarks">Benchmarks</a>
+        <a href="#multipage">Multi-Page</a>
         <a href="#installation">Installation</a>
         <a href="#cli">CLI Reference</a>
         <a href="#hypotheses">Hypotheses</a>
@@ -321,6 +322,121 @@
             <img src="assets/evryn_temporal_forecast.png" alt="Temporal Forecast" class="publication-img" loading="lazy">
             <div class="figure-caption"><strong>Figure 5:</strong> Accumulated cross-domain relations (2018–2024) and emerging relation forecasts for 2028–2029 with 95% CIs.</div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Multi-Page Causal Discovery Section -->
+    <section id="multipage" class="section bg-subtle">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge badge-primary">RESEARCH MILESTONE</span>
+          <h2 class="section-title">Evidence-Traceable Multi-Page Causal Discovery</h2>
+          <p class="section-desc">Synthesizing mechanistic signaling cascades across physical page boundaries of scientific literature with 100% verifiable evidence provenance.</p>
+        </div>
+
+        <div class="grid-4col" style="margin-bottom: 2rem;">
+          <div class="metric-card">
+            <div class="metric-value">0.699</div>
+            <div class="metric-label">Direct Causal F1</div>
+            <div class="metric-subtext">+10.8% over sentence baseline</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">0.476</div>
+            <div class="metric-label">Cross-Page Transitive F1</div>
+            <div class="metric-subtext">Baseline sentence models: 0.000</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">0.769</div>
+            <div class="metric-label">Structural Match</div>
+            <div class="metric-subtext">+28.5% gain over baseline</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">100%</div>
+            <div class="metric-label">Provenance Grounding</div>
+            <div class="metric-subtext">Verified physical page & quote</div>
+          </div>
+        </div>
+
+        <div class="benchmark-table-wrapper" style="margin-bottom: 2.5rem;">
+          <table class="benchmark-table">
+            <thead>
+              <tr>
+                <th>Evaluated Architecture</th>
+                <th>Direct Causal F1</th>
+                <th>Cross-Page F1</th>
+                <th>Complete Structural Match</th>
+                <th>Provenance Grounding</th>
+                <th>Throughput</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Baseline A</strong> (Sentence-Only Extraction)</td>
+                <td>0.5909</td>
+                <td>0.0000</td>
+                <td>0.4843</td>
+                <td>None</td>
+                <td>0.012s / doc</td>
+              </tr>
+              <tr>
+                <td><strong>Baseline B</strong> (+ Document Entity Normalization)</td>
+                <td>0.6988</td>
+                <td>0.0000</td>
+                <td>0.6052</td>
+                <td>None</td>
+                <td>0.015s / doc</td>
+              </tr>
+              <tr class="highlight-row">
+                <td><strong>System C (Integrated EVRYN Pipeline)</strong></td>
+                <td><strong>0.6988</strong></td>
+                <td><strong>0.4764</strong></td>
+                <td><strong>0.7689</strong></td>
+                <td><strong>1.0000 (100%)</strong></td>
+                <td><strong>0.020s / doc</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="grid-2col">
+          <div class="figure-container">
+            <h4 class="figure-title">Cross-Page Evaluation Performance</h4>
+            <img src="assets/multipage_benchmark_comparison.png" alt="Multi-Page Benchmark Comparison" class="publication-img" loading="lazy">
+            <div class="figure-caption"><strong>Figure 6:</strong> Comparative empirical performance across Direct F1, Cross-Page Transitive F1, and complete Structural Match on N=12 real multi-page scientific papers.</div>
+          </div>
+          <div class="figure-container">
+            <h4 class="figure-title">Robustness Under Text Dropout & Noise</h4>
+            <img src="assets/multipage_robustness_curves.png" alt="Multi-Page Robustness Curves" class="publication-img" loading="lazy">
+            <div class="figure-caption"><strong>Figure 7:</strong> Resilience profile: graceful degradation under sentence dropout (0–30%) and 99.2% structural match retention under 30% distractor noise.</div>
+          </div>
+        </div>
+
+        <div class="figure-container" style="margin-top: 2rem;">
+          <h4 class="figure-title">Reconstructed Multi-Page Causal Network with Page Provenance</h4>
+          <img src="assets/paper_causal_doc_49acd11a19c9_graph.png" alt="Reconstructed Multi-Page Causal Graph" class="publication-img" loading="lazy">
+          <div class="figure-caption"><strong>Figure 8:</strong> Reconstructed causal network for EGFR/MAPK progression. Solid green edges denote direct sentence observations; dashed purple edges denote synthesized cross-page transitive mechanisms with physical page provenance.</div>
+        </div>
+
+        <div class="code-box" style="margin-top: 2rem;">
+          <div class="code-box-header">
+            <span>Executing Multi-Page Paper Analysis via CLI</span>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText('evryn paper report data/multipage_papers/paper_01_egfr_mapk.pdf\nevryn benchmark --suite multi-page')">Copy</button>
+          </div>
+          <pre><code># Inspect metadata, DOI, PMID, and physical page segmentation
+evryn paper inspect paper.pdf
+
+# Extract causal assertions with page numbers and epistemic uncertainty
+evryn paper extract paper.pdf
+
+# Reconstruct directed causal graph with cross-page transitive links
+evryn paper graph paper.pdf
+
+# Generate comprehensive evidence report, JSON registry, and high-DPI figure
+evryn paper report paper.pdf --output-dir outputs
+
+# Run empirical benchmark suite across all 12 reference scientific papers
+evryn benchmark --suite multi-page</code></pre>
         </div>
       </div>
     </section>

@@ -1,0 +1,36 @@
+{
+  "canonical_entities": [
+    "IGF-1",
+    "PI3K",
+    "AKT",
+    "BAD"
+  ],
+  "direct_edges": [
+    [
+      "IGF-1",
+      "PI3K"
+    ],
+    [
+      "PI3K",
+      "AKT"
+    ],
+    [
+      "AKT",
+      "BAD"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "IGF-1",
+      "AKT"
+    ],
+    [
+      "PI3K",
+      "BAD"
+    ],
+    [
+      "IGF-1",
+      "BAD"
+    ]
+  ]
+}
