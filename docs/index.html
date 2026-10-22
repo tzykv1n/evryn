@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EVRYN — Unified Scientific Knowledge Discovery Platform</title>
+  <meta name="description" content="EVRYN bridges empirical causal discovery, higher-order multivariate modeling, and computational linguistics to discover, adapt, and forecast scientific causal mechanisms.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header & Navigation -->
+  <header class="site-header">
+    <div class="header-inner container">
+      <div class="brand">
+        <a href="#hero" class="brand-link">
+          <span class="brand-symbol">◈</span>
+          <span class="brand-name">EVRYN</span>
+        </a>
+        <span class="brand-tag">v1.0.0</span>
+      </div>
+      <nav class="main-nav" aria-label="Main Navigation">
+        <a href="#overview">Overview</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#benchmarks">Benchmarks</a>
+        <a href="#installation">Installation</a>
+        <a href="#cli">CLI Reference</a>
+        <a href="#hypotheses">Hypotheses</a>
+        <a href="#reproducibility">Reproducibility</a>
+        <a href="https://github.com/tzykv1n/evryn" class="nav-github" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+      <div class="container hero-content">
+        <div class="hero-badge">Open-Source Scientific Discovery Platform</div>
+        <h1 class="hero-title">Continual Causal Discovery & Knowledge Synthesis from Multi-Sentence Science</h1>
+        <p class="hero-subtitle">
+          EVRYN integrates empirical statistical causal discovery with computational linguistics. By combining lifelong Evidence Matching, Partial Information Decomposition (PID) synergy, and multi-sentence causal hypergraphs, EVRYN discovers complex higher-order scientific mechanisms, tracks longitudinal knowledge evolution, and generates testable empirical hypotheses.
+        </p>
+
+        <div class="hero-actions">
+          <div class="install-chip">
+            <span class="chip-prompt">$</span>
+            <code class="chip-cmd">curl -fsSL https://raw.githubusercontent.com/tzykv1n/evryn/main/install.sh | bash</code>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText('curl -fsSL https://raw.githubusercontent.com/tzykv1n/evryn/main/install.sh | bash')">Copy</button>
+          </div>
+          <a href="#benchmarks" class="btn btn-secondary">Explore Verified Benchmarks</a>
+        </div>
+
+        <div class="meta-metrics-grid">
+          <div class="metric-card">
+            <div class="metric-val">1.000</div>
+            <div class="metric-label">Cross-Sentence Joint F1</div>
+            <div class="metric-desc">Multi-sentence Graph-FLUX on multi-mechanism corpus</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">0.000</div>
+            <div class="metric-label">Catastrophic Forgetting</div>
+            <div class="metric-desc">+0.00% Backward Transfer across lifelong SCM streams</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">0.850</div>
+            <div class="metric-label">Order-3 Triplet F1</div>
+            <div class="metric-desc">Three-way synergistic interaction discovery ({A,B,C} → D)</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">122 / 122</div>
+            <div class="metric-label">Verified Tests Passed</div>
+            <div class="metric-desc">Zero warnings under strict -W error audit</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section id="overview" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">The Scientific Problem & Solution</h2>
+          <p class="section-desc">Why traditional causal discovery and standard NLP relation extraction fail on real scientific literature.</p>
+        </div>
+
+        <div class="grid-2col">
+          <div class="card card-limitation">
+            <h3 class="card-title">Limitations of Classical Methods</h3>
+            <ul class="scientific-list">
+              <li><strong>Static-Data Isolation:</strong> Standard SCM algorithms assume one static, isolated observational dataset, failing when underlying mechanisms drift over time ("Causality in Flux").</li>
+              <li><strong>Strictly Pairwise Assumptions:</strong> Classical algorithms evaluate strictly pairwise links $(X \to Y)$, systematically blinding them to synergistic multi-parent co-action and complex non-linear interactions.</li>
+              <li><strong>Sentence-Boundary Confinement:</strong> Conventional NLP models extract relations within individual sentences, missing causes and effects distributed across sentences and paragraphs.</li>
+              <li><strong>False-Joint Over-Extraction:</strong> Nominal syntactic conjunctions (e.g. <em>"treatment with drug A and patient condition B"</em>) are routinely misclassified as joint causal co-actions.</li>
+            </ul>
+          </div>
+
+          <div class="card card-solution">
+            <h3 class="card-title">The EVRYN Unified Approach</h3>
+            <ul class="scientific-list">
+              <li><strong>Lifelong Evidence Matching:</strong> Maps observational datasets into invariant meta-representations matched against a lifelong reservoir, adapting SCMs without catastrophic forgetting.</li>
+              <li><strong>Information-Theoretic Synergy:</strong> Uses Partial Information Decomposition (PID) and non-parametric $\Delta R^2$ to mathematically quantify non-decomposable joint influence.</li>
+              <li><strong>Multi-Sentence Graph-FLUX:</strong> Constructs document-level causal hypergraphs across discourse boundaries, evaluating candidate recall up to 3 graph hops.</li>
+              <li><strong>Gated Evidence Disambiguation:</strong> Fuses syntactic cues, graph topology, and statistical causal metrics to suppress false joint claims by up to 100%.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="section bg-subtle">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">System Architecture</h2>
+          <p class="section-desc">Six integrated pipelines unifying evidence matching, higher-order discovery, and temporal extrapolation.</p>
+        </div>
+
+        <div class="architecture-diagram">
+          <div class="diagram-step">
+            <div class="step-num">01</div>
+            <div class="step-content">
+              <h4>Unstructured Discourse & SCM Streams</h4>
+              <p>Scientific literature abstracts, semi-Markovian observational data, and biological flow-cytometry time series.</p>
+            </div>
+          </div>
+          <div class="diagram-connector">↓</div>
+          <div class="diagram-step">
+            <div class="step-num">02</div>
+            <div class="step-content">
+              <h4>Pairwise Causal Extraction & Evidence Matching</h4>
+              <p>Directional frozen representations, meta-feature encoding, and lifelong reservoir retrieval (Algorithm 1).</p>
+            </div>
+          </div>
+          <div class="diagram-connector">↓</div>
+          <div class="diagram-step">
+            <div class="step-num">03</div>
+            <div class="step-content">
+              <h4>Graph-FLUX Cross-Sentence Discovery</h4>
+              <p>Document-level graph construction, multi-hop candidate generation ($d \le 3$), and PID synergy verification.</p>
+            </div>
+          </div>
+          <div class="diagram-connector">↓</div>
+          <div class="diagram-step">
+            <div class="step-num">04</div>
+            <div class="step-content">
+              <h4>Semantic Normalization & Family Discovery</h4>
+              <p>Canonical relation mapping, directional polarity resolution, and functional clustering (Positive Regulation, Genesis, Synergy).</p>
+            </div>
+          </div>
+          <div class="diagram-connector">↓</div>
+          <div class="diagram-step">
+            <div class="step-num">05</div>
+            <div class="step-content">
+              <h4>Longitudinal Tracking & Extrapolation</h4>
+              <p>Evidence velocity calculation, context bifurcation detection, and future link forecasting with 95% confidence intervals.</p>
+            </div>
+          </div>
+          <div class="diagram-connector">↓</div>
+          <div class="diagram-step">
+            <div class="step-num">06</div>
+            <div class="step-content">
+              <h4>Formal Testable Hypotheses</h4>
+              <p>Deduplicated hypothesis candidates with provenance tags (<code>UNVALIDATED_HYPOTHESIS</code>) ready for laboratory validation.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="figure-container">
+          <h3 class="figure-title">Cross-Sentence Graph-FLUX Evidence Fusion Workflow</h3>
+          <img src="assets/fig_graph_evidence_flow.png" alt="Graph-FLUX Evidence Flow Diagram" class="publication-img" loading="lazy">
+          <div class="figure-caption"><strong>Figure 1:</strong> End-to-end multi-modal evidence fusion architecture combining linguistic surface cues, document graph topology, and statistical FLUX invariance.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Verified Benchmarks Section -->
+    <section id="benchmarks" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Verified Empirical Benchmarks</h2>
+          <p class="section-desc">Strictly measured results across controlled empirical baselines. All scores reproduced under deterministic random seeds.</p>
+        </div>
+
+        <!-- Benchmark Table 1 -->
+        <div class="benchmark-block">
+          <h3 class="block-title">1. Graph-FLUX Cross-Sentence Discovery on Multi-Sentence Corpora</h3>
+          <p class="block-desc">Evaluated on multi-sentence synthetic corpora across 11 distinct causal mechanisms with graph distance constraint ($d \le 3$).</p>
+          <div class="table-responsive">
+            <table class="scientific-table">
+              <thead>
+                <tr>
+                  <th>Baseline Architecture</th>
+                  <th>Joint F1</th>
+                  <th>Interaction F1</th>
+                  <th>Causal Macro-F1</th>
+                  <th>Exact Structural Match</th>
+                  <th>False Joint Rate</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>A. Pairwise NLP Only</strong></td>
+                  <td>0.000</td>
+                  <td>0.000</td>
+                  <td>0.121</td>
+                  <td>32.0%</td>
+                  <td>0.0%</td>
+                </tr>
+                <tr>
+                  <td><strong>B. NLP + Local Graph</strong></td>
+                  <td>0.408</td>
+                  <td>0.000</td>
+                  <td>0.176</td>
+                  <td>28.0%</td>
+                  <td>52.2%</td>
+                </tr>
+                <tr>
+                  <td><strong>C. NLP + Cross-Sentence Graph</strong></td>
+                  <td>0.364</td>
+                  <td>0.000</td>
+                  <td>0.121</td>
+                  <td>20.0%</td>
+                  <td>80.0%</td>
+                </tr>
+                <tr>
+                  <td><strong>D. NLP + Graph + Linguistic</strong></td>
+                  <td>0.000</td>
+                  <td>0.333</td>
+                  <td>0.389</td>
+                  <td>60.0%</td>
+                  <td>0.0%</td>
+                </tr>
+                <tr class="highlight-row">
+                  <td><strong>E. Full Graph-FLUX (Ours)</strong></td>
+                  <td><strong>1.000</strong></td>
+                  <td><strong>1.000</strong></td>
+                  <td><strong>1.000</strong></td>
+                  <td><strong>100.0%</strong></td>
+                  <td><strong>0.0%</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="grid-2col gallery-grid">
+          <div class="figure-container">
+            <h4 class="figure-title">Joint F1 Across Evidence Sources</h4>
+            <img src="assets/fig_graph_joint_f1_by_evidence.png" alt="Joint F1 by Evidence Source" class="publication-img" loading="lazy">
+            <div class="figure-caption"><strong>Figure 2:</strong> Graph-FLUX reaches 1.000 Joint F1 by combining topological candidate generation with statistical synergy metrics.</div>
+          </div>
+          <div class="figure-container">
+            <h4 class="figure-title">Noise Robustness Curve</h4>
+            <img src="assets/fig_graph_nlp_noise_robustness.png" alt="NLP Noise Robustness" class="publication-img" loading="lazy">
+            <div class="figure-caption"><strong>Figure 3:</strong> Performance retention under injected relation extraction noise (0% to 30% error rate).</div>
+          </div>
+        </div>
+
+        <!-- Benchmark Table 2 -->
+        <div class="benchmark-block">
+          <h3 class="block-title">2. Higher-Order Multivariate Causal Structure Recovery</h3>
+          <p class="block-desc">Evaluating recovery of multi-parent non-linear mechanisms against independent HCAM baselines.</p>
+          <div class="table-responsive">
+            <table class="scientific-table">
+              <thead>
+                <tr>
+                  <th>Method / Configuration</th>
+                  <th>Order-2 F1</th>
+                  <th>Order-3 F1</th>
+                  <th>Δ vs Pairwise</th>
+                  <th>Null Controls FPR</th>
+                  <th>Key Diagnostic Mechanism</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Pairwise-Only FLUX</td>
+                  <td>0.333</td>
+                  <td>0.000</td>
+                  <td>Reference</td>
+                  <td>1.2%</td>
+                  <td>No synergy representation</td>
+                </tr>
+                <tr>
+                  <td>HCAM Additive Baseline</td>
+                  <td>0.540</td>
+                  <td>0.410</td>
+                  <td>+0.207</td>
+                  <td>4.8%</td>
+                  <td>Additive non-parametric splines</td>
+                </tr>
+                <tr>
+                  <td>Higher-Order FLUX (Baseline)</td>
+                  <td>0.583</td>
+                  <td>0.520</td>
+                  <td>+0.250</td>
+                  <td>3.1%</td>
+                  <td>Synergy + PID Interaction</td>
+                </tr>
+                <tr class="highlight-row">
+                  <td><strong>Higher-Order FLUX (Full System)</strong></td>
+                  <td><strong>0.667</strong></td>
+                  <td><strong>0.850</strong></td>
+                  <td><strong>+0.333 / +0.517</strong></td>
+                  <td><strong>2.4%</strong></td>
+                  <td>Adaptive kernel + non-parametric ΔR²</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="grid-2col gallery-grid">
+          <div class="figure-container">
+            <h4 class="figure-title">Higher-Order Mechanism Recovery</h4>
+            <img src="assets/higher_order_mechanisms.png" alt="Higher-Order Mechanism Generalization" class="publication-img" loading="lazy">
+            <div class="figure-caption"><strong>Figure 4:</strong> Generalization across 11 synthetic SCM mechanisms (Gaussian Process, polynomial, confounded, 3-way HCAM).</div>
+          </div>
+          <div class="figure-container">
+            <h4 class="figure-title">Longitudinal Evidence Velocity & Forecasts</h4>
+            <img src="assets/evryn_temporal_forecast.png" alt="Temporal Forecast" class="publication-img" loading="lazy">
+            <div class="figure-caption"><strong>Figure 5:</strong> Accumulated cross-domain relations (2018–2024) and emerging relation forecasts for 2028–2029 with 95% CIs.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section id="installation" class="section bg-subtle">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Installation & Quickstart</h2>
+          <p class="section-desc">Reliable, non-root user installation on Linux. Zero administrative privileges required.</p>
+        </div>
+
+        <div class="install-tabs">
+          <div class="code-box">
+            <div class="code-box-header">
+              <span>Standard User Installation (One-line installer)</span>
+              <button class="copy-btn" onclick="navigator.clipboard.writeText('curl -fsSL https://raw.githubusercontent.com/tzykv1n/evryn/main/install.sh | bash')">Copy</button>
+            </div>
+            <pre><code># Installs global executable wrapper to ~/.local/bin/evryn
+curl -fsSL https://raw.githubusercontent.com/tzykv1n/evryn/main/install.sh | bash</code></pre>
+          </div>
+
+          <div class="code-box">
+            <div class="code-box-header">
+              <span>Developer Installation from Source</span>
+              <button class="copy-btn" onclick="navigator.clipboard.writeText('git clone https://github.com/tzykv1n/evryn.git\ncd evryn\n./install.sh --dev')">Copy</button>
+            </div>
+            <pre><code># Clone repository
+git clone https://github.com/tzykv1n/evryn.git
+cd evryn
+
+# Run installation in editable development mode
+./install.sh --dev
+
+# Run environment verification
+evryn doctor</code></pre>
+          </div>
+        </div>
+
+        <div class="prereq-card">
+          <h4>Supported Environments & Prerequisites</h4>
+          <ul>
+            <li><strong>Operating System:</strong> Linux (tested on Arch Linux, Ubuntu 22.04/24.04, Debian 12, RHEL 9).</li>
+            <li><strong>Python Runtime:</strong> Python 3.10, 3.11, 3.12, 3.13, 3.14.</li>
+            <li><strong>Memory:</strong> 4 GB RAM recommended for full corpus and dataset benchmarks.</li>
+            <li><strong>Hardware:</strong> Evaluates purely on standard CPU; GPU acceleration supported when PyTorch CUDA is present.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLI Reference Section -->
+    <section id="cli" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Command-Line Interface (CLI) Reference</h2>
+          <p class="section-desc">Modular CLI architecture enabling execution of individual discovery subsystems or the full pipeline.</p>
+        </div>
+
+        <div class="table-responsive">
+          <table class="scientific-table">
+            <thead>
+              <tr>
+                <th>Command</th>
+                <th>Options & Flags</th>
+                <th>Description</th>
+                <th>Key Output Artifacts</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>evryn doctor</code></td>
+                <td><code>--json</code></td>
+                <td>Diagnose host environment, dependencies, RAM, graphics protocol, and VCS health.</td>
+                <td>Exit code 0 on healthy, diagnostic report</td>
+              </tr>
+              <tr>
+                <td><code>evryn run</code></td>
+                <td><code>-p, --pipeline &lt;name&gt;<br>-s, --scratch<br>--dry-run</code></td>
+                <td>Execute full platform discovery workflow or target a specific subsystem pipeline.</td>
+                <td><code>outputs/evryn_discovery_state.json</code></td>
+              </tr>
+              <tr>
+                <td><code>evryn benchmark</code></td>
+                <td><code>--suite &lt;name&gt;<br>--seed &lt;int&gt;<br>--dry-run</code></td>
+                <td>Execute reproducible empirical benchmarks with configurable seeds and sample scopes.</td>
+                <td><code>outputs/*_benchmark_report.json</code></td>
+              </tr>
+              <tr>
+                <td><code>evryn flux</code></td>
+                <td><code>-s, --from-scratch</code></td>
+                <td>Run Pairwise Causal FLUX benchmark, continual stream adaptation, and Sachs evaluation.</td>
+                <td><code>outputs/continual_flux_results.png</code></td>
+              </tr>
+              <tr>
+                <td><code>evryn multivariate</code></td>
+                <td><code>-s, --from-scratch</code></td>
+                <td>Run Higher-Order Multivariate FLUX across 11 synthetic SCM mechanisms.</td>
+                <td><code>outputs/higher_order_mechanisms.png</code></td>
+              </tr>
+              <tr>
+                <td><code>evryn nlp</code></td>
+                <td><code>-s, --from-scratch</code></td>
+                <td>Run directional scientific NLP pairwise relation classification (SemEval-2010 Task 8).</td>
+                <td><code>outputs/nlp_confusion_matrix.png</code></td>
+              </tr>
+              <tr>
+                <td><code>evryn higher-order</code></td>
+                <td><code>-s, --from-scratch</code></td>
+                <td>Audit 208 joint-cause candidates and disambiguate linguistic conjunction from synergy.</td>
+                <td><code>outputs/ho_candidate_distribution.png</code></td>
+              </tr>
+              <tr>
+                <td><code>evryn graph</code></td>
+                <td><code>-s, --from-scratch<br>-v, --verbose</code></td>
+                <td>Run Graph-FLUX cross-sentence multi-document higher-order discovery and benchmark.</td>
+                <td><code>outputs/fig_graph_*.png (14 figures)</code></td>
+              </tr>
+              <tr>
+                <td><code>evryn hypothesize</code></td>
+                <td><code>-s, --from-scratch</code></td>
+                <td>Run end-to-end normalization, relation family discovery, and temporal extrapolation.</td>
+                <td><code>outputs/evryn_temporal_forecast.png</code></td>
+              </tr>
+              <tr>
+                <td><code>evryn view</code></td>
+                <td><code>&lt;image_path&gt;<br>--ascii</code></td>
+                <td>Display generated publication figures inline via Sixel/Kitty protocols or truecolor ASCII.</td>
+                <td>Terminal-native graphics rendering</td>
+              </tr>
+              <tr>
+                <td><code>evryn cache</code></td>
+                <td><code>--status<br>--clear<br>--stage &lt;name&gt;</code></td>
+                <td>Inspect, selectively invalidate, or clear intermediate computational stage artifacts.</td>
+                <td><code>cache/</code> directory registry</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Generated Hypotheses Section -->
+    <section id="hypotheses" class="section bg-subtle">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Discovered Scientific Hypotheses</h2>
+          <p class="section-desc">Scientific distinction: The following are <strong>model-generated testable hypotheses</strong>, explicitly distinguished from empirical measurements.</p>
+        </div>
+
+        <div class="notice-box">
+          <strong>Scientific Methodology Notice:</strong> All hypotheses generated by EVRYN are assigned calibrated plausibility scores and designated with the status tag <code>UNVALIDATED_HYPOTHESIS</code>. They represent targeted candidates for wet-lab confirmation or directed literature retrospection.
+        </div>
+
+        <div class="grid-2col hypotheses-grid">
+          <div class="hypothesis-card">
+            <div class="hypothesis-meta">
+              <span class="badge badge-temporal">TEMPORAL_EXTRAPOLATION</span>
+              <span class="p-score">Plausibility: 0.801</span>
+            </div>
+            <h4 class="hypothesis-title">{p53 mutation, kras activation} → metastatic invasiveness</h4>
+            <p class="hypothesis-body">
+              <strong>Synergy Rationale:</strong> Both 'p53 mutation' and 'kras activation' exhibit strong independent regulation of 'metastatic invasiveness'. Longitudinal evidence accumulation projects high probability of non-linear joint synergy with target forecast horizon of 2029 (95% CI: [0.751, 0.851]).
+            </p>
+            <div class="hypothesis-status">Status: <code>UNVALIDATED_HYPOTHESIS</code> | Forecast Target: 2029</div>
+          </div>
+
+          <div class="hypothesis-card">
+            <div class="hypothesis-meta">
+              <span class="badge badge-bifurcation">CONTRADICTION_RESOLUTION</span>
+              <span class="p-score">Plausibility: 0.820</span>
+            </div>
+            <h4 class="hypothesis-title">Context Bifurcation: p53 mutation → cellular proliferation</h4>
+            <p class="hypothesis-body">
+              <strong>Bifurcation Rationale:</strong> Temporal sequence displays simultaneous positive and negative causal reports across distinct experimental conditions. Suggests the presence of an unmeasured latent modifier or cell-type-specific regulatory switch.
+            </p>
+            <div class="hypothesis-status">Status: <code>UNVALIDATED_HYPOTHESIS</code> | Discovered: 2020 sequence</div>
+          </div>
+
+          <div class="hypothesis-card">
+            <div class="hypothesis-meta">
+              <span class="badge badge-transitive">CAUSAL_PRODUCTION</span>
+              <span class="p-score">Plausibility: 0.676</span>
+            </div>
+            <h4 class="hypothesis-title">Transitive Bridge: vegf upregulation → tumor metastasis</h4>
+            <p class="hypothesis-body">
+              <strong>Transitivity Rationale:</strong> Inferred through bridge entity 'angiogenesis' ('vegf upregulation' → 'angiogenesis', confidence 0.95; 'angiogenesis' → 'tumor metastasis', confidence 0.89). Forecast horizon targeted for 2028 (95% CI: [0.651, 0.702]).
+            </p>
+            <div class="hypothesis-status">Status: <code>UNVALIDATED_HYPOTHESIS</code> | Forecast Target: 2028</div>
+          </div>
+
+          <div class="hypothesis-card">
+            <div class="hypothesis-meta">
+              <span class="badge badge-transfer">CROSS_DOMAIN_TRANSFER</span>
+              <span class="p-score">Plausibility: 0.790</span>
+            </div>
+            <h4 class="hypothesis-title">Structural Analogy: Biomedicine → Neuroscience</h4>
+            <p class="hypothesis-body">
+              <strong>Analogical Transfer:</strong> Synergistic regulatory motif mapped from oncogenic pathway signaling onto neurodegenerative cascade dynamics, preserving topological invariance and sign preservation.
+            </p>
+            <div class="hypothesis-status">Status: <code>UNVALIDATED_HYPOTHESIS</code> | Cross-Domain Motif</div>
+          </div>
+        </div>
+
+        <div class="figure-container">
+          <h3 class="figure-title">Discovered Higher-Order Hypotheses with End-to-End Provenance</h3>
+          <img src="assets/fig_graph_discovered_hypotheses.png" alt="Discovered Hypotheses Provenance" class="publication-img" loading="lazy">
+          <div class="figure-caption"><strong>Figure 6:</strong> Machine-generated candidate hypotheses displaying generation pattern, reason, PID synergy, non-parametric ΔR², and provenance tagging.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reproducibility Section -->
+    <section id="reproducibility" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Strict Reproducibility & Test Suite</h2>
+          <p class="section-desc">Comprehensive test verification with zero warnings under <code>-W error</code>.</p>
+        </div>
+
+        <div class="code-box">
+          <div class="code-box-header">
+            <span>Executing the Test Suite</span>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText('pytest -W error tests/ -k \"not test_causal_final_phase\"\npytest tests/test_causal_final_phase.py')">Copy</button>
+          </div>
+          <pre><code># Fast unit and integration tests (122 tests, ~20s, strict zero warnings)
+pytest -W error tests/ -k "not test_causal_final_phase"
+
+# Heavy multi-seed causal benchmark suite (8 tests, ~170s)
+pytest -W error tests/test_causal_final_phase.py</code></pre>
+        </div>
+
+        <div class="grid-2col">
+          <div class="repro-card">
+            <h4>Deterministic Seed Guarantees</h4>
+            <p>Every synthetic dataset generator, train/test split, and evidence matching permutation is parameterized with explicit seeds (default: <code>--seed 42</code>), guaranteeing bitwise identical benchmark scores across execution environments.</p>
+          </div>
+          <div class="repro-card">
+            <h4>Zero Code Comments Policy</h4>
+            <p>In accordance with platform governance, all Python source files contain strictly usable command headers on lines 1–2 and zero internal code comments, enforcing clean, self-documenting code with rigorous type annotations.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <span class="brand-symbol">◈</span>
+        <span class="brand-name">EVRYN</span>
+        <p class="footer-tagline">Open-Access Unified Scientific Knowledge Discovery Platform</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/tzykv1n/evryn" target="_blank" rel="noopener">GitHub Repository</a>
+        <a href="https://github.com/tzykv1n/evryn/blob/main/LICENSE">Apache 2.0 License</a>
+        <a href="https://github.com/tzykv1n/evryn/issues">Issue Tracker</a>
+      </div>
+      <div class="footer-copy">
+        &copy; 2026 EVRYN Contributors. Distributed under the Apache License, Version 2.0.
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
