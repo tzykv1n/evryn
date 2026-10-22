@@ -21,10 +21,11 @@ def plot_confusion_matrix(cm: List[List[int]], labels: List[str], output_path: s
             pass
 
     sns.set_theme(style="white", font="sans-serif")
-    fig, ax = plt.subplots(figsize=(6.2, 5.2), dpi=260)
+    fig, ax = plt.subplots(figsize=(7.2, 5.8), dpi=280)
+    fig.patch.set_facecolor("#FFFFFF")
     cm_arr = np.array(cm)
 
-    cmap = sns.light_palette("#7c3aed", as_cmap=True)
+    cmap = sns.light_palette("#7C3AED", as_cmap=True)
     sns.heatmap(
         cm_arr,
         annot=True,
@@ -33,17 +34,17 @@ def plot_confusion_matrix(cm: List[List[int]], labels: List[str], output_path: s
         cbar=True,
         xticklabels=labels,
         yticklabels=labels,
-        linewidths=1.2,
-        linecolor="#f8fafc",
+        linewidths=1.5,
+        linecolor="#FFFFFF",
         ax=ax,
-        annot_kws={"size": 11, "weight": "bold"},
+        annot_kws={"size": 12, "weight": "bold"},
     )
 
-    ax.set_xlabel("Predicted Label", fontweight="bold", fontsize=11, labelpad=8)
-    ax.set_ylabel("True Gold Label", fontweight="bold", fontsize=11, labelpad=8)
-    ax.set_title("Pairwise Causal Extraction Confusion Matrix", fontweight="bold", fontsize=12, pad=16)
-    plt.tight_layout()
-    plt.savefig(output_path, dpi=260)
+    ax.set_xlabel("Predicted Label", fontweight="bold", fontsize=11.5, color="#1E293B", labelpad=10)
+    ax.set_ylabel("True Gold Label", fontweight="bold", fontsize=11.5, color="#1E293B", labelpad=10)
+    ax.set_title("Pairwise Causal Extraction Confusion Matrix", fontweight="bold", fontsize=13.5, color="#0F172A", pad=16)
+    plt.tight_layout(pad=2.0)
+    plt.savefig(output_path, dpi=280, bbox_inches="tight")
     plt.close()
 
 
@@ -55,7 +56,17 @@ def plot_comparison_chart(results: Dict[str, Dict[str, Any]], output_path: str) 
         except OSError:
             pass
 
-    sns.set_theme(style="whitegrid", font="sans-serif")
+    sns.set_theme(
+        style="whitegrid",
+        font="sans-serif",
+        rc={
+            "axes.facecolor": "#F8FAFC",
+            "figure.facecolor": "#FFFFFF",
+            "grid.color": "#E2E8F0",
+            "grid.linestyle": "--",
+            "grid.alpha": 0.7,
+        },
+    )
     models = list(results.keys())
     x = np.arange(len(models))
     w = 0.18
@@ -65,24 +76,25 @@ def plot_comparison_chart(results: Dict[str, Dict[str, Any]], output_path: str) 
     macro_f1 = [results[m]["causal_macro_f1"] for m in models]
     bal_acc = [results[m]["balanced_accuracy"] for m in models]
 
-    fig, ax = plt.subplots(figsize=(9.5, 5.2), dpi=260)
-    ax.bar(x - 1.5 * w, fwd_f1, width=w, label="Forward (e1 -> e2) F1", color="#0284c7", edgecolor="#0f172a", linewidth=1.1, zorder=3)
-    ax.bar(x - 0.5 * w, bwd_f1, width=w, label="Backward (e1 <- e2) F1", color="#7c3aed", edgecolor="#0f172a", linewidth=1.1, zorder=3)
-    ax.bar(x + 0.5 * w, macro_f1, width=w, label="Causal Macro-F1", color="#c026d3", edgecolor="#0f172a", linewidth=1.1, zorder=3)
-    ax.bar(x + 1.5 * w, bal_acc, width=w, label="Balanced Accuracy", color="#475569", edgecolor="#0f172a", linewidth=1.1, zorder=3)
+    fig, ax = plt.subplots(figsize=(11.5, 5.4), dpi=280)
+    fig.patch.set_facecolor("#FFFFFF")
+    ax.bar(x - 1.5 * w, fwd_f1, width=w, label="Forward (e1 -> e2) F1", color="#0284C7", edgecolor="#0F172A", linewidth=1.1, zorder=3)
+    ax.bar(x - 0.5 * w, bwd_f1, width=w, label="Backward (e1 <- e2) F1", color="#7C3AED", edgecolor="#0F172A", linewidth=1.1, zorder=3)
+    ax.bar(x + 0.5 * w, macro_f1, width=w, label="Causal Macro-F1", color="#2563EB", edgecolor="#0F172A", linewidth=1.1, zorder=3)
+    ax.bar(x + 1.5 * w, bal_acc, width=w, label="Balanced Accuracy", color="#64748B", edgecolor="#0F172A", linewidth=1.1, zorder=3)
 
-    ax.axhline(0.70, color="#ef4444", linestyle="--", linewidth=1.5, label="Target Threshold (0.70)", zorder=4)
+    ax.axhline(0.70, color="#EF4444", linestyle="--", linewidth=1.6, label="Target Threshold (0.70)", zorder=4)
     ax.set_xticks(x)
-    ax.set_xticklabels(models, fontweight="bold", fontsize=9.5)
-    ax.set_ylabel("Score", fontweight="bold", fontsize=11)
-    ax.set_title("NLP Causal Extraction Baseline Comparison on Held-Out Test Set", fontweight="bold", fontsize=12, pad=12)
-    ax.set_ylim(0, 1.05)
-    ax.legend(frameon=True, facecolor="#ffffff", edgecolor="#cbd5e1", loc="lower right", fontsize=9)
-    ax.grid(axis="y", linestyle="--", alpha=0.35, zorder=0)
+    ax.set_xticklabels(models, fontweight="semibold", fontsize=10, color="#334155")
+    ax.set_ylabel("Score", fontweight="bold", fontsize=11.5, color="#1E293B", labelpad=8)
+    ax.set_title("NLP Causal Extraction Baseline Comparison on Held-Out Test Set", fontweight="bold", fontsize=13.5, color="#0F172A", pad=16)
+    ax.set_ylim(0, 1.15)
+    ax.legend(frameon=True, facecolor="#FFFFFF", edgecolor="#CBD5E1", loc="upper left", fontsize=9.5)
+    ax.grid(axis="y", linestyle="--", alpha=0.7, color="#E2E8F0", zorder=0)
     sns.despine(ax=ax, top=True, right=True)
 
-    plt.tight_layout()
-    plt.savefig(output_path, dpi=260)
+    plt.tight_layout(pad=2.0)
+    plt.savefig(output_path, dpi=280, bbox_inches="tight")
     plt.close()
 
 
