@@ -153,11 +153,20 @@ def test_real_examples_endpoints(client):
     assert summary["split_counts"]["external"] == 4
     assert summary["sections"]["pdf_examples_count"] == 20
 
-    # Catalog
+    # Catalog contract
     res = client.get("/api/examples/catalog")
     assert res.status_code == 200
     catalog = res.json()
-    assert len(catalog) == 20
+    assert catalog["status"] == "success"
+    assert catalog["version"] == "2.1.0"
+    assert catalog["total"] == 20
+    assert len(catalog["papers"]) == 20
+    assert catalog["split_counts"]["dev"] == 8
+
+    # Cache-control headers on root index
+    res_index = client.get("/")
+    assert res_index.status_code == 200
+    assert "no-cache" in res_index.headers.get("cache-control", "").lower()
 
     # PDF examples
     res = client.get("/api/examples/pdf?split=dev")

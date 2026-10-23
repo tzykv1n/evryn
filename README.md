@@ -46,7 +46,7 @@ Open **`http://localhost:8000`** in any modern web browser.
 - **Batch Document Ingestion:** Upload multiple PDFs, TXT, or DOCX files. Generates per-document result cards alongside a combined synthesized causal graph.
 - **Incremental Evidence Accumulation:** Further inputs or uploads extend the active session without overwriting contradictory evidence or erasing provenance.
 - **Persistent Session Memory:** Complete SQLite storage across restarts, with sidebar history, session restoration, and individual session deletion.
-- **Demonstration Suite:** Pre-configured 10 test examples available directly via the plus menu or in `~/Downloads/EVRYN_Demo_Examples.txt`.
+- **Authentic Paper Benchmark Suite:** 20 real PubMed Central Open Access papers with BioCause causal annotations directly integrated into the Examples tab with split isolation and side-by-side verification.
 
 ---
 

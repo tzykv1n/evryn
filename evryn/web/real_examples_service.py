@@ -123,9 +123,16 @@ class RealExamplesService:
             ],
         }
 
-    def get_catalog(self) -> List[Dict[str, Any]]:
+    def get_catalog(self) -> Dict[str, Any]:
         manifest = self.get_manifest()
-        return manifest.get("papers", [])
+        papers = manifest.get("papers", [])
+        return {
+            "status": "success",
+            "version": "2.1.0",
+            "total": len(papers),
+            "papers": papers,
+            "split_counts": manifest.get("split_counts", {}),
+        }
 
     def get_paper_pdf_path(self, pmcid: str) -> Optional[str]:
         p = os.path.join(self.pdf_dir, f"{pmcid}.pdf")

@@ -1,0 +1,1145 @@
+{
+  "analysis_version": "2.1.0",
+  "split_evaluated": "development_only",
+  "dev_papers_count": 8,
+  "total_false_positives": 71,
+  "total_false_negatives": 44,
+  "fp_category_breakdown": {
+    "direction_inverted": {
+      "count": 29,
+      "pct": 40.85
+    },
+    "unsupported_hallucination": {
+      "count": 27,
+      "pct": 38.03
+    },
+    "transitive_jump": {
+      "count": 9,
+      "pct": 12.68
+    },
+    "cross_page_bridge_spurious": {
+      "count": 5,
+      "pct": 7.04
+    },
+    "speculative_assertion": {
+      "count": 1,
+      "pct": 1.41
+    }
+  },
+  "fn_category_breakdown": {
+    "cross_sentence_intra_page": {
+      "count": 14,
+      "pct": 31.82
+    },
+    "confidence_or_filter_loss": {
+      "count": 10,
+      "pct": 22.73
+    },
+    "coreference_or_complex_syntax": {
+      "count": 5,
+      "pct": 11.36
+    },
+    "direction_inverted": {
+      "count": 4,
+      "pct": 9.09
+    },
+    "argument_span_or_vocabulary_mismatch": {
+      "count": 4,
+      "pct": 9.09
+    },
+    "unrecognized_trigger": {
+      "count": 3,
+      "pct": 6.82
+    },
+    "negation_overfilter": {
+      "count": 2,
+      "pct": 4.55
+    },
+    "cross_page_bridge_missed": {
+      "count": 2,
+      "pct": 4.55
+    }
+  },
+  "per_paper_stats": [
+    {
+      "pmcid": "PMC1804205",
+      "title": "Acid pH activation of the PmrA/PmrB two-component system in Salmonella enterica",
+      "gold_direct_count": 5,
+      "gold_cross_count": 5,
+      "pred_direct_count": 10,
+      "pred_cross_count": 12,
+      "tp_direct": 4,
+      "fp_direct": 6,
+      "fn_direct": 1,
+      "direct_f1": 0.5333,
+      "tp_cross": 2,
+      "fp_cross": 10,
+      "fn_cross": 3,
+      "cross_f1": 0.2353,
+      "false_positives": [
+        {
+          "edge": [
+            "PmrD",
+            "PmrB"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "PmrA",
+            "PmrB"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "Polymyxin B",
+            "Acid pH"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "PmrD",
+            "PmrA"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "PmrB",
+            "Polymyxin B"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "Acid pH",
+            "PmrA"
+          ],
+          "category": "transitive_jump",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "PmrD",
+            "PmrB"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "PmrA",
+            "PmrB"
+          ],
+          "category": "direction_inverted",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "PmrA",
+            "Lipopolysaccharide"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "Acid pH",
+            "PmrB"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "PmrB",
+            "Acid pH"
+          ],
+          "category": "direction_inverted",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "Polymyxin B",
+            "PmrD"
+          ],
+          "category": "cross_page_bridge_spurious",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "PmrB",
+            "PmrA"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "PmrD",
+            "PmrA"
+          ],
+          "category": "direction_inverted",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "PmrA",
+            "Polymyxin B"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "PmrD",
+            "Polymyxin B"
+          ],
+          "category": "cross_page_bridge_spurious",
+          "type": "cross_page"
+        }
+      ],
+      "false_negatives": [
+        {
+          "edge": [
+            "PmrA",
+            "PmrD"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "Acid pH",
+            "PmrD"
+          ],
+          "category": "negation_overfilter",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "PmrB",
+            "Lipopolysaccharide"
+          ],
+          "category": "unrecognized_trigger",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "PmrB",
+            "Polymyxin B"
+          ],
+          "category": "confidence_or_filter_loss",
+          "type": "cross_page"
+        }
+      ]
+    },
+    {
+      "pmcid": "PMC1874608",
+      "title": "Mlc regulation of Salmonella pathogenicity island 1 expression",
+      "gold_direct_count": 5,
+      "gold_cross_count": 5,
+      "pred_direct_count": 19,
+      "pred_cross_count": 15,
+      "tp_direct": 4,
+      "fp_direct": 15,
+      "fn_direct": 1,
+      "direct_f1": 0.3333,
+      "tp_cross": 3,
+      "fp_cross": 12,
+      "fn_cross": 2,
+      "cross_f1": 0.3,
+      "false_positives": [
+        {
+          "edge": [
+            "SPI1",
+            "HilD"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "HilA",
+            "HilD"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "InvF",
+            "SPI1"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "Mlc",
+            "InvF"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "HilA",
+            "Type III Secretion"
+          ],
+          "category": "transitive_jump",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "HilD",
+            "SPI1"
+          ],
+          "category": "transitive_jump",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "HilD",
+            "InvF"
+          ],
+          "category": "transitive_jump",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "Mlc",
+            "SPI1"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "SPI1",
+            "InvF"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "Mlc",
+            "HilA"
+          ],
+          "category": "transitive_jump",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "InvF",
+            "HilD"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "Type III Secretion",
+            "InvF"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "HilD",
+            "Mlc"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "SPI1",
+            "HilA"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "Type III Secretion",
+            "SPI1"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "InvF",
+            "SPI1"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "HilA",
+            "HilD"
+          ],
+          "category": "direction_inverted",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "Mlc",
+            "InvF"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "HilD",
+            "InvF"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "HilA",
+            "InvF"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "HilD",
+            "HilA"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "InvF",
+            "HilA"
+          ],
+          "category": "direction_inverted",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "InvF",
+            "HilD"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "Mlc",
+            "HilD"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "HilD",
+            "Mlc"
+          ],
+          "category": "direction_inverted",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "SPI1",
+            "HilA"
+          ],
+          "category": "direction_inverted",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "Type III Secretion",
+            "SPI1"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        }
+      ],
+      "false_negatives": [
+        {
+          "edge": [
+            "HilA",
+            "InvF"
+          ],
+          "category": "confidence_or_filter_loss",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "Mlc",
+            "Type III Secretion"
+          ],
+          "category": "cross_sentence_intra_page",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "HilD",
+            "Type III Secretion"
+          ],
+          "category": "cross_sentence_intra_page",
+          "type": "cross_page"
+        }
+      ]
+    },
+    {
+      "pmcid": "PMC1913099",
+      "title": "Novel Algorithms Reveal Streptococcal Transcriptomes and Clues about Undefined Genes",
+      "gold_direct_count": 4,
+      "gold_cross_count": 3,
+      "pred_direct_count": 3,
+      "pred_cross_count": 1,
+      "tp_direct": 1,
+      "fp_direct": 2,
+      "fn_direct": 3,
+      "direct_f1": 0.2857,
+      "tp_cross": 0,
+      "fp_cross": 1,
+      "fn_cross": 3,
+      "cross_f1": 0.0,
+      "false_positives": [
+        {
+          "edge": [
+            "Adherence",
+            "Host Colonization"
+          ],
+          "category": "transitive_jump",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "SpeB",
+            "Adherence"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "SpeB",
+            "Host Colonization"
+          ],
+          "category": "cross_page_bridge_spurious",
+          "type": "cross_page"
+        }
+      ],
+      "false_negatives": [
+        {
+          "edge": [
+            "SpeB",
+            "Host Colonization"
+          ],
+          "category": "cross_page_bridge_missed",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "Streptolysin O",
+            "Host Cell Cytotoxicity"
+          ],
+          "category": "confidence_or_filter_loss",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "Adherence",
+            "Streptolysin O"
+          ],
+          "category": "cross_sentence_intra_page",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "Streptolysin O",
+            "Host Colonization"
+          ],
+          "category": "cross_page_bridge_missed",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "Adherence",
+            "Host Cell Cytotoxicity"
+          ],
+          "category": "cross_sentence_intra_page",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "Adherence",
+            "Host Colonization"
+          ],
+          "category": "confidence_or_filter_loss",
+          "type": "cross_page"
+        }
+      ]
+    },
+    {
+      "pmcid": "PMC1974823",
+      "title": "Porphyromonas gingivalis short fimbriae are regulated by FimS/FimR",
+      "gold_direct_count": 4,
+      "gold_cross_count": 5,
+      "pred_direct_count": 6,
+      "pred_cross_count": 2,
+      "tp_direct": 2,
+      "fp_direct": 4,
+      "fn_direct": 2,
+      "direct_f1": 0.4,
+      "tp_cross": 1,
+      "fp_cross": 1,
+      "fn_cross": 4,
+      "cross_f1": 0.2857,
+      "false_positives": [
+        {
+          "edge": [
+            "FimR",
+            "FimS"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "FimS",
+            "Short Fimbriae"
+          ],
+          "category": "cross_page_bridge_spurious",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "Mfa1",
+            "FimR"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "FimR",
+            "Short Fimbriae"
+          ],
+          "category": "transitive_jump",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "FimR",
+            "Mfa1"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        }
+      ],
+      "false_negatives": [
+        {
+          "edge": [
+            "Short Fimbriae",
+            "Biofilm"
+          ],
+          "category": "cross_sentence_intra_page",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "Mfa1",
+            "Short Fimbriae"
+          ],
+          "category": "unrecognized_trigger",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "FimR",
+            "Biofilm"
+          ],
+          "category": "cross_sentence_intra_page",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "FimS",
+            "Mfa1"
+          ],
+          "category": "coreference_or_complex_syntax",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "FimR",
+            "Short Fimbriae"
+          ],
+          "category": "confidence_or_filter_loss",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "FimS",
+            "Biofilm"
+          ],
+          "category": "cross_sentence_intra_page",
+          "type": "cross_page"
+        }
+      ]
+    },
+    {
+      "pmcid": "PMC2242835",
+      "title": "Control of M. tuberculosis ESAT-6 Secretion and Specific T Cell Recognition by PhoP",
+      "gold_direct_count": 4,
+      "gold_cross_count": 5,
+      "pred_direct_count": 5,
+      "pred_cross_count": 7,
+      "tp_direct": 1,
+      "fp_direct": 4,
+      "fn_direct": 3,
+      "direct_f1": 0.2222,
+      "tp_cross": 2,
+      "fp_cross": 5,
+      "fn_cross": 3,
+      "cross_f1": 0.3333,
+      "false_positives": [
+        {
+          "edge": [
+            "EspA",
+            "ESAT-6"
+          ],
+          "category": "transitive_jump",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "EspA",
+            "T Cell Recognition"
+          ],
+          "category": "cross_page_bridge_spurious",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "EspA",
+            "PhoP"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "ESAT-6",
+            "PhoP"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "EspA",
+            "ESAT-6"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "EspA",
+            "PhoP"
+          ],
+          "category": "direction_inverted",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "ESAT-6",
+            "PhoP"
+          ],
+          "category": "direction_inverted",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "ESAT-6",
+            "EspA"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "PhoP",
+            "EspA"
+          ],
+          "category": "speculative_assertion",
+          "type": "cross_page"
+        }
+      ],
+      "false_negatives": [
+        {
+          "edge": [
+            "ESX-1",
+            "ESAT-6"
+          ],
+          "category": "unrecognized_trigger",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "ESAT-6",
+            "T Cell Recognition"
+          ],
+          "category": "negation_overfilter",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "EspA",
+            "ESX-1"
+          ],
+          "category": "cross_sentence_intra_page",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "PhoP",
+            "ESX-1"
+          ],
+          "category": "coreference_or_complex_syntax",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "ESX-1",
+            "T Cell Recognition"
+          ],
+          "category": "cross_sentence_intra_page",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "PhoP",
+            "ESAT-6"
+          ],
+          "category": "direction_inverted",
+          "type": "cross_page"
+        }
+      ]
+    },
+    {
+      "pmcid": "PMC2266911",
+      "title": "Comparative analysis of the Photorhabdus luminescens and the Yersinia enterocolitica genomes: uncovering candidate genes involved in insect pathogenicity",
+      "gold_direct_count": 4,
+      "gold_cross_count": 3,
+      "pred_direct_count": 4,
+      "pred_cross_count": 2,
+      "tp_direct": 2,
+      "fp_direct": 2,
+      "fn_direct": 2,
+      "direct_f1": 0.5,
+      "tp_cross": 0,
+      "fp_cross": 2,
+      "fn_cross": 3,
+      "cross_f1": 0.0,
+      "false_positives": [
+        {
+          "edge": [
+            "LuxR",
+            "AHL"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "LuxR",
+            "Biofilm Formation"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "LuxR",
+            "AHL"
+          ],
+          "category": "direction_inverted",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "LuxR",
+            "Virulence"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        }
+      ],
+      "false_negatives": [
+        {
+          "edge": [
+            "AHL",
+            "LuxR"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "c-di-GMP",
+            "Biofilm Formation"
+          ],
+          "category": "coreference_or_complex_syntax",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "AHL",
+            "Biofilm Formation"
+          ],
+          "category": "cross_sentence_intra_page",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "c-di-GMP",
+            "Virulence"
+          ],
+          "category": "confidence_or_filter_loss",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "AHL",
+            "Virulence"
+          ],
+          "category": "cross_sentence_intra_page",
+          "type": "cross_page"
+        }
+      ]
+    },
+    {
+      "pmcid": "PMC2358977",
+      "title": "SalK/SalR, a Two-Component Signal Transduction System, Is Essential for Full Virulence of Highly Invasive Streptococcus suis Serotype 2",
+      "gold_direct_count": 5,
+      "gold_cross_count": 5,
+      "pred_direct_count": 5,
+      "pred_cross_count": 0,
+      "tp_direct": 1,
+      "fp_direct": 4,
+      "fn_direct": 4,
+      "direct_f1": 0.2,
+      "tp_cross": 0,
+      "fp_cross": 0,
+      "fn_cross": 5,
+      "cross_f1": 0.0,
+      "false_positives": [
+        {
+          "edge": [
+            "Virulence",
+            "SalK"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "Virulence",
+            "SalR"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "SalK",
+            "89K"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "SalR",
+            "89K"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        }
+      ],
+      "false_negatives": [
+        {
+          "edge": [
+            "89K",
+            "SalK"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "SalR",
+            "PMN Resistance"
+          ],
+          "category": "argument_span_or_vocabulary_mismatch",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "PMN Resistance",
+            "Virulence"
+          ],
+          "category": "argument_span_or_vocabulary_mismatch",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "SalK",
+            "SalR"
+          ],
+          "category": "coreference_or_complex_syntax",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "SalK",
+            "PMN Resistance"
+          ],
+          "category": "argument_span_or_vocabulary_mismatch",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "89K",
+            "SalR"
+          ],
+          "category": "coreference_or_complex_syntax",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "89K",
+            "Virulence"
+          ],
+          "category": "cross_sentence_intra_page",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "89K",
+            "PMN Resistance"
+          ],
+          "category": "argument_span_or_vocabulary_mismatch",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "SalK",
+            "Virulence"
+          ],
+          "category": "confidence_or_filter_loss",
+          "type": "cross_page"
+        }
+      ]
+    },
+    {
+      "pmcid": "PMC2430206",
+      "title": "The GraRS regulatory system controls Staphylococcus aureus susceptibility to antimicrobial host defenses",
+      "gold_direct_count": 5,
+      "gold_cross_count": 4,
+      "pred_direct_count": 5,
+      "pred_cross_count": 2,
+      "tp_direct": 3,
+      "fp_direct": 2,
+      "fn_direct": 2,
+      "direct_f1": 0.6,
+      "tp_cross": 1,
+      "fp_cross": 1,
+      "fn_cross": 3,
+      "cross_f1": 0.3333,
+      "false_positives": [
+        {
+          "edge": [
+            "dltA",
+            "GraRS"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "GraRS",
+            "Virulence"
+          ],
+          "category": "transitive_jump",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "LL-37",
+            "Virulence"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        }
+      ],
+      "false_negatives": [
+        {
+          "edge": [
+            "GraRS",
+            "GraR"
+          ],
+          "category": "confidence_or_filter_loss",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "dltA",
+            "LL-37"
+          ],
+          "category": "cross_sentence_intra_page",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "dltA",
+            "Virulence"
+          ],
+          "category": "cross_sentence_intra_page",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "GraR",
+            "LL-37"
+          ],
+          "category": "confidence_or_filter_loss",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "GraR",
+            "Virulence"
+          ],
+          "category": "confidence_or_filter_loss",
+          "type": "cross_page"
+        }
+      ]
+    }
+  ]
+}

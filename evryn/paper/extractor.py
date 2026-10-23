@@ -151,6 +151,12 @@ PASSIVE_INDICATORS = [
     r"\b(?:is|was|are|were)?\s*(?:promoted|induced|activated|stimulated|upregulated|expressed)\s+in\s+(?:media\s+of\s+)?\b",
     r"\b(?:is|was|are|were)?\s*(?:governed|driven|conferred|elicited)\s+by\b",
     r"\b(?:is|was|are|were)?\s*required\s+for(?:\s+\w+){0,5}\s+in\s+response\s+to\b",
+    r"\b(?:is|was|are|were)?\s*(?:reduced|decreased|attenuated|diminished|lost)\s+in\s+(?:the\s+)?(?:\w+\s+)?mutants?\b",
+    r"\b(?:is|was|are|were)?\s*(?:sensed|perceived)\s+by\b",
+    r"\b(?:become|becomes|became|could\s+become|may\s+become)?\s*phosphorylated\s+(?:from|by)\b",
+    r"\b(?:is|are|was|were)?\s*(?:necessary|required|essential)\s+for(?:\s+a)?(?:\s+\w+){0,3}\s+response\s+to\b",
+    r"\b(?:is|was|are|were)?\s*(?:expressed|transcribed|produced|activated|induced)\s+in\s+response\s+to\b",
+    r"\bunder\s+(?:the\s+)?(?:control|regulation)\s+of\b",
 ]
 
 NEGATION_PATTERNS = [

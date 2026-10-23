@@ -1297,6 +1297,31 @@
     examplesSearchInput.addEventListener("input", () => filterCurrentExamples());
   }
 
+  function safeExtractList(data, key) {
+    if (Array.isArray(data)) return data;
+    if (data && typeof data === "object") {
+      if (key && Array.isArray(data[key])) return data[key];
+      if (Array.isArray(data.papers)) return data.papers;
+      if (Array.isArray(data.items)) return data.items;
+      if (Array.isArray(data.examples)) return data.examples;
+    }
+    return [];
+  }
+
+  function renderLoadError(container, msg, retryFn) {
+    if (!container) return;
+    container.innerHTML = `
+      <div class="empty-state error-state" style="padding: 24px; text-align: center;">
+        <p style="color: #dc2626; font-weight: 500; margin-bottom: 12px;">Failed to load real-paper benchmark examples: ${escapeHtml(msg || "Network error")}</p>
+        <button class="action-btn-primary retry-btn" style="padding: 6px 16px; font-size: 12px; cursor: pointer;">Retry Loading</button>
+      </div>
+    `;
+    const btn = container.querySelector(".retry-btn");
+    if (btn && retryFn) {
+      btn.addEventListener("click", retryFn);
+    }
+  }
+
   async function loadExamplesSection(subnav) {
     const split = splitFilterSelect ? splitFilterSelect.value : "all";
     const splitQuery = split !== "all" ? `?split=${split}` : "";
@@ -1305,21 +1330,29 @@
       if (subnav === "pdf") {
         if (pdfCardsGrid) pdfCardsGrid.innerHTML = `<div class="loading-state">Loading authentic real-paper benchmarks...</div>`;
         const res = await fetch(`/api/examples/pdf${splitQuery}`);
-        cachedPdfExamples = await res.json();
+        if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+        const data = await res.json();
+        cachedPdfExamples = safeExtractList(data, "papers");
         renderPdfCards(cachedPdfExamples);
       } else if (subnav === "text") {
         if (textCardsList) textCardsList.innerHTML = `<div class="loading-state">Loading annotated passage examples...</div>`;
         const res = await fetch(`/api/examples/text${splitQuery}`);
-        cachedTextExamples = await res.json();
+        if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+        const data = await res.json();
+        cachedTextExamples = safeExtractList(data, "examples");
         renderTextCards(cachedTextExamples);
       } else if (subnav === "multipage") {
         if (multipageCardsList) multipageCardsList.innerHTML = `<div class="loading-state">Loading cross-sentence & cross-page examples...</div>`;
         const res = await fetch(`/api/examples/multipage${splitQuery}`);
-        cachedMultipageExamples = await res.json();
+        if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+        const data = await res.json();
+        cachedMultipageExamples = safeExtractList(data, "examples");
         renderMultipageCards(cachedMultipageExamples);
       }
     } catch (err) {
       console.error("Failed to load examples section:", err);
+      const targetContainer = subnav === "pdf" ? pdfCardsGrid : (subnav === "text" ? textCardsList : multipageCardsList);
+      renderLoadError(targetContainer, err.message, () => loadExamplesSection(subnav));
     }
   }
 

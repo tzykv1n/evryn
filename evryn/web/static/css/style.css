@@ -1204,31 +1204,7 @@ body.inspector-open .graph-legend {
   color: var(--text-muted, #64748b);
 }
 
-.demo-item {
-  border: 1px solid var(--border-color, #e2e8f0);
-  border-radius: 6px;
-  padding: 10px 14px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
 
-.demo-item:hover, .demo-item:focus {
-  background: #f8fafc;
-  border-color: #0f172a;
-}
-
-.demo-item-title {
-  font-weight: 600;
-  font-size: 13px;
-  color: var(--text-color, #0f172a);
-}
-
-.demo-item-desc {
-  font-size: 11px;
-  color: var(--text-muted, #64748b);
-  margin-top: 4px;
-}
 
 /* Drag & Drop Overlay */
 .drop-overlay {
