@@ -127,14 +127,68 @@ def test_contradiction_preservation(client):
     assert len(rel["evidence"]) >= 2
 
 
-def test_demo_examples_endpoint(client):
+def test_synthetic_demo_examples_removed(client):
+    """Verify that synthetic demo examples endpoint and files are completely removed."""
+    import os
     res = client.get("/api/demo-examples")
+    # Endpoint should not exist
+    assert res.status_code == 404
+    # Demo examples text files must not exist in web directory or repo root
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    assert not os.path.exists(os.path.join(repo_root, "evryn", "web", "EVRYN_Demo_Examples.txt"))
+    assert not os.path.exists(os.path.expanduser("~/Downloads/EVRYN_Demo_Examples.txt"))
+
+
+def test_real_examples_endpoints(client):
+    """Verify the Phase 2 real-paper evaluation examples endpoints."""
+    # Summary
+    res = client.get("/api/examples/summary")
     assert res.status_code == 200
-    examples = res.json()
-    assert len(examples) >= 5
-    assert any("Direct" in ex["title"] for ex in examples)
-    assert "text" in examples[0]
-    assert "test_purpose" in examples[0]
+    summary = res.json()
+    assert summary["synthetic_examples_active"] is False
+    assert summary["total_papers"] == 20
+    assert summary["split_counts"]["train"] == 4
+    assert summary["split_counts"]["dev"] == 8
+    assert summary["split_counts"]["locked_test"] == 4
+    assert summary["split_counts"]["external"] == 4
+    assert summary["sections"]["pdf_examples_count"] == 20
+
+    # Catalog
+    res = client.get("/api/examples/catalog")
+    assert res.status_code == 200
+    catalog = res.json()
+    assert len(catalog) == 20
+
+    # PDF examples
+    res = client.get("/api/examples/pdf?split=dev")
+    assert res.status_code == 200
+    pdf_list = res.json()
+    assert len(pdf_list) == 8
+    assert all(p["split"] == "dev" for p in pdf_list)
+    assert "direct_metrics" in pdf_list[0]
+    assert "cross_page_metrics" in pdf_list[0]
+
+    # Text examples
+    res = client.get("/api/examples/text?limit=10")
+    assert res.status_code == 200
+    text_list = res.json()
+    assert len(text_list) <= 10
+    assert "passage_text" in text_list[0]
+    assert "gold_cause" in text_list[0]
+
+    # Multipage examples
+    res = client.get("/api/examples/multipage?limit=5")
+    assert res.status_code == 200
+    multi_list = res.json()
+    assert len(multi_list) <= 5
+    assert "cause_concept" in multi_list[0]
+    assert "effect_concept" in multi_list[0]
+
+    # PDF serve endpoint
+    res = client.get("/api/examples/paper/PMC1804205/pdf")
+    assert res.status_code == 200
+    assert res.headers["content-type"] == "application/pdf"
+    assert len(res.content) > 1000
 
 
 def test_file_upload_batch(client, tmp_path):

@@ -143,6 +143,14 @@ PASSIVE_INDICATORS = [
     r"\bresponsive\s+to\b",
     r"\bunder\s+(?:the\s+)?control\s+of\b",
     r"\bunder\s+(?:the\s+)?regulation\s+of\b",
+    r"\bin\s+response\s+to\b",
+    r"\bas\s+a\s+result\s+of\b",
+    r"\bas\s+a\s+consequence\s+of\b",
+    r"\bfollowing\s+(?:treatment|stimulation|exposure|activation|addition|administration)\s+(?:with|to|of)\b",
+    r"\bupon\s+(?:treatment|stimulation|exposure|activation|addition|administration|binding)\s+(?:with|to|of)\b",
+    r"\b(?:is|was|are|were)?\s*(?:promoted|induced|activated|stimulated|upregulated|expressed)\s+in\s+(?:media\s+of\s+)?\b",
+    r"\b(?:is|was|are|were)?\s*(?:governed|driven|conferred|elicited)\s+by\b",
+    r"\b(?:is|was|are|were)?\s*required\s+for(?:\s+\w+){0,5}\s+in\s+response\s+to\b",
 ]
 
 NEGATION_PATTERNS = [
@@ -163,6 +171,8 @@ UNCERTAINTY_PATTERNS = [
     r"\b(?:we\s+hypothesize|we\s+speculate|it\s+is\s+postulated)\b",
     r"\b(?:suggests?\s+that|indicates?\s+a\s+potential)\b",
     r"\b(?:remains?\s+unclear|remains?\s+elusive|to\s+be\s+determined)\b",
+    r"\b(?:we\s+tested\s+the\s+possibility\s+of|to\s+test\s+whether|to\s+investigate\s+whether|to\s+determine\s+if)\b",
+    r"\b(?:tested\s+whether|investigated\s+whether|evaluated\s+whether)\b",
 ]
 
 # Precompiled regex patterns for performance optimization

@@ -23,16 +23,45 @@
   const batchCards = document.getElementById("batch-cards");
   const toggleCombinedBtn = document.getElementById("toggle-combined-btn");
 
-  // Synchronized 3-Views DOM Elements
+  // Synchronized 4-Views DOM Elements
   const viewTabGraph = document.getElementById("view-tab-graph");
   const viewTabCopyable = document.getElementById("view-tab-copyable");
   const viewTabTable = document.getElementById("view-tab-table");
+  const viewTabExamples = document.getElementById("view-tab-examples");
   const graphViewport = document.getElementById("graph-viewport");
   const copyableView = document.getElementById("copyable-view");
   const copyableText = document.getElementById("copyable-text");
   const copyGraphBtn = document.getElementById("copy-graph-btn");
   const tableView = document.getElementById("table-view");
   const tableBody = document.getElementById("table-body");
+  const examplesView = document.getElementById("examples-view");
+
+  // Examples Tab Subviews & Controls
+  const subnavPdf = document.getElementById("subnav-pdf");
+  const subnavText = document.getElementById("subnav-text");
+  const subnavMultipage = document.getElementById("subnav-multipage");
+  const subviewPdf = document.getElementById("subview-pdf-container");
+  const subviewText = document.getElementById("subview-text-container");
+  const subviewMultipage = document.getElementById("subview-multipage-container");
+  const splitFilterSelect = document.getElementById("split-filter-select");
+  const examplesSearchInput = document.getElementById("examples-search-input");
+  const pdfCardsGrid = document.getElementById("pdf-cards-grid");
+  const textCardsList = document.getElementById("text-cards-list");
+  const multipageCardsList = document.getElementById("multipage-cards-list");
+
+  // Paper Detail & PDF Modal Elements
+  const paperModal = document.getElementById("paper-modal");
+  const paperModalTitle = document.getElementById("paper-modal-title");
+  const paperModalBadge = document.getElementById("paper-modal-badge");
+  const closePaperModalBtn = document.getElementById("close-paper-modal-btn");
+  const paperTabPdf = document.getElementById("paper-tab-pdf");
+  const paperTabText = document.getElementById("paper-tab-text");
+  const paperTabCausal = document.getElementById("paper-tab-causal");
+  const paperPdfFrameWrap = document.getElementById("paper-pdf-frame-wrap");
+  const paperPdfIframe = document.getElementById("paper-pdf-iframe");
+  const paperTextWrap = document.getElementById("paper-text-wrap");
+  const paperCausalWrap = document.getElementById("paper-causal-wrap");
+  const loadPaperWorkspaceBtn = document.getElementById("load-paper-workspace-btn");
 
   // Physics & Tighten Controls
   const physicsPresetSelect = document.getElementById("physics-preset-select");
@@ -69,10 +98,7 @@
   const sessionCountLabel = document.getElementById("session-count-label");
   const newSessionBtn = document.getElementById("new-session-btn");
 
-  const demoModal = document.getElementById("demo-modal");
-  const demoList = document.getElementById("demo-list");
-  const closeDemoBtn = document.getElementById("close-demo-btn");
-  const menuDemoBtn = document.getElementById("menu-demo-btn");
+  const menuExamplesBtn = document.getElementById("menu-examples-btn");
   const menuUploadBtn = document.getElementById("menu-upload-btn");
   const menuEvalBtn = document.getElementById("menu-eval-btn");
   const menuContinualBtn = document.getElementById("menu-continual-btn");
@@ -100,16 +126,23 @@
     viewTabGraph.classList.toggle("active", tabName === "graph");
     viewTabCopyable.classList.toggle("active", tabName === "copyable");
     viewTabTable.classList.toggle("active", tabName === "table");
+    if (viewTabExamples) viewTabExamples.classList.toggle("active", tabName === "examples");
 
     viewTabGraph.setAttribute("aria-selected", tabName === "graph");
     viewTabCopyable.setAttribute("aria-selected", tabName === "copyable");
     viewTabTable.setAttribute("aria-selected", tabName === "table");
+    if (viewTabExamples) viewTabExamples.setAttribute("aria-selected", tabName === "examples");
 
     graphViewport.classList.toggle("hidden", tabName !== "graph");
     copyableView.classList.toggle("hidden", tabName !== "copyable");
     tableView.classList.toggle("hidden", tabName !== "table");
+    if (examplesView) examplesView.classList.toggle("hidden", tabName !== "examples");
 
-    if (tabName === "copyable" && activeSessionData) {
+    if (tabName === "examples") {
+      graphRenderer.pause();
+      resultsView.classList.remove("hidden");
+      switchExamplesSubnav(activeExamplesSubnav || "pdf");
+    } else if (tabName === "copyable" && activeSessionData) {
       copyableText.textContent = generateCopyableGraphText(activeSessionData);
       graphRenderer.pause();
     } else if (tabName === "table") {
@@ -123,6 +156,7 @@
   viewTabGraph.addEventListener("click", () => switchView("graph"));
   viewTabCopyable.addEventListener("click", () => switchView("copyable"));
   viewTabTable.addEventListener("click", () => switchView("table"));
+  if (viewTabExamples) viewTabExamples.addEventListener("click", () => switchView("examples"));
 
   // 1-Click Copy Graph Button
   copyGraphBtn.addEventListener("click", () => {
@@ -524,11 +558,13 @@
     });
   }
 
-  menuDemoBtn.addEventListener("click", () => {
-    plusMenu.classList.add("hidden");
-    plusBtn.setAttribute("aria-expanded", "false");
-    openDemoModal();
-  });
+  if (menuExamplesBtn) {
+    menuExamplesBtn.addEventListener("click", () => {
+      plusMenu.classList.add("hidden");
+      plusBtn.setAttribute("aria-expanded", "false");
+      switchView("examples");
+    });
+  }
 
   menuEvalBtn.addEventListener("click", () => {
     plusMenu.classList.add("hidden");
@@ -1226,37 +1262,428 @@
     }
   }
 
-  // Demonstration Examples Modal
-  async function openDemoModal() {
-    demoModal.classList.remove("hidden");
-    demoList.innerHTML = "<p>Loading examples...</p>";
+  // ==========================================================================
+  // Phase 2: Real-Paper Causal Evaluation Examples Tab & Preview Modal
+  // ==========================================================================
+
+  let activeExamplesSubnav = "pdf";
+  let cachedPdfExamples = [];
+  let cachedTextExamples = [];
+  let cachedMultipageExamples = [];
+  let activeModalPaperId = null;
+
+  function switchExamplesSubnav(subnav) {
+    activeExamplesSubnav = subnav;
+    if (subnavPdf) subnavPdf.classList.toggle("active", subnav === "pdf");
+    if (subnavText) subnavText.classList.toggle("active", subnav === "text");
+    if (subnavMultipage) subnavMultipage.classList.toggle("active", subnav === "multipage");
+
+    if (subviewPdf) subviewPdf.classList.toggle("hidden", subnav !== "pdf");
+    if (subviewText) subviewText.classList.toggle("hidden", subnav !== "text");
+    if (subviewMultipage) subviewMultipage.classList.toggle("hidden", subnav !== "multipage");
+
+    loadExamplesSection(subnav);
+  }
+
+  if (subnavPdf) subnavPdf.addEventListener("click", () => switchExamplesSubnav("pdf"));
+  if (subnavText) subnavText.addEventListener("click", () => switchExamplesSubnav("text"));
+  if (subnavMultipage) subnavMultipage.addEventListener("click", () => switchExamplesSubnav("multipage"));
+
+  if (splitFilterSelect) {
+    splitFilterSelect.addEventListener("change", () => loadExamplesSection(activeExamplesSubnav));
+  }
+
+  if (examplesSearchInput) {
+    examplesSearchInput.addEventListener("input", () => filterCurrentExamples());
+  }
+
+  async function loadExamplesSection(subnav) {
+    const split = splitFilterSelect ? splitFilterSelect.value : "all";
+    const splitQuery = split !== "all" ? `?split=${split}` : "";
 
     try {
-      const res = await fetch("/api/demo-examples");
-      const examples = await res.json();
-      demoList.innerHTML = "";
-
-      for (const ex of examples) {
-        const item = document.createElement("div");
-        item.className = "demo-item";
-        item.innerHTML = `
-          <div class="demo-item-title">${ex.id}. ${ex.title}</div>
-          <div class="demo-item-desc">${ex.test_purpose}</div>
-        `;
-        item.addEventListener("click", () => {
-          demoModal.classList.add("hidden");
-          queryInput.value = ex.text;
-          autoResize(queryInput);
-          submitQuery(ex.text);
-        });
-        demoList.appendChild(item);
+      if (subnav === "pdf") {
+        if (pdfCardsGrid) pdfCardsGrid.innerHTML = `<div class="loading-state">Loading authentic real-paper benchmarks...</div>`;
+        const res = await fetch(`/api/examples/pdf${splitQuery}`);
+        cachedPdfExamples = await res.json();
+        renderPdfCards(cachedPdfExamples);
+      } else if (subnav === "text") {
+        if (textCardsList) textCardsList.innerHTML = `<div class="loading-state">Loading annotated passage examples...</div>`;
+        const res = await fetch(`/api/examples/text${splitQuery}`);
+        cachedTextExamples = await res.json();
+        renderTextCards(cachedTextExamples);
+      } else if (subnav === "multipage") {
+        if (multipageCardsList) multipageCardsList.innerHTML = `<div class="loading-state">Loading cross-sentence & cross-page examples...</div>`;
+        const res = await fetch(`/api/examples/multipage${splitQuery}`);
+        cachedMultipageExamples = await res.json();
+        renderMultipageCards(cachedMultipageExamples);
       }
     } catch (err) {
-      demoList.innerHTML = `<p>Failed to load demo examples: ${err.message}</p>`;
+      console.error("Failed to load examples section:", err);
     }
   }
 
-  closeDemoBtn.addEventListener("click", () => demoModal.classList.add("hidden"));
+  function filterCurrentExamples() {
+    const q = (examplesSearchInput ? examplesSearchInput.value : "").toLowerCase().trim();
+    if (activeExamplesSubnav === "pdf") {
+      const filtered = cachedPdfExamples.filter(p =>
+        !q || p.pmcid.toLowerCase().includes(q) || p.title.toLowerCase().includes(q) || (p.doi && p.doi.toLowerCase().includes(q))
+      );
+      renderPdfCards(filtered);
+    } else if (activeExamplesSubnav === "text") {
+      const filtered = cachedTextExamples.filter(t =>
+        !q || t.pmcid.toLowerCase().includes(q) || t.passage_text.toLowerCase().includes(q) || t.gold_cause.toLowerCase().includes(q) || t.gold_effect.toLowerCase().includes(q)
+      );
+      renderTextCards(filtered);
+    } else if (activeExamplesSubnav === "multipage") {
+      const filtered = cachedMultipageExamples.filter(m =>
+        !q || m.pmcid.toLowerCase().includes(q) || m.cause_concept.toLowerCase().includes(q) || m.effect_concept.toLowerCase().includes(q)
+      );
+      renderMultipageCards(filtered);
+    }
+  }
+
+  function renderPdfCards(papers) {
+    if (!pdfCardsGrid) return;
+    if (!papers || papers.length === 0) {
+      pdfCardsGrid.innerHTML = `<div class="empty-state">No papers found matching criteria.</div>`;
+      return;
+    }
+
+    pdfCardsGrid.innerHTML = "";
+    papers.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "pdf-card";
+
+      const authorsStr = p.authors && p.authors.length ? p.authors.slice(0, 3).join(", ") + (p.authors.length > 3 ? " et al." : "") : "Research Team";
+      const dm = p.direct_metrics || { precision: 0, recall: 0, f1: 0, tp: 0, fp: 0, fn: 0 };
+      const cm = p.cross_page_metrics || { precision: 0, recall: 0, f1: 0, tp: 0, fp: 0, fn: 0 };
+
+      card.innerHTML = `
+        <div>
+          <div class="pdf-card-header">
+            <div>
+              <span class="pdf-card-journal">${escapeHtml(p.journal || "PubMed Central")} &bull; ${p.page_count} PAGES</span>
+              <div class="pdf-card-title">${escapeHtml(p.title)}</div>
+              <div class="pdf-card-authors">${escapeHtml(authorsStr)}</div>
+            </div>
+            <span class="badge-split split-${p.split}">${p.split.replace("_", " ")}</span>
+          </div>
+
+          <table class="pdf-metrics-table" style="margin-top: 10px;">
+            <thead>
+              <tr>
+                <th>METRIC EVALUATION</th>
+                <th>PRECISION</th>
+                <th>RECALL</th>
+                <th>F1 SCORE</th>
+                <th>DENOMINATOR COUNTS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Direct Causal F1</b></td>
+                <td>${(dm.precision * 100).toFixed(1)}%</td>
+                <td>${(dm.recall * 100).toFixed(1)}%</td>
+                <td><span class="f1-badge ${dm.f1 > 0.6 ? 'f1-high' : 'f1-med'}">${dm.f1.toFixed(4)}</span></td>
+                <td><small>${dm.denominator_explanation || `TP=${dm.tp}`}</small></td>
+              </tr>
+              <tr>
+                <td><b>Cross-Page Causal F1</b></td>
+                <td>${(cm.precision * 100).toFixed(1)}%</td>
+                <td>${(cm.recall * 100).toFixed(1)}%</td>
+                <td><span class="f1-badge ${cm.f1 > 0.5 ? 'f1-high' : 'f1-med'}">${cm.f1.toFixed(4)}</span></td>
+                <td><small>${cm.denominator_explanation || `TP=${cm.tp}`}</small></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pdf-card-actions">
+          <button class="btn-card-action btn-card-primary" data-action="view-pdf" data-pmcid="${p.pmcid}">📄 View Multi-Page PDF</button>
+          <button class="btn-card-action" data-action="inspect" data-pmcid="${p.pmcid}">🔍 Inspect Relations</button>
+          <button class="btn-card-action" data-action="load-workspace" data-pmcid="${p.pmcid}">⚡ Load into Workspace</button>
+        </div>
+      `;
+
+      card.querySelector('[data-action="view-pdf"]').addEventListener("click", () => openPaperModal(p.pmcid, "pdf"));
+      card.querySelector('[data-action="inspect"]').addEventListener("click", () => openPaperModal(p.pmcid, "causal"));
+      card.querySelector('[data-action="load-workspace"]').addEventListener("click", () => loadPaperToWorkspace(p.pmcid, p.title));
+
+      pdfCardsGrid.appendChild(card);
+    });
+  }
+
+  function renderTextCards(passages) {
+    if (!textCardsList) return;
+    if (!passages || passages.length === 0) {
+      textCardsList.innerHTML = `<div class="empty-state">No passage examples found matching criteria.</div>`;
+      return;
+    }
+
+    textCardsList.innerHTML = "";
+    passages.forEach(t => {
+      const card = document.createElement("div");
+      card.className = "text-card";
+
+      const isTp = t.match_status === "TRUE_POSITIVE";
+      const pillClass = isTp ? "pill-tp" : "pill-fn";
+      const pillLabel = isTp ? "TRUE POSITIVE MATCH" : "FALSE NEGATIVE / UNMATCHED";
+
+      card.innerHTML = `
+        <div class="text-card-header">
+          <div>
+            <span class="pdf-card-journal">${escapeHtml(t.pmcid)} &bull; Section: ${escapeHtml(t.section)}</span>
+            <span class="badge-split split-${t.split}" style="margin-left: 6px;">${t.split}</span>
+          </div>
+          <span class="pill-match ${pillClass}">${pillLabel}</span>
+        </div>
+
+        <div class="text-passage">"${escapeHtml(t.passage_text)}"</div>
+
+        <div class="gold-comparison-row">
+          <div class="comp-col">
+            <span class="comp-label">GOLD CAUSE:</span>
+            <span class="comp-val">${escapeHtml(t.gold_cause)}</span>
+          </div>
+          <div class="comp-col">
+            <span class="comp-label">GOLD EFFECT:</span>
+            <span class="comp-val">${escapeHtml(t.gold_effect)}</span>
+          </div>
+          <div class="comp-col">
+            <span class="comp-label">RELATION TYPE:</span>
+            <span class="comp-val">${escapeHtml(t.gold_relation_type)}</span>
+          </div>
+          <div class="comp-col">
+            <span class="comp-label">EVRYN EXTRACTION:</span>
+            <span class="comp-val">${escapeHtml(t.model_prediction)}</span>
+          </div>
+        </div>
+
+        <div style="font-size: 11px; color: #64748b;">
+          <b>Diagnostic:</b> ${escapeHtml(t.diagnostic)}
+        </div>
+
+        <div class="pdf-card-actions">
+          <button class="btn-card-action btn-card-primary" data-action="load-text">⚡ Test Passage in Workspace</button>
+          <button class="btn-card-action" data-action="open-paper" data-pmcid="${t.pmcid}">📄 View Full Paper (${t.pmcid})</button>
+        </div>
+      `;
+
+      card.querySelector('[data-action="load-text"]').addEventListener("click", () => {
+        queryInput.value = t.passage_text;
+        autoResize(queryInput);
+        switchView("graph");
+        submitQuery(t.passage_text);
+      });
+
+      card.querySelector('[data-action="open-paper"]').addEventListener("click", () => {
+        openPaperModal(t.pmcid, "text");
+      });
+
+      textCardsList.appendChild(card);
+    });
+  }
+
+  function renderMultipageCards(chains) {
+    if (!multipageCardsList) return;
+    if (!chains || chains.length === 0) {
+      multipageCardsList.innerHTML = `<div class="empty-state">No multipage relations found matching criteria.</div>`;
+      return;
+    }
+
+    multipageCardsList.innerHTML = "";
+    chains.forEach(m => {
+      const card = document.createElement("div");
+      card.className = "multipage-card";
+
+      card.innerHTML = `
+        <div class="text-card-header">
+          <div>
+            <span class="pdf-card-journal">${escapeHtml(m.pmcid)} &bull; ${escapeHtml(m.paper_title)}</span>
+            <span class="badge-split split-${m.split}" style="margin-left: 6px;">${m.split}</span>
+          </div>
+          <span class="pill-match pill-tp">${m.example_type.replace('_', ' ').toUpperCase()}</span>
+        </div>
+
+        <div class="multipage-chain-wrap">
+          <div class="chain-node-box">
+            <div class="chain-node-header">
+              <span>UPSTREAM CAUSE</span>
+              <span>${escapeHtml(m.cause_location)}</span>
+            </div>
+            <div class="chain-node-concept">${escapeHtml(m.cause_concept)}</div>
+            <div class="chain-node-passage">"${escapeHtml(m.cause_passage)}"</div>
+          </div>
+
+          <div class="chain-arrow">⤏</div>
+
+          <div class="chain-node-box">
+            <div class="chain-node-header">
+              <span>DISTAL EFFECT</span>
+              <span>${escapeHtml(m.effect_location)}</span>
+            </div>
+            <div class="chain-node-concept">${escapeHtml(m.effect_concept)}</div>
+            <div class="chain-node-passage">"${escapeHtml(m.effect_passage)}"</div>
+          </div>
+        </div>
+
+        <div style="font-size: 11px; color: #334155;">
+          <b>Bridge Mechanism:</b> ${escapeHtml(m.bridge_mechanism)}
+          <br>
+          <b>Diagnostic:</b> ${escapeHtml(m.diagnostic)}
+        </div>
+
+        <div class="pdf-card-actions">
+          <button class="btn-card-action btn-card-primary" data-action="view-pdf" data-pmcid="${m.pmcid}">📄 View Multi-Page PDF</button>
+          <button class="btn-card-action" data-action="load-workspace" data-pmcid="${m.pmcid}">⚡ Load Paper into Workspace</button>
+        </div>
+      `;
+
+      card.querySelector('[data-action="view-pdf"]').addEventListener("click", () => openPaperModal(m.pmcid, "pdf"));
+      card.querySelector('[data-action="load-workspace"]').addEventListener("click", () => loadPaperToWorkspace(m.pmcid, m.paper_title));
+
+      multipageCardsList.appendChild(card);
+    });
+  }
+
+  // Paper Detail & PDF Modal Logic
+  async function openPaperModal(pmcid, initialTab = "pdf") {
+    activeModalPaperId = pmcid;
+    if (!paperModal) return;
+
+    paperModal.classList.remove("hidden");
+    if (paperModalTitle) paperModalTitle.textContent = `Loading ${pmcid}...`;
+
+    if (paperPdfIframe) {
+      paperPdfIframe.src = `/api/examples/paper/${pmcid}/pdf`;
+    }
+
+    switchPaperModalTab(initialTab);
+
+    try {
+      const res = await fetch(`/api/examples/paper/${pmcid}`);
+      const data = await res.json();
+
+      if (paperModalTitle) paperModalTitle.textContent = `${pmcid}: ${data.metadata.title}`;
+      if (paperModalBadge) {
+        paperModalBadge.className = `badge-split split-${data.metadata.split}`;
+        paperModalBadge.textContent = data.metadata.split.toUpperCase();
+      }
+
+      // Populate Section Text
+      if (paperTextWrap) {
+        paperTextWrap.innerHTML = data.sections.map(s => `
+          <div style="margin-bottom: 14px;">
+            <h4 style="font-size: 13px; font-weight: 700; color: #0f172a; margin-bottom: 6px;">${escapeHtml(s.title)} (${s.type})</h4>
+            ${s.paragraphs.map(p => `<p style="font-size: 12px; line-height: 1.5; color: #334155; margin-bottom: 6px;">${escapeHtml(p)}</p>`).join("")}
+          </div>
+        `).join("");
+      }
+
+      // Populate Causal Comparison
+      if (paperCausalWrap) {
+        const goldRows = data.gold_relations.map(r => `
+          <tr>
+            <td><b>${escapeHtml(r.cause)}</b></td>
+            <td>&rarr;</td>
+            <td><b>${escapeHtml(r.effect)}</b></td>
+            <td>${escapeHtml(r.rel_type)}</td>
+            <td>${escapeHtml(r.section)}</td>
+          </tr>
+        `).join("");
+
+        const predRows = data.predicted_assertions.map(a => `
+          <tr>
+            <td><b>${escapeHtml(a.cause)}</b></td>
+            <td>&rarr;</td>
+            <td><b>${escapeHtml(a.effect)}</b></td>
+            <td>${escapeHtml(a.polarity)}</td>
+            <td>${(a.confidence * 100).toFixed(0)}%</td>
+          </tr>
+        `).join("");
+
+        paperCausalWrap.innerHTML = `
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div>
+              <h4 style="font-size: 12px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">GOLD ANNOTATIONS (${data.gold_relations.length})</h4>
+              <table class="pdf-metrics-table">
+                <thead><tr><th>Cause</th><th></th><th>Effect</th><th>Type</th><th>Section</th></tr></thead>
+                <tbody>${goldRows || '<tr><td colspan="5">No annotated relations.</td></tr>'}</tbody>
+              </table>
+            </div>
+            <div>
+              <h4 style="font-size: 12px; font-weight: 700; color: #0f172a; margin-bottom: 8px;">EVRYN MODEL EXTRACTIONS (${data.predicted_assertions.length})</h4>
+              <table class="pdf-metrics-table">
+                <thead><tr><th>Cause</th><th></th><th>Effect</th><th>Polarity</th><th>Conf</th></tr></thead>
+                <tbody>${predRows || '<tr><td colspan="5">No extractions.</td></tr>'}</tbody>
+              </table>
+            </div>
+          </div>
+        `;
+      }
+    } catch (err) {
+      console.error("Failed to load paper details:", err);
+    }
+  }
+
+  function switchPaperModalTab(tab) {
+    if (paperTabPdf) paperTabPdf.classList.toggle("active", tab === "pdf");
+    if (paperTabText) paperTabText.classList.toggle("active", tab === "text");
+    if (paperTabCausal) paperTabCausal.classList.toggle("active", tab === "causal");
+
+    if (paperPdfFrameWrap) paperPdfFrameWrap.classList.toggle("hidden", tab !== "pdf");
+    if (paperTextWrap) paperTextWrap.classList.toggle("hidden", tab !== "text");
+    if (paperCausalWrap) paperCausalWrap.classList.toggle("hidden", tab !== "causal");
+  }
+
+  if (paperTabPdf) paperTabPdf.addEventListener("click", () => switchPaperModalTab("pdf"));
+  if (paperTabText) paperTabText.addEventListener("click", () => switchPaperModalTab("text"));
+  if (paperTabCausal) paperTabCausal.addEventListener("click", () => switchPaperModalTab("causal"));
+
+  if (closePaperModalBtn) {
+    closePaperModalBtn.addEventListener("click", () => {
+      if (paperModal) paperModal.classList.add("hidden");
+      if (paperPdfIframe) paperPdfIframe.src = "";
+    });
+  }
+
+  async function loadPaperToWorkspace(pmcid, title) {
+    showProcessing(`INGESTING & EXTRACTING REAL PAPER ${pmcid}...`);
+    if (paperModal) paperModal.classList.add("hidden");
+
+    try {
+      const res = await fetch("/api/examples/load", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pmcid, title }),
+      });
+      if (!res.ok) throw new Error("Failed to load paper to workspace");
+      const data = await res.json();
+      activeSessionId = data.session_id;
+      activeSessionData = data;
+      renderSession(data);
+      refreshSessionList();
+      switchView("graph");
+    } catch (err) {
+      alert("Failed to load paper to workspace: " + err.message);
+    } finally {
+      hideProcessing();
+    }
+  }
+
+  if (loadPaperWorkspaceBtn) {
+    loadPaperWorkspaceBtn.addEventListener("click", () => {
+      if (activeModalPaperId) {
+        loadPaperToWorkspace(activeModalPaperId, `Paper ${activeModalPaperId}`);
+      }
+    });
+  }
+
+  function escapeHtml(str) {
+    if (!str) return "";
+    return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
 
   // Benchmark Verification Action
   async function runBenchmarkVerification() {

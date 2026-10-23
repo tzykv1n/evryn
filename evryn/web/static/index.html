@@ -56,7 +56,7 @@
       <div id="plus-menu" class="plus-menu hidden" role="menu">
         <button id="menu-upload-btn" class="menu-item" role="menuitem">Upload Documents (PDF, TXT, DOCX)</button>
         <button id="menu-continual-btn" class="menu-item" role="menuitem">Append Continual Knowledge (+)</button>
-        <button id="menu-demo-btn" class="menu-item" role="menuitem">Load Demonstration Example</button>
+        <button id="menu-examples-btn" class="menu-item" role="menuitem">Browse Real-Paper Examples (Phase 2)</button>
         <button id="menu-eval-btn" class="menu-item" role="menuitem">Run Benchmark Verification</button>
       </div>
 
@@ -89,11 +89,12 @@
         <div class="graph-toolbar">
           <div class="toolbar-left">
             <span id="graph-stats" class="graph-stats">0 NODES &nbsp;|&nbsp; 0 RELATIONS</span>
-            <!-- Synchronized 3-View Tabs -->
+            <!-- Synchronized 4-View Tabs -->
             <div class="view-tabs" role="tablist">
               <button id="view-tab-graph" class="view-tab active" role="tab" aria-selected="true" title="Interactive Physics Graph">GRAPH</button>
               <button id="view-tab-copyable" class="view-tab" role="tab" aria-selected="false" title="Copyable Plain-Text Graph">COPYABLE</button>
               <button id="view-tab-table" class="view-tab" role="tab" aria-selected="false" title="Structured Table View">TABLE</button>
+              <button id="view-tab-examples" class="view-tab" role="tab" aria-selected="false" title="Real-Paper Evaluation Examples">EXAMPLES</button>
             </div>
           </div>
 
@@ -294,6 +295,81 @@
             </tbody>
           </table>
         </div>
+
+        <!-- View 4: Real-Paper Evaluation Examples Tab (Phase 2 Redesign) -->
+        <div id="examples-view" class="examples-view hidden">
+          <div class="examples-toolbar">
+            <div class="examples-subnav" role="tablist">
+              <button id="subnav-pdf" class="subnav-tab active" role="tab" aria-selected="true">
+                <span class="subnav-icon">📄</span> PDF EXAMPLES (<span id="pdf-count-badge">20</span>)
+              </button>
+              <button id="subnav-text" class="subnav-tab" role="tab" aria-selected="false">
+                <span class="subnav-icon">📝</span> TEXT EXAMPLES (<span id="text-count-badge">50</span>)
+              </button>
+              <button id="subnav-multipage" class="subnav-tab" role="tab" aria-selected="false">
+                <span class="subnav-icon">📑</span> MULTIPAGE EXAMPLES (<span id="multipage-count-badge">30</span>)
+              </button>
+            </div>
+            <div class="examples-filters">
+              <div class="filter-item">
+                <label for="split-filter-select" class="filter-label">SPLIT:</label>
+                <select id="split-filter-select" class="filter-select">
+                  <option value="all">All Splits (20 Papers)</option>
+                  <option value="dev">Development Set (8 Papers)</option>
+                  <option value="train">Training Set (4 Papers)</option>
+                  <option value="locked_test">Locked Test Set (4 Papers)</option>
+                  <option value="external">External Generalization (4 Papers)</option>
+                </select>
+              </div>
+              <div class="filter-item search-item">
+                <input type="search" id="examples-search-input" class="examples-search-input" placeholder="Search papers, concepts, DOI, PMCID..." />
+              </div>
+            </div>
+          </div>
+
+          <!-- Real Grounding Verification Banner -->
+          <div class="examples-grounding-banner">
+            <div class="grounding-left">
+              <span class="grounding-badge">SCIENTIFIC INTEGRITY VERIFIED</span>
+              <span class="grounding-text">100% authentic PMC Open Access literature &amp; BioCause gold standard annotations. Zero synthetic demonstration graphs.</span>
+            </div>
+            <div class="grounding-stats" id="grounding-stats-pills">
+              <span class="grounding-pill">20 Real Papers</span>
+              <span class="grounding-pill">4 Splits</span>
+              <span class="grounding-pill">417 Gold Annotations</span>
+            </div>
+          </div>
+
+          <!-- Sub-View 1: PDF Examples Container -->
+          <div id="subview-pdf-container" class="subview-container">
+            <div id="pdf-cards-grid" class="pdf-cards-grid">
+              <!-- Dynamically populated from /api/examples/pdf -->
+            </div>
+          </div>
+
+          <!-- Sub-View 2: Text Examples Container -->
+          <div id="subview-text-container" class="subview-container hidden">
+            <div class="text-filter-bar">
+              <span class="filter-label">MATCH STATUS:</span>
+              <button class="status-chip active" data-status="all">All</button>
+              <button class="status-chip" data-status="TRUE_POSITIVE">True Positives</button>
+              <button class="status-chip" data-status="FALSE_NEGATIVE">False Negatives</button>
+            </div>
+            <div id="text-cards-list" class="text-cards-list">
+              <!-- Dynamically populated from /api/examples/text -->
+            </div>
+          </div>
+
+          <!-- Sub-View 3: Multipage Examples Container -->
+          <div id="subview-multipage-container" class="subview-container hidden">
+            <div class="multipage-intro-bar">
+              <span>Real cross-sentence and cross-page causal relations evaluated across distinct discourse boundaries and paper sections.</span>
+            </div>
+            <div id="multipage-cards-list" class="multipage-cards-list">
+              <!-- Dynamically populated from /api/examples/multipage -->
+            </div>
+          </div>
+        </div>
       </div>
 
     </section>
@@ -335,18 +411,34 @@
       </div>
     </aside>
 
-    <!-- Demo Examples Modal -->
-    <div id="demo-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Demonstration Examples">
-      <div class="modal-content">
+    <!-- Paper Detail & PDF Preview Modal (Phase 2) -->
+    <div id="paper-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Paper Preview">
+      <div class="modal-content modal-large">
         <div class="modal-header">
-          <span class="modal-title">DEMONSTRATION EXAMPLES</span>
-          <button id="close-demo-btn" class="icon-btn" aria-label="Close modal">×</button>
-        </div>
-        <div class="modal-body">
-          <p class="modal-intro">Select a verified test case to load directly into the workspace:</p>
-          <div id="demo-list" class="demo-list">
-            <!-- Dynamically populated from /api/demo-examples -->
+          <div class="modal-header-meta">
+            <span id="paper-modal-badge" class="badge-split">DEV</span>
+            <span id="paper-modal-title" class="modal-title">Paper Preview</span>
           </div>
+          <button id="close-paper-modal-btn" class="icon-btn" aria-label="Close modal">×</button>
+        </div>
+        <div class="modal-body modal-tabs-body">
+          <div class="modal-tabs" role="tablist">
+            <button id="paper-tab-pdf" class="modal-tab active">PDF VIEWER</button>
+            <button id="paper-tab-text" class="modal-tab">SECTION TEXT &amp; PASSAGES</button>
+            <button id="paper-tab-causal" class="modal-tab">CAUSAL COMPARISON</button>
+          </div>
+          <div id="paper-pdf-frame-wrap" class="modal-frame-wrap">
+            <iframe id="paper-pdf-iframe" src="" class="paper-pdf-iframe" title="PDF Document Preview"></iframe>
+          </div>
+          <div id="paper-text-wrap" class="modal-scroll-wrap hidden">
+            <!-- Structured Sections -->
+          </div>
+          <div id="paper-causal-wrap" class="modal-scroll-wrap hidden">
+            <!-- Model vs Gold side-by-side -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="load-paper-workspace-btn" class="action-btn-primary">Load Paper into Workspace</button>
         </div>
       </div>
     </div>

@@ -2,7 +2,9 @@ import os
 import re
 import tempfile
 import shutil
+import uuid
 from typing import List, Optional
+from pydantic import BaseModel
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -236,49 +238,87 @@ def update_layout(session_id: str, req: LayoutUpdateRequest):
     return {"status": "ok", "updated_nodes": len(req.positions)}
 
 
-@app.get("/api/demo-examples")
-def get_demo_examples():
-    file_path = os.path.expanduser("~/Downloads/EVRYN_Demo_Examples.txt")
-    if not os.path.exists(file_path):
-        # Fallback to local copy
-        file_path = os.path.join(os.path.dirname(__file__), "EVRYN_Demo_Examples.txt")
 
-    if not os.path.exists(file_path):
-        return []
 
-    examples = []
-    with open(file_path, "r", encoding="utf-8") as f:
-        content = f.read()
 
-    blocks = re.split(r"={60,}\nDEMONSTRATION EXAMPLE \d+:? ", content)
-    for idx, block in enumerate(blocks[1:], start=1):
-        lines = block.strip().split("\n")
-        title_match = re.search(r"\[Title\]:\s*(.+)", block)
-        if title_match:
-            title = title_match.group(1).strip()
+from evryn.web.real_examples_service import RealExamplesService
+
+
+@app.get("/api/examples/summary")
+def get_examples_summary():
+    return RealExamplesService.get_instance().get_summary()
+
+
+@app.get("/api/examples/catalog")
+def get_examples_catalog():
+    return RealExamplesService.get_instance().get_catalog()
+
+
+@app.get("/api/examples/pdf")
+def get_pdf_examples(split: Optional[str] = None):
+    return RealExamplesService.get_instance().get_pdf_examples(split=split)
+
+
+@app.get("/api/examples/text")
+def get_text_examples(split: Optional[str] = None, status: Optional[str] = None, limit: int = 50):
+    return RealExamplesService.get_instance().get_text_examples(split=split, status=status, limit=limit)
+
+
+@app.get("/api/examples/multipage")
+def get_multipage_examples(split: Optional[str] = None, limit: int = 30):
+    return RealExamplesService.get_instance().get_multipage_examples(split=split, limit=limit)
+
+
+@app.get("/api/examples/paper/{pmcid}")
+def get_example_paper_detail(pmcid: str):
+    svc = RealExamplesService.get_instance()
+    try:
+        return svc.get_paper_detail(pmcid)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+
+@app.get("/api/examples/paper/{pmcid}/pdf")
+def get_example_paper_pdf(pmcid: str):
+    svc = RealExamplesService.get_instance()
+    pdf_path = svc.get_paper_pdf_path(pmcid)
+    if not pdf_path or not os.path.exists(pdf_path):
+        raise HTTPException(status_code=404, detail=f"PDF for {pmcid} not found.")
+    return FileResponse(pdf_path, media_type="application/pdf", filename=f"{pmcid}.pdf")
+
+
+class LoadExampleRequest(BaseModel):
+    session_id: Optional[str] = None
+    pmcid: Optional[str] = None
+    text: Optional[str] = None
+    title: Optional[str] = None
+
+
+@app.post("/api/examples/load")
+def load_example_to_workspace(req: LoadExampleRequest):
+    sess_id = req.session_id or f"sess_{uuid.uuid4().hex[:10]}"
+    sess = store.get_session(sess_id)
+    if not sess:
+        store.create_session(title=req.title or "Real Paper Example", session_id=sess_id)
+
+    if req.text:
+        res_data = service.process_text_input(req.text, session_id=sess_id, title_hint=req.title or "Paper Passage")
+    elif req.pmcid:
+        svc = RealExamplesService.get_instance()
+        pdf_path = svc.get_paper_pdf_path(req.pmcid)
+        if pdf_path and os.path.exists(pdf_path):
+            from evryn.paper.ingestion import PaperIngestion
+            ing = PaperIngestion()
+            doc = ing.ingest_pdf(pdf_path)
+            res_data = service._extract_and_accumulate(doc, sess_id, filename=f"{req.pmcid}.pdf", title_hint=req.title)
         else:
-            title = lines[0].strip("[] ").replace("Title]:", "").strip() if lines else f"Example {idx}"
-        
-        text_match = re.search(r"\[Text to Paste\]:\s*\n(.*?)(?=\n\n\[What it Tests\]:)", block, re.DOTALL)
-        test_match = re.search(r"\[What it Tests\]:\s*\n(.*?)(?=\n\n\[Explicitly Stated Relations\]:)", block, re.DOTALL)
-        rel_match = re.search(r"\[Explicitly Stated Relations\]:\s*\n(.*?)(?=\n\n\[Limitations & Expected Failure Modes\]:)", block, re.DOTALL)
-        lim_match = re.search(r"\[Limitations & Expected Failure Modes\]:\s*\n(.*)", block, re.DOTALL)
+            raise HTTPException(status_code=404, detail=f"PDF for {req.pmcid} not found")
+    else:
+        raise HTTPException(status_code=400, detail="Must provide either text or pmcid")
 
-        text_val = text_match.group(1).strip() if text_match else ""
-        test_val = test_match.group(1).strip() if test_match else ""
-        rel_val = rel_match.group(1).strip() if rel_match else ""
-        lim_val = lim_match.group(1).strip() if lim_match else ""
-
-        examples.append({
-            "id": idx,
-            "title": title,
-            "text": text_val,
-            "test_purpose": test_val,
-            "explicit_relations": rel_val,
-            "limitations": lim_val,
-        })
-
-    return examples
+    if isinstance(res_data, dict):
+        res_data["session_id"] = sess_id
+    return res_data
 
 
 @app.post("/api/evaluate")
