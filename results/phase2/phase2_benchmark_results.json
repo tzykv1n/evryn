@@ -1,6 +1,6 @@
 {
   "phase": "EVRYN Phase 2 Real-Paper Causal Benchmark & Generalization Evaluation",
-  "timestamp": "2026-10-23T17:10:30Z",
+  "timestamp": "2026-10-23T19:33:35Z",
   "total_papers": 20,
   "split_counts": {
     "train": 4,
@@ -13,9 +13,9 @@
       "split": "train",
       "paper_count": 4,
       "macro_metrics": {
-        "direct_f1_mean": 0.2639,
+        "direct_f1_mean": 0.2615,
         "direct_f1_ci": [
-          0.1627,
+          0.1556,
           0.4226
         ],
         "cross_f1_mean": 0.0,
@@ -23,24 +23,24 @@
           0.0,
           0.0
         ],
-        "structural_match_mean": 0.0897,
+        "structural_match_mean": 0.0878,
         "structural_match_ci": [
-          0.0501,
-          0.1495
+          0.0461,
+          0.1486
         ]
       },
       "micro_metrics": {
         "direct": {
           "tp": 6,
-          "fp": 27,
+          "fp": 28,
           "fn": 13,
-          "precision": 0.1818,
+          "precision": 0.1765,
           "recall": 0.3158,
-          "f1": 0.2308
+          "f1": 0.2264
         },
         "cross_page": {
           "tp": 0,
-          "fp": 21,
+          "fp": 25,
           "fn": 16,
           "precision": 0.0,
           "recall": 0.0,
@@ -54,21 +54,21 @@
           "page_count": 5,
           "gold_direct": 5,
           "gold_cross": 4,
-          "pred_direct": 9,
-          "pred_cross": 4,
+          "pred_direct": 10,
+          "pred_cross": 5,
           "tp_direct": 1,
-          "fp_direct": 8,
+          "fp_direct": 9,
           "fn_direct": 4,
-          "direct_precision": 0.1111,
+          "direct_precision": 0.1,
           "direct_recall": 0.2,
-          "direct_f1": 0.1429,
+          "direct_f1": 0.1333,
           "tp_cross": 0,
-          "fp_cross": 4,
+          "fp_cross": 5,
           "fn_cross": 4,
           "cross_precision": 0.0,
           "cross_recall": 0.0,
           "cross_f1": 0.0,
-          "structural_match": 0.0476
+          "structural_match": 0.0435
         },
         {
           "pmcid": "PMC2682197",
@@ -77,7 +77,7 @@
           "gold_direct": 5,
           "gold_cross": 5,
           "pred_direct": 16,
-          "pred_cross": 14,
+          "pred_cross": 17,
           "tp_direct": 2,
           "fp_direct": 14,
           "fn_direct": 3,
@@ -85,12 +85,12 @@
           "direct_recall": 0.4,
           "direct_f1": 0.1905,
           "tp_cross": 0,
-          "fp_cross": 14,
+          "fp_cross": 17,
           "fn_cross": 5,
           "cross_precision": 0.0,
           "cross_recall": 0.0,
           "cross_f1": 0.0,
-          "structural_match": 0.0526
+          "structural_match": 0.0488
         },
         {
           "pmcid": "PMC2714965",
@@ -142,38 +142,38 @@
       "split": "dev",
       "paper_count": 8,
       "macro_metrics": {
-        "direct_f1_mean": 0.2862,
+        "direct_f1_mean": 0.3082,
         "direct_f1_ci": [
-          0.2149,
-          0.3622
+          0.2053,
+          0.403
         ],
-        "cross_f1_mean": 0.1289,
+        "cross_f1_mean": 0.1646,
         "cross_f1_ci": [
-          0.0483,
-          0.2201
+          0.0527,
+          0.3121
         ],
-        "structural_match_mean": 0.1329,
+        "structural_match_mean": 0.1585,
         "structural_match_ci": [
-          0.0927,
-          0.1848
+          0.098,
+          0.2336
         ]
       },
       "micro_metrics": {
         "direct": {
-          "tp": 19,
-          "fp": 100,
-          "fn": 17,
-          "precision": 0.1597,
-          "recall": 0.5278,
-          "f1": 0.2452
+          "tp": 21,
+          "fp": 112,
+          "fn": 15,
+          "precision": 0.1579,
+          "recall": 0.5833,
+          "f1": 0.2485
         },
         "cross_page": {
-          "tp": 9,
-          "fp": 80,
-          "fn": 26,
-          "precision": 0.1011,
-          "recall": 0.2571,
-          "f1": 0.1452
+          "tp": 12,
+          "fp": 94,
+          "fn": 23,
+          "precision": 0.1132,
+          "recall": 0.3429,
+          "f1": 0.1702
         }
       },
       "per_paper": [
@@ -183,21 +183,21 @@
           "page_count": 7,
           "gold_direct": 5,
           "gold_cross": 5,
-          "pred_direct": 30,
-          "pred_cross": 26,
-          "tp_direct": 4,
-          "fp_direct": 26,
-          "fn_direct": 1,
-          "direct_precision": 0.1333,
-          "direct_recall": 0.8,
-          "direct_f1": 0.2286,
-          "tp_cross": 2,
-          "fp_cross": 24,
-          "fn_cross": 3,
-          "cross_precision": 0.0769,
-          "cross_recall": 0.4,
-          "cross_f1": 0.129,
-          "structural_match": 0.1
+          "pred_direct": 37,
+          "pred_cross": 30,
+          "tp_direct": 5,
+          "fp_direct": 32,
+          "fn_direct": 0,
+          "direct_precision": 0.1351,
+          "direct_recall": 1.0,
+          "direct_f1": 0.2381,
+          "tp_cross": 3,
+          "fp_cross": 27,
+          "fn_cross": 2,
+          "cross_precision": 0.1,
+          "cross_recall": 0.6,
+          "cross_f1": 0.1714,
+          "structural_match": 0.1159
         },
         {
           "pmcid": "PMC1874608",
@@ -205,21 +205,21 @@
           "page_count": 12,
           "gold_direct": 5,
           "gold_cross": 5,
-          "pred_direct": 41,
-          "pred_cross": 39,
+          "pred_direct": 45,
+          "pred_cross": 47,
           "tp_direct": 4,
-          "fp_direct": 37,
+          "fp_direct": 41,
           "fn_direct": 1,
-          "direct_precision": 0.0976,
+          "direct_precision": 0.0889,
           "direct_recall": 0.8,
-          "direct_f1": 0.1739,
+          "direct_f1": 0.16,
           "tp_cross": 3,
-          "fp_cross": 36,
+          "fp_cross": 44,
           "fn_cross": 2,
-          "cross_precision": 0.0769,
+          "cross_precision": 0.0638,
           "cross_recall": 0.6,
-          "cross_f1": 0.1364,
-          "structural_match": 0.0843
+          "cross_f1": 0.1154,
+          "structural_match": 0.0737
         },
         {
           "pmcid": "PMC1913099",
@@ -227,21 +227,21 @@
           "page_count": 16,
           "gold_direct": 4,
           "gold_cross": 3,
-          "pred_direct": 3,
+          "pred_direct": 5,
           "pred_cross": 1,
-          "tp_direct": 1,
-          "fp_direct": 2,
-          "fn_direct": 3,
-          "direct_precision": 0.3333,
-          "direct_recall": 0.25,
-          "direct_f1": 0.2857,
+          "tp_direct": 2,
+          "fp_direct": 3,
+          "fn_direct": 2,
+          "direct_precision": 0.4,
+          "direct_recall": 0.5,
+          "direct_f1": 0.4444,
           "tp_cross": 0,
           "fp_cross": 1,
           "fn_cross": 3,
           "cross_precision": 0.0,
           "cross_recall": 0.0,
           "cross_f1": 0.0,
-          "structural_match": 0.1
+          "structural_match": 0.1818
         },
         {
           "pmcid": "PMC1974823",
@@ -249,21 +249,21 @@
           "page_count": 7,
           "gold_direct": 4,
           "gold_cross": 5,
-          "pred_direct": 17,
+          "pred_direct": 16,
           "pred_cross": 11,
-          "tp_direct": 2,
+          "tp_direct": 1,
           "fp_direct": 15,
-          "fn_direct": 2,
-          "direct_precision": 0.1176,
-          "direct_recall": 0.5,
-          "direct_f1": 0.1905,
+          "fn_direct": 3,
+          "direct_precision": 0.0625,
+          "direct_recall": 0.25,
+          "direct_f1": 0.1,
           "tp_cross": 1,
           "fp_cross": 10,
           "fn_cross": 4,
           "cross_precision": 0.0909,
           "cross_recall": 0.2,
           "cross_f1": 0.125,
-          "structural_match": 0.0882
+          "structural_match": 0.0588
         },
         {
           "pmcid": "PMC2242835",
@@ -271,21 +271,21 @@
           "page_count": 10,
           "gold_direct": 4,
           "gold_cross": 5,
-          "pred_direct": 11,
-          "pred_cross": 8,
-          "tp_direct": 2,
-          "fp_direct": 9,
-          "fn_direct": 2,
-          "direct_precision": 0.1818,
-          "direct_recall": 0.5,
-          "direct_f1": 0.2667,
-          "tp_cross": 2,
-          "fp_cross": 6,
-          "fn_cross": 3,
-          "cross_precision": 0.25,
-          "cross_recall": 0.4,
-          "cross_f1": 0.3077,
-          "structural_match": 0.1667
+          "pred_direct": 14,
+          "pred_cross": 13,
+          "tp_direct": 3,
+          "fp_direct": 11,
+          "fn_direct": 1,
+          "direct_precision": 0.2143,
+          "direct_recall": 0.75,
+          "direct_f1": 0.3333,
+          "tp_cross": 3,
+          "fp_cross": 10,
+          "fn_cross": 2,
+          "cross_precision": 0.2308,
+          "cross_recall": 0.6,
+          "cross_f1": 0.3333,
+          "structural_match": 0.2
         },
         {
           "pmcid": "PMC2266911",
@@ -294,7 +294,7 @@
           "gold_direct": 4,
           "gold_cross": 3,
           "pred_direct": 5,
-          "pred_cross": 2,
+          "pred_cross": 1,
           "tp_direct": 2,
           "fp_direct": 3,
           "fn_direct": 2,
@@ -302,12 +302,12 @@
           "direct_recall": 0.5,
           "direct_f1": 0.4444,
           "tp_cross": 0,
-          "fp_cross": 2,
+          "fp_cross": 1,
           "fn_cross": 3,
           "cross_precision": 0.0,
           "cross_recall": 0.0,
           "cross_f1": 0.0,
-          "structural_match": 0.1667
+          "structural_match": 0.1818
         },
         {
           "pmcid": "PMC2358977",
@@ -337,21 +337,21 @@
           "page_count": 5,
           "gold_direct": 5,
           "gold_cross": 4,
-          "pred_direct": 7,
-          "pred_cross": 2,
+          "pred_direct": 6,
+          "pred_cross": 3,
           "tp_direct": 3,
-          "fp_direct": 4,
+          "fp_direct": 3,
           "fn_direct": 2,
-          "direct_precision": 0.4286,
+          "direct_precision": 0.5,
           "direct_recall": 0.6,
-          "direct_f1": 0.5,
-          "tp_cross": 1,
+          "direct_f1": 0.5455,
+          "tp_cross": 2,
           "fp_cross": 1,
-          "fn_cross": 3,
-          "cross_precision": 0.5,
-          "cross_recall": 0.25,
-          "cross_f1": 0.3333,
-          "structural_match": 0.2857
+          "fn_cross": 2,
+          "cross_precision": 0.6667,
+          "cross_recall": 0.5,
+          "cross_f1": 0.5714,
+          "structural_match": 0.3846
         }
       ]
     },
@@ -359,38 +359,38 @@
       "split": "locked_test",
       "paper_count": 4,
       "macro_metrics": {
-        "direct_f1_mean": 0.2042,
+        "direct_f1_mean": 0.3132,
         "direct_f1_ci": [
-          0.0435,
-          0.3817
+          0.175,
+          0.44
         ],
-        "cross_f1_mean": 0.1904,
+        "cross_f1_mean": 0.1414,
         "cross_f1_ci": [
-          0.0714,
-          0.3008
+          0.0,
+          0.2829
         ],
-        "structural_match_mean": 0.1208,
+        "structural_match_mean": 0.1474,
         "structural_match_ci": [
-          0.0561,
-          0.2107
+          0.0663,
+          0.2286
         ]
       },
       "micro_metrics": {
         "direct": {
-          "tp": 11,
-          "fp": 71,
-          "fn": 10,
-          "precision": 0.1341,
-          "recall": 0.5238,
-          "f1": 0.2136
+          "tp": 12,
+          "fp": 44,
+          "fn": 9,
+          "precision": 0.2143,
+          "recall": 0.5714,
+          "f1": 0.3117
         },
         "cross_page": {
-          "tp": 6,
-          "fp": 30,
-          "fn": 14,
-          "precision": 0.1667,
-          "recall": 0.3,
-          "f1": 0.2143
+          "tp": 4,
+          "fp": 22,
+          "fn": 16,
+          "precision": 0.1538,
+          "recall": 0.2,
+          "f1": 0.1739
         }
       },
       "per_paper": [
@@ -422,21 +422,21 @@
           "page_count": 10,
           "gold_direct": 5,
           "gold_cross": 6,
-          "pred_direct": 3,
-          "pred_cross": 1,
-          "tp_direct": 0,
+          "pred_direct": 5,
+          "pred_cross": 2,
+          "tp_direct": 2,
           "fp_direct": 3,
-          "fn_direct": 5,
-          "direct_precision": 0.0,
-          "direct_recall": 0.0,
-          "direct_f1": 0.0,
+          "fn_direct": 3,
+          "direct_precision": 0.4,
+          "direct_recall": 0.4,
+          "direct_f1": 0.4,
           "tp_cross": 1,
-          "fp_cross": 0,
+          "fp_cross": 1,
           "fn_cross": 5,
-          "cross_precision": 1.0,
+          "cross_precision": 0.5,
           "cross_recall": 0.1667,
-          "cross_f1": 0.2857,
-          "structural_match": 0.0714
+          "cross_f1": 0.25,
+          "structural_match": 0.2
         },
         {
           "pmcid": "PMC2593050",
@@ -444,21 +444,21 @@
           "page_count": 5,
           "gold_direct": 5,
           "gold_cross": 4,
-          "pred_direct": 41,
+          "pred_direct": 15,
           "pred_cross": 1,
-          "tp_direct": 2,
-          "fp_direct": 39,
-          "fn_direct": 3,
-          "direct_precision": 0.0488,
-          "direct_recall": 0.4,
-          "direct_f1": 0.087,
+          "tp_direct": 1,
+          "fp_direct": 14,
+          "fn_direct": 4,
+          "direct_precision": 0.0667,
+          "direct_recall": 0.2,
+          "direct_f1": 0.1,
           "tp_cross": 0,
           "fp_cross": 1,
           "fn_cross": 4,
           "cross_precision": 0.0,
           "cross_recall": 0.0,
           "cross_f1": 0.0,
-          "structural_match": 0.0408
+          "structural_match": 0.0417
         },
         {
           "pmcid": "PMC2639726",
@@ -466,21 +466,21 @@
           "page_count": 14,
           "gold_direct": 5,
           "gold_cross": 6,
-          "pred_direct": 19,
-          "pred_cross": 19,
+          "pred_direct": 17,
+          "pred_cross": 8,
           "tp_direct": 3,
-          "fp_direct": 16,
+          "fp_direct": 14,
           "fn_direct": 2,
-          "direct_precision": 0.1579,
+          "direct_precision": 0.1765,
           "direct_recall": 0.6,
-          "direct_f1": 0.25,
-          "tp_cross": 2,
-          "fp_cross": 17,
-          "fn_cross": 4,
-          "cross_precision": 0.1053,
-          "cross_recall": 0.3333,
-          "cross_f1": 0.16,
-          "structural_match": 0.1136
+          "direct_f1": 0.2727,
+          "tp_cross": 0,
+          "fp_cross": 8,
+          "fn_cross": 6,
+          "cross_precision": 0.0,
+          "cross_recall": 0.0,
+          "cross_f1": 0.0,
+          "structural_match": 0.0909
         }
       ]
     },
@@ -488,30 +488,30 @@
       "split": "external",
       "paper_count": 4,
       "macro_metrics": {
-        "direct_f1_mean": 0.0556,
+        "direct_f1_mean": 0.0263,
         "direct_f1_ci": [
           0.0,
-          0.1667
+          0.0789
         ],
         "cross_f1_mean": 0.1214,
         "cross_f1_ci": [
           0.0,
           0.2429
         ],
-        "structural_match_mean": 0.0467,
+        "structural_match_mean": 0.0332,
         "structural_match_ci": [
           0.0,
-          0.0933
+          0.0664
         ]
       },
       "micro_metrics": {
         "direct": {
-          "tp": 2,
-          "fp": 97,
-          "fn": 18,
-          "precision": 0.0202,
-          "recall": 0.1,
-          "f1": 0.0336
+          "tp": 1,
+          "fp": 52,
+          "fn": 19,
+          "precision": 0.0189,
+          "recall": 0.05,
+          "f1": 0.0274
         },
         "cross_page": {
           "tp": 2,
@@ -529,10 +529,10 @@
           "page_count": 10,
           "gold_direct": 5,
           "gold_cross": 4,
-          "pred_direct": 80,
+          "pred_direct": 31,
           "pred_cross": 23,
           "tp_direct": 0,
-          "fp_direct": 80,
+          "fp_direct": 31,
           "fn_direct": 5,
           "direct_precision": 0.0,
           "direct_recall": 0.0,
@@ -551,10 +551,10 @@
           "page_count": 9,
           "gold_direct": 5,
           "gold_cross": 4,
-          "pred_direct": 4,
+          "pred_direct": 6,
           "pred_cross": 3,
           "tp_direct": 0,
-          "fp_direct": 4,
+          "fp_direct": 6,
           "fn_direct": 5,
           "direct_precision": 0.0,
           "direct_recall": 0.0,
@@ -565,7 +565,7 @@
           "cross_precision": 0.3333,
           "cross_recall": 0.25,
           "cross_f1": 0.2857,
-          "structural_match": 0.0667
+          "structural_match": 0.0588
         },
         {
           "pmcid": "PMC2858072",
@@ -595,21 +595,21 @@
           "page_count": 6,
           "gold_direct": 5,
           "gold_cross": 4,
-          "pred_direct": 13,
+          "pred_direct": 14,
           "pred_cross": 6,
-          "tp_direct": 2,
-          "fp_direct": 11,
-          "fn_direct": 3,
-          "direct_precision": 0.1538,
-          "direct_recall": 0.4,
-          "direct_f1": 0.2222,
+          "tp_direct": 1,
+          "fp_direct": 13,
+          "fn_direct": 4,
+          "direct_precision": 0.0714,
+          "direct_recall": 0.2,
+          "direct_f1": 0.1053,
           "tp_cross": 1,
           "fp_cross": 5,
           "fn_cross": 3,
           "cross_precision": 0.1667,
           "cross_recall": 0.25,
           "cross_f1": 0.2,
-          "structural_match": 0.12
+          "structural_match": 0.0741
         }
       ]
     }

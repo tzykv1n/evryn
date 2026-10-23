@@ -55,6 +55,11 @@ ACTIVATION_PATTERNS = [
     r"\bactivator\s+of\b",
     r"\binducer\s+of\b",
     r"\bregulator\s+of\b",
+    r"\b(?:positive\s+effects?\s+(?:on|upon)|positive\s+regulation\s+of|positively\s+(?:regulates?|regulated|regulating))\b",
+    r"\b(?:favou?rs?|favou?red|favou?ring)\b",
+    r"\b(?:facilitates?|facilitated|facilitating)\b",
+    r"\b(?:plays?\s+(?:a\s+)?(?:primary|key|crucial|essential|major|critical|central)?\s*role\s+in\s+(?:the\s+)?(?:activation|induction|expression|regulation|stimulation)\s+of)\b",
+    r"\b(?:acts?|acted|acting|serves?|served|serving)\s+as\s+an?\s+(?:activator|inducer|stimulator)\s+of\b",
 ]
 
 PREVENTION_PATTERNS = [
@@ -81,6 +86,9 @@ INHIBITION_PATTERNS = [
     r"\b(?:disrupts?|disrupted|disrupting)\b",
     r"\b(?:mutation\s+(?:in|of))\b",
     r"\b(?:deletion\s+(?:in|of))\b",
+    r"\b(?:negative\s+effects?\s+(?:on|upon)|negative\s+regulation\s+of|negatively\s+(?:regulates?|regulated|regulating))\b",
+    r"\b(?:acts?|acted|acting|serves?|served|serving)\s+as\s+an?\s+(?:inhibitor|repressor)\s+of\b",
+    r"\b(?:plays?\s+(?:a\s+)?(?:primary|key|crucial|essential|major|critical|central)?\s*role\s+in\s+(?:the\s+)?(?:repression|inhibition|suppression)\s+of)\b",
 ]
 
 MEDIATION_PATTERNS = [
@@ -151,8 +159,7 @@ PASSIVE_INDICATORS = [
     r"\b(?:is|was|are|were)?\s*(?:promoted|induced|activated|stimulated|upregulated|expressed)\s+in\s+(?:media\s+of\s+)?\b",
     r"\b(?:is|was|are|were)?\s*(?:governed|driven|conferred|elicited)\s+by\b",
     r"\b(?:is|was|are|were)?\s*required\s+for(?:\s+\w+){0,5}\s+in\s+response\s+to\b",
-    r"\b(?:is|was|are|were)?\s*(?:reduced|decreased|attenuated|diminished|lost)\s+in\s+(?:the\s+)?(?:\w+\s+)?mutants?\b",
-    r"\b(?:is|was|are|were)?\s*(?:sensed|perceived)\s+by\b",
+    r"\b(?:is|was|are|were)?\s*(?:also\s+)?(?:repressed|suppressed|down-?regulated|downregulated|reduced|decreased|attenuated|diminished|lost)\s+(?:\w+\s+){0,3}in\s+(?:the\s+)?(?:\w+\s+)?mutants?\b",
     r"\b(?:become|becomes|became|could\s+become|may\s+become)?\s*phosphorylated\s+(?:from|by)\b",
     r"\b(?:is|are|was|were)?\s*(?:necessary|required|essential)\s+for(?:\s+a)?(?:\s+\w+){0,3}\s+response\s+to\b",
     r"\b(?:is|was|are|were)?\s*(?:expressed|transcribed|produced|activated|induced)\s+in\s+response\s+to\b",
@@ -240,6 +247,61 @@ PARENS_RE = re.compile(r"\([^)]*\)")
 SPACES_RE = re.compile(r"\s+")
 TRAILING_PUNCT_RE = re.compile(r"[,;:\.]+$")
 
+COORDINATING_BOUNDARY_RE = re.compile(
+    r"(?:;\s*|,\s*(?:and|but|while|whereas|although)\s+)(?!.*(?:thereby|thus|consequently|leading\s+to|resulting\s+in|causing|downregulating|upregulating|suppressing|activating|inducing))",
+    re.IGNORECASE,
+)
+
+BY_MEANS_RE = re.compile(
+    r"^\s*(?:expression|transcription|activity|levels?|genes?|production)?(?:\s+\w+){0,3}\s*,?\s*by\s+(?:inhibiting|repressing|suppressing|activating|inducing|stimulating|blocking|modulating|binding|reducing)\b",
+    re.IGNORECASE,
+)
+
+DISALLOWED_ENTITY_WORDS = {
+    # Pronouns & determiners
+    "it", "this", "these", "those", "that", "they", "we", "our", "their", "its", "there", "which", "who", "whom", "whose",
+    # Generic scientific meta-words
+    "assay", "assays", "experiment", "experiments", "findings", "finding", "results", "result",
+    "cells", "cell", "data", "fact", "facts", "study", "studies", "figure", "figures", "table", "tables",
+    "mechanism", "mechanisms", "model", "models", "hypothesis", "hypotheses", "pathway", "pathways",
+    "analysis", "analyses", "observation", "observations", "conditions", "condition", "author", "authors",
+    "role", "roles", "effect", "effects", "response", "responses", "function", "functions",
+    # Discourse connectors & preambles
+    "whether", "however", "moreover", "furthermore", "meanwhile", "consequently", "subsequently",
+    "therefore", "thus", "instead", "whereas", "although", "while", "since", "because",
+}
+
+DISALLOWED_ENTITY_PATTERNS = [
+    re.compile(r"\b(?:remained|remains|unexplored|unclear|unknown|elusive)\b", re.IGNORECASE),
+    re.compile(r"\b(?:suggests?|demonstrated?|indicated?|showed|shown|revealed?|observed?|found)\s+that\b", re.IGNORECASE),
+    re.compile(r"\b(?:can|could|may|might|will|would|should|must)\s+(?:be|act|serve|cause|play|inhibit|activate|induce|repress)\b", re.IGNORECASE),
+    re.compile(r"\b(?:is|are|was|were|has\s+been|have\s+been)\s+(?:known|reported|thought|believed|found|shown)\b", re.IGNORECASE),
+    re.compile(r"\b(?:explained|supported|described|concluded)\s+by\s+(?:the\s+fact\s+that)?\b", re.IGNORECASE),
+    re.compile(r"\b(?:by\s+the\s+fact\s+that|fact\s+that\s+the)\b", re.IGNORECASE),
+    re.compile(r"\b(?:thus\s+far|so\s+far|to\s+date)\b", re.IGNORECASE),
+]
+
+def is_valid_entity_candidate(phrase: str) -> bool:
+    if not phrase:
+        return False
+    phrase = phrase.strip()
+    words = phrase.split()
+    if len(words) < 1 or len(words) > 5:
+        return False
+    if len(phrase) < 2 or len(phrase) > 50:
+        return False
+    low = phrase.lower()
+    if low in DISALLOWED_ENTITY_WORDS:
+        return False
+    for pat in DISALLOWED_ENTITY_PATTERNS:
+        if pat.search(low):
+            return False
+    if all(w.lower() in DISALLOWED_ENTITY_WORDS for w in words):
+        return False
+    if not any(c.isalnum() for c in phrase):
+        return False
+    return True
+
 
 class PaperCausalExtractor:
 
@@ -296,13 +358,12 @@ class PaperCausalExtractor:
                             and ent[2] >= start_pos and ent[3] <= end_pos
                         ]
                         span_text = text[start_pos:end_pos].lower()
-                        if re.search(r"\w+\s*,?\s*(?:which|that|thereby)\b", span_text):
-                            continue
 
                         if intervening:
                             is_coordinated = bool(re.search(r"\b(?:and|or|both|as\s+well\s+as)\b", span_text))
-                            has_chain = bool(re.search(r"\b(?:leads?|led|causing|causes|resulting|results|which|that|thereby|subsequently)\b", span_text))
-                            if has_chain or not is_coordinated:
+                            is_means_clause = bool(re.search(r"\bby\s+(?:activating|binding|inducing|inhibiting|suppressing|regulating)\b", span_text))
+                            has_chain = bool(re.search(r"\b(?:leads?|led|causing|causes|resulting|results|thereby|subsequently)\b", span_text))
+                            if (has_chain or not is_coordinated) and not is_means_clause:
                                 continue
 
                         rel_tuple = self._match_relation(text, s1, e1, s2, e2)
@@ -313,6 +374,8 @@ class PaperCausalExtractor:
 
                         final_cause_canon = e_canon1 if direction == "FORWARD" else e_canon2
                         final_effect_canon = e_canon2 if direction == "FORWARD" else e_canon1
+                        if not is_valid_entity_candidate(final_cause_canon) or not is_valid_entity_candidate(final_effect_canon):
+                            continue
                         dedup_key = (final_cause_canon, final_effect_canon, sent.sentence_id)
                         if dedup_key in seen_keys:
                             continue
@@ -363,6 +426,68 @@ class PaperCausalExtractor:
 
             assertions.extend(sent_assertions)
 
+        # Adjacent sentence discourse mechanism linking (cross-sentence intra-page/intra-section)
+        DISCOURSE_CONNECTIVE_RE = re.compile(
+            r"^(?:Consequently|Subsequently|As\s+a\s+result|Therefore|Thus|Hence|In\s+turn|Accordingly|Following\s+this|Thereby),?\s+",
+            re.IGNORECASE,
+        )
+        for k in range(len(doc.sentences) - 1):
+            s_curr = doc.sentences[k]
+            s_next = doc.sentences[k + 1]
+            if s_curr.section_title != s_next.section_title or s_curr.page_number != s_next.page_number:
+                continue
+            m_disc = DISCOURSE_CONNECTIVE_RE.match(s_next.text.strip())
+            if not m_disc:
+                continue
+
+            curr_asg = [a for a in assertions if a.sentence_id == s_curr.sentence_id and not a.is_negated]
+            next_ents = self.normalizer.detect_entities_in_sentence(s_next.text, local_abbr, known_entities=known_entities)
+            if not next_ents:
+                continue
+
+            causes_from_curr = []
+            if curr_asg:
+                for a in curr_asg:
+                    causes_from_curr.append((a.effect, a.effect_canonical))
+            else:
+                curr_ents = self.normalizer.detect_entities_in_sentence(s_curr.text, local_abbr, known_entities=known_entities)
+                if curr_ents:
+                    causes_from_curr.append((curr_ents[-1][0], curr_ents[-1][1]))
+
+            for c_raw, c_canon in causes_from_curr:
+                for e_raw, e_canon, _, _ in next_ents:
+                    if c_canon == e_canon:
+                        continue
+                    if not is_valid_entity_candidate(c_canon) or not is_valid_entity_candidate(e_canon):
+                        continue
+                    dedup_key = (c_canon, e_canon, s_next.sentence_id)
+                    if dedup_key in seen_keys:
+                        continue
+                    seen_keys.add(dedup_key)
+
+                    asrt_id = f"asrt_{doc.doc_id[:6]}_{s_next.page_number}_{assertion_idx:04d}"
+                    assertion_idx += 1
+                    assertions.append(
+                        CausalAssertion(
+                            assertion_id=asrt_id,
+                            cause=c_raw,
+                            cause_canonical=c_canon,
+                            effect=e_raw,
+                            effect_canonical=e_canon,
+                            direction="FORWARD",
+                            relation_type=CausalRelationType.DIRECT_CAUSE,
+                            is_negated=False,
+                            uncertainty_score=0.10,
+                            sentence_id=s_next.sentence_id,
+                            page_number=s_next.page_number,
+                            section_title=s_next.section_title,
+                            confidence=0.88,
+                            evidence_quote=f"{s_curr.text} {s_next.text}",
+                            char_span=(s_curr.start_char, s_next.end_char),
+                            evidence_status=EvidenceStatus.MEASURED_FACT,
+                        )
+                    )
+
         return assertions
 
     def _calculate_uncertainty(self, text: str, section_title: str) -> float:
@@ -393,6 +518,18 @@ class PaperCausalExtractor:
 
         if len(between_text) > 160:
             return None
+
+        # Reject relations crossing coordinating boundaries without a causative bridge
+        if COORDINATING_BOUNDARY_RE.search(between_text):
+            return None
+
+        # Check for means clauses: e.g. "represses hilA by inhibiting HilD" -> HilD (cause) represses hilA (effect)
+        m_means = BY_MEANS_RE.search(between_text)
+        if m_means:
+            is_inhib = bool(re.search(r"\b(?:inhibiting|repressing|suppressing|blocking|reducing)\b", m_means.group(0), re.IGNORECASE))
+            rel = CausalRelationType.DOWNREGULATES if is_inhib else CausalRelationType.UPREGULATES
+            inv_dir = "BACKWARD" if direction == "FORWARD" else "FORWARD"
+            return rel, inv_dir, 0.91
 
         for pat_re, is_inhib in COMPILED_PASSIVE_INDICATORS:
             if pat_re.search(between_text):
@@ -427,6 +564,38 @@ class PaperCausalExtractor:
             cleaned = LEADING_NOISE_RE.sub("", cleaned).strip()
             cleaned = ARTICLES_RE.sub("", cleaned).strip()
             cleaned = TRAILING_ADVERBS_RE.sub("", cleaned).strip()
+
+        # Clean leading growth / cultivation conditions
+        cleaned = re.sub(
+            r"^(?:growth|grown|growing)\s+(?:in|under|at)\s+",
+            "",
+            cleaned,
+            flags=re.IGNORECASE,
+        ).strip()
+
+        # Clean biological noun modifiers (e.g. "low level of hilD", "expression of HilE")
+        cleaned = re.sub(
+            r"^(?:the|a|an)?\s*(?:low|high|elevated|reduced|increased|decreased|abnormal|altered|excessive)?\s*(?:level|levels|expression|activity|amount|abundance|transcription|phosphorylation|presence|loss|absence)\s+of\s+",
+            "",
+            cleaned,
+            flags=re.IGNORECASE,
+        ).strip()
+
+        # Clean intermediate post-modified phrases (e.g. "genes activated by the response regulator PmrA")
+        cleaned = re.sub(
+            r"^(?:genes?|proteins?|targets?)\s+(?:activated|induced|stimulated|regulated|repressed|inhibited)\s+by\s+(?:the\s+)?(?:response\s+regulator\s+)?",
+            "",
+            cleaned,
+            flags=re.IGNORECASE,
+        ).strip()
+
+        # Clean trailing organism/mutant contexts
+        cleaned = re.sub(
+            r"\s+in\s+(?:the\s+)?(?:[A-Za-z0-9_-]+\s+)?(?:mutant|cells?|strains?|bacteria|tissues?|mice|rats?).*$",
+            "",
+            cleaned,
+            flags=re.IGNORECASE,
+        ).strip()
 
         cleaned = POSTFIX_STOPWORDS_RE.sub("", cleaned).strip()
         cleaned = PARENS_RE.sub("", cleaned).strip()
@@ -534,6 +703,10 @@ class PaperCausalExtractor:
                         for eff_cand in effect_cands:
                             eff_canon = self.normalizer.canonicalize(eff_cand, local_abbr, known_entities)
 
+                            if not is_valid_entity_candidate(cause_cand) or not is_valid_entity_candidate(eff_cand):
+                                continue
+                            if not is_valid_entity_candidate(cause_canon) or not is_valid_entity_candidate(eff_canon):
+                                continue
                             if not cause_canon or not eff_canon or len(cause_canon) < 2 or len(eff_canon) < 2:
                                 continue
                             if cause_canon.lower() == eff_canon.lower():

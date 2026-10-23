@@ -391,6 +391,50 @@ class SessionStore:
             cur = conn.execute("DELETE FROM sessions WHERE id = ?", (session_id,))
             return cur.rowcount > 0
 
+    def delete_sessions(self, session_ids: List[str]) -> Dict[str, Any]:
+        if not session_ids:
+            with self._get_connection() as conn:
+                cur_rem = conn.execute("SELECT COUNT(*) as cnt FROM sessions").fetchone()["cnt"]
+            return {"deleted_count": 0, "failed_ids": [], "remaining_count": cur_rem}
+
+        deleted = 0
+        failed = []
+        with self._get_connection() as conn:
+            for sid in session_ids:
+                cur = conn.execute("DELETE FROM sessions WHERE id = ?", (sid,))
+                if cur.rowcount > 0:
+                    deleted += 1
+                else:
+                    failed.append(sid)
+            cur_rem = conn.execute("SELECT COUNT(*) as cnt FROM sessions").fetchone()["cnt"]
+        return {"deleted_count": deleted, "failed_ids": failed, "remaining_count": cur_rem}
+
+    def deduplicate_sessions(self) -> Dict[str, Any]:
+        with self._get_connection() as conn:
+            cur = conn.execute("""
+                SELECT s.id, s.title, s.updated_at,
+                       (SELECT COUNT(*) FROM nodes n WHERE n.session_id = s.id) as node_count,
+                       (SELECT COUNT(*) FROM relations r WHERE r.session_id = s.id) as rel_count
+                FROM sessions s
+                ORDER BY s.title ASC, node_count DESC, rel_count DESC, s.updated_at DESC
+            """)
+            rows = cur.fetchall()
+
+            seen_titles = set()
+            to_delete = []
+            for r in rows:
+                norm_title = r["title"].strip()
+                if norm_title in seen_titles:
+                    to_delete.append(r["id"])
+                else:
+                    seen_titles.add(norm_title)
+
+            for sid in to_delete:
+                conn.execute("DELETE FROM sessions WHERE id = ?", (sid,))
+
+            cur_rem = conn.execute("SELECT COUNT(*) as cnt FROM sessions").fetchone()["cnt"]
+            return {"removed_count": len(to_delete), "remaining_count": cur_rem, "deleted_ids": to_delete}
+
     def override_node_category(self, session_id: str, canonical_name: str, new_category: str) -> bool:
         now = datetime.utcnow().isoformat()
         with self._get_connection() as conn:

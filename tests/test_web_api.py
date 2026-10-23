@@ -235,3 +235,39 @@ def test_file_upload_batch(client, tmp_path):
     assert data["documents"][0]["filename"] == "paper_alpha.txt"
     assert data["documents"][1]["filename"] == "paper_beta.txt"
     assert len(data["combined_graph"]["nodes"]) >= 3
+
+
+def test_bulk_delete_sessions(client):
+    res1 = client.post("/api/extract", json={"text": "Gene Alpha induces Factor Beta."})
+    res2 = client.post("/api/extract", json={"text": "Factor Gamma inhibits Protein Delta."})
+    assert res1.status_code == 200
+    assert res2.status_code == 200
+    id1 = res1.json()["id"]
+    id2 = res2.json()["id"]
+
+    del_res = client.post("/api/sessions/bulk-delete", json={"session_ids": [id1, id2]})
+    assert del_res.status_code == 200
+    del_data = del_res.json()
+    assert del_data["deleted_count"] == 2
+    assert id1 not in [s["id"] for s in client.get("/api/sessions").json()]
+    assert id2 not in [s["id"] for s in client.get("/api/sessions").json()]
+
+
+def test_deduplicate_sessions(client):
+    # Create duplicate sessions with identical text/title
+    for _ in range(3):
+        client.post("/api/extract", json={"text": "Heat activates HSP90, which suppresses cellular stress."})
+    
+    sessions_before = client.get("/api/sessions").json()
+    titles = [s["title"] for s in sessions_before if "Heat activates HSP90" in s["title"]]
+    assert len(titles) >= 3
+
+    dedup_res = client.post("/api/sessions/deduplicate")
+    assert dedup_res.status_code == 200
+    dedup_data = dedup_res.json()
+    assert dedup_data["removed_count"] >= 2
+
+    sessions_after = client.get("/api/sessions").json()
+    titles_after = [s["title"] for s in sessions_after if "Heat activates HSP90" in s["title"]]
+    assert len(titles_after) == 1
+

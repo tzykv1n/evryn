@@ -97,6 +97,10 @@
   const sessionList = document.getElementById("session-list");
   const sessionCountLabel = document.getElementById("session-count-label");
   const newSessionBtn = document.getElementById("new-session-btn");
+  const sessionSelectAllCb = document.getElementById("session-select-all-cb");
+  const sessionDedupBtn = document.getElementById("session-dedup-btn");
+  const sessionBulkDeleteBtn = document.getElementById("session-bulk-delete-btn");
+  const selectedSessionIds = new Set();
 
   const menuExamplesBtn = document.getElementById("menu-examples-btn");
   const menuUploadBtn = document.getElementById("menu-upload-btn");
@@ -139,17 +143,27 @@
     if (examplesView) examplesView.classList.toggle("hidden", tabName !== "examples");
 
     if (tabName === "examples") {
+      inputContainer.classList.add("hidden");
       graphRenderer.pause();
       resultsView.classList.remove("hidden");
       switchExamplesSubnav(activeExamplesSubnav || "pdf");
-    } else if (tabName === "copyable" && activeSessionData) {
-      copyableText.textContent = generateCopyableGraphText(activeSessionData);
-      graphRenderer.pause();
-    } else if (tabName === "table") {
-      graphRenderer.pause();
-    } else if (tabName === "graph") {
-      graphRenderer.resume();
-      graphRenderer.fitToView();
+    } else {
+      inputContainer.classList.remove("hidden");
+      if (!activeSessionData) {
+        resultsView.classList.add("hidden");
+        undockInput();
+      } else {
+        dockInput();
+        if (tabName === "copyable") {
+          copyableText.textContent = generateCopyableGraphText(activeSessionData);
+          graphRenderer.pause();
+        } else if (tabName === "table") {
+          graphRenderer.pause();
+        } else if (tabName === "graph") {
+          graphRenderer.resume();
+          graphRenderer.fitToView();
+        }
+      }
     }
   }
 
@@ -711,6 +725,7 @@
   }
 
   function undockInput() {
+    inputContainer.classList.remove("hidden");
     inputContainer.classList.remove("docked");
     inputContainer.classList.add("centered");
     resultsView.classList.add("hidden");
@@ -1196,8 +1211,90 @@
   newSessionBtn.addEventListener("click", () => {
     activeSessionId = null;
     activeSessionData = null;
+    switchView("graph");
     undockInput();
   });
+
+  function updateBulkDeleteState() {
+    const count = selectedSessionIds.size;
+    if (sessionBulkDeleteBtn) {
+      sessionBulkDeleteBtn.disabled = count === 0;
+      sessionBulkDeleteBtn.textContent = `Delete (${count})`;
+    }
+    const allBoxes = sessionList.querySelectorAll(".session-select-cb");
+    if (sessionSelectAllCb && allBoxes.length > 0) {
+      sessionSelectAllCb.checked = count === allBoxes.length;
+      sessionSelectAllCb.indeterminate = count > 0 && count < allBoxes.length;
+    }
+  }
+
+  if (sessionSelectAllCb) {
+    sessionSelectAllCb.addEventListener("change", () => {
+      const allBoxes = sessionList.querySelectorAll(".session-select-cb");
+      if (sessionSelectAllCb.checked) {
+        allBoxes.forEach(cb => {
+          cb.checked = true;
+          selectedSessionIds.add(cb.dataset.id);
+        });
+      } else {
+        allBoxes.forEach(cb => {
+          cb.checked = false;
+        });
+        selectedSessionIds.clear();
+      }
+      updateBulkDeleteState();
+    });
+  }
+
+  if (sessionDedupBtn) {
+    sessionDedupBtn.addEventListener("click", async () => {
+      showProcessing("DEDUPLICATING SESSIONS...");
+      try {
+        const res = await fetch("/api/sessions/deduplicate", { method: "POST" });
+        if (!res.ok) throw new Error("Deduplication failed");
+        const data = await res.json();
+        if (data.deleted_ids && data.deleted_ids.includes(activeSessionId)) {
+          activeSessionId = null;
+          undockInput();
+        }
+        selectedSessionIds.clear();
+        await refreshSessionList();
+      } catch (err) {
+        alert("Deduplication failed: " + err.message);
+      } finally {
+        hideProcessing();
+      }
+    });
+  }
+
+  if (sessionBulkDeleteBtn) {
+    sessionBulkDeleteBtn.addEventListener("click", async () => {
+      const count = selectedSessionIds.size;
+      if (count === 0) return;
+      if (!confirm(`Are you sure you want to delete ${count} selected session(s)? This action cannot be undone.`)) {
+        return;
+      }
+      showProcessing(`DELETING ${count} SESSIONS...`);
+      try {
+        const res = await fetch("/api/sessions/bulk-delete", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ session_ids: Array.from(selectedSessionIds) }),
+        });
+        if (!res.ok) throw new Error("Bulk delete failed");
+        if (selectedSessionIds.has(activeSessionId)) {
+          activeSessionId = null;
+          undockInput();
+        }
+        selectedSessionIds.clear();
+        await refreshSessionList();
+      } catch (err) {
+        alert("Bulk delete failed: " + err.message);
+      } finally {
+        hideProcessing();
+      }
+    });
+  }
 
   async function refreshSessionList() {
     try {
@@ -1207,16 +1304,36 @@
       sessionCountLabel.textContent = `${sessions.length} sessions`;
       sessionList.innerHTML = "";
 
+      const existingIds = new Set(sessions.map(s => s.id));
+      for (const id of Array.from(selectedSessionIds)) {
+        if (!existingIds.has(id)) {
+          selectedSessionIds.delete(id);
+        }
+      }
+
       for (const s of sessions) {
         const li = document.createElement("li");
+        const isChecked = selectedSessionIds.has(s.id);
         li.className = `session-item ${s.id === activeSessionId ? "active" : ""}`;
         li.innerHTML = `
+          <input type="checkbox" class="session-select-cb" data-id="${s.id}" ${isChecked ? "checked" : ""} aria-label="Select session ${escapeHtml(s.title)}">
           <div class="session-info">
-            <div class="session-title-text">${s.title}</div>
+            <div class="session-title-text">${escapeHtml(s.title)}</div>
             <div class="session-meta-text">${s.node_count || 0} nodes &bull; ${s.relation_count || 0} relations &bull; ${s.updated_at.slice(0, 10)}</div>
           </div>
           <button class="session-delete-btn" title="Delete session" aria-label="Delete session">&times;</button>
         `;
+
+        const cb = li.querySelector(".session-select-cb");
+        cb.addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (cb.checked) {
+            selectedSessionIds.add(s.id);
+          } else {
+            selectedSessionIds.delete(s.id);
+          }
+          updateBulkDeleteState();
+        });
 
         li.querySelector(".session-info").addEventListener("click", () => loadSession(s.id));
         li.querySelector(".session-delete-btn").addEventListener("click", (e) => {
@@ -1226,6 +1343,7 @@
 
         sessionList.appendChild(li);
       }
+      updateBulkDeleteState();
     } catch (e) {
       console.warn("Failed to load sessions:", e);
     }
@@ -1252,6 +1370,7 @@
     try {
       const res = await fetch(`/api/sessions/${sessionId}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Failed to delete session");
+      selectedSessionIds.delete(sessionId);
       if (activeSessionId === sessionId) {
         activeSessionId = null;
         undockInput();
@@ -1695,6 +1814,7 @@
       const data = await res.json();
       activeSessionId = data.session_id;
       activeSessionData = data;
+      dockInput();
       renderSession(data);
       refreshSessionList();
       switchView("graph");

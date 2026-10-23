@@ -23,6 +23,7 @@ from evryn.web.schemas import (
     ContinualRequest,
     PhysicsUpdateRequest,
     CategoryOverrideRequest,
+    BulkDeleteRequest,
 )
 from evryn.web.extractor_service import segment_prompt_sentences
 
@@ -154,6 +155,18 @@ def delete_session(session_id: str):
     if not success:
         raise HTTPException(status_code=404, detail="Session not found.")
     return {"deleted": True, "session_id": session_id}
+
+
+@app.post("/api/sessions/bulk-delete")
+def bulk_delete_sessions(req: BulkDeleteRequest):
+    result = store.delete_sessions(req.session_ids)
+    return result
+
+
+@app.post("/api/sessions/deduplicate")
+def deduplicate_sessions():
+    result = store.deduplicate_sessions()
+    return result
 
 
 @app.post("/api/sessions/{session_id}/regenerate", response_model=SessionResponse)

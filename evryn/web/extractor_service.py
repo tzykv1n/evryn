@@ -227,6 +227,14 @@ def decompose_concept_and_state(
     else:
         canonical_concept = concept_clean.title()
 
+    # 3b. Context-based state inference if not explicitly captured in concept string
+    if not state and context_text:
+        c_low = re.escape(canonical_concept.lower())
+        if re.search(rf"\b(?:loss|depletion|deficiency|down-?regulation|reduction|decrease|absence|knockdown|knockout|deletion)\s+of\s+{c_low}\b", context_text, re.IGNORECASE):
+            state = "Decrease"
+        elif re.search(rf"\b(?:increase|elevation|induction|up-?regulation|activation|overexpression|gain)\s+of\s+{c_low}\b", context_text, re.IGNORECASE):
+            state = "Increase"
+
     # 4. Context-aware category inference
     category, cat_conf, cat_rationale = infer_entity_category_and_confidence(canonical_concept, context_text)
     color_fill, color_stroke = get_deterministic_category_colors(category)

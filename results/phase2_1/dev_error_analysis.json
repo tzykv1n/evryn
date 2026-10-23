@@ -79,8 +79,8 @@
       "false_positives": [
         {
           "edge": [
-            "PmrD",
-            "PmrB"
+            "PmrB",
+            "Polymyxin B"
           ],
           "category": "unsupported_hallucination",
           "type": "direct"
@@ -95,26 +95,10 @@
         },
         {
           "edge": [
-            "Polymyxin B",
-            "Acid pH"
-          ],
-          "category": "direction_inverted",
-          "type": "direct"
-        },
-        {
-          "edge": [
             "PmrD",
             "PmrA"
           ],
           "category": "direction_inverted",
-          "type": "direct"
-        },
-        {
-          "edge": [
-            "PmrB",
-            "Polymyxin B"
-          ],
-          "category": "unsupported_hallucination",
           "type": "direct"
         },
         {
@@ -131,6 +115,22 @@
             "PmrB"
           ],
           "category": "unsupported_hallucination",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "Polymyxin B",
+            "Acid pH"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "PmrB",
+            "PmrA"
+          ],
+          "category": "unsupported_hallucination",
           "type": "cross_page"
         },
         {
@@ -143,24 +143,8 @@
         },
         {
           "edge": [
-            "PmrA",
-            "Lipopolysaccharide"
-          ],
-          "category": "unsupported_hallucination",
-          "type": "cross_page"
-        },
-        {
-          "edge": [
-            "Acid pH",
-            "PmrB"
-          ],
-          "category": "unsupported_hallucination",
-          "type": "cross_page"
-        },
-        {
-          "edge": [
-            "PmrB",
-            "Acid pH"
+            "PmrD",
+            "PmrA"
           ],
           "category": "direction_inverted",
           "type": "cross_page"
@@ -175,18 +159,10 @@
         },
         {
           "edge": [
-            "PmrB",
-            "PmrA"
+            "Acid pH",
+            "PmrB"
           ],
           "category": "unsupported_hallucination",
-          "type": "cross_page"
-        },
-        {
-          "edge": [
-            "PmrD",
-            "PmrA"
-          ],
-          "category": "direction_inverted",
           "type": "cross_page"
         },
         {
@@ -200,9 +176,33 @@
         {
           "edge": [
             "PmrD",
+            "PmrB"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "PmrA",
+            "Lipopolysaccharide"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "PmrD",
             "Polymyxin B"
           ],
           "category": "cross_page_bridge_spurious",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "PmrB",
+            "Acid pH"
+          ],
+          "category": "direction_inverted",
           "type": "cross_page"
         }
       ],
@@ -259,14 +259,6 @@
       "false_positives": [
         {
           "edge": [
-            "SPI1",
-            "HilD"
-          ],
-          "category": "direction_inverted",
-          "type": "direct"
-        },
-        {
-          "edge": [
             "HilA",
             "HilD"
           ],
@@ -275,7 +267,15 @@
         },
         {
           "edge": [
-            "InvF",
+            "Mlc",
+            "HilA"
+          ],
+          "category": "transitive_jump",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "Type III Secretion",
             "SPI1"
           ],
           "category": "unsupported_hallucination",
@@ -283,10 +283,26 @@
         },
         {
           "edge": [
-            "Mlc",
+            "HilD",
+            "SPI1"
+          ],
+          "category": "transitive_jump",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "Type III Secretion",
             "InvF"
           ],
-          "category": "unsupported_hallucination",
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "HilD",
+            "InvF"
+          ],
+          "category": "transitive_jump",
           "type": "direct"
         },
         {
@@ -300,62 +316,6 @@
         {
           "edge": [
             "HilD",
-            "SPI1"
-          ],
-          "category": "transitive_jump",
-          "type": "direct"
-        },
-        {
-          "edge": [
-            "HilD",
-            "InvF"
-          ],
-          "category": "transitive_jump",
-          "type": "direct"
-        },
-        {
-          "edge": [
-            "Mlc",
-            "SPI1"
-          ],
-          "category": "unsupported_hallucination",
-          "type": "direct"
-        },
-        {
-          "edge": [
-            "SPI1",
-            "InvF"
-          ],
-          "category": "unsupported_hallucination",
-          "type": "direct"
-        },
-        {
-          "edge": [
-            "Mlc",
-            "HilA"
-          ],
-          "category": "transitive_jump",
-          "type": "direct"
-        },
-        {
-          "edge": [
-            "InvF",
-            "HilD"
-          ],
-          "category": "unsupported_hallucination",
-          "type": "direct"
-        },
-        {
-          "edge": [
-            "Type III Secretion",
-            "InvF"
-          ],
-          "category": "direction_inverted",
-          "type": "direct"
-        },
-        {
-          "edge": [
-            "HilD",
             "Mlc"
           ],
           "category": "direction_inverted",
@@ -371,7 +331,23 @@
         },
         {
           "edge": [
-            "Type III Secretion",
+            "InvF",
+            "HilD"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "Mlc",
+            "InvF"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "Mlc",
             "SPI1"
           ],
           "category": "unsupported_hallucination",
@@ -383,7 +359,23 @@
             "SPI1"
           ],
           "category": "unsupported_hallucination",
-          "type": "cross_page"
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "SPI1",
+            "HilD"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "SPI1",
+            "InvF"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "direct"
         },
         {
           "edge": [
@@ -395,32 +387,8 @@
         },
         {
           "edge": [
-            "Mlc",
-            "InvF"
-          ],
-          "category": "unsupported_hallucination",
-          "type": "cross_page"
-        },
-        {
-          "edge": [
-            "HilD",
-            "InvF"
-          ],
-          "category": "unsupported_hallucination",
-          "type": "cross_page"
-        },
-        {
-          "edge": [
-            "HilA",
-            "InvF"
-          ],
-          "category": "unsupported_hallucination",
-          "type": "cross_page"
-        },
-        {
-          "edge": [
-            "HilD",
-            "HilA"
+            "Type III Secretion",
+            "SPI1"
           ],
           "category": "unsupported_hallucination",
           "type": "cross_page"
@@ -435,8 +403,16 @@
         },
         {
           "edge": [
-            "InvF",
-            "HilD"
+            "HilA",
+            "InvF"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "HilD",
+            "InvF"
           ],
           "category": "unsupported_hallucination",
           "type": "cross_page"
@@ -467,7 +443,31 @@
         },
         {
           "edge": [
-            "Type III Secretion",
+            "Mlc",
+            "InvF"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "InvF",
+            "HilD"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "HilD",
+            "HilA"
+          ],
+          "category": "unsupported_hallucination",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "InvF",
             "SPI1"
           ],
           "category": "unsupported_hallucination",
@@ -545,6 +545,14 @@
       "false_negatives": [
         {
           "edge": [
+            "Adherence",
+            "Streptolysin O"
+          ],
+          "category": "cross_sentence_intra_page",
+          "type": "direct"
+        },
+        {
+          "edge": [
             "SpeB",
             "Host Colonization"
           ],
@@ -561,14 +569,6 @@
         },
         {
           "edge": [
-            "Adherence",
-            "Streptolysin O"
-          ],
-          "category": "cross_sentence_intra_page",
-          "type": "direct"
-        },
-        {
-          "edge": [
             "Streptolysin O",
             "Host Colonization"
           ],
@@ -578,17 +578,17 @@
         {
           "edge": [
             "Adherence",
-            "Host Cell Cytotoxicity"
+            "Host Colonization"
           ],
-          "category": "cross_sentence_intra_page",
+          "category": "confidence_or_filter_loss",
           "type": "cross_page"
         },
         {
           "edge": [
             "Adherence",
-            "Host Colonization"
+            "Host Cell Cytotoxicity"
           ],
-          "category": "confidence_or_filter_loss",
+          "category": "cross_sentence_intra_page",
           "type": "cross_page"
         }
       ]
@@ -611,14 +611,6 @@
       "false_positives": [
         {
           "edge": [
-            "FimR",
-            "FimS"
-          ],
-          "category": "direction_inverted",
-          "type": "direct"
-        },
-        {
-          "edge": [
             "FimS",
             "Short Fimbriae"
           ],
@@ -629,6 +621,14 @@
           "edge": [
             "Mfa1",
             "FimR"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "FimR",
+            "FimS"
           ],
           "category": "direction_inverted",
           "type": "direct"
@@ -669,14 +669,6 @@
         },
         {
           "edge": [
-            "FimR",
-            "Biofilm"
-          ],
-          "category": "cross_sentence_intra_page",
-          "type": "cross_page"
-        },
-        {
-          "edge": [
             "FimS",
             "Mfa1"
           ],
@@ -686,9 +678,9 @@
         {
           "edge": [
             "FimR",
-            "Short Fimbriae"
+            "Biofilm"
           ],
-          "category": "confidence_or_filter_loss",
+          "category": "cross_sentence_intra_page",
           "type": "cross_page"
         },
         {
@@ -697,6 +689,14 @@
             "Biofilm"
           ],
           "category": "cross_sentence_intra_page",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "FimR",
+            "Short Fimbriae"
+          ],
+          "category": "confidence_or_filter_loss",
           "type": "cross_page"
         }
       ]
@@ -728,14 +728,6 @@
         {
           "edge": [
             "EspA",
-            "T Cell Recognition"
-          ],
-          "category": "cross_page_bridge_spurious",
-          "type": "direct"
-        },
-        {
-          "edge": [
-            "EspA",
             "PhoP"
           ],
           "category": "direction_inverted",
@@ -747,6 +739,14 @@
             "PhoP"
           ],
           "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "EspA",
+            "T Cell Recognition"
+          ],
+          "category": "cross_page_bridge_spurious",
           "type": "direct"
         },
         {
@@ -759,7 +759,7 @@
         },
         {
           "edge": [
-            "EspA",
+            "ESAT-6",
             "PhoP"
           ],
           "category": "direction_inverted",
@@ -767,7 +767,7 @@
         },
         {
           "edge": [
-            "ESAT-6",
+            "EspA",
             "PhoP"
           ],
           "category": "direction_inverted",
@@ -793,6 +793,14 @@
       "false_negatives": [
         {
           "edge": [
+            "EspA",
+            "ESX-1"
+          ],
+          "category": "cross_sentence_intra_page",
+          "type": "direct"
+        },
+        {
+          "edge": [
             "ESX-1",
             "ESAT-6"
           ],
@@ -809,11 +817,11 @@
         },
         {
           "edge": [
-            "EspA",
-            "ESX-1"
+            "PhoP",
+            "ESAT-6"
           ],
-          "category": "cross_sentence_intra_page",
-          "type": "direct"
+          "category": "direction_inverted",
+          "type": "cross_page"
         },
         {
           "edge": [
@@ -829,14 +837,6 @@
             "T Cell Recognition"
           ],
           "category": "cross_sentence_intra_page",
-          "type": "cross_page"
-        },
-        {
-          "edge": [
-            "PhoP",
-            "ESAT-6"
-          ],
-          "category": "direction_inverted",
           "type": "cross_page"
         }
       ]
@@ -893,14 +893,6 @@
       "false_negatives": [
         {
           "edge": [
-            "AHL",
-            "LuxR"
-          ],
-          "category": "direction_inverted",
-          "type": "direct"
-        },
-        {
-          "edge": [
             "c-di-GMP",
             "Biofilm Formation"
           ],
@@ -910,7 +902,23 @@
         {
           "edge": [
             "AHL",
+            "LuxR"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "AHL",
             "Biofilm Formation"
+          ],
+          "category": "cross_sentence_intra_page",
+          "type": "cross_page"
+        },
+        {
+          "edge": [
+            "AHL",
+            "Virulence"
           ],
           "category": "cross_sentence_intra_page",
           "type": "cross_page"
@@ -921,14 +929,6 @@
             "Virulence"
           ],
           "category": "confidence_or_filter_loss",
-          "type": "cross_page"
-        },
-        {
-          "edge": [
-            "AHL",
-            "Virulence"
-          ],
-          "category": "cross_sentence_intra_page",
           "type": "cross_page"
         }
       ]
@@ -951,8 +951,8 @@
       "false_positives": [
         {
           "edge": [
-            "Virulence",
-            "SalK"
+            "SalK",
+            "89K"
           ],
           "category": "direction_inverted",
           "type": "direct"
@@ -967,8 +967,8 @@
         },
         {
           "edge": [
-            "SalK",
-            "89K"
+            "Virulence",
+            "SalK"
           ],
           "category": "direction_inverted",
           "type": "direct"
@@ -983,22 +983,6 @@
         }
       ],
       "false_negatives": [
-        {
-          "edge": [
-            "89K",
-            "SalK"
-          ],
-          "category": "direction_inverted",
-          "type": "direct"
-        },
-        {
-          "edge": [
-            "SalR",
-            "PMN Resistance"
-          ],
-          "category": "argument_span_or_vocabulary_mismatch",
-          "type": "direct"
-        },
         {
           "edge": [
             "PMN Resistance",
@@ -1017,6 +1001,22 @@
         },
         {
           "edge": [
+            "SalR",
+            "PMN Resistance"
+          ],
+          "category": "argument_span_or_vocabulary_mismatch",
+          "type": "direct"
+        },
+        {
+          "edge": [
+            "89K",
+            "SalK"
+          ],
+          "category": "direction_inverted",
+          "type": "direct"
+        },
+        {
+          "edge": [
             "SalK",
             "PMN Resistance"
           ],
@@ -1026,17 +1026,17 @@
         {
           "edge": [
             "89K",
-            "SalR"
+            "Virulence"
           ],
-          "category": "coreference_or_complex_syntax",
+          "category": "cross_sentence_intra_page",
           "type": "cross_page"
         },
         {
           "edge": [
             "89K",
-            "Virulence"
+            "SalR"
           ],
-          "category": "cross_sentence_intra_page",
+          "category": "coreference_or_complex_syntax",
           "type": "cross_page"
         },
         {

@@ -18,8 +18,8 @@ class CrossPageLinker:
     def __init__(
         self,
         min_page_distance: int = 1,
-        max_transitive_hops: int = 3,
-        min_confidence: float = 0.50,
+        max_transitive_hops: int = 2,
+        min_confidence: float = 0.65,
     ):
         self.min_page_distance = min_page_distance
         self.max_transitive_hops = max_transitive_hops

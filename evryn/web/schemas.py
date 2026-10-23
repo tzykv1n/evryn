@@ -15,6 +15,10 @@ class LayoutUpdateRequest(BaseModel):
     positions: Dict[str, Dict[str, float]] = Field(..., description="Mapping of node names to {x, y} coordinates")
 
 
+class BulkDeleteRequest(BaseModel):
+    session_ids: List[str] = Field(..., description="List of session IDs to delete in bulk")
+
+
 class SentenceSpanModel(BaseModel):
     id: str
     text: str

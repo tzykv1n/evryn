@@ -16,6 +16,16 @@
       <button id="toggle-sidebar-btn" class="sidebar-close-btn" title="Close Sidebar" aria-label="Close Sidebar">←</button>
       <button id="new-session-btn" class="text-btn" title="New Session">+ NEW</button>
     </div>
+    <div class="sidebar-session-actions" id="sidebar-session-actions">
+      <div class="session-select-all-wrap">
+        <input type="checkbox" id="session-select-all-cb" title="Select all sessions" aria-label="Select all sessions">
+        <label for="session-select-all-cb" class="session-action-label">All</label>
+      </div>
+      <div class="session-action-buttons">
+        <button id="session-dedup-btn" class="sidebar-action-btn" title="Deduplicate sessions">Dedup</button>
+        <button id="session-bulk-delete-btn" class="sidebar-action-btn btn-danger" disabled title="Delete selected sessions">Delete (0)</button>
+      </div>
+    </div>
     <div class="sidebar-content">
       <ul id="session-list" class="session-list">
         <!-- Dynamically populated sessions -->
