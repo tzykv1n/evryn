@@ -1,0 +1,39 @@
+{
+  "canonical_entities": [
+    "AMPK",
+    "TSC2",
+    "mTORC1",
+    "ULK1"
+  ],
+  "direct_edges": [
+    [
+      "AMPK",
+      "TSC2"
+    ],
+    [
+      "TSC2",
+      "mTORC1"
+    ],
+    [
+      "mTORC1",
+      "ULK1"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "AMPK",
+      "mTORC1"
+    ],
+    [
+      "TSC2",
+      "ULK1"
+    ],
+    [
+      "AMPK",
+      "ULK1"
+    ]
+  ],
+  "is_synthetic": true,
+  "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+  "paper_id": "paper_05_ampk_mtor_autophagy"
+}

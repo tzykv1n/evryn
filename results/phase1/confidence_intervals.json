@@ -1,0 +1,73 @@
+{
+  "system_c_evryn": {
+    "direct_f1": 0.4449,
+    "direct_f1_ci_95": [
+      0.3714,
+      0.5228
+    ],
+    "cross_page_f1": 0.2657,
+    "cross_page_f1_ci_95": [
+      0.1675,
+      0.3659
+    ],
+    "structural_match": 0.388,
+    "structural_match_ci_95": [
+      0.311,
+      0.4623
+    ],
+    "provenance_completeness": 1.0
+  },
+  "baseline_a_sentence": {
+    "direct_f1": 0.4788,
+    "direct_f1_ci_95": [
+      0.4021,
+      0.5656
+    ],
+    "cross_page_f1": 0.0,
+    "cross_page_f1_ci_95": [
+      0.0,
+      0.0
+    ]
+  },
+  "baseline_b_paragraph": {
+    "direct_f1": 0.5273,
+    "direct_f1_ci_95": [
+      0.452,
+      0.5882
+    ],
+    "cross_page_f1": 0.0,
+    "cross_page_f1_ci_95": [
+      0.0,
+      0.0
+    ]
+  },
+  "baseline_c_pmi": {
+    "direct_f1": 0.3645,
+    "direct_f1_ci_95": [
+      0.2943,
+      0.4477
+    ],
+    "cross_page_f1": 0.2546,
+    "cross_page_f1_ci_95": [
+      0.1737,
+      0.3404
+    ]
+  },
+  "baseline_d_dense": {
+    "direct_f1": 0.1171,
+    "direct_f1_ci_95": [
+      0.0238,
+      0.2182
+    ],
+    "cross_page_f1": 0.1989,
+    "cross_page_f1_ci_95": [
+      0.1238,
+      0.2745
+    ]
+  },
+  "n_bootstrap": 1000,
+  "confidence_level": 0.95,
+  "total_papers": 12,
+  "dev_papers": 8,
+  "test_papers": 4
+}

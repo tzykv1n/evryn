@@ -1,0 +1,70 @@
+{
+  "canonical_entities": [
+    "Cationic Peptides",
+    "GraS",
+    "GraR",
+    "MprF",
+    "DltA",
+    "Peptide Resistance"
+  ],
+  "direct_edges": [
+    [
+      "Cationic Peptides",
+      "GraS"
+    ],
+    [
+      "GraS",
+      "GraR"
+    ],
+    [
+      "GraR",
+      "MprF"
+    ],
+    [
+      "GraR",
+      "DltA"
+    ],
+    [
+      "MprF",
+      "Peptide Resistance"
+    ],
+    [
+      "DltA",
+      "Peptide Resistance"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "Cationic Peptides",
+      "GraR"
+    ],
+    [
+      "GraS",
+      "MprF"
+    ],
+    [
+      "GraS",
+      "DltA"
+    ],
+    [
+      "Cationic Peptides",
+      "Peptide Resistance"
+    ],
+    [
+      "GraS",
+      "Peptide Resistance"
+    ],
+    [
+      "GraR",
+      "Peptide Resistance"
+    ]
+  ],
+  "is_synthetic": false,
+  "provenance": "PubMed Central Open Access",
+  "pmcid": "PMC2430206",
+  "pmid": "18533037",
+  "doi": "10.1186/1471-2180-8-85",
+  "journal": "BMC Microbiology",
+  "license": "CC BY",
+  "title": "The GraRS regulatory system controls Staphylococcus aureus resistance to antimicrobial peptides"
+}

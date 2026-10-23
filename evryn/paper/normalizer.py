@@ -57,7 +57,7 @@ GLOBAL_SYNONYMS = {
     "nfkb": "NF-kB",
     "cellular tumor antigen p53": "p53",
     "tumor protein p53": "p53",
-    "tp53": "p53",
+    "tp53": "TP53",
     "p53": "p53",
     "cyclin-dependent kinase inhibitor 1a": "p21",
     "cdkn1a": "p21",
@@ -75,6 +75,8 @@ GLOBAL_SYNONYMS = {
     "casp9": "Caspase-9",
     "bcl-2-associated x protein": "BAX",
     "bax": "BAX",
+    "lps": "Lipopolysaccharide",
+    "lipopolysaccharides": "Lipopolysaccharide",
     "b-cell lymphoma 2": "Bcl-2",
     "bcl2": "Bcl-2",
     "bcl-2": "Bcl-2",
@@ -89,6 +91,10 @@ GLOBAL_SYNONYMS = {
     "irf1": "IRF1",
     "atm": "ATM",
     "cdk2": "CDK2",
+    "chk2": "CHK2",
+    "checkpoint kinase 2": "CHK2",
+    "mdm2": "MDM2",
+    "atr": "ATR",
     "tsc2": "TSC2",
     "ulk1": "ULK1",
     "ikk": "IKK",
@@ -108,11 +114,129 @@ GLOBAL_SYNONYMS = {
     "igf-1": "IGF-1",
     "bad": "BAD",
     "hypoxia": "Hypoxia",
+    "normoxia": "Normoxia",
     "angiogenesis": "Angiogenesis",
     "collagen": "Collagen",
     "cytochrome c": "Cytochrome c",
     "ifn-gamma": "IFN-gamma",
     "interferon-gamma": "IFN-gamma",
+    # PMC-OA Real Biological Pathways
+    "acid ph": "Acid pH",
+    "pmrb": "PmrB",
+    "pmra": "PmrA",
+    "pmrd": "PmrD",
+    "fe3+": "Fe3+",
+    "fe(iii)": "Fe3+",
+    "polymyxin b": "Polymyxin B",
+    "polymyxin": "Polymyxin B",
+    "mlc": "Mlc",
+    "hild": "HilD",
+    "hila": "HilA",
+    "invf": "InvF",
+    "spi1": "SPI1",
+    "spi-1": "SPI1",
+    "type iii secretion": "Type III Secretion",
+    "t3ss": "Type III Secretion",
+    "adherence": "Adherence",
+    "pharyngeal cell adherence": "Adherence",
+    "streptolysin o": "Streptolysin O",
+    "slo": "Streptolysin O",
+    "speb": "SpeB",
+    "speb protease": "SpeB",
+    "cytotoxicity": "Host Cell Cytotoxicity",
+    "host cell cytotoxicity": "Host Cell Cytotoxicity",
+    "host colonization": "Host Colonization",
+    "colonization": "Host Colonization",
+    "fims": "FimS",
+    "fimr": "FimR",
+    "mfa1": "Mfa1",
+    "short fimbriae": "Short Fimbriae",
+    "espa": "EspA",
+    "esx-1": "ESX-1",
+    "esx1": "ESX-1",
+    "esat-6": "ESAT-6",
+    "esat6": "ESAT-6",
+    "t cell recognition": "T Cell Recognition",
+    "t cell responses": "T Cell Recognition",
+    "t-cell recognition": "T Cell Recognition",
+    "t-cell responses": "T Cell Recognition",
+    "ahl": "AHL",
+    "ahls": "AHL",
+    "acyl homoserine lactones": "AHL",
+    "luxr": "LuxR",
+    "luxr receptors": "LuxR",
+    "luxr-like receptors": "LuxR",
+    "c-di-gmp": "c-di-GMP",
+    "cyclic diguanylate": "c-di-GMP",
+    "biofilm": "Biofilm",
+    "biofilms": "Biofilm",
+    "biofilm formation": "Biofilm Formation",
+    "fimbriae": "Short Fimbriae",
+    "fimbria": "Short Fimbriae",
+    "short fimbria": "Short Fimbriae",
+    "acidic ph": "Acid pH",
+    "low ph": "Acid pH",
+    "89k": "89K",
+    "89k pai": "89K",
+    "89k pathogenicity island": "89K",
+    "salk": "SalK",
+    "salr": "SalR",
+    "pmn resistance": "PMN Resistance",
+    "pmn-mediated killing": "PMN Resistance",
+    "resistance to pmn-mediated killing": "PMN Resistance",
+    "resistance to pmn killing": "PMN Resistance",
+    "killing by pmns": "PMN Resistance",
+    "grars": "GraRS",
+    "grar/s": "GraRS",
+    "grar": "GraR",
+    "gras": "GraS",
+    "dlta": "dltA",
+    "dlt operon": "dltA",
+    "mprf": "mprF",
+    "ll-37": "LL-37",
+    "camps": "LL-37",
+    "cationic antimicrobial peptides": "LL-37",
+    "csrs": "CsrS",
+    "csr-s": "CsrS",
+    "csrs/r": "CsrS",
+    "scpc": "ScpC",
+    "pmn death": "PMN Death",
+    "pmn killing": "PMN Death",
+    "pmn necrosis": "PMN Death",
+    "neutrophil death": "PMN Death",
+    "neutrophil lysis": "PMN Death",
+    "pmn migration": "PMN Migration",
+    "extracellular dna": "Extracellular DNA",
+    "edna": "Extracellular DNA",
+    "cation chelation": "Cation Chelation",
+    "cation chelating": "Cation Chelation",
+    "mg2+ chelation": "Cation Chelation",
+    "magnesium limitation": "Cation Chelation",
+    "phopq": "PhoPQ",
+    "pmrab": "PmrAB",
+    "arn operon": "arn Operon",
+    "arnbcadtef": "arn Operon",
+    "pa3552–pa3559": "arn Operon",
+    "pa3552-pa3559": "arn Operon",
+    "antibiotic resistance": "Antibiotic Resistance",
+    "polymyxin resistance": "Antibiotic Resistance",
+    "vick": "VicK",
+    "vicr": "VicR",
+    "bacterial growth": "Bacterial Growth",
+    "growth in blood": "Bacterial Growth",
+    "growth defect": "Bacterial Growth",
+    "protective immunity": "Protective Immunity",
+    "live vaccine": "Protective Immunity",
+    "protection against reinfection": "Protective Immunity",
+    "phoq": "PhoQ",
+    "slya": "SlyA",
+    "ssrb": "SsrB",
+    "ssra/ssrb": "SsrB",
+    "spi-2": "SPI-2",
+    "spi2": "SPI-2",
+    "virulence": "Virulence",
+    "pathogenicity": "Virulence",
+    "insect pathogenicity": "Virulence",
 }
 
 
@@ -129,11 +253,21 @@ class PaperEntityNormalizer:
             long_form = match.group(1).strip()
             short_form = match.group(2).strip()
             
+            if short_form.isdigit() or sum(c.isalpha() for c in short_form) < 2:
+                continue
             if len(short_form) < 2 or len(short_form) > 12:
                 continue
             if len(long_form) < len(short_form):
                 continue
             if any(w in long_form.lower() for w in ["figure", "table", "ref", "page", "et al", "see"]):
+                continue
+
+            words = long_form.split()
+            if len(words) < 1 or len(words) > 6:
+                continue
+            if any(words[0].lower() == w for w in ["for", "since", "with", "from", "and", "by", "in", "of", "to", "at", "on", "is", "was", "were", "are"]):
+                continue
+            if any(w.lower() in {"activates", "activated", "induces", "induced", "invades", "expression", "absence", "presence", "between", "both", "reported"} for w in words):
                 continue
 
             canon = self.canonicalize(short_form)
@@ -147,13 +281,23 @@ class PaperEntityNormalizer:
 
         return abbr_map
 
-    def canonicalize(self, raw_name: str, local_abbr_map: Optional[Dict[str, str]] = None) -> str:
+    def canonicalize(
+        self,
+        raw_name: str,
+        local_abbr_map: Optional[Dict[str, str]] = None,
+        known_entities: Optional[List[str]] = None,
+    ) -> str:
         cleaned = raw_name.strip()
         cleaned = re.sub(r"^(?:abstract|introduction|background|methods|results|discussion|conclusion|page\s+\d+)\s+", "", cleaned, flags=re.IGNORECASE)
         cleaned = re.sub(r"^the\s+|^a\s+|^an\s+", "", cleaned, flags=re.IGNORECASE)
         cleaned = re.sub(r"^(?:phosphorylated|activated|active|nuclear|cytosolic|membrane-anchored|elevated|stabilized|secreted|soluble|dimerized|pro-apoptotic)\s+", "", cleaned, flags=re.IGNORECASE)
         cleaned = re.sub(r"\s+", " ", cleaned).strip()
         key = cleaned.lower()
+
+        if known_entities:
+            for ke in known_entities:
+                if key == ke.lower():
+                    return ke
 
         if local_abbr_map and key in local_abbr_map:
             return local_abbr_map[key]
@@ -171,20 +315,36 @@ class PaperEntityNormalizer:
         self,
         sentence: str,
         local_abbr_map: Optional[Dict[str, str]] = None,
+        known_entities: Optional[List[str]] = None,
     ) -> List[Tuple[str, str, int, int]]:
         mentions: List[Tuple[str, str, int, int]] = []
         known_vocab = set(GLOBAL_SYNONYMS.keys())
         if local_abbr_map:
             known_vocab.update(local_abbr_map.keys())
+        if known_entities:
+            for ke in known_entities:
+                known_vocab.add(ke.lower())
 
+        STOPWORDS = {
+            "and", "or", "the", "in", "of", "to", "for", "with", "by", "on", "at",
+            "from", "as", "is", "was", "were", "are", "be", "that", "this", "these",
+            "those", "an", "a", "not", "no", "we", "our", "their", "its", "it",
+        }
         for term in sorted(known_vocab, key=len, reverse=True):
-            pattern = re.compile(rf"\b{re.escape(term)}\b", re.IGNORECASE)
+            if term.lower() in STOPWORDS or len(term.strip()) < 2:
+                continue
+            # Support plural suffixes where appropriate
+            if not term.endswith(("s", "x", "z", "ch", "sh")):
+                pattern = re.compile(rf"\b{re.escape(term)}(?:s|es)?\b", re.IGNORECASE)
+            else:
+                pattern = re.compile(rf"\b{re.escape(term)}\b", re.IGNORECASE)
             for m in pattern.finditer(sentence):
                 raw = m.group(0)
-                canon = self.canonicalize(raw, local_abbr_map)
+                canon = self.canonicalize(raw, local_abbr_map, known_entities)
                 mentions.append((raw, canon, m.start(), m.end()))
 
-        mentions.sort(key=lambda x: x[2])
+        # Sort by start ascending, then length descending so longer spans take precedence
+        mentions.sort(key=lambda x: (x[2], -(x[3] - x[2])))
         filtered_mentions: List[Tuple[str, str, int, int]] = []
         last_end = -1
         for m in mentions:

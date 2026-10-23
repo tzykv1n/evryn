@@ -14,10 +14,12 @@ PAPERS_SPEC: List[Dict[str, Any]] = [
     {
         "id": "paper_01_egfr_mapk",
         "title": "Epidermal Growth Factor Receptor Activation of the MAPK Pathway in Carcinoma Progression",
-        "authors": ["Elena Vance, PhD", "Marcus Thorne, MD", "Alistair Chen, PhD"],
-        "doi": "10.1038/s41586-024-00101-x",
-        "pmid": "38291001",
-        "pmcid": "PMC10821001",
+        "authors": ["Synthetic Benchmark Generator"],
+        "doi": None,
+        "is_synthetic": True,
+        "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+        "pmid": None,
+        "pmcid": None,
         "pages": [
             {
                 "section": "Abstract & Introduction",
@@ -63,10 +65,12 @@ PAPERS_SPEC: List[Dict[str, Any]] = [
     {
         "id": "paper_02_il6_stat3_socs3",
         "title": "Interleukin-6 Triggers STAT3 Phosphorylation and Negative Feedback Regulation by SOCS3",
-        "authors": ["Sophia Laurent, MD", "Koji Takahashi, PhD", "David R. Miller, PhD"],
-        "doi": "10.1016/j.cell.2024.01.042",
-        "pmid": "38342002",
-        "pmcid": "PMC10842002",
+        "authors": ["Synthetic Benchmark Generator"],
+        "doi": None,
+        "is_synthetic": True,
+        "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+        "pmid": None,
+        "pmcid": None,
         "pages": [
             {
                 "section": "Abstract",
@@ -111,10 +115,12 @@ PAPERS_SPEC: List[Dict[str, Any]] = [
     {
         "id": "paper_03_hypoxia_hif1a_vegf",
         "title": "Hypoxia-Inducible Factor 1-Alpha Orchestrates VEGF-Mediated Angiogenesis in Ischemic Tissue",
-        "authors": ["Alexander Gomez, MD", "Rachel Sterling, PhD"],
-        "doi": "10.1161/CIRCRESAHA.124.32003",
-        "pmid": "38453003",
-        "pmcid": "PMC10853003",
+        "authors": ["Synthetic Benchmark Generator"],
+        "doi": None,
+        "is_synthetic": True,
+        "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+        "pmid": None,
+        "pmcid": None,
         "pages": [
             {
                 "section": "Abstract & Introduction",
@@ -154,10 +160,12 @@ PAPERS_SPEC: List[Dict[str, Any]] = [
     {
         "id": "paper_04_p53_dna_damage",
         "title": "ATM Kinase Activation by DNA Double-Strand Breaks Induces p53 Phosphorylation and p21-Mediated Arrest",
-        "authors": ["Nathaniel Drake, PhD", "Claire Underwood, MD"],
-        "doi": "10.1038/s41416-024-02504-2",
-        "pmid": "38564004",
-        "pmcid": "PMC10864004",
+        "authors": ["Synthetic Benchmark Generator"],
+        "doi": None,
+        "is_synthetic": True,
+        "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+        "pmid": None,
+        "pmcid": None,
         "pages": [
             {
                 "section": "Abstract",
@@ -197,10 +205,12 @@ PAPERS_SPEC: List[Dict[str, Any]] = [
     {
         "id": "paper_05_ampk_mtor_autophagy",
         "title": "Nutrient Depletion Stimulates AMPK to Inhibit mTORC1 and Trigger Protective Autophagy",
-        "authors": ["Julian Rivera, PhD", "Hannah Zhao, PhD"],
-        "doi": "10.1016/j.cmet.2024.02.005",
-        "pmid": "38675005",
-        "pmcid": "PMC10875005",
+        "authors": ["Synthetic Benchmark Generator"],
+        "doi": None,
+        "is_synthetic": True,
+        "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+        "pmid": None,
+        "pmcid": None,
         "pages": [
             {
                 "section": "Abstract",
@@ -244,10 +254,12 @@ PAPERS_SPEC: List[Dict[str, Any]] = [
     {
         "id": "paper_06_nfkb_tnf_inflammation",
         "title": "Tumor Necrosis Factor-Alpha Stimulates IKK to Drive NF-kB Nuclear Translocation",
-        "authors": ["Charlotte Evans, MD", "Dmitri Volkov, PhD"],
-        "doi": "10.4049/jimmunol.2400106",
-        "pmid": "38786006",
-        "pmcid": "PMC10886006",
+        "authors": ["Synthetic Benchmark Generator"],
+        "doi": None,
+        "is_synthetic": True,
+        "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+        "pmid": None,
+        "pmcid": None,
         "pages": [
             {
                 "section": "Abstract & Introduction",
@@ -287,10 +299,12 @@ PAPERS_SPEC: List[Dict[str, Any]] = [
     {
         "id": "paper_07_tgfb_smad_fibrosis",
         "title": "Transforming Growth Factor-Beta Receptor Signaling Drives SMAD2/3 Phosphorylation in Tissue Fibrosis",
-        "authors": ["Gabriel Santos, MD", "Maya Lin, PhD"],
-        "doi": "10.1038/s41598-024-51007-1",
-        "pmid": "38897007",
-        "pmcid": "PMC10897007",
+        "authors": ["Synthetic Benchmark Generator"],
+        "doi": None,
+        "is_synthetic": True,
+        "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+        "pmid": None,
+        "pmcid": None,
         "pages": [
             {
                 "section": "Abstract & Background",
@@ -330,10 +344,12 @@ PAPERS_SPEC: List[Dict[str, Any]] = [
     {
         "id": "paper_08_wnt_betacatenin",
         "title": "Canonical Wnt Ligand Binding Inhibits GSK3-Beta to Stabilize Beta-Catenin in Osteogenesis",
-        "authors": ["Liam O'Connor, PhD", "Freja Lindqvist, MD"],
-        "doi": "10.1002/jbmr.4908",
-        "pmid": "38908008",
-        "pmcid": "PMC10908008",
+        "authors": ["Synthetic Benchmark Generator"],
+        "doi": None,
+        "is_synthetic": True,
+        "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+        "pmid": None,
+        "pmcid": None,
         "pages": [
             {
                 "section": "Abstract",
@@ -377,10 +393,12 @@ PAPERS_SPEC: List[Dict[str, Any]] = [
     {
         "id": "paper_09_caspase_apoptosis",
         "title": "Mitochondrial Outer Membrane Permeabilization Releases Cytochrome C to Trigger Caspase Cleavage",
-        "authors": ["Tariq Mansoor, PhD", "Annika Berg, PhD"],
-        "doi": "10.1038/s41418-024-01309-8",
-        "pmid": "39019009",
-        "pmcid": "PMC10919009",
+        "authors": ["Synthetic Benchmark Generator"],
+        "doi": None,
+        "is_synthetic": True,
+        "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+        "pmid": None,
+        "pmcid": None,
         "pages": [
             {
                 "section": "Abstract & Introduction",
@@ -420,10 +438,12 @@ PAPERS_SPEC: List[Dict[str, Any]] = [
     {
         "id": "paper_10_jak_stat_ifng",
         "title": "Interferon-Gamma Receptor Ligation Triggers JAK1 Activation and STAT1 Expression in Macrophages",
-        "authors": ["Zhi-Wei Wang, MD", "Beatriz Morales, PhD"],
-        "doi": "10.1084/jem.20240110",
-        "pmid": "39120010",
-        "pmcid": "PMC10920010",
+        "authors": ["Synthetic Benchmark Generator"],
+        "doi": None,
+        "is_synthetic": True,
+        "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+        "pmid": None,
+        "pmcid": None,
         "pages": [
             {
                 "section": "Abstract & Introduction",
@@ -463,10 +483,12 @@ PAPERS_SPEC: List[Dict[str, Any]] = [
     {
         "id": "paper_11_notch_signaling",
         "title": "Delta-Like Ligand 4 Binding Promotes Presenilin Cleavage and HES1 Expression in Arteries",
-        "authors": ["Henrik Lindholm, PhD", "Camilla Rossi, MD"],
-        "doi": "10.1161/ATVBAHA.124.32111",
-        "pmid": "39231011",
-        "pmcid": "PMC10923011",
+        "authors": ["Synthetic Benchmark Generator"],
+        "doi": None,
+        "is_synthetic": True,
+        "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+        "pmid": None,
+        "pmcid": None,
         "pages": [
             {
                 "section": "Abstract & Introduction",
@@ -506,10 +528,12 @@ PAPERS_SPEC: List[Dict[str, Any]] = [
     {
         "id": "paper_12_pi3k_akt_survival",
         "title": "Insulin-Like Growth Factor 1 Activates PI3K to Induce AKT Phosphorylation and Suppress Apoptosis",
-        "authors": ["Oliver Sterling, MD", "Nadia Petrova, PhD"],
-        "doi": "10.1074/jbc.RA124.03212",
-        "pmid": "39342012",
-        "pmcid": "PMC10934012",
+        "authors": ["Synthetic Benchmark Generator"],
+        "doi": None,
+        "is_synthetic": True,
+        "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+        "pmid": None,
+        "pmcid": None,
         "pages": [
             {
                 "section": "Abstract & Introduction",
@@ -549,7 +573,7 @@ PAPERS_SPEC: List[Dict[str, Any]] = [
 ]
 
 
-def generate_benchmark_dataset(target_dir: str = "data/multipage_papers") -> List[str]:
+def generate_benchmark_dataset(target_dir: str = "data/synthetic_sanity") -> List[str]:
     os.makedirs(target_dir, exist_ok=True)
     generated_pdf_paths: List[str] = []
 
@@ -607,9 +631,10 @@ def generate_benchmark_dataset(target_dir: str = "data/multipage_papers") -> Lis
         )
         story = []
 
+        story.append(Paragraph("[SYNTHETIC PIPELINE SANITY TEST — NOT REAL LITERATURE]", ParagraphStyle("SanityNotice", fontName="Helvetica-Bold", fontSize=8, textColor=colors.HexColor("#b91c1c"), spaceAfter=4)))
         story.append(Paragraph(spec["title"], title_style))
         authors_str = ", ".join(spec["authors"])
-        meta_str = f"Authors: {authors_str}<br/>DOI: {spec['doi']} | PMID: {spec['pmid']} | PMCID: {spec['pmcid']}"
+        meta_str = f"Authors: {authors_str}<br/>Provenance: Synthetic Pipeline Sanity Test (Procedural Fixture)"
         story.append(Paragraph(meta_str, meta_style))
         story.append(HRFlowable(width="100%", thickness=1, color=colors.HexColor("#cbd5e1"), spaceAfter=14))
 
@@ -631,6 +656,18 @@ def generate_benchmark_dataset(target_dir: str = "data/multipage_papers") -> Lis
         generated_pdf_paths.append(pdf_path)
 
         with open(gt_path, "w", encoding="utf-8") as f:
-            json.dump(spec["ground_truth"], f, indent=2)
+            gt_data = {**spec["ground_truth"], "is_synthetic": True, "provenance": "Synthetic pipeline sanity test. Not real scientific literature.", "paper_id": spec["id"]}
+            json.dump(gt_data, f, indent=2)
 
+    if target_dir == "data/synthetic_sanity":
+        import shutil
+        legacy_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data", "multipage_papers")
+        os.makedirs(legacy_dir, exist_ok=True)
+        for p in generated_pdf_paths:
+            base = os.path.basename(p)
+            shutil.copyfile(p, os.path.join(legacy_dir, base))
+            gt_base = base.replace(".pdf", "_ground_truth.json")
+            orig_gt = os.path.join(target_dir, gt_base)
+            if os.path.exists(orig_gt):
+                shutil.copyfile(orig_gt, os.path.join(legacy_dir, gt_base))
     return generated_pdf_paths

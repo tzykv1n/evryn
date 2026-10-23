@@ -60,5 +60,8 @@
       "EGFR",
       "ERK"
     ]
-  ]
+  ],
+  "is_synthetic": true,
+  "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+  "paper_id": "paper_01_egfr_mapk"
 }

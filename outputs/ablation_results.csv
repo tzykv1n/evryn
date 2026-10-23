@@ -1,0 +1,5 @@
+Configuration,Direct_F1,Cross_F1,Structural_Match,Provenance
+1. Direct Extraction Only,0.4449,0.0,0.2794,1.0
+2. Ungated Cross-Page Linking,0.4449,0.1425,0.2241,1.0
+3. Strict 1-Hop Transitive Linking,0.4449,0.1983,0.312,1.0
+4. Full EVRYN (Decay Gating + Multi-Hop),0.4449,0.2657,0.388,1.0

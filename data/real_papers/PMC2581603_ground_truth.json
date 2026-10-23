@@ -1,0 +1,66 @@
+{
+  "canonical_entities": [
+    "Extracellular DNA",
+    "Mg2+ Chelation",
+    "PhoPQ",
+    "PmrAB",
+    "Arn Operon",
+    "Polymyxin Resistance"
+  ],
+  "direct_edges": [
+    [
+      "Extracellular DNA",
+      "Mg2+ Chelation"
+    ],
+    [
+      "Mg2+ Chelation",
+      "PhoPQ"
+    ],
+    [
+      "PhoPQ",
+      "PmrAB"
+    ],
+    [
+      "PmrAB",
+      "Arn Operon"
+    ],
+    [
+      "Arn Operon",
+      "Polymyxin Resistance"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "Extracellular DNA",
+      "PhoPQ"
+    ],
+    [
+      "Extracellular DNA",
+      "PmrAB"
+    ],
+    [
+      "Mg2+ Chelation",
+      "Arn Operon"
+    ],
+    [
+      "Extracellular DNA",
+      "Polymyxin Resistance"
+    ],
+    [
+      "Mg2+ Chelation",
+      "Polymyxin Resistance"
+    ],
+    [
+      "PhoPQ",
+      "Polymyxin Resistance"
+    ]
+  ],
+  "is_synthetic": false,
+  "provenance": "PubMed Central Open Access",
+  "pmcid": "PMC2581603",
+  "pmid": "19023416",
+  "doi": "10.1371/journal.ppat.1000213",
+  "journal": "PLoS Pathogens",
+  "license": "CC BY 4.0",
+  "title": "Extracellular DNA Chelates Cations and Induces Antimicrobial Resistance in Pseudomonas aeruginosa"
+}

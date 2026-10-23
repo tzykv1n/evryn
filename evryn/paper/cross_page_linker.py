@@ -15,16 +15,31 @@ from .types import (
 
 class CrossPageLinker:
 
-    def __init__(self, min_page_distance: int = 0, max_transitive_hops: int = 4):
+    def __init__(
+        self,
+        min_page_distance: int = 1,
+        max_transitive_hops: int = 3,
+        min_confidence: float = 0.50,
+    ):
         self.min_page_distance = min_page_distance
         self.max_transitive_hops = max_transitive_hops
+        self.min_confidence = min_confidence
 
     def find_cross_page_links(
         self,
-        assertions: List[CausalAssertion],
+        doc_or_assertions: Any,
+        assertions: Optional[List[CausalAssertion]] = None,
     ) -> List[CrossPageLink]:
-        valid_assertions = [a for a in assertions if not a.is_negated]
+        if assertions is not None:
+            target_assertions = assertions
+        elif isinstance(doc_or_assertions, list):
+            target_assertions = doc_or_assertions
+        else:
+            target_assertions = []
+
+        valid_assertions = [a for a in target_assertions if not a.is_negated]
         links: List[CrossPageLink] = []
+        best_links: Dict[Tuple[str, str], CrossPageLink] = {}
         link_idx = 1
 
         g = nx.DiGraph()
@@ -40,6 +55,12 @@ class CrossPageLinker:
                     confidence=a.confidence,
                     section=a.section_title,
                 )
+            else:
+                if a.confidence > g.edges[src, tgt]["confidence"]:
+                    g.edges[src, tgt]["confidence"] = a.confidence
+                    g.edges[src, tgt]["assertion_id"] = a.assertion_id
+                    g.edges[src, tgt]["page"] = a.page_number
+                    g.edges[src, tgt]["section"] = a.section_title
 
         nodes = list(g.nodes())
         for i in range(len(nodes)):
@@ -55,7 +76,7 @@ class CrossPageLinker:
                     paths = []
 
                 for path in paths:
-                    if len(path) <= 2:
+                    if len(path) <= 2 or len(path) > self.max_transitive_hops + 1:
                         continue
 
                     e_first = g.edges[path[0], path[1]]
@@ -75,30 +96,37 @@ class CrossPageLinker:
                         asrt_chain.append(edge_data["assertion_id"])
                         path_conf *= edge_data["confidence"]
 
-                    path_conf = round(path_conf * (0.96 ** max(0, dist - 1)), 3)
+                    path_conf = round(path_conf * (0.92 ** max(0, dist - 1)), 3)
+                    if path_conf < self.min_confidence:
+                        continue
+
                     inter_str = " -> ".join(path[1:-1])
 
                     link_id = f"cplink_trans_{link_idx:04d}"
                     link_idx += 1
 
-                    links.append(
-                        CrossPageLink(
-                            link_id=link_id,
-                            cause_assertion_id=asrt_chain[0],
-                            effect_assertion_id=asrt_chain[-1],
-                            source_entity=u,
-                            intermediate_entity=inter_str,
-                            target_entity=v,
-                            cause_page=start_page,
-                            effect_page=end_page,
-                            distance_pages=dist,
-                            cause_section=e_first["section"],
-                            effect_section=e_last["section"],
-                            linking_mechanism="transitive_chain",
-                            confidence=path_conf,
-                            provenance_chain=asrt_chain,
-                        )
+                    candidate_link = CrossPageLink(
+                        link_id=link_id,
+                        cause_assertion_id=asrt_chain[0],
+                        effect_assertion_id=asrt_chain[-1],
+                        source_entity=u,
+                        intermediate_entity=inter_str,
+                        target_entity=v,
+                        cause_page=start_page,
+                        effect_page=end_page,
+                        distance_pages=dist,
+                        cause_section=e_first["section"],
+                        effect_section=e_last["section"],
+                        linking_mechanism="transitive_chain",
+                        confidence=path_conf,
+                        provenance_chain=asrt_chain,
                     )
+                    pair_key = (u, v)
+                    existing = best_links.get(pair_key)
+                    if existing is None or candidate_link.confidence > existing.confidence:
+                        best_links[pair_key] = candidate_link
+
+        links.extend(best_links.values())
 
         for i, a1 in enumerate(valid_assertions):
             for j, a2 in enumerate(valid_assertions):
@@ -148,3 +176,5 @@ class CrossPageLinker:
                 dedup_links.append(l)
 
         return dedup_links
+
+    link_cross_page_relations = find_cross_page_links

@@ -1,0 +1,57 @@
+{
+  "canonical_entities": [
+    "AHL",
+    "PluR",
+    "PcfA",
+    "Clumping",
+    "Insect Virulence"
+  ],
+  "direct_edges": [
+    [
+      "AHL",
+      "PluR"
+    ],
+    [
+      "PluR",
+      "PcfA"
+    ],
+    [
+      "PcfA",
+      "Clumping"
+    ],
+    [
+      "Clumping",
+      "Insect Virulence"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "AHL",
+      "PcfA"
+    ],
+    [
+      "AHL",
+      "Clumping"
+    ],
+    [
+      "PluR",
+      "Clumping"
+    ],
+    [
+      "AHL",
+      "Insect Virulence"
+    ],
+    [
+      "PluR",
+      "Insect Virulence"
+    ]
+  ],
+  "is_synthetic": false,
+  "provenance": "PubMed Central Open Access",
+  "pmcid": "PMC2266911",
+  "pmid": "18215320",
+  "doi": "10.1186/1471-2164-9-40",
+  "journal": "BMC Genomics",
+  "license": "CC BY",
+  "title": "Comparative analysis of the Photorhabdus luminescens LuxR-type regulators"
+}

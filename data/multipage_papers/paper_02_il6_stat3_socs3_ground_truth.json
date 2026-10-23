@@ -36,5 +36,8 @@
       "IL-6",
       "SOCS3"
     ]
-  ]
+  ],
+  "is_synthetic": true,
+  "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+  "paper_id": "paper_02_il6_stat3_socs3"
 }

@@ -1,0 +1,39 @@
+{
+  "canonical_entities": [
+    "IGF-1",
+    "PI3K",
+    "AKT",
+    "BAD"
+  ],
+  "direct_edges": [
+    [
+      "IGF-1",
+      "PI3K"
+    ],
+    [
+      "PI3K",
+      "AKT"
+    ],
+    [
+      "AKT",
+      "BAD"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "IGF-1",
+      "AKT"
+    ],
+    [
+      "PI3K",
+      "BAD"
+    ],
+    [
+      "IGF-1",
+      "BAD"
+    ]
+  ],
+  "is_synthetic": true,
+  "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+  "paper_id": "paper_12_pi3k_akt_survival"
+}

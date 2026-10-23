@@ -32,5 +32,8 @@
       "ATM",
       "CDK2"
     ]
-  ]
+  ],
+  "is_synthetic": true,
+  "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+  "paper_id": "paper_04_p53_dna_damage"
 }

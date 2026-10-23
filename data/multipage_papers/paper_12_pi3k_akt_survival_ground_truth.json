@@ -32,5 +32,8 @@
       "IGF-1",
       "BAD"
     ]
-  ]
+  ],
+  "is_synthetic": true,
+  "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+  "paper_id": "paper_12_pi3k_akt_survival"
 }

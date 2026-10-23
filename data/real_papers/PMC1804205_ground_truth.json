@@ -1,0 +1,63 @@
+{
+  "canonical_entities": [
+    "Acid pH",
+    "PmrB",
+    "PmrA",
+    "PmrD",
+    "Fe3+",
+    "Lipopolysaccharide",
+    "Polymyxin B"
+  ],
+  "direct_edges": [
+    [
+      "Acid pH",
+      "PmrB"
+    ],
+    [
+      "PmrB",
+      "PmrA"
+    ],
+    [
+      "PmrA",
+      "PmrD"
+    ],
+    [
+      "PmrA",
+      "Lipopolysaccharide"
+    ],
+    [
+      "Lipopolysaccharide",
+      "Polymyxin B"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "Acid pH",
+      "PmrA"
+    ],
+    [
+      "Acid pH",
+      "PmrD"
+    ],
+    [
+      "PmrB",
+      "Lipopolysaccharide"
+    ],
+    [
+      "PmrB",
+      "Polymyxin B"
+    ],
+    [
+      "Acid pH",
+      "Polymyxin B"
+    ]
+  ],
+  "is_synthetic": false,
+  "provenance": "PubMed Central Open Access",
+  "pmcid": "PMC1804205",
+  "pmid": "17229213",
+  "doi": "10.1111/j.1365-2958.2006.05512.x",
+  "journal": "Molecular Microbiology",
+  "license": "CC BY",
+  "title": "Acid pH activation of the PmrA/PmrB two-component system in Salmonella enterica"
+}

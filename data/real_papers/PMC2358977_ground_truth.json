@@ -1,0 +1,57 @@
+{
+  "canonical_entities": [
+    "Iron Restriction",
+    "SalK",
+    "SalR",
+    "SSU05",
+    "Bacteremia"
+  ],
+  "direct_edges": [
+    [
+      "Iron Restriction",
+      "SalK"
+    ],
+    [
+      "SalK",
+      "SalR"
+    ],
+    [
+      "SalR",
+      "SSU05"
+    ],
+    [
+      "SSU05",
+      "Bacteremia"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "Iron Restriction",
+      "SalR"
+    ],
+    [
+      "Iron Restriction",
+      "SSU05"
+    ],
+    [
+      "SalK",
+      "SSU05"
+    ],
+    [
+      "Iron Restriction",
+      "Bacteremia"
+    ],
+    [
+      "SalK",
+      "Bacteremia"
+    ]
+  ],
+  "is_synthetic": false,
+  "provenance": "PubMed Central Open Access",
+  "pmcid": "PMC2358977",
+  "pmid": "18461136",
+  "doi": "10.1371/journal.pone.0002080",
+  "journal": "PLoS ONE",
+  "license": "CC BY 4.0",
+  "title": "SalK/SalR, a Two-Component Signal Transduction System in Streptococcus suis"
+}

@@ -1,0 +1,70 @@
+{
+  "canonical_entities": [
+    "Low Mg2+",
+    "PhoQ",
+    "PhoP",
+    "SlyA",
+    "UgtL",
+    "Virulence"
+  ],
+  "direct_edges": [
+    [
+      "Low Mg2+",
+      "PhoQ"
+    ],
+    [
+      "PhoQ",
+      "PhoP"
+    ],
+    [
+      "PhoP",
+      "SlyA"
+    ],
+    [
+      "PhoP",
+      "UgtL"
+    ],
+    [
+      "SlyA",
+      "Virulence"
+    ],
+    [
+      "UgtL",
+      "Virulence"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "Low Mg2+",
+      "PhoP"
+    ],
+    [
+      "Low Mg2+",
+      "SlyA"
+    ],
+    [
+      "PhoQ",
+      "SlyA"
+    ],
+    [
+      "Low Mg2+",
+      "Virulence"
+    ],
+    [
+      "PhoQ",
+      "Virulence"
+    ],
+    [
+      "PhoP",
+      "Virulence"
+    ]
+  ],
+  "is_synthetic": false,
+  "provenance": "PubMed Central Open Access",
+  "pmcid": "PMC2639726",
+  "pmid": "19214216",
+  "doi": "10.1371/journal.ppat.1000306",
+  "journal": "PLoS Pathogens",
+  "license": "CC BY 4.0",
+  "title": "Coordinated Regulation of Virulence during Systemic Salmonella Infection by PhoP/PhoQ and Rcs"
+}

@@ -1,0 +1,67 @@
+{
+  "canonical_entities": [
+    "EGFR",
+    "GRB2",
+    "SOS1",
+    "RAS",
+    "RAF",
+    "MEK",
+    "ERK",
+    "MAPK"
+  ],
+  "direct_edges": [
+    [
+      "EGFR",
+      "GRB2"
+    ],
+    [
+      "GRB2",
+      "SOS1"
+    ],
+    [
+      "SOS1",
+      "RAS"
+    ],
+    [
+      "RAS",
+      "RAF"
+    ],
+    [
+      "RAF",
+      "MEK"
+    ],
+    [
+      "MEK",
+      "ERK"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "EGFR",
+      "SOS1"
+    ],
+    [
+      "GRB2",
+      "RAS"
+    ],
+    [
+      "SOS1",
+      "RAF"
+    ],
+    [
+      "RAS",
+      "MEK"
+    ],
+    [
+      "RAF",
+      "ERK"
+    ],
+    [
+      "EGFR",
+      "ERK"
+    ]
+  ],
+  "is_synthetic": true,
+  "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+  "paper_id": "paper_01_egfr_mapk"
+}

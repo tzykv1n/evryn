@@ -1,0 +1,62 @@
+{
+  "canonical_entities": [
+    "Human Plasma",
+    "CovR",
+    "CovS",
+    "Slo",
+    "SpeB",
+    "Capsule"
+  ],
+  "direct_edges": [
+    [
+      "Human Plasma",
+      "CovS"
+    ],
+    [
+      "CovS",
+      "CovR"
+    ],
+    [
+      "CovR",
+      "SpeB"
+    ],
+    [
+      "CovR",
+      "Slo"
+    ],
+    [
+      "CovR",
+      "Capsule"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "Human Plasma",
+      "CovR"
+    ],
+    [
+      "Human Plasma",
+      "SpeB"
+    ],
+    [
+      "CovS",
+      "SpeB"
+    ],
+    [
+      "Human Plasma",
+      "Capsule"
+    ],
+    [
+      "CovS",
+      "Capsule"
+    ]
+  ],
+  "is_synthetic": false,
+  "provenance": "PubMed Central Open Access",
+  "pmcid": "PMC1913099",
+  "pmid": "17604443",
+  "doi": "10.1371/journal.pcbi.0030132",
+  "journal": "PLoS Computational Biology",
+  "license": "CC BY 4.0",
+  "title": "Novel Algorithms Reveal Streptococcal Transcriptomic Response to Human Plasma"
+}

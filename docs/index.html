@@ -337,24 +337,24 @@
 
         <div class="grid-4col" style="margin-bottom: 2rem;">
           <div class="metric-card">
-            <div class="metric-value">0.699</div>
-            <div class="metric-label">Direct Causal F1</div>
-            <div class="metric-subtext">+10.8% over sentence baseline</div>
+            <div class="metric-value">0.344</div>
+            <div class="metric-label">Paragraph Baseline F1</div>
+            <div class="metric-subtext">Direct causal co-occurrence</div>
           </div>
           <div class="metric-card">
-            <div class="metric-value">0.476</div>
-            <div class="metric-label">Cross-Page Transitive F1</div>
-            <div class="metric-subtext">Baseline sentence models: 0.000</div>
+            <div class="metric-value">0.190</div>
+            <div class="metric-label">Document NPMI Cross F1</div>
+            <div class="metric-subtext">Global lexical association</div>
           </div>
           <div class="metric-card">
-            <div class="metric-value">0.769</div>
-            <div class="metric-label">Structural Match</div>
-            <div class="metric-subtext">+28.5% gain over baseline</div>
+            <div class="metric-value">0.350</div>
+            <div class="metric-label">Dense MiniLM Match</div>
+            <div class="metric-subtext">Sentence-Transformers baseline</div>
           </div>
           <div class="metric-card">
             <div class="metric-value">100%</div>
             <div class="metric-label">Provenance Grounding</div>
-            <div class="metric-subtext">Verified physical page & quote</div>
+            <div class="metric-subtext">Verified physical page & section</div>
           </div>
         </div>
 
@@ -363,8 +363,8 @@
             <thead>
               <tr>
                 <th>Evaluated Architecture</th>
-                <th>Direct Causal F1</th>
-                <th>Cross-Page F1</th>
+                <th>Direct Causal F1 [95% CI]</th>
+                <th>Cross-Page F1 [95% CI]</th>
                 <th>Complete Structural Match</th>
                 <th>Provenance Grounding</th>
                 <th>Throughput</th>
@@ -372,28 +372,44 @@
             </thead>
             <tbody>
               <tr>
-                <td><strong>Baseline A</strong> (Sentence-Only Extraction)</td>
-                <td>0.5909</td>
-                <td>0.0000</td>
-                <td>0.4843</td>
-                <td>None</td>
+                <td><strong>Baseline A</strong> (Sentence-Local Extraction)</td>
+                <td>0.2770 [0.1820, 0.3850]</td>
+                <td>0.0000 [0.0000, 0.0000]</td>
+                <td>0.1830</td>
+                <td>Sentence-Bounded</td>
                 <td>0.012s / doc</td>
               </tr>
               <tr>
-                <td><strong>Baseline B</strong> (+ Document Entity Normalization)</td>
-                <td>0.6988</td>
-                <td>0.0000</td>
-                <td>0.6052</td>
-                <td>None</td>
+                <td><strong>Baseline B</strong> (Paragraph Window Extraction)</td>
+                <td>0.3444 [0.2310, 0.4620]</td>
+                <td>0.0000 [0.0000, 0.0000]</td>
+                <td>0.3223</td>
+                <td>Paragraph-Bounded</td>
                 <td>0.015s / doc</td>
               </tr>
+              <tr>
+                <td><strong>Baseline C</strong> (Document-Level Statistical NPMI)</td>
+                <td>0.1733 [0.1120, 0.2450]</td>
+                <td>0.1903 [0.1250, 0.2680]</td>
+                <td>0.2800</td>
+                <td>Document-Wide</td>
+                <td>0.018s / doc</td>
+              </tr>
+              <tr>
+                <td><strong>Baseline D</strong> (Dense MiniLM Cosine Similarity)</td>
+                <td>0.0893 [0.0450, 0.1420]</td>
+                <td>0.1277 [0.0780, 0.1850]</td>
+                <td>0.3500</td>
+                <td>Embedding Space</td>
+                <td>0.024s / doc</td>
+              </tr>
               <tr class="highlight-row">
-                <td><strong>System C (Integrated EVRYN Pipeline)</strong></td>
-                <td><strong>0.6988</strong></td>
-                <td><strong>0.4764</strong></td>
-                <td><strong>0.7689</strong></td>
+                <td><strong>System C (Integrated EVRYN Engine)</strong></td>
+                <td><strong>0.0578 [0.0280, 0.0950]</strong></td>
+                <td><strong>0.0374 [0.0150, 0.0680]</strong></td>
+                <td><strong>0.0423</strong></td>
                 <td><strong>1.0000 (100%)</strong></td>
-                <td><strong>0.020s / doc</strong></td>
+                <td><strong>0.032s / doc</strong></td>
               </tr>
             </tbody>
           </table>

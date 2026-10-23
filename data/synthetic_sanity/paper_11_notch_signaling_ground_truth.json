@@ -1,0 +1,39 @@
+{
+  "canonical_entities": [
+    "DLL4",
+    "Notch1",
+    "NICD",
+    "HES1"
+  ],
+  "direct_edges": [
+    [
+      "DLL4",
+      "Notch1"
+    ],
+    [
+      "Notch1",
+      "NICD"
+    ],
+    [
+      "NICD",
+      "HES1"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "DLL4",
+      "NICD"
+    ],
+    [
+      "Notch1",
+      "HES1"
+    ],
+    [
+      "DLL4",
+      "HES1"
+    ]
+  ],
+  "is_synthetic": true,
+  "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+  "paper_id": "paper_11_notch_signaling"
+}

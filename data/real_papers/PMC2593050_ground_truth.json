@@ -1,0 +1,57 @@
+{
+  "canonical_entities": [
+    "VicK",
+    "VicR",
+    "PcsB",
+    "Cell Wall Synthesis",
+    "Mouse Sepsis"
+  ],
+  "direct_edges": [
+    [
+      "VicK",
+      "VicR"
+    ],
+    [
+      "VicR",
+      "PcsB"
+    ],
+    [
+      "PcsB",
+      "Cell Wall Synthesis"
+    ],
+    [
+      "Cell Wall Synthesis",
+      "Mouse Sepsis"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "VicK",
+      "PcsB"
+    ],
+    [
+      "VicK",
+      "Cell Wall Synthesis"
+    ],
+    [
+      "VicR",
+      "Cell Wall Synthesis"
+    ],
+    [
+      "VicK",
+      "Mouse Sepsis"
+    ],
+    [
+      "VicR",
+      "Mouse Sepsis"
+    ]
+  ],
+  "is_synthetic": false,
+  "provenance": "PubMed Central Open Access",
+  "pmcid": "PMC2593050",
+  "pmid": "19088898",
+  "doi": "10.2174/1874285800802010089",
+  "journal": "The Open Microbiology Journal",
+  "license": "CC BY",
+  "title": "The Two-Component Regulatory System VicRK is Important for Streptococcus pneumoniae Virulence"
+}

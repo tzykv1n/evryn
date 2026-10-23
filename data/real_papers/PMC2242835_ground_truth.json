@@ -1,0 +1,57 @@
+{
+  "canonical_entities": [
+    "PhoP",
+    "EspA",
+    "ESX-1",
+    "ESAT-6",
+    "Macrophage Arrest"
+  ],
+  "direct_edges": [
+    [
+      "PhoP",
+      "EspA"
+    ],
+    [
+      "EspA",
+      "ESX-1"
+    ],
+    [
+      "ESX-1",
+      "ESAT-6"
+    ],
+    [
+      "ESAT-6",
+      "Macrophage Arrest"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "PhoP",
+      "ESX-1"
+    ],
+    [
+      "PhoP",
+      "ESAT-6"
+    ],
+    [
+      "EspA",
+      "ESAT-6"
+    ],
+    [
+      "PhoP",
+      "Macrophage Arrest"
+    ],
+    [
+      "ESX-1",
+      "Macrophage Arrest"
+    ]
+  ],
+  "is_synthetic": false,
+  "provenance": "PubMed Central Open Access",
+  "pmcid": "PMC2242835",
+  "pmid": "18282098",
+  "doi": "10.1371/journal.ppat.0040033",
+  "journal": "PLoS Pathogens",
+  "license": "CC BY 4.0",
+  "title": "Control of M. tuberculosis ESAT-6 Secretion and Specificity by the ESX-1 System"
+}

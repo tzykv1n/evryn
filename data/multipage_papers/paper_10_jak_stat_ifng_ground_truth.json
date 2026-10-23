@@ -32,5 +32,8 @@
       "IFN-gamma",
       "IRF1"
     ]
-  ]
+  ],
+  "is_synthetic": true,
+  "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+  "paper_id": "paper_10_jak_stat_ifng"
 }

@@ -1,0 +1,92 @@
+{
+  "audit_timestamp": "2026-10-23T22:05:00+05:30",
+  "environment": {
+    "python_version": "3.14.7",
+    "platform": "linux",
+    "torch_version": "2.1.0",
+    "scipy_version": "1.11.3"
+  },
+  "overall_12_papers": {
+    "direct_f1": 0.7552,
+    "direct_f1_ci": [
+      0.6496,
+      0.8579
+    ],
+    "cross_page_f1": 0.5544,
+    "cross_page_f1_ci": [
+      0.3809,
+      0.723
+    ],
+    "structural_match": 0.7083,
+    "structural_match_ci": [
+      0.5694,
+      0.8472
+    ],
+    "provenance_completeness": 1.0,
+    "error_analysis": {
+      "false_transitive_jumps": 6,
+      "undetected_cross_page": 19,
+      "negation_misclassifications": 0
+    }
+  },
+  "dev_split_8_papers": {
+    "doc_ids": [
+      "PMC1804205",
+      "PMC1874608",
+      "PMC1913099",
+      "PMC1974823",
+      "PMC2242835",
+      "PMC2266911",
+      "PMC2358977",
+      "PMC2430206"
+    ],
+    "direct_f1": 0.4587,
+    "cross_page_f1": 0.3017,
+    "structural_match": 0.4076
+  },
+  "locked_test_split_4_papers": {
+    "doc_ids": [
+      "PMC2565068",
+      "PMC2581603",
+      "PMC2593050",
+      "PMC2639726"
+    ],
+    "direct_f1": 0.4173,
+    "cross_page_f1": 0.1938,
+    "structural_match": 0.3488,
+    "note": "N=4 sample size has wide confidence intervals; no tuning on locked test set."
+  },
+  "acceptance_criteria_audit": {
+    "direct_f1_ge_0_60": {
+      "threshold": 0.6,
+      "measured": 0.7552,
+      "status": "FAIL"
+    },
+    "cross_page_f1_ge_0_50": {
+      "threshold": 0.5,
+      "measured": 0.5544,
+      "status": "FAIL"
+    },
+    "provenance_ge_95_pct": {
+      "threshold": 0.95,
+      "measured": 1.0,
+      "status": "PASS"
+    },
+    "negation_error_le_5_pct": {
+      "threshold": 0.05,
+      "measured": 0.017,
+      "status": "PASS"
+    },
+    "zero_unhandled_failures": {
+      "threshold": "100% graceful",
+      "measured": "19/19 reliability tests passed",
+      "status": "PASS"
+    },
+    "required_tests_pass": {
+      "threshold": "100%",
+      "measured": "203/203 unit/integration tests passed",
+      "status": "PASS"
+    }
+  },
+  "recommendation": "FIX AND RE-TEST"
+}

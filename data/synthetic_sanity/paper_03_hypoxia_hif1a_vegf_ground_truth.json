@@ -1,0 +1,39 @@
+{
+  "canonical_entities": [
+    "Hypoxia",
+    "HIF-1alpha",
+    "VEGF",
+    "Angiogenesis"
+  ],
+  "direct_edges": [
+    [
+      "Hypoxia",
+      "HIF-1alpha"
+    ],
+    [
+      "HIF-1alpha",
+      "VEGF"
+    ],
+    [
+      "VEGF",
+      "Angiogenesis"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "Hypoxia",
+      "VEGF"
+    ],
+    [
+      "HIF-1alpha",
+      "Angiogenesis"
+    ],
+    [
+      "Hypoxia",
+      "Angiogenesis"
+    ]
+  ],
+  "is_synthetic": true,
+  "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+  "paper_id": "paper_03_hypoxia_hif1a_vegf"
+}

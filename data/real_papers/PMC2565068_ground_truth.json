@@ -1,0 +1,44 @@
+{
+  "canonical_entities": [
+    "Streptolysin O",
+    "Neutrophil Lysis",
+    "IL-8",
+    "Neutrophil Extracellular Traps"
+  ],
+  "direct_edges": [
+    [
+      "Streptolysin O",
+      "Neutrophil Lysis"
+    ],
+    [
+      "Neutrophil Lysis",
+      "IL-8"
+    ],
+    [
+      "IL-8",
+      "Neutrophil Extracellular Traps"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "Streptolysin O",
+      "IL-8"
+    ],
+    [
+      "Streptolysin O",
+      "Neutrophil Extracellular Traps"
+    ],
+    [
+      "Neutrophil Lysis",
+      "Neutrophil Extracellular Traps"
+    ]
+  ],
+  "is_synthetic": false,
+  "provenance": "PubMed Central Open Access",
+  "pmcid": "PMC2565068",
+  "pmid": "18846227",
+  "doi": "10.1371/journal.pone.0003455",
+  "journal": "PLoS ONE",
+  "license": "CC BY 4.0",
+  "title": "Incompetence of Neutrophils to Invasive Group A streptococci M1T1 clone"
+}

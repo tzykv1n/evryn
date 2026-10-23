@@ -1,0 +1,62 @@
+{
+  "canonical_entities": [
+    "Mlc",
+    "HilD",
+    "HilA",
+    "SPI1",
+    "InvF",
+    "Type III Secretion"
+  ],
+  "direct_edges": [
+    [
+      "Mlc",
+      "HilD"
+    ],
+    [
+      "HilD",
+      "HilA"
+    ],
+    [
+      "HilA",
+      "InvF"
+    ],
+    [
+      "HilA",
+      "SPI1"
+    ],
+    [
+      "InvF",
+      "Type III Secretion"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "Mlc",
+      "HilA"
+    ],
+    [
+      "Mlc",
+      "SPI1"
+    ],
+    [
+      "HilD",
+      "SPI1"
+    ],
+    [
+      "Mlc",
+      "Type III Secretion"
+    ],
+    [
+      "HilD",
+      "Type III Secretion"
+    ]
+  ],
+  "is_synthetic": false,
+  "provenance": "PubMed Central Open Access",
+  "pmcid": "PMC1874608",
+  "pmid": "17344322",
+  "doi": "10.1093/nar/gkm060",
+  "journal": "Nucleic Acids Research",
+  "license": "CC BY",
+  "title": "Mlc regulation of Salmonella pathogenicity island 1 expression"
+}

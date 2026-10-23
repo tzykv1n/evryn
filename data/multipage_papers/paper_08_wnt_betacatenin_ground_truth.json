@@ -32,5 +32,8 @@
       "Wnt3a",
       "beta-catenin"
     ]
-  ]
+  ],
+  "is_synthetic": true,
+  "provenance": "Synthetic pipeline sanity test. Not real scientific literature.",
+  "paper_id": "paper_08_wnt_betacatenin"
 }

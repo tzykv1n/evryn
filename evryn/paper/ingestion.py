@@ -8,24 +8,45 @@ from typing import List, Dict, Any, Optional, Tuple
 import pypdf
 
 from .types import ScientificDocument, PageBoundary, PaperMetadata, ScientificSectionType
-
-
-class PDFIngestionError(Exception):
-    pass
+from .reliability import (
+    DocumentValidator,
+    ReliabilityConfig,
+    CheckpointManager,
+    StructuredExecutionLogger,
+    PDFValidationError,
+    PDFIngestionError,
+)
 
 
 class PaperIngestion:
 
-    def __init__(self, remove_hyphenation: bool = True, clean_headers_footers: bool = True):
+    def __init__(
+        self,
+        remove_hyphenation: bool = True,
+        clean_headers_footers: bool = True,
+        config: Optional[ReliabilityConfig] = None,
+        logger: Optional[StructuredExecutionLogger] = None,
+    ):
         self.remove_hyphenation = remove_hyphenation
         self.clean_headers_footers = clean_headers_footers
+        self.config = config or ReliabilityConfig()
+        self.validator = DocumentValidator(self.config)
+        self.logger = logger
+        self.checkpoint_mgr = CheckpointManager(self.config.checkpoint_dir) if self.config.checkpoint_dir else None
 
     def ingest_pdf(self, file_path: str) -> ScientificDocument:
-        if not os.path.isfile(file_path):
-            raise FileNotFoundError(f"Paper file not found: {file_path}")
-
         doc_id = f"doc_{hashlib.sha256(os.path.basename(file_path).encode('utf-8')).hexdigest()[:12]}"
         
+        if self.checkpoint_mgr:
+            cached = self.checkpoint_mgr.load_checkpoint(doc_id, "ingestion")
+            if cached:
+                if self.logger:
+                    self.logger.log_event(doc_id, "ingestion", "SUCCESS", message="Restored from checkpoint")
+                return ScientificDocument.from_dict(cached)
+
+        if self.config.strict_validation:
+            self.validator.validate_pdf(file_path, doc_id=doc_id)
+
         try:
             reader = pypdf.PdfReader(file_path)
         except Exception as e:
@@ -78,7 +99,7 @@ class PaperIngestion:
             page_count=len(reader.pages),
         )
 
-        return ScientificDocument(
+        doc = ScientificDocument(
             doc_id=doc_id,
             file_path=os.path.abspath(file_path),
             metadata=paper_metadata,
@@ -88,6 +109,14 @@ class PaperIngestion:
             paragraphs=[],
             sentences=[],
         )
+
+        if self.checkpoint_mgr:
+            self.checkpoint_mgr.save_checkpoint(doc_id, "ingestion", doc.to_dict())
+
+        if self.logger:
+            self.logger.log_event(doc_id, "ingestion", "SUCCESS", message=f"Ingested {len(reader.pages)} pages")
+
+        return doc
 
     def _clean_page_text(self, text: str, page_num: int) -> str:
         lines = text.split("\n")

@@ -1,0 +1,57 @@
+{
+  "canonical_entities": [
+    "FimS",
+    "FimR",
+    "Mfa1",
+    "Short Fimbriae",
+    "Biofilm"
+  ],
+  "direct_edges": [
+    [
+      "FimS",
+      "FimR"
+    ],
+    [
+      "FimR",
+      "Mfa1"
+    ],
+    [
+      "Mfa1",
+      "Short Fimbriae"
+    ],
+    [
+      "Short Fimbriae",
+      "Biofilm"
+    ]
+  ],
+  "cross_page_edges": [
+    [
+      "FimS",
+      "Mfa1"
+    ],
+    [
+      "FimS",
+      "Short Fimbriae"
+    ],
+    [
+      "FimR",
+      "Short Fimbriae"
+    ],
+    [
+      "FimS",
+      "Biofilm"
+    ],
+    [
+      "FimR",
+      "Biofilm"
+    ]
+  ],
+  "is_synthetic": false,
+  "provenance": "PubMed Central Open Access",
+  "pmcid": "PMC1974823",
+  "pmid": "17517036",
+  "doi": "10.1111/j.1574-6968.2007.00722.x",
+  "journal": "FEMS Microbiology Letters",
+  "license": "CC BY",
+  "title": "Porphyromonas gingivalis short fimbriae are regulated by FimS/FimR"
+}

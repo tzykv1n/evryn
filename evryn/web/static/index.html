@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EVRYN — Minimal Causal Intelligence</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <!-- Generative Abstract Line Canvas -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- Left Sidebar (Session Memory) -->
+  <aside id="sidebar" class="sidebar collapsed" aria-label="Sessions history">
+    <div class="sidebar-header">
+      <button id="toggle-sidebar-btn" class="sidebar-close-btn" title="Close Sidebar" aria-label="Close Sidebar">←</button>
+      <button id="new-session-btn" class="text-btn" title="New Session">+ NEW</button>
+    </div>
+    <div class="sidebar-content">
+      <ul id="session-list" class="session-list">
+        <!-- Dynamically populated sessions -->
+      </ul>
+    </div>
+    <div class="sidebar-footer">
+      <div class="sidebar-brand">EVRYN</div>
+      <span id="session-count-label">0 sessions</span>
+    </div>
+  </aside>
+
+  <!-- Sidebar Backdrop for Outside Click & Mobile Navigation -->
+  <div id="sidebar-backdrop" class="sidebar-backdrop hidden" aria-hidden="true"></div>
+
+  <!-- Toggle button when sidebar collapsed -->
+  <button id="open-sidebar-btn" class="sidebar-open-trigger" title="Open Sessions" aria-label="Open Sessions" aria-controls="sidebar" aria-expanded="false">☰</button>
+
+  <!-- Main Workspace -->
+  <main id="workspace" class="workspace">
+    
+    <!-- Central / Docked Input Shell (Primary Authoritative Specification) -->
+    <section id="input-container" class="input-container centered">
+      <div id="sentence-highlighter-bar" class="sentence-highlighter-bar hidden"></div>
+      <div class="input-wrapper">
+        <textarea
+          id="query-input"
+          class="query-input"
+          rows="1"
+          aria-label="Causal exploration query and authoritative specification"
+          spellcheck="false"
+          autofocus
+        ></textarea>
+        <button id="regenerate-btn" class="action-btn-primary hidden" title="Regenerate graph from specification (Ctrl+Enter)">REGENERATE</button>
+        <button id="plus-btn" class="plus-btn" aria-label="Add documents or examples" title="Upload documents or load examples" aria-haspopup="menu" aria-expanded="false">+</button>
+      </div>
+
+      <!-- Plus Popover Menu -->
+      <div id="plus-menu" class="plus-menu hidden" role="menu">
+        <button id="menu-upload-btn" class="menu-item" role="menuitem">Upload Documents (PDF, TXT, DOCX)</button>
+        <button id="menu-continual-btn" class="menu-item" role="menuitem">Append Continual Knowledge (+)</button>
+        <button id="menu-demo-btn" class="menu-item" role="menuitem">Load Demonstration Example</button>
+        <button id="menu-eval-btn" class="menu-item" role="menuitem">Run Benchmark Verification</button>
+      </div>
+
+      <!-- Hidden File Input -->
+      <input type="file" id="file-input" multiple accept=".pdf,.txt,.text,.md,.docx" style="display:none;" />
+    </section>
+
+    <!-- Loading / Processing Indicator -->
+    <div id="processing-indicator" class="processing-indicator hidden" aria-live="polite">
+      <span class="processing-line"></span>
+      <span id="processing-text" class="processing-text">EXTRACTING CAUSAL RELATIONSHIPS...</span>
+    </div>
+
+    <!-- Results Workspace (emerges after extraction) -->
+    <section id="results-view" class="results-view hidden">
+      
+      <!-- Batch Document Cards (When multiple files are uploaded) -->
+      <div id="batch-section" class="batch-section hidden">
+        <div class="section-header">
+          <span class="section-title">DOCUMENT CARDS</span>
+          <button id="toggle-combined-btn" class="text-btn">VIEW COMBINED GRAPH</button>
+        </div>
+        <div id="batch-cards" class="batch-cards">
+          <!-- Populated with per-document cards -->
+        </div>
+      </div>
+
+      <!-- Interactive Causal Graph Container -->
+      <div id="graph-wrapper" class="graph-wrapper">
+        <div class="graph-toolbar">
+          <div class="toolbar-left">
+            <span id="graph-stats" class="graph-stats">0 NODES &nbsp;|&nbsp; 0 RELATIONS</span>
+            <!-- Synchronized 3-View Tabs -->
+            <div class="view-tabs" role="tablist">
+              <button id="view-tab-graph" class="view-tab active" role="tab" aria-selected="true" title="Interactive Physics Graph">GRAPH</button>
+              <button id="view-tab-copyable" class="view-tab" role="tab" aria-selected="false" title="Copyable Plain-Text Graph">COPYABLE</button>
+              <button id="view-tab-table" class="view-tab" role="tab" aria-selected="false" title="Structured Table View">TABLE</button>
+            </div>
+          </div>
+
+          <div class="graph-actions">
+            <!-- Physics Preset Selector -->
+            <div class="physics-control-group">
+              <label for="physics-preset-select" class="toolbar-label">PHYSICS:</label>
+              <select id="physics-preset-select" class="toolbar-select" title="Physics simulation preset">
+                <option value="rubber_band" selected>Rubber Band</option>
+                <option value="string">Slack String</option>
+                <option value="inelastic">Inelastic</option>
+                <option value="rigid">Rigid</option>
+              </select>
+            </div>
+
+            <!-- Stylized T Tighten Edge Button -->
+            <button id="tighten-edge-btn" class="toolbar-btn tighten-btn" title="Tighten selected edge (Tension 1-5)">
+              <span class="tighten-letter">T</span><span id="tension-badge" class="tension-badge hidden">1</span>
+            </button>
+            <button id="loosen-edge-btn" class="toolbar-btn hidden" title="Reset / Loosen selected edge tension">RESET T</button>
+
+            <button id="graph-fit-btn" class="toolbar-btn" title="Fit to View">FIT</button>
+            <button id="graph-zoom-in" class="toolbar-btn" title="Zoom In">+</button>
+            <button id="graph-zoom-out" class="toolbar-btn" title="Zoom Out">−</button>
+          </div>
+        </div>
+
+        <!-- View 1: SVG Graph Canvas -->
+        <div id="graph-viewport" class="graph-viewport">
+          <svg id="causal-graph-svg" class="causal-graph-svg">
+            <defs>
+              <!-- Positive Causal Arrowhead (Dark charcoal #0f172a) -->
+              <marker
+                id="arrowhead"
+                viewBox="0 0 10 10"
+                refX="9"
+                refY="5"
+                markerWidth="8"
+                markerHeight="8"
+                orient="auto-start-reverse"
+              >
+                <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#0f172a" />
+              </marker>
+              <marker
+                id="arrowhead-positive"
+                viewBox="0 0 10 10"
+                refX="9"
+                refY="5"
+                markerWidth="8"
+                markerHeight="8"
+                orient="auto-start-reverse"
+              >
+                <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#0f172a" />
+              </marker>
+              <!-- Negative Causal Arrowhead (Red #dc2626) -->
+              <marker
+                id="arrowhead-negative"
+                viewBox="0 0 10 10"
+                refX="9"
+                refY="5"
+                markerWidth="8"
+                markerHeight="8"
+                orient="auto-start-reverse"
+              >
+                <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#dc2626" />
+              </marker>
+              <!-- Association Arrowhead (Slate #64748b) -->
+              <marker
+                id="arrowhead-association"
+                viewBox="0 0 10 10"
+                refX="9"
+                refY="5"
+                markerWidth="7"
+                markerHeight="7"
+                orient="auto-start-reverse"
+              >
+                <path d="M 0 2 L 8 5 L 0 8 z" fill="#64748b" />
+              </marker>
+              <!-- Suppressed / Negated Arrowhead (Muted #94a3b8) -->
+              <marker
+                id="arrowhead-negated"
+                viewBox="0 0 10 10"
+                refX="9"
+                refY="5"
+                markerWidth="7"
+                markerHeight="7"
+                orient="auto-start-reverse"
+              >
+                <path d="M 0 2 L 8 5 L 0 8 z" fill="#94a3b8" />
+              </marker>
+              <!-- Selected Edge Marker -->
+              <marker
+                id="arrowhead-selected"
+                viewBox="0 0 10 10"
+                refX="9"
+                refY="5"
+                markerWidth="9"
+                markerHeight="9"
+                orient="auto-start-reverse"
+              >
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb" />
+              </marker>
+            </defs>
+            <g id="graph-transform-group">
+              <g id="edges-layer"></g>
+              <g id="nodes-layer"></g>
+            </g>
+          </svg>
+
+          <!-- Expandable / Collapsible Bottom-Right Graph Legend -->
+          <div id="graph-legend" class="graph-legend expanded" aria-label="Graph legend">
+            <div id="legend-header" class="legend-header">
+              <span class="legend-header-title">GRAPH LEGEND</span>
+              <button id="toggle-legend-btn" class="legend-toggle-btn" title="Toggle legend details" aria-label="Toggle legend">▼</button>
+            </div>
+
+            <!-- Collapsed summary preview -->
+            <div id="legend-collapsed-summary" class="legend-collapsed-summary hidden">
+              <span class="summary-pill"><span class="pip pip-pos"></span> Pos</span>
+              <span class="summary-pill"><span class="pip pip-neg"></span> Neg</span>
+              <span class="summary-pill"><span class="pip pip-assoc"></span> Assoc</span>
+            </div>
+
+            <!-- Expanded full legend body -->
+            <div id="legend-expanded-body" class="legend-expanded-body">
+              <div class="legend-section">
+                <div class="legend-title">CAUSAL POLARITY &amp; EDGE TYPE</div>
+                <div class="legend-row">
+                  <span class="legend-line edge-positive"></span>
+                  <span class="legend-label">Positive effect (causes increase / direct)</span>
+                </div>
+                <div class="legend-row">
+                  <span class="legend-line edge-negative"></span>
+                  <span class="legend-label">Negative effect (causes decrease / inverse)</span>
+                </div>
+                <div class="legend-row">
+                  <span class="legend-line edge-association"></span>
+                  <span class="legend-label">Association (non-directional / correlated)</span>
+                </div>
+                <div class="legend-row">
+                  <span class="legend-line edge-dashed"></span>
+                  <span class="legend-label">Inferred link (transitive cross-page)</span>
+                </div>
+                <div class="legend-row">
+                  <span class="legend-line edge-negated"></span>
+                  <span class="legend-label">Negated claim (suppressed by default)</span>
+                </div>
+                <div class="legend-toggle-wrap">
+                  <label class="legend-checkbox-label">
+                    <input type="checkbox" id="toggle-negated-edges"> Show negated claims
+                  </label>
+                </div>
+              </div>
+              <div class="legend-section" id="legend-categories-section">
+                <div class="legend-title">NODE CATEGORIES</div>
+                <div id="legend-categories-list" class="legend-chips">
+                  <span class="category-chip cat-measured-outcome"><span class="chip-swatch" style="background:#fef3c7;border-color:#d97706;"></span>Measured Outcome</span>
+                  <span class="category-chip cat-environmental"><span class="chip-swatch" style="background:#e0f2fe;border-color:#0284c7;"></span>Environmental Factor</span>
+                  <span class="category-chip cat-experimental"><span class="chip-swatch" style="background:#e0e7ff;border-color:#4f46e5;"></span>Experimental Condition</span>
+                  <span class="category-chip cat-gene"><span class="chip-swatch" style="background:#fce7f3;border-color:#db2777;"></span>Gene/Protein</span>
+                  <span class="category-chip cat-chemical"><span class="chip-swatch" style="background:#dcfce7;border-color:#16a34a;"></span>Chemical</span>
+                  <span class="category-chip cat-process"><span class="chip-swatch" style="background:#f3e8ff;border-color:#9333ea;"></span>Biological Process</span>
+                  <span class="category-chip cat-phenotype"><span class="chip-swatch" style="background:#ffedd5;border-color:#ea580c;"></span>Phenotype</span>
+                  <span class="category-chip cat-unclassified"><span class="chip-swatch" style="background:#f1f5f9;border-color:#64748b;"></span>Unclassified</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View 2: Copyable Plain-Text View (1-Click Copy) -->
+        <div id="copyable-view" class="copyable-view hidden">
+          <div class="copyable-header">
+            <span class="copyable-title">CAUSAL SPECIFICATION (TEXT FORMAT)</span>
+            <button id="copy-graph-btn" class="toolbar-btn copy-btn" title="Copy to clipboard">📋 COPY GRAPH</button>
+          </div>
+          <pre id="copyable-text" class="copyable-text" tabindex="0"></pre>
+        </div>
+
+        <!-- View 3: Structured Table View -->
+        <div id="table-view" class="table-view hidden">
+          <table class="relations-table">
+            <thead>
+              <tr>
+                <th>Cause Concept</th>
+                <th>Source State</th>
+                <th>Relation</th>
+                <th>Effect Concept</th>
+                <th>Target State</th>
+                <th>Net Polarity</th>
+                <th>Assertion Status</th>
+                <th>Confidence</th>
+                <th>Evidence</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Floating Continual Learning Activation Zone & Flyout -->
+    <div id="continual-wrapper" class="continual-wrapper">
+      <div id="continual-hover-zone" class="continual-hover-zone" aria-label="Continual Knowledge Action Zone" tabindex="0">
+        <button id="continual-toggle-btn" class="continual-toggle-btn" title="Add Continual Knowledge (+)" aria-label="Add Continual Knowledge" aria-haspopup="dialog" aria-expanded="false">
+          +
+        </button>
+      </div>
+      <div id="continual-card" class="continual-card hidden" role="dialog" aria-modal="false" aria-label="Continual Knowledge Input">
+        <div class="continual-card-header">
+          <span class="continual-title">CONTINUAL KNOWLEDGE INPUT</span>
+          <button id="close-continual-btn" class="icon-btn" title="Close" aria-label="Close">×</button>
+        </div>
+        <p class="continual-desc">Incrementally append newly discovered evidence to the specification:</p>
+        <textarea
+          id="continual-input"
+          class="continual-input"
+          rows="3"
+          aria-label="Incremental evidence input"
+          spellcheck="false"
+        ></textarea>
+        <div class="continual-actions">
+          <button id="continual-submit-btn" class="action-btn-primary">Append &amp; Update Graph</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Evidence Inspector Slide-over Panel -->
+    <aside id="inspector-panel" class="inspector-panel hidden" aria-label="Evidence details">
+      <div class="inspector-header">
+        <span class="inspector-title">RELATION EVIDENCE</span>
+        <button id="close-inspector-btn" class="icon-btn" title="Close" aria-label="Close">×</button>
+      </div>
+      <div id="inspector-body" class="inspector-body">
+        <!-- Populated on edge/node click -->
+      </div>
+    </aside>
+
+    <!-- Demo Examples Modal -->
+    <div id="demo-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Demonstration Examples">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="modal-title">DEMONSTRATION EXAMPLES</span>
+          <button id="close-demo-btn" class="icon-btn" aria-label="Close modal">×</button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-intro">Select a verified test case to load directly into the workspace:</p>
+          <div id="demo-list" class="demo-list">
+            <!-- Dynamically populated from /api/demo-examples -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Drag & Drop Fullscreen Overlay -->
+    <div id="drop-overlay" class="drop-overlay hidden" aria-hidden="true">
+      <div class="drop-box">
+        <span>DROP SCIENTIFIC PAPERS (PDF, TXT, DOCX) HERE</span>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="/static/js/background.js"></script>
+  <script src="/static/js/graph.js"></script>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

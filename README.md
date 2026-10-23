@@ -20,10 +20,37 @@ By combining lifelong **Evidence Matching (Algorithm 1)**, **Partial Information
 - **Cross-Sentence Graph-FLUX:** Aggregates entity mentions and dependencies across multi-sentence scientific documents into causal hypergraphs ($d \le 3$ hops).
 - **Ontological Normalization & Discovery Synthesis:** Automatically groups relations into functional families (Positive Regulation, Causal Production, Synergistic Co-Action), tracks longitudinal evidence velocity, and extrapolates emerging future links with 95% confidence intervals.
 - **Terminal-Native Scientific Visualization:** Renders publication-grade 280 DPI figures inline in Foot or Kitty terminals via Sixel and Kitty graphics protocols, with ANSI half-block ASCII fallback.
+- **Minimal Causal Intelligence Web Application:** An ultra-minimalist, local-first interactive workspace featuring an organic generative line canvas, single centered borderless input, physics-driven SVG causal graph with collision avoidance, evidence grounding, multi-document batch ingestion, and persistent SQLite session memory.
 
 ---
 
-## 2. Quick Installation
+## 2. Launching the Minimal Causal Intelligence Interface
+
+EVRYN features a primary web interface for local-first interactive exploration:
+
+```bash
+# Launch the minimal web application
+evryn app --port 8000
+
+# Or run directly via Python
+python -m evryn.cli app --port 8000
+```
+Open **`http://localhost:8000`** in any modern web browser.
+
+### Key Capabilities of the Web Interface:
+- **Strict Monochrome Design:** Pure `#ffffff` canvas, `#000000` strokes and typography, 0px border-radius, zero shadows, zero gradients.
+- **Generative Line Canvas:** Procedural background animation evoking evolving mathematical networks, non-intrusive and paused when idle.
+- **Central Autosizing Input:** Single borderless text field centered on the viewport with square plus control (`+`). Enter submits query with FLIP docking animation.
+- **Physics-Driven SVG Graph:** Force simulation with Coulomb repulsion, Hooke spring attraction, and explicit bounding-box collision avoidance ensuring nodes and labels never overlap. Supports direct node dragging, pan, and zoom.
+- **Evidence Inspector:** Clicking any edge displays the exact sentence quote, section, character span, and document provenance.
+- **Batch Document Ingestion:** Upload multiple PDFs, TXT, or DOCX files. Generates per-document result cards alongside a combined synthesized causal graph.
+- **Incremental Evidence Accumulation:** Further inputs or uploads extend the active session without overwriting contradictory evidence or erasing provenance.
+- **Persistent Session Memory:** Complete SQLite storage across restarts, with sidebar history, session restoration, and individual session deletion.
+- **Demonstration Suite:** Pre-configured 10 test examples available directly via the plus menu or in `~/Downloads/EVRYN_Demo_Examples.txt`.
+
+---
+
+## 3. Quick Installation
 
 ### Non-Root One-Line Installer
 ```bash

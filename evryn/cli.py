@@ -19,6 +19,12 @@ from evryn.pipelines.nlp_pipeline import run_nlp_pipeline
 from evryn.pipelines.higher_order_pipeline import run_higher_order_pipeline
 from evryn.pipelines.graph_pipeline import run_graph_flux_pipeline
 from evryn.pipelines.evryn_pipeline import run_evryn_pipeline
+from evryn.cli_modules import (
+    handle_models_command,
+    handle_config_command,
+    run_interactive_ui,
+    get_theme,
+)
 from evryn.visualization.terminal_graphics import (
     TerminalGraphicsRenderer,
     detect_native_graphics_protocol,
@@ -401,6 +407,18 @@ def cmd_paper(args):
         )
 
 
+def cmd_app(args):
+    import uvicorn
+    host = getattr(args, "host", "127.0.0.1")
+    port = getattr(args, "port", 8000)
+    print_evryn_banner()
+    print_box(
+        "EVRYN Causal Intelligence Workspace",
+        f"Server active at: http://{host}:{port}\nPress Ctrl+C to terminate.",
+    )
+    uvicorn.run("evryn.web.server:app", host=host, port=port, log_level="info")
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="evryn",
@@ -417,6 +435,8 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose artifact logging")
     parser.add_argument("--seed", type=int, default=42, help="Random seed for deterministic reproducibility")
+    parser.add_argument("-i", "--interactive", action="store_true", help="Launch interactive terminal dashboard")
+    parser.add_argument("--theme", type=str, default="default", choices=["default", "midnight", "monochrome", "high-contrast"], help="Visual theme palette")
 
     subparsers = parser.add_subparsers(dest="command", help="Available EVRYN modules")
 
@@ -510,6 +530,30 @@ def build_parser() -> argparse.ArgumentParser:
     _add_scratch_opt(p_all)
     p_all.set_defaults(func=cmd_all)
 
+    p_models = subparsers.add_parser("models", help="Inspect and calibrate EVRYN model registry")
+    p_models.add_argument("models_action", nargs="?", default="list", choices=["list", "info", "calibrate"], help="Models action")
+    p_models.add_argument("model_name", nargs="?", default=None, help="Model name for info")
+    p_models.add_argument("--json", action="store_true", help="Output machine-readable JSON")
+    p_models.add_argument("--theme", type=str, default="default", choices=["default", "midnight", "monochrome", "high-contrast"], help="Visual theme palette")
+    p_models.set_defaults(func=handle_models_command)
+
+    p_config = subparsers.add_parser("config", help="Manage EVRYN global configuration")
+    p_config.add_argument("config_action", nargs="?", default="list", choices=["list", "get", "set"], help="Config action")
+    p_config.add_argument("config_key", nargs="?", default=None, help="Configuration key")
+    p_config.add_argument("config_value", nargs="?", default=None, help="Configuration value for set")
+    p_config.add_argument("--json", action="store_true", help="Output machine-readable JSON")
+    p_config.add_argument("--theme", type=str, default="default", choices=["default", "midnight", "monochrome", "high-contrast"], help="Visual theme palette")
+    p_config.set_defaults(func=handle_config_command)
+
+    p_ui = subparsers.add_parser("ui", help="Launch interactive terminal dashboard")
+    p_ui.add_argument("--theme", type=str, default="default", choices=["default", "midnight", "monochrome", "high-contrast"], help="Visual theme palette")
+    p_ui.set_defaults(func=lambda a: run_interactive_ui(getattr(a, "theme", "default")))
+
+    p_app = subparsers.add_parser("app", aliases=["serve", "web"], help="Launch EVRYN minimal causal intelligence web workspace")
+    p_app.add_argument("--host", type=str, default="127.0.0.1", help="Host interface to bind")
+    p_app.add_argument("--port", type=int, default=8000, help="Port to serve web application")
+    p_app.set_defaults(func=cmd_app)
+
     return parser
 
 
@@ -520,6 +564,9 @@ def main():
         parser.print_help()
         sys.exit(0)
     args = parser.parse_args()
+    if getattr(args, "interactive", False):
+        run_interactive_ui(getattr(args, "theme", "default"))
+        sys.exit(0)
     if not hasattr(args, "func"):
         parser.print_help()
         sys.exit(0)
