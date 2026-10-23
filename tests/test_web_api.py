@@ -163,10 +163,23 @@ def test_real_examples_endpoints(client):
     assert len(catalog["papers"]) == 20
     assert catalog["split_counts"]["dev"] == 8
 
-    # Cache-control headers on root index
+    # Cache-control headers on root index and static assets
     res_index = client.get("/")
     assert res_index.status_code == 200
     assert "no-cache" in res_index.headers.get("cache-control", "").lower()
+    html_text = res_index.text
+    assert "style.css?v=2.1.0" in html_text
+    assert "background.js?v=2.1.0" in html_text
+    assert "graph.js?v=2.1.0" in html_text
+    assert "app.js?v=2.1.0" in html_text
+
+    res_css = client.get("/static/css/style.css?v=2.1.0")
+    assert res_css.status_code == 200
+    assert "no-cache" in res_css.headers.get("cache-control", "").lower()
+
+    res_js = client.get("/static/js/app.js?v=2.1.0")
+    assert res_js.status_code == 200
+    assert "no-cache" in res_js.headers.get("cache-control", "").lower()
 
     # PDF examples
     res = client.get("/api/examples/pdf?split=dev")
