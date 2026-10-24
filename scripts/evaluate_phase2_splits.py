@@ -343,8 +343,10 @@ def main():
 
     os.makedirs(os.path.join(REPO_ROOT, "results", "phase2"), exist_ok=True)
     os.makedirs(os.path.join(REPO_ROOT, "results", "phase1_3"), exist_ok=True)
+    os.makedirs(os.path.join(REPO_ROOT, "results", "phase1_4"), exist_ok=True)
     os.makedirs(os.path.join(REPO_ROOT, "docs", "phase2"), exist_ok=True)
     os.makedirs(os.path.join(REPO_ROOT, "docs", "phase1_3"), exist_ok=True)
+    os.makedirs(os.path.join(REPO_ROOT, "docs", "phase1_4"), exist_ok=True)
 
     manifest_path = os.path.join(REPO_ROOT, "data", "real_papers", "split_manifest.json")
     with open(manifest_path, "r", encoding="utf-8") as f:
@@ -366,8 +368,8 @@ def main():
         with open(json_path_v, "w", encoding="utf-8") as f:
             json.dump(res, f, indent=2)
 
-        json_path_p13 = os.path.join(REPO_ROOT, "results", "phase1_3", f"phase1_3_benchmark_{v}.json")
-        with open(json_path_p13, "w", encoding="utf-8") as f:
+        json_path_p14 = os.path.join(REPO_ROOT, "results", "phase1_4", f"phase1_4_benchmark_{v}.json")
+        with open(json_path_p14, "w", encoding="utf-8") as f:
             json.dump(res, f, indent=2)
 
         # Also save default phase2_benchmark_results.json (points to v1 if both, or current)
@@ -379,13 +381,19 @@ def main():
         fig_path = os.path.join(REPO_ROOT, "results", "phase2", f"phase2_splits_comparison_{v}.png")
         plot_splits_comparison(res, fig_path)
 
+        fig_path_p14 = os.path.join(REPO_ROOT, "results", "phase1_4", f"phase1_4_splits_comparison_{v}.png")
+        plot_splits_comparison(res, fig_path_p14)
+
         if v == "v1":
             default_fig = os.path.join(REPO_ROOT, "results", "phase2", "phase2_splits_comparison.png")
             plot_splits_comparison(res, default_fig)
+            default_fig_p14 = os.path.join(REPO_ROOT, "results", "phase1_4", "phase1_4_splits_comparison.png")
+            plot_splits_comparison(res, default_fig_p14)
             artifact_dir = "/home/tk/.gemini/antigravity-cli/brain/ef3fc705-911a-4157-bc28-1d5bdf2aa3f1"
             if os.path.exists(artifact_dir):
                 import shutil
                 shutil.copy2(default_fig, os.path.join(artifact_dir, "phase2_splits_comparison.png"))
+                shutil.copy2(default_fig_p14, os.path.join(artifact_dir, "phase1_4_splits_comparison.png"))
 
     # Generate comprehensive report comparing versions if both run
     report_path = os.path.join(REPO_ROOT, "docs", "phase2", "PHASE2_GENERALIZATION_REPORT.md")

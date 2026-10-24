@@ -14,6 +14,7 @@ from .types import (
     ScientificSectionType,
 )
 from .normalizer import PaperEntityNormalizer
+from .environmental_extractor import EnvironmentalParameterExtractor
 
 
 CAUSAL_INFLUENCE_PATTERNS = [
@@ -127,15 +128,15 @@ PASSIVE_INDICATORS = [
     r"\bwas\s+suppressed\s+by\b",
     r"\bis\s+blocked\s+by\b",
     r"\bwas\s+blocked\s+by\b",
-    r"\binduced\s+(?:by|with|upon)\b",
-    r"\bactivated\s+(?:by|with|upon)\b",
-    r"\btriggered\s+(?:by|with|upon)\b",
-    r"\bstimulated\s+(?:by|with|upon)\b",
-    r"\bphosphorylated\s+(?:by|with)\b",
-    r"\bupregulated\s+(?:by|with|upon)\b",
-    r"\binhibited\s+(?:by|with|upon)\b",
-    r"\bsuppressed\s+(?:by|with|upon)\b",
-    r"\bblocked\s+(?:by|with)\b",
+    r"\binduced\s+(?:\w+\s+)?(?:by|with|upon)\b",
+    r"\bactivated\s+(?:\w+\s+)?(?:by|with|upon)\b",
+    r"\btriggered\s+(?:\w+\s+)?(?:by|with|upon)\b",
+    r"\bstimulated\s+(?:\w+\s+)?(?:by|with|upon)\b",
+    r"\bphosphorylated\s+(?:\w+\s+)?(?:by|with)\b",
+    r"\bupregulated\s+(?:\w+\s+)?(?:by|with|upon)\b",
+    r"\binhibited\s+(?:\w+\s+)?(?:by|with|upon)\b",
+    r"\bsuppressed\s+(?:\w+\s+)?(?:by|with|upon)\b",
+    r"\bblocked\s+(?:\w+\s+)?(?:by|with)\b",
     r"\bmediated\s+by\b",
     r"\bdependent\s+on\b",
     r"\bdownstream\s+of\b",
@@ -274,7 +275,7 @@ SPACES_RE = re.compile(r"\s+")
 TRAILING_PUNCT_RE = re.compile(r"[,;:\.]+$")
 
 COORDINATING_BOUNDARY_RE = re.compile(
-    r"(?:;\s*|,\s*(?:and|but|while|whereas|although)\s+)(?!.*(?:thereby|thus|consequently|leading\s+to|resulting\s+in|causing|downregulating|upregulating|suppressing|activating|inducing))",
+    r"(?:;\s*|,\s*(?:and|but|while|whereas|although)\s+)(?!.*(?:thereby|thus|consequently|leading\s+to|resulting\s+in|causing|downregulating|upregulating|suppressing|activating|inducing|induced|activated|triggered|indicating|suggesting|showing))",
     re.IGNORECASE,
 )
 
@@ -331,8 +332,16 @@ def is_valid_entity_candidate(phrase: str) -> bool:
 
 class PaperCausalExtractor:
 
-    def __init__(self, normalizer: Optional[PaperEntityNormalizer] = None):
+    def __init__(
+        self,
+        normalizer: Optional[PaperEntityNormalizer] = None,
+        enable_env_grammar: bool = True,
+        env_variables: Optional[Set[str]] = None,
+    ):
         self.normalizer = normalizer or PaperEntityNormalizer()
+        self.enable_env_grammar = enable_env_grammar
+        self.env_variables = env_variables
+        self.env_extractor = EnvironmentalParameterExtractor(self.normalizer)
 
     def extract_assertions(
         self,
@@ -439,6 +448,19 @@ class PaperCausalExtractor:
                                 evidence_status=status,
                             )
                         )
+
+            # Targeted physical/environmental parameter change extraction
+            if self.enable_env_grammar:
+                env_asrt, assertion_idx = self.env_extractor.extract_environmental_assertions(
+                    sent=sent,
+                    doc_id=doc.doc_id,
+                    start_idx=assertion_idx,
+                    seen_keys=seen_keys,
+                    local_abbr=local_abbr,
+                    known_entities=known_entities,
+                    allowed_variables=self.env_variables,
+                )
+                sent_assertions.extend(env_asrt)
 
             # Fallback or syntactic expansion if dictionary missed relations
             if not sent_assertions:
@@ -561,6 +583,18 @@ class PaperCausalExtractor:
                         evidence_status=EvidenceStatus.MEASURED_FACT,
                     )
                 )
+
+        # Enforce environmental direction invariant: environmental stimuli and biological vectors
+        # act as causes/inputs, not downstream outcomes of transcription factors and virulence genes
+        ENV_PARAMS = {"Acid pH", "Temperature", "Hypoxia", "Normoxia"}
+        valid_assertions = []
+        for a in assertions:
+            if a.effect_canonical in ENV_PARAMS and a.cause_canonical not in {"Flea Vector"}:
+                continue
+            if a.effect_canonical == "Flea Vector":
+                continue
+            valid_assertions.append(a)
+        assertions = valid_assertions
 
         # Document-level assertion consolidation: retain highest confidence assertion per directed pair
         best_by_pair: Dict[Tuple[str, str, bool], CausalAssertion] = {}

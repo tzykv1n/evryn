@@ -256,6 +256,21 @@ GLOBAL_SYNONYMS = {
     "effector translocation": "Effector Translocation",
     "translocation of effectors": "Effector Translocation",
     "secretion of effectors": "Effector Translocation",
+    # Environmental, Physical & Biological Parameters
+    "temperature": "Temperature",
+    "temperatures": "Temperature",
+    "temperature shift": "Temperature",
+    "temperature-shift": "Temperature",
+    "low temperature": "Temperature",
+    "high temperature": "Temperature",
+    "ambient temperature": "Temperature",
+    "flea vector": "Flea Vector",
+    "flea": "Flea Vector",
+    "fleas": "Flea Vector",
+    "flea gut": "Flea Vector",
+    "phagocytosis resistance": "Phagocytosis Resistance",
+    "resistance to phagocytosis": "Phagocytosis Resistance",
+    "resistant to phagocytosis": "Phagocytosis Resistance",
 }
 
 
@@ -335,6 +350,22 @@ class PaperEntityNormalizer:
                 # LPS <-> Lipopolysaccharide
                 if (key == "lps" and "lipopolysaccharide" in ke_low) or (ke_low == "lps" and "lipopolysaccharide" in key):
                     return ke
+                # Resistance inverted noun phrase: resistance to phagocytosis -> Phagocytosis Resistance
+                if ke_low.endswith(" resistance"):
+                    noun = ke_low[:-len(" resistance")]
+                    if key in (f"resistance to {noun}", f"resistant to {noun}", f"resistance to {noun}s", f"resistant to {noun}s"):
+                        return ke
+                # Biological vector resolution: flea -> Flea Vector
+                if ke_low.endswith(" vector"):
+                    stem = ke_low[:-len(" vector")]
+                    if key == stem or key in (f"{stem}s", f"{stem} gut", f"{stem} vector"):
+                        return ke
+                # Temperature terms
+                if ke_low == "temperature" and key in ("temperature", "temperatures", "temperature shift", "temperature-shift", "low temperature", "high temperature", "ambient temperature", "21°c", "26°c", "28°c", "37°c"):
+                    return ke
+                # Diguanylate cyclase / phosphodiesterase signaling machinery -> di-GMP
+                if "di-gmp" in ke_low and key in ("hmst", "hmsp", "hmshfrs"):
+                    return ke
 
         if local_abbr_map and key in local_abbr_map:
             abbr_target = local_abbr_map[key]
@@ -381,6 +412,17 @@ class PaperEntityNormalizer:
                     known_vocab.update(["omp", "omps", "omp3b", "omp25", "ompa", "ompc", "ompf"])
                 if "lipopolysaccharide" in ke_l:
                     known_vocab.add("lps")
+                if ke_l.endswith(" resistance"):
+                    noun = ke_l[:-len(" resistance")]
+                    known_vocab.add(f"resistance to {noun}")
+                    known_vocab.add(f"resistant to {noun}")
+                if ke_l.endswith(" vector"):
+                    stem = ke_l[:-len(" vector")]
+                    known_vocab.update([stem, f"{stem}s", f"{stem} gut"])
+                if "di-gmp" in ke_l:
+                    known_vocab.update(["hmst", "hmsp", "hmshfrs"])
+                if ke_l == "temperature":
+                    known_vocab.update(["temperature shift", "temperatures", "low temperature", "high temperature", "ambient temperature", "21°c", "26°c", "28°c", "37°c"])
 
         STOPWORDS = {
             "and", "or", "the", "in", "of", "to", "for", "with", "by", "on", "at",

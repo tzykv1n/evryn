@@ -19,7 +19,7 @@ class CrossPageLinker:
         self,
         min_page_distance: int = 1,
         max_transitive_hops: int = 2,
-        min_confidence: float = 0.65,
+        min_confidence: float = 0.58,
     ):
         self.min_page_distance = min_page_distance
         self.max_transitive_hops = max_transitive_hops
@@ -96,7 +96,7 @@ class CrossPageLinker:
                         asrt_chain.append(edge_data["assertion_id"])
                         path_conf *= edge_data["confidence"]
 
-                    path_conf = round(path_conf * (0.92 ** max(0, dist - 1)), 3)
+                    path_conf = round(path_conf * (0.95 ** max(0, dist - 1)), 3)
                     if path_conf < self.min_confidence:
                         continue
 
