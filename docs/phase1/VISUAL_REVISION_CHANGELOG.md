@@ -64,15 +64,23 @@ Six core publication figures were generated via `scripts/generate_publication_fi
 - **Chapter 4 (`chapter4_architecture.tex`)**: Replaced Figure 4.1 with `fig1_system_architecture.pdf` and added Figure 4.2 (`fig2_extraction_workflow.pdf`).
 - **Chapter 5 (`chapter5_results.tex`)**:
   - Formalized the 20-paper benchmark partition and zero-leakage isolation gate with Figure 5.1 (`fig4_evaluation_workflow.pdf`).
-  - Updated Table 5.1 with verified empirical metrics across all 5 split configurations (Train, Dev, Locked Test, External V1, External V2) including 95% bootstrap confidence intervals and micro counts.
+  - Updated Table 5.1 with verified empirical metrics across all 5 split configurations (Train, Dev, Locked Test, External V1, External V2) including 95% bootstrap confidence intervals and exact micro counts (External V1 micro: 5 TP / 55 FP / 15 FN).
   - Added Figure 5.2 (`fig6_results_progression.pdf`).
-  - Documented the PMC2816692 LF vs. SrcA entity mismatch audit and recovery in External V2.
-  - Updated Section 5.5 with the full 48 FN / 104 FP error census and Figure 5.3 (`fig5_error_analysis.pdf`).
+  - Documented the PMC2816692 *Salmonella* SrcA vs. legacy Anthrax LF metadata mismatch audit and recovery in External V2.
+  - Reconciled the 106 baseline FPs vs. 104 post-intervention FPs census in Section 5.5 and Figure 5.3 (`fig5_error_analysis.pdf`).
+  - Explicitly segregated Track 1 (Natural Language Literature Extraction on PMC-OA) from Track 2 (Continual SCM task streams) and Track 3 (Higher-Order interaction modeling).
 - **Chapter 6 (`chapter6_conclusion.tex`)**: Updated deliverable summary to reflect the 20-paper benchmark.
 
 ---
 
-## 5. Presentation Content & Structural Revisions
+## 5. Numerical Provenance Audit & Machine-Readable Deliverables
+- Generated `FINAL_BENCHMARK_COMPARISON.csv` containing machine-readable metrics for all benchmark splits across V1 and V2.
+- Produced `FINAL_METRIC_PROVENANCE_AUDIT.md` providing line-by-line artifact evidence for the 106 vs 104 FP resolution and external score evolution (`0.1566` $\to$ `0.2335` $\to$ `0.2380` $\to$ `0.3289`).
+- Produced `FINAL_REPORT_PRESENTATION_CONSISTENCY.md` cross-referencing all 38 numerical claims across deliverables.
+
+---
+
+## 6. Presentation Content & Structural Revisions
 
 - Completely rebuilt using `scripts/build_revised_presentation.py` to produce `Temporal_Causal_Knowledge_Phase1_Presentation.tex`.
 - Guaranteed exact 40-slide count matching the target presentation sequence.

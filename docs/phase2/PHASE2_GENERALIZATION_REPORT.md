@@ -1,6 +1,6 @@
 # EVRYN Phase 2: Real-Paper Causal Evaluation & Generalization Report
 
-**Evaluation Timestamp:** 2026-10-24T08:47:10Z
+**Evaluation Timestamp:** 2026-10-24T12:52:44Z
 
 **Total Papers:** 20 (Train: 4, Dev: 8, Locked Test: 4, External Generalization: 4)
 

@@ -36,7 +36,7 @@ All metrics reported in the revised deliverables match the authenticated benchma
 | **Train Split** | 4 | 0.3521 [0.2549, 0.4583] | 0.0833 [0.0000, 0.2500] | 0.1543 | 8 / 19 / 11 | 100.0\% |
 | **Development Split** | 8 | 0.5076 [0.4625, 0.5584] | 0.3864 [0.2233, 0.5392] | 0.3162 | 23 / 34 / 13 | 100.0\% |
 | **Locked Test Split** | 4 | 0.3429 [0.1537, 0.5625] | 0.2002 [0.0714, 0.3095] | 0.1733 | 11 / 35 / 10 | 100.0\% |
-| **External Unseen V1** | 4 | 0.2380 [0.0769, 0.3833] | 0.1667 [0.0000, 0.3333] | 0.1243 | 4 / 22 / 16 | 100.0\% |
+| **External Unseen V1** | 4 | 0.2380 [0.0769, 0.3833] | 0.1667 [0.0000, 0.3333] | 0.1243 | 5 / 55 / 15 | 100.0\% |
 | **External Unseen V2** | 4 | 0.3289 [0.2409, 0.4103] | 0.2667 [0.0833, 0.3833] | 0.1819 | 7 / 16 / 13 | 100.0\% |
 
 ### Audited Error Census
@@ -47,15 +47,15 @@ All metrics reported in the revised deliverables match the authenticated benchma
     - Demonstrative Anaphora: 5
     - Sentence Boundary Splits: 2
   - **Relation Triggering Gaps (syntactic/passive)**: 20 (41.7\%)
-- **Total False Positives Audited (V2)**: 104
-  - Neighboring Spurious Co-occurrence: 56 (53.8\%)
-  - Experimental Complementation Controls: 28 (26.9\%)
-  - Terminal Phenotypic Generalizations: 20 (19.2\%)
+- **False Positives Audited**:
+  - **Pre-Intervention Baseline**: 106 FPs across the 20 benchmark papers (`results/phase1_6/error_inventory_v2.json`)
+  - **Post-Intervention Verified (V2)**: 104 FPs (`results/phase1_6/split_diagnostics.json`), achieving a net reduction of 2 FPs via terminal phenotype invariants and passive complementation triggers.
+  - Breakdown of 104 FPs: Neighboring Spurious Pairs: 62 (59.6\%), Passive Genetic Complementation: 18 (17.3\%), Terminal Phenotype Reversals: 14 (13.5\%), Spurious Hub Transitive Leaps: 10 (9.6\%).
 
 ### PMC2816692 Mismatch Documentation
-- In External V1, ground-truth annotations mapped anthrax lethal factor (*"LF"*) to *SrcA*, creating an artificial collapse to $F_1 = 0.0000$ (0 TP, 6 FN).
-- In External V2, verified re-annotation corrected the entity alignment to *lethal_factor*, restoring paper performance to Direct $F_1 = 0.3333$ and raising overall External macro-$F_1$ from 0.2380 to 0.3289.
-- This finding is transparently disclosed in both the report (Chapter 5, Section 5.4.1) and presentation (Slide 27).
+- In External V1, legacy metadata mapped the paper to Anthrax lethal factor (*"LF"*), whereas the physical XML text describes *Salmonella enterica* SrcA chaperone. This created an artificial complete mismatch ($F_1 = 0.0000$, 0 TP, 43 direct FPs, 5 FN).
+- In External V2, verified re-annotation corrected the entity alignment to *Salmonella* SrcA (`SrcA -> PipB2, SseL, SsaN; SsaN -> Effector Translocation -> Virulence`), restoring paper performance to Direct $F_1 = 0.3636$ (TP=2, FP=4, FN=3) and Cross-Page $F_1 = 0.4000$, raising overall External macro-$F_1$ from 0.2380 to 0.3289 (+38.2\% relative gain).
+- This finding is transparently disclosed in both the report (Chapter 5, Section 5.4.1) and presentation (Slide 23).
 
 ### Higher-Order & Continual Adaptation Verification
 - Continual SCM Adaptation: FLUX attained **75.00\%** accuracy across 8 sequential SCM tasks with **0.00\%** backward catastrophic forgetting (vs. 62.50\% training from scratch).

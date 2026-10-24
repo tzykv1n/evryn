@@ -660,19 +660,19 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \vspace{0.3cm}
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
-      \begin{sqbox}[Benchmark V1 (Raw / Unaligned)]
+      \begin{sqbox}[Benchmark V1 (Legacy Metadata Mismatch)]
         \begin{itemize}\setlength{\itemsep}{2pt}
-          \item Raw external BioCause annotations.
-          \item Contains documented PMC2816692 mismatch (Anthrax LF vs Salmonella SrcA).
+          \item PMC2816692 mapped Anthrax LF to Salmonella SrcA text.
+          \item 43 spurious direct FPs generated from metadata mismatch.
           \item External Generalization Direct $F_1 = 0.2380$.
         \end{itemize}
       \end{sqbox}
     \end{column}
     \begin{column}{0.48\textwidth}
-      \begin{sqbox}[Benchmark V2 (Authenticated)]
+      \begin{sqbox}[Benchmark V2 (Authenticated XML Alignment)]
         \begin{itemize}\setlength{\itemsep}{2pt}
-          \item Curated, domain-aligned annotations.
-          \item Complete provenance coverage across all 20 papers.
+          \item Aligned to authentic Salmonella SrcA chaperone mechanism.
+          \item Restores PMC2816692 Direct $F_1 = 0.3636$ (Cross $F_1 = 0.4000$).
           \item External Generalization Direct $F_1 = 0.3289$.
         \end{itemize}
       \end{sqbox}
@@ -804,14 +804,14 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
       \textbf{Train Split} & 4 & 0.2963 & 0.4211 & 0.3521 [0.255, 0.458] \\
       \textbf{Development Split} & 8 & \textbf{0.4035} & \textbf{0.6389} & \textbf{0.5076} [0.463, 0.558] \\
       \textbf{Locked Test Split} & 4 & 0.2391 & 0.5238 & 0.3429 [0.154, 0.563] \\
-      \textbf{External Gen (V1)} & 4 & 0.2222 & 0.2857 & 0.2380 [0.077, 0.383] \\
+      \textbf{External Gen (V1)} & 4 & 0.0833 & 0.2500 & 0.2380 [0.077, 0.383] \\
       \textbf{External Gen (V2)} & 4 & 0.3043 & 0.3500 & 0.3289 [0.241, 0.410] \\
       \bottomrule
     \end{tabular}
   \end{center}
   \vspace{0.2cm}
   \begin{itemize}\setlength{\itemsep}{2pt}
-    \item Substantial recall (0.6389) on Development papers without gold-annotation leakage.
+    \item Micro precision/recall reported; Macro Direct $F_1$ reaches 0.5076 on Dev and 0.3289 on External V2.
   \end{itemize}
 \end{frame}
 
@@ -831,7 +831,7 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
       \textbf{Train Split} & 4 & 0.1667 & 0.1875 & 0.0833 [0.000, 0.250] \\
       \textbf{Development Split} & 8 & \textbf{0.5000} & \textbf{0.4857} & \textbf{0.3864} [0.223, 0.539] \\
       \textbf{Locked Test Split} & 4 & 0.2174 & 0.2500 & 0.2002 [0.071, 0.310] \\
-      \textbf{External Gen (V1)} & 4 & 0.3333 & 0.1250 & 0.1667 [0.000, 0.333] \\
+      \textbf{External Gen (V1)} & 4 & 0.0606 & 0.1176 & 0.1667 [0.000, 0.333] \\
       \textbf{External Gen (V2)} & 4 & \textbf{0.5000} & 0.1875 & 0.2667 [0.083, 0.383] \\
       \bottomrule
     \end{tabular}
