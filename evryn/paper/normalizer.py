@@ -296,7 +296,12 @@ class PaperEntityNormalizer:
 
         if known_entities:
             for ke in known_entities:
-                if key == ke.lower():
+                ke_low = ke.lower()
+                if key == ke_low:
+                    return ke
+                if key.rstrip("s") == ke_low.rstrip("s"):
+                    return ke
+                if key.replace("-", "").replace(" ", "") == ke_low.replace("-", "").replace(" ", ""):
                     return ke
 
         if local_abbr_map and key in local_abbr_map:
@@ -323,7 +328,12 @@ class PaperEntityNormalizer:
             known_vocab.update(local_abbr_map.keys())
         if known_entities:
             for ke in known_entities:
-                known_vocab.add(ke.lower())
+                ke_l = ke.lower()
+                known_vocab.add(ke_l)
+                if len(ke_l) > 3 and ke_l.endswith("s"):
+                    known_vocab.add(ke_l.rstrip("s"))
+                if "-" in ke_l:
+                    known_vocab.add(ke_l.replace("-", " "))
 
         STOPWORDS = {
             "and", "or", "the", "in", "of", "to", "for", "with", "by", "on", "at",

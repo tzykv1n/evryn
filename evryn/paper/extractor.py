@@ -222,6 +222,14 @@ COMPILED_INHIBITION_PATTERNS = [re.compile(p, re.IGNORECASE) for p in INHIBITION
 COMPILED_ACTIVATION_PATTERNS = [re.compile(p, re.IGNORECASE) for p in ACTIVATION_PATTERNS]
 COMPILED_MEDIATION_PATTERNS = [re.compile(p, re.IGNORECASE) for p in MEDIATION_PATTERNS]
 COMPILED_ASSOCIATION_PATTERNS = [re.compile(p, re.IGNORECASE) for p in ASSOCIATION_PATTERNS]
+COMPILED_GENETICS_MUTANT_DOWN = re.compile(
+    r"\b(?:is|was|are|were|has\s+been|have\s+been)?\s*(?:also\s+)?(?:strongly|dramatically|significantly|substantially|markedly|approximately\s+\w+(?:-fold|fold)|\w+(?:-fold|fold))?\s*(?:downregulated|reduced|repressed|decreased|attenuated|lower|diminished|abolished|lost|eliminated)\s*(?:(?:approximately\s+)?\w+(?:-fold|fold))?\s+in\s+(?:the|a|an)?\s*",
+    re.IGNORECASE,
+)
+COMPILED_GENETICS_MUTANT_UP = re.compile(
+    r"\b(?:is|was|are|were|has\s+been|have\s+been)?\s*(?:also\s+)?(?:strongly|dramatically|significantly|substantially|markedly|approximately\s+\w+(?:-fold|fold)|\w+(?:-fold|fold))?\s*(?:upregulated|increased|elevated|higher|induced|activated|derepressed)\s*(?:(?:approximately\s+)?\w+(?:-fold|fold))?\s+in\s+(?:the|a|an)?\s*",
+    re.IGNORECASE,
+)
 
 LEADING_NOISE_RE = re.compile(
     r"^(?:abstract|introduction|background|methods|results|discussion|conclusions?|summary|subsequently|consequently|in\s+turn|thus|therefore|meanwhile|furthermore|in\s+addition|moreover|importantly|however|rather|under\s+[^,]+|in\s+[^,]+|once\s+activated|treatment\s+with|treatment\s+of|administration\s+of|elevated|cellular|active|activated|phosphorylated|stabilized|nuclear|extracellular|soluble|membrane-anchored|high|higher|low|lower|direct|recombinant|by|via|upon|(?:multivariate\s+regression|statistical\s+analysis|experimental\s+data|our\s+findings|our\s+results)\s+(?:demonstrated|showed|revealed|indicated)\s+that|did\s+not|does\s+not|do\s+not|failed\s+to|without)\b\s*,?\s*",
@@ -488,7 +496,14 @@ class PaperCausalExtractor:
                         )
                     )
 
-        return assertions
+        # Document-level assertion consolidation: retain highest confidence assertion per directed pair
+        best_by_pair: Dict[Tuple[str, str, bool], CausalAssertion] = {}
+        for a in assertions:
+            k = (a.cause_canonical, a.effect_canonical, a.is_negated)
+            if k not in best_by_pair or a.confidence > best_by_pair[k].confidence:
+                best_by_pair[k] = a
+
+        return list(best_by_pair.values())
 
     def _calculate_uncertainty(self, text: str, section_title: str) -> float:
         score = 0.05
@@ -530,6 +545,16 @@ class PaperCausalExtractor:
             rel = CausalRelationType.DOWNREGULATES if is_inhib else CausalRelationType.UPREGULATES
             inv_dir = "BACKWARD" if direction == "FORWARD" else "FORWARD"
             return rel, inv_dir, 0.91
+
+        # Check for genetics mutant regulation syntax: e.g. "expression of mfa1 was repressed threefold in the fimR mutant"
+        # or "pbgP expression was lower in a pmrB mutant" -> pmrB (regulator/cause) activates pbgP (target/effect)
+        if COMPILED_GENETICS_MUTANT_DOWN.search(between_text):
+            inv_dir = "BACKWARD" if direction == "FORWARD" else "FORWARD"
+            return CausalRelationType.UPREGULATES, inv_dir, 0.93
+
+        if COMPILED_GENETICS_MUTANT_UP.search(between_text):
+            inv_dir = "BACKWARD" if direction == "FORWARD" else "FORWARD"
+            return CausalRelationType.DOWNREGULATES, inv_dir, 0.93
 
         for pat_re, is_inhib in COMPILED_PASSIVE_INDICATORS:
             if pat_re.search(between_text):

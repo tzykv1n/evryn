@@ -167,10 +167,12 @@ class CrossPageLinker:
                     )
 
         dedup_links: List[CrossPageLink] = []
-        seen_keys: Set[Tuple[str, str, int, int]] = set()
+        seen_keys: Set[Tuple[str, str]] = set()
 
         for l in sorted(links, key=lambda x: x.confidence, reverse=True):
-            key = (l.source_entity, l.target_entity, l.cause_page, l.effect_page)
+            if l.source_entity == l.target_entity:
+                continue
+            key = (l.source_entity, l.target_entity)
             if key not in seen_keys:
                 seen_keys.add(key)
                 dedup_links.append(l)

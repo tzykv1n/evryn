@@ -1,0 +1,89 @@
+{
+  "phase": "Phase 1.1 Extraction Reliability & External Generalization Sprint",
+  "protocol": "Zero-Leakage Split Isolation (Experiments conducted strictly on 8 Development papers)",
+  "baseline_metrics": {
+    "split": "dev",
+    "paper_count": 8,
+    "direct_f1": 0.3082,
+    "cross_f1": 0.1646,
+    "structural_match": 0.1585
+  },
+  "experiments": [
+    {
+      "experiment_id": "EXP-1.1-01",
+      "name": "Assertion Deduplication Scope Ablation",
+      "target_split": "dev",
+      "hypothesis": "Evaluating every sentence-level repeated assertion creates redundant direct edge predictions, where all subsequent mentions of a true edge are penalized as false positives by the 1-to-1 matching evaluator. Consolidating assertions to the maximum-confidence assertion per directed pair will eliminate duplicate-induced false positives without lowering recall.",
+      "implementation": "Evaluated sentence-level vs page-level vs document-level assertion deduplication (evryn/paper/extractor.py).",
+      "results": {
+        "sentence_level_baseline": {
+          "direct_f1": 0.3082,
+          "cross_f1": 0.1646,
+          "structural_match": 0.1585
+        },
+        "page_level_dedup": {
+          "direct_f1": 0.3363,
+          "cross_f1": 0.1646,
+          "structural_match": 0.1666
+        },
+        "document_level_dedup": {
+          "direct_f1": 0.4179,
+          "cross_f1": 0.2138,
+          "structural_match": 0.2224
+        }
+      },
+      "conclusion": "Accepted. Document-level assertion consolidation produces +35.6% relative gain in Direct F1 and +29.9% gain in Cross F1 by pruning false positives and preventing transitive explosion."
+    },
+    {
+      "experiment_id": "EXP-1.1-02",
+      "name": "Passive Genetics Mutant Inversion Syntax",
+      "target_split": "dev",
+      "hypothesis": "In microbiology and genetics literature, expressions like '<target> was strongly downregulated in the <regulator> mutant' denote that <regulator> activates/upregulates <target>. The current rule engine misclassified these as active forward edges, producing 24 direction reversals on Dev.",
+      "implementation": "Introduced COMPILED_GENETICS_MUTANT_DOWN and COMPILED_GENETICS_MUTANT_UP regex indicators in _match_relation to invert direction and map downregulation in a mutant to UPREGULATES.",
+      "results": {
+        "direct_f1": 0.4230,
+        "cross_f1": 0.2044,
+        "structural_match": 0.2261
+      },
+      "conclusion": "Accepted. Corrects direction reversals for prototypical bacterial regulation clauses without overgenerating."
+    },
+    {
+      "experiment_id": "EXP-1.1-03",
+      "name": "Morphological Normalization & Cross Link Consolidation",
+      "target_split": "dev",
+      "hypothesis": "CrossPageLinker creates multi-edges across all pairs of pages for corroborated assertions, inflating cross-page FP counts. Consolidating cross-page links to the single highest-confidence link per entity pair will boost cross-page precision. Additionally, plural and hyphen-flexible canonicalization will prevent filter collapse.",
+      "implementation": "CrossPageLinker dedup_links constrained to (source_entity, target_entity) unique keys; PaperEntityNormalizer singular/plural and hyphen-flexible canonicalization against known_entities.",
+      "results": {
+        "direct_f1": 0.4280,
+        "cross_f1": 0.2356,
+        "structural_match": 0.2360
+      },
+      "conclusion": "Accepted. Final Dev score achieves Direct F1 = 0.4280 (+38.9% over baseline), Cross F1 = 0.2356 (+43.1% over baseline), Structural Match = 0.2360 (+48.9% over baseline)."
+    }
+  ],
+  "confirmatory_held_out_results": {
+    "locked_test": {
+      "baseline_direct_f1": 0.3132,
+      "final_direct_f1": 0.4021,
+      "direct_f1_gain": "+28.4%",
+      "baseline_cross_f1": 0.1414,
+      "final_cross_f1": 0.2078,
+      "cross_f1_gain": "+47.0%",
+      "baseline_structural_match": 0.1474,
+      "final_structural_match": 0.2175,
+      "structural_match_gain": "+47.6%"
+    },
+    "train": {
+      "baseline_direct_f1": 0.2615,
+      "final_direct_f1": 0.2996,
+      "baseline_cross_f1": 0.0000,
+      "final_cross_f1": 0.0455,
+      "cross_f1_status": "Zero cross-page F1 resolved"
+    },
+    "external_generalization": {
+      "baseline_direct_f1": 0.0263,
+      "final_direct_f1": 0.0455,
+      "audit_status": "Documented in EXTERNAL_GENERALIZATION_AUDIT.md (identified ground-truth/XML mismatch on PMC2816692 and domain-specific lexicon shifts)"
+    }
+  }
+}
