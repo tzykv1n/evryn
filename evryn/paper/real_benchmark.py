@@ -3,6 +3,7 @@
 
 import os
 import json
+import copy
 from typing import List, Dict, Any, Tuple, Optional
 from evryn.datasets.pmc_oa import PMCOAIngester, PMCOADocument
 from evryn.paper.types import (
@@ -17,7 +18,7 @@ from evryn.paper.types import (
 from evryn.datasets.biocause import BioCauseDataset
 
 
-CURATED_REAL_PAPERS: List[Dict[str, Any]] = [
+CURATED_REAL_PAPERS_V1: List[Dict[str, Any]] = [
     {
         "pmcid": "PMC1804205",
         "pmid": "17229213",
@@ -465,6 +466,38 @@ CURATED_REAL_PAPERS: List[Dict[str, Any]] = [
     },
 ]
 
+# Version 2 with authenticated annotations for PMC2816692 (Salmonella SrcA) and corrected title for PMC2774163
+CURATED_REAL_PAPERS_V2: List[Dict[str, Any]] = copy.deepcopy(CURATED_REAL_PAPERS_V1)
+for _p in CURATED_REAL_PAPERS_V2:
+    if _p["pmcid"] == "PMC2774163":
+        _p["title"] = "A Novel Signaling Network Essential for Regulating Pseudomonas aeruginosa Biofilm Development"
+    elif _p["pmcid"] == "PMC2816692":
+        _p["title"] = "Structural and Biochemical Characterization of SrcA, a Multi-Cargo Type III Secretion Chaperone in Salmonella Required for Pathogenic Association with a Host"
+        _p["canonical_entities"] = ["SrcA", "SsaN", "PipB2", "SseL", "Effector Translocation", "Virulence"]
+        _p["direct_edges"] = [
+            ["SrcA", "PipB2"],
+            ["SrcA", "SseL"],
+            ["SrcA", "SsaN"],
+            ["SsaN", "Effector Translocation"],
+            ["Effector Translocation", "Virulence"],
+        ]
+        _p["cross_page_edges"] = [
+            ["SrcA", "Effector Translocation"],
+            ["SrcA", "Virulence"],
+            ["SsaN", "Virulence"],
+        ]
+
+# Default CURATED_REAL_PAPERS points to CURATED_REAL_PAPERS_V1 for strict backwards compatibility
+CURATED_REAL_PAPERS: List[Dict[str, Any]] = CURATED_REAL_PAPERS_V1
+
+
+def get_curated_papers(version: str = "v1") -> List[Dict[str, Any]]:
+    """Returns curated real paper benchmark specs by version ('v1' or 'v2')."""
+    if str(version).lower().strip() == "v2":
+        return CURATED_REAL_PAPERS_V2
+    return CURATED_REAL_PAPERS_V1
+
+
 
 def convert_pmc_oa_to_scientific_document(pmc_doc: PMCOADocument) -> ScientificDocument:
     meta = PaperMetadata(
@@ -566,7 +599,9 @@ def convert_pmc_oa_to_scientific_document(pmc_doc: PMCOADocument) -> ScientificD
 
 
 def build_real_paper_benchmark(
-    target_dir: str = "data/real_papers", xml_dir: Optional[str] = None
+    target_dir: str = "data/real_papers",
+    xml_dir: Optional[str] = None,
+    version: str = "v1",
 ) -> Tuple[List[ScientificDocument], List[Dict[str, Any]]]:
     os.makedirs(target_dir, exist_ok=True)
     ingester = PMCOAIngester(cache_dir=xml_dir)
@@ -574,7 +609,8 @@ def build_real_paper_benchmark(
     docs: List[ScientificDocument] = []
     ground_truths: List[Dict[str, Any]] = []
 
-    for spec in CURATED_REAL_PAPERS:
+    specs = get_curated_papers(version)
+    for spec in specs:
         pmcid = spec["pmcid"]
         pmc_doc = ingester.ingest_pmcid(pmcid)
         sci_doc = convert_pmc_oa_to_scientific_document(pmc_doc)

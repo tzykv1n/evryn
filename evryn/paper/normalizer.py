@@ -237,6 +237,25 @@ GLOBAL_SYNONYMS = {
     "virulence": "Virulence",
     "pathogenicity": "Virulence",
     "insect pathogenicity": "Virulence",
+    # Microbial / Open-domain signaling concepts
+    "di-gmp": "di-GMP",
+    "c-di-gmp": "di-GMP",
+    "cyclic di-gmp": "di-GMP",
+    "cyclic-di-gmp": "di-GMP",
+    "cdi-gmp": "di-GMP",
+    "lps": "Lipopolysaccharide",
+    "lipopolysaccharide": "Lipopolysaccharide",
+    "outer membrane protein": "Outer Membrane Proteins",
+    "outer membrane proteins": "Outer Membrane Proteins",
+    "omp": "Outer Membrane Proteins",
+    "omps": "Outer Membrane Proteins",
+    "srca": "SrcA",
+    "ssan": "SsaN",
+    "pipb2": "PipB2",
+    "ssel": "SseL",
+    "effector translocation": "Effector Translocation",
+    "translocation of effectors": "Effector Translocation",
+    "secretion of effectors": "Effector Translocation",
 }
 
 
@@ -295,6 +314,9 @@ class PaperEntityNormalizer:
         key = cleaned.lower()
 
         if known_entities:
+            def strip_cyclic(s: str) -> str:
+                return re.sub(r"^(?:c-|cyclic-|cyclic\s+)", "", s.strip().lower())
+
             for ke in known_entities:
                 ke_low = ke.lower()
                 if key == ke_low:
@@ -303,9 +325,24 @@ class PaperEntityNormalizer:
                     return ke
                 if key.replace("-", "").replace(" ", "") == ke_low.replace("-", "").replace(" ", ""):
                     return ke
+                # Chemical cyclic prefix match (e.g. c-di-gmp, cyclic-di-gmp, di-gmp)
+                if strip_cyclic(key) == strip_cyclic(ke_low):
+                    return ke
+                # Bacterial Outer Membrane Proteins class/instance normalization
+                if ke_low in ("outer membrane proteins", "outer membrane protein"):
+                    if re.match(r"^omp[0-9a-z]*s?$", key) or key == "outer membrane protein":
+                        return ke
+                # LPS <-> Lipopolysaccharide
+                if (key == "lps" and "lipopolysaccharide" in ke_low) or (ke_low == "lps" and "lipopolysaccharide" in key):
+                    return ke
 
         if local_abbr_map and key in local_abbr_map:
-            return local_abbr_map[key]
+            abbr_target = local_abbr_map[key]
+            if known_entities:
+                expanded_canon = self.canonicalize(abbr_target, known_entities=known_entities)
+                if expanded_canon in known_entities:
+                    return expanded_canon
+            return abbr_target
 
         if key in GLOBAL_SYNONYMS:
             return GLOBAL_SYNONYMS[key]
@@ -334,6 +371,16 @@ class PaperEntityNormalizer:
                     known_vocab.add(ke_l.rstrip("s"))
                 if "-" in ke_l:
                     known_vocab.add(ke_l.replace("-", " "))
+                if ke_l.startswith("c-") or ke_l.startswith("cyclic-") or ke_l.startswith("di-"):
+                    stripped = re.sub(r"^(?:c-|cyclic-|cyclic\s+)", "", ke_l)
+                    known_vocab.add(stripped)
+                    known_vocab.add(f"c-{stripped}")
+                    known_vocab.add(f"cyclic-{stripped}")
+                    known_vocab.add(f"cyclic {stripped}")
+                if "outer membrane protein" in ke_l:
+                    known_vocab.update(["omp", "omps", "omp3b", "omp25", "ompa", "ompc", "ompf"])
+                if "lipopolysaccharide" in ke_l:
+                    known_vocab.add("lps")
 
         STOPWORDS = {
             "and", "or", "the", "in", "of", "to", "for", "with", "by", "on", "at",

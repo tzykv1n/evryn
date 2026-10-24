@@ -1,6 +1,7 @@
 {
-  "phase": "EVRYN Phase 2 Real-Paper Causal Benchmark & Generalization Evaluation",
-  "timestamp": "2026-10-24T02:42:54Z",
+  "phase": "EVRYN Phase 2 Real-Paper Causal Benchmark & Generalization Evaluation (V1)",
+  "benchmark_version": "v1",
+  "timestamp": "2026-10-24T02:58:51Z",
   "total_papers": 20,
   "split_counts": {
     "train": 4,
@@ -488,38 +489,38 @@
       "split": "external",
       "paper_count": 4,
       "macro_metrics": {
-        "direct_f1_mean": 0.108,
+        "direct_f1_mean": 0.1566,
         "direct_f1_ci": [
           0.0,
-          0.2159
+          0.3333
         ],
         "cross_f1_mean": 0.0833,
         "cross_f1_ci": [
           0.0,
           0.25
         ],
-        "structural_match_mean": 0.0542,
+        "structural_match_mean": 0.075,
         "structural_match_ci": [
           0.0,
-          0.1083
+          0.15
         ]
       },
       "micro_metrics": {
         "direct": {
-          "tp": 2,
-          "fp": 32,
-          "fn": 18,
-          "precision": 0.0588,
-          "recall": 0.1,
-          "f1": 0.0741
+          "tp": 3,
+          "fp": 45,
+          "fn": 17,
+          "precision": 0.0625,
+          "recall": 0.15,
+          "f1": 0.0882
         },
         "cross_page": {
           "tp": 1,
-          "fp": 6,
+          "fp": 25,
           "fn": 16,
-          "precision": 0.1429,
+          "precision": 0.0385,
           "recall": 0.0588,
-          "f1": 0.0833
+          "f1": 0.0465
         }
       },
       "per_paper": [
@@ -529,16 +530,16 @@
           "page_count": 10,
           "gold_direct": 5,
           "gold_cross": 4,
-          "pred_direct": 21,
-          "pred_cross": 5,
+          "pred_direct": 34,
+          "pred_cross": 24,
           "tp_direct": 0,
-          "fp_direct": 21,
+          "fp_direct": 34,
           "fn_direct": 5,
           "direct_precision": 0.0,
           "direct_recall": 0.0,
           "direct_f1": 0.0,
           "tp_cross": 0,
-          "fp_cross": 5,
+          "fp_cross": 24,
           "fn_cross": 4,
           "cross_precision": 0.0,
           "cross_recall": 0.0,
@@ -573,21 +574,21 @@
           "page_count": 8,
           "gold_direct": 5,
           "gold_cross": 5,
-          "pred_direct": 3,
+          "pred_direct": 4,
           "pred_cross": 0,
-          "tp_direct": 1,
+          "tp_direct": 2,
           "fp_direct": 2,
-          "fn_direct": 4,
-          "direct_precision": 0.3333,
-          "direct_recall": 0.2,
-          "direct_f1": 0.25,
+          "fn_direct": 3,
+          "direct_precision": 0.5,
+          "direct_recall": 0.4,
+          "direct_f1": 0.4444,
           "tp_cross": 0,
           "fp_cross": 0,
           "fn_cross": 5,
           "cross_precision": 0.0,
           "cross_recall": 0.0,
           "cross_f1": 0.0,
-          "structural_match": 0.0833
+          "structural_match": 0.1667
         },
         {
           "pmcid": "PMC2885601",

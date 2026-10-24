@@ -1013,106 +1013,90 @@
     "external": {
       "paper_count": 4,
       "macro_metrics": {
-        "direct_f1_mean": 0.108,
+        "direct_f1_mean": 0.2475,
         "direct_f1_ci": [
-          0.0,
-          0.2159
+          0.0909,
+          0.404
         ],
-        "cross_f1_mean": 0.0833,
+        "cross_f1_mean": 0.2083,
         "cross_f1_ci": [
           0.0,
-          0.25
+          0.4167
         ],
-        "structural_match_mean": 0.0542,
+        "structural_match_mean": 0.1375,
         "structural_match_ci": [
-          0.0,
-          0.1083
+          0.0417,
+          0.2208
         ]
       },
       "micro_metrics": {
         "direct": {
-          "tp": 2,
-          "fp": 32,
-          "fn": 18,
-          "precision": 0.0588,
-          "recall": 0.1,
-          "f1": 0.0741
+          "tp": 5,
+          "fp": 15,
+          "fn": 15,
+          "precision": 0.25,
+          "recall": 0.25,
+          "f1": 0.25
         },
         "cross": {
-          "tp": 1,
-          "fp": 6,
-          "fn": 16,
-          "precision": 0.1429,
-          "recall": 0.0588,
-          "f1": 0.0833
+          "tp": 2,
+          "fp": 1,
+          "fn": 14,
+          "precision": 0.6667,
+          "recall": 0.125,
+          "f1": 0.2105
         }
       },
       "papers": [
         {
           "pmcid": "PMC2816692",
           "title": "Structural and Biochemical Characterization of SrcA, a Multi-Cargo Type III Secretion Chaperone in Salmonella Required for Pathogenic Association with a Host",
-          "entity_coverage": 0.1667,
-          "is_gt_mismatch": true,
-          "fell_back_unfiltered": true,
+          "entity_coverage": 1.0,
+          "is_gt_mismatch": false,
+          "fell_back_unfiltered": false,
           "gold_direct": 5,
-          "gold_cross": 4,
-          "pred_direct": 21,
-          "pred_direct_unique": 21,
-          "pred_cross": 5,
-          "tp_direct": 0,
-          "fp_direct": 21,
-          "fn_direct": 5,
-          "direct_f1": 0.0,
-          "direct_p": 0.0,
-          "direct_r": 0.0,
-          "tp_cross": 0,
-          "fp_cross": 5,
-          "fn_cross": 4,
-          "cross_f1": 0.0,
-          "structural_match": 0.0,
-          "direction_reversals": 0,
+          "gold_cross": 3,
+          "pred_direct": 6,
+          "pred_direct_unique": 6,
+          "pred_cross": 1,
+          "tp_direct": 2,
+          "fp_direct": 4,
+          "fn_direct": 3,
+          "direct_f1": 0.3636,
+          "direct_p": 0.3333,
+          "direct_r": 0.4,
+          "tp_cross": 1,
+          "fp_cross": 0,
+          "fn_cross": 2,
+          "cross_f1": 0.5,
+          "structural_match": 0.25,
+          "direction_reversals": 1,
           "sample_direct_preds": [
             [
-              "suite of T3SS-associated chaperone proteins",
-              "cargo"
+              "SrcA",
+              "Effector Translocation"
             ],
             [
-              "Type III Secretion",
-              "SPI-2"
+              "SseL",
+              "Effector Translocation"
             ],
             [
-              "SPI-2",
-              "Type III Secretion"
+              "PipB2",
+              "Effector Translocation"
             ],
             [
               "SsaN",
-              "efficiency of effector translocation"
+              "Effector Translocation"
             ],
             [
-              "Using competitive infections",
-              "bacterial fitness during host infection"
+              "SrcA",
+              "SsaN"
             ]
           ],
           "sample_cross_preds": [
             [
-              "SPI1",
-              "Type III Secretion"
-            ],
-            [
-              "SPI1",
-              "SPI-2"
-            ],
-            [
-              "SPI1",
-              "SsrB"
-            ],
-            [
-              "Type III Secretion",
-              "SsrB"
-            ],
-            [
-              "SsrB",
-              "SPI-2"
+              "SrcA",
+              "Effector Translocation"
             ]
           ]
         },
@@ -1167,25 +1151,29 @@
           "fell_back_unfiltered": false,
           "gold_direct": 5,
           "gold_cross": 5,
-          "pred_direct": 3,
-          "pred_direct_unique": 3,
+          "pred_direct": 4,
+          "pred_direct_unique": 4,
           "pred_cross": 0,
-          "tp_direct": 1,
+          "tp_direct": 2,
           "fp_direct": 2,
-          "fn_direct": 4,
-          "direct_f1": 0.25,
-          "direct_p": 0.3333,
-          "direct_r": 0.2,
+          "fn_direct": 3,
+          "direct_f1": 0.4444,
+          "direct_p": 0.5,
+          "direct_r": 0.4,
           "tp_cross": 0,
           "fp_cross": 0,
           "fn_cross": 5,
           "cross_f1": 0.0,
-          "structural_match": 0.0833,
+          "structural_match": 0.1667,
           "direction_reversals": 0,
           "sample_direct_preds": [
             [
               "BvrR/BvrS",
               "Virulence"
+            ],
+            [
+              "BvrR/BvrS",
+              "Outer Membrane Proteins"
             ],
             [
               "BvrS",
@@ -1258,12 +1246,12 @@
     }
   },
   "taxonomy_summary": {
-    "gt_xml_mismatch": 1,
+    "gt_xml_mismatch": 0,
     "entity_normalization_gap": 0,
-    "direction_reversal": 11,
+    "direction_reversal": 12,
     "duplicate_assertion_inflation": 0,
     "missing_transitive_bridge": 6,
-    "filter_fallback_explosion": 2,
+    "filter_fallback_explosion": 1,
     "spurious_cooccurrence": 0
   }
 }

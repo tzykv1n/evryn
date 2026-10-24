@@ -164,3 +164,49 @@ def test_benchmark_evaluator_and_robustness(sample_pdf, tmp_path):
     dropout_res = rob.run_dropout_ablation([doc], [gt], dropout_rates=[0.0, 0.2])
     assert "0%" in dropout_res
     assert "20%" in dropout_res
+
+
+def test_open_domain_cyclic_canonicalization():
+    norm = PaperEntityNormalizer()
+    known = ["di-GMP", "Biofilm", "Virulence"]
+    assert norm.canonicalize("c-di-GMP", known_entities=known) == "di-GMP"
+    assert norm.canonicalize("cyclic-di-GMP", known_entities=known) == "di-GMP"
+    assert norm.canonicalize("cyclic di-gmp", known_entities=known) == "di-GMP"
+
+    known_c = ["cyclic-di-GMP", "Biofilm", "Virulence"]
+    assert norm.canonicalize("di-GMP", known_entities=known_c) == "cyclic-di-GMP"
+    assert norm.canonicalize("c-di-GMP", known_entities=known_c) == "cyclic-di-GMP"
+
+
+def test_open_domain_omp_lps_normalization():
+    norm = PaperEntityNormalizer()
+    known = ["BvrR", "BvrS", "Outer Membrane Proteins", "Lipopolysaccharide"]
+    assert norm.canonicalize("Omp3b", known_entities=known) == "Outer Membrane Proteins"
+    assert norm.canonicalize("Omp25", known_entities=known) == "Outer Membrane Proteins"
+    assert norm.canonicalize("ompa", known_entities=known) == "Outer Membrane Proteins"
+    assert norm.canonicalize("LPS", known_entities=known) == "Lipopolysaccharide"
+    assert norm.canonicalize("lps", known_entities=known) == "Lipopolysaccharide"
+
+
+def test_open_domain_abbreviation_recheck_canonicalization():
+    norm = PaperEntityNormalizer()
+    local_abbr = {"omps": "outer membrane proteins"}
+    known = ["Outer Membrane Proteins", "Virulence"]
+    assert norm.canonicalize("OMPs", local_abbr_map=local_abbr, known_entities=known) == "Outer Membrane Proteins"
+
+
+def test_benchmark_v1_and_v2_specifications():
+    from evryn.paper.real_benchmark import get_curated_papers, CURATED_REAL_PAPERS_V1, CURATED_REAL_PAPERS_V2
+    v1 = get_curated_papers("v1")
+    v2 = get_curated_papers("v2")
+    assert len(v1) == 20
+    assert len(v2) == 20
+
+    v1_map = {p["pmcid"]: p for p in v1}
+    v2_map = {p["pmcid"]: p for p in v2}
+
+    assert v1_map["PMC2816692"]["canonical_entities"] == ["Protective Antigen", "Lethal Factor", "MEK1/2", "MAPK Signaling", "Cytotoxicity", "Virulence"]
+    assert v2_map["PMC2816692"]["canonical_entities"] == ["SrcA", "SsaN", "PipB2", "SseL", "Effector Translocation", "Virulence"]
+    assert "SrcA" in [e[0] for e in v2_map["PMC2816692"]["direct_edges"]]
+    assert v2_map["PMC2774163"]["title"] == "A Novel Signaling Network Essential for Regulating Pseudomonas aeruginosa Biofilm Development"
+

@@ -12,20 +12,26 @@ import sys
 import re
 import json
 import numpy as np
-from typing import Dict, List, Any, Tuple, Set
+from typing import Dict, List, Any, Tuple, Set, Optional
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, REPO_ROOT)
 sys.path.insert(0, os.path.join(REPO_ROOT, "scripts"))
 
-from evryn.paper.real_benchmark import CURATED_REAL_PAPERS, convert_pmc_oa_to_scientific_document
+from evryn.paper.real_benchmark import (
+    CURATED_REAL_PAPERS,
+    CURATED_REAL_PAPERS_V1,
+    CURATED_REAL_PAPERS_V2,
+    get_curated_papers,
+    convert_pmc_oa_to_scientific_document,
+)
 from evryn.paper.evaluator import PaperBenchmarkEvaluator
 from evryn.datasets.pmc_oa import PMCOAIngester
 from evryn.datasets.biocause import BioCauseDataset
 from evaluate_phase2_splits import match_edge, bootstrap_ci
 
 
-def run_diagnostics():
+def run_diagnostics(version: str = "v2", output_dir: Optional[str] = None):
     manifest_path = os.path.join(REPO_ROOT, "data", "real_papers", "split_manifest.json")
     with open(manifest_path, "r", encoding="utf-8") as f:
         manifest = json.load(f)
@@ -33,7 +39,7 @@ def run_diagnostics():
     evaluator = PaperBenchmarkEvaluator()
     ingester = PMCOAIngester()
     biocause = BioCauseDataset()
-    curated_map = {p["pmcid"]: p for p in CURATED_REAL_PAPERS}
+    curated_map = {p["pmcid"]: p for p in get_curated_papers(version)}
 
     split_groups = {
         "train": [p for p in manifest["papers"] if p["split"] == "train"],
@@ -236,14 +242,26 @@ def run_diagnostics():
 
     results["taxonomy_summary"] = taxonomy_counts
 
-    out_dir = os.path.join(REPO_ROOT, "results", "phase1_1")
+    out_dir = output_dir or os.path.join(REPO_ROOT, "results", "phase1_3")
     os.makedirs(out_dir, exist_ok=True)
     out_file = os.path.join(out_dir, "split_diagnostics.json")
     with open(out_file, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2)
     print(f"Diagnostics written to {out_file}")
+
+    # Also write to phase1_1 for backward compatibility
+    p11_dir = os.path.join(REPO_ROOT, "results", "phase1_1")
+    os.makedirs(p11_dir, exist_ok=True)
+    with open(os.path.join(p11_dir, "split_diagnostics.json"), "w", encoding="utf-8") as f:
+        json.dump(results, f, indent=2)
+
     return results
 
 
 if __name__ == "__main__":
-    run_diagnostics()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--version", choices=["v1", "v2"], default="v2")
+    parser.add_argument("--output-dir", default=None)
+    args = parser.parse_args()
+    run_diagnostics(version=args.version, output_dir=args.output_dir)
