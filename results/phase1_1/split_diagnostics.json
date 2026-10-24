@@ -87,12 +87,16 @@
           ],
           "sample_cross_preds": [
             [
-              "RpoE",
-              "Virulence"
+              "SsrB",
+              "SPI-2"
             ],
             [
               "SsrB",
-              "SPI-2"
+              "SseB"
+            ],
+            [
+              "RpoE",
+              "Virulence"
             ],
             [
               "SseB",
@@ -100,11 +104,7 @@
             ],
             [
               "SsrB",
-              "SseB"
-            ],
-            [
-              "Virulence",
-              "RpoE"
+              "Virulence"
             ]
           ]
         },
@@ -260,38 +260,38 @@
     "dev": {
       "paper_count": 8,
       "macro_metrics": {
-        "direct_f1_mean": 0.428,
+        "direct_f1_mean": 0.4894,
         "direct_f1_ci": [
-          0.3312,
-          0.5126
+          0.4302,
+          0.5486
         ],
-        "cross_f1_mean": 0.2356,
+        "cross_f1_mean": 0.2765,
         "cross_f1_ci": [
-          0.0625,
-          0.4351
+          0.1125,
+          0.4439
         ],
-        "structural_match_mean": 0.236,
+        "structural_match_mean": 0.273,
         "structural_match_ci": [
-          0.1532,
-          0.3294
+          0.2135,
+          0.3361
         ]
       },
       "micro_metrics": {
         "direct": {
-          "tp": 21,
-          "fp": 41,
-          "fn": 15,
-          "precision": 0.3387,
-          "recall": 0.5833,
-          "f1": 0.4286
+          "tp": 23,
+          "fp": 39,
+          "fn": 13,
+          "precision": 0.371,
+          "recall": 0.6389,
+          "f1": 0.4694
         },
         "cross": {
-          "tp": 11,
-          "fp": 23,
-          "fn": 24,
-          "precision": 0.3235,
-          "recall": 0.3143,
-          "f1": 0.3188
+          "tp": 12,
+          "fp": 22,
+          "fn": 23,
+          "precision": 0.3529,
+          "recall": 0.3429,
+          "f1": 0.3478
         }
       },
       "papers": [
@@ -305,7 +305,7 @@
           "gold_cross": 5,
           "pred_direct": 14,
           "pred_direct_unique": 14,
-          "pred_cross": 12,
+          "pred_cross": 11,
           "tp_direct": 5,
           "fp_direct": 9,
           "fn_direct": 0,
@@ -313,10 +313,10 @@
           "direct_p": 0.3571,
           "direct_r": 1.0,
           "tp_cross": 3,
-          "fp_cross": 9,
+          "fp_cross": 8,
           "fn_cross": 2,
-          "cross_f1": 0.3529,
-          "structural_match": 0.2857,
+          "cross_f1": 0.375,
+          "structural_match": 0.2963,
           "direction_reversals": 2,
           "sample_direct_preds": [
             [
@@ -342,24 +342,24 @@
           ],
           "sample_cross_preds": [
             [
+              "Acid pH",
+              "PmrA"
+            ],
+            [
+              "PmrB",
+              "Acid pH"
+            ],
+            [
+              "PmrB",
+              "Polymyxin B"
+            ],
+            [
               "Polymyxin B",
               "PmrD"
             ],
             [
               "Acid pH",
               "PmrB"
-            ],
-            [
-              "PmrD",
-              "Acid pH"
-            ],
-            [
-              "PmrB",
-              "PmrD"
-            ],
-            [
-              "PmrD",
-              "Polymyxin B"
             ]
           ]
         },
@@ -371,21 +371,21 @@
           "fell_back_unfiltered": false,
           "gold_direct": 5,
           "gold_cross": 5,
-          "pred_direct": 18,
-          "pred_direct_unique": 18,
+          "pred_direct": 19,
+          "pred_direct_unique": 19,
           "pred_cross": 11,
           "tp_direct": 4,
-          "fp_direct": 14,
+          "fp_direct": 15,
           "fn_direct": 1,
-          "direct_f1": 0.3478,
-          "direct_p": 0.2222,
+          "direct_f1": 0.3333,
+          "direct_p": 0.2105,
           "direct_r": 0.8,
           "tp_cross": 2,
           "fp_cross": 9,
           "fn_cross": 3,
           "cross_f1": 0.25,
-          "structural_match": 0.1818,
-          "direction_reversals": 3,
+          "structural_match": 0.1765,
+          "direction_reversals": 4,
           "sample_direct_preds": [
             [
               "Mlc",
@@ -410,6 +410,10 @@
           ],
           "sample_cross_preds": [
             [
+              "InvF",
+              "SPI1"
+            ],
+            [
               "Mlc",
               "SPI1"
             ],
@@ -424,10 +428,6 @@
             [
               "Mlc",
               "HilD"
-            ],
-            [
-              "HilA",
-              "SPI1"
             ]
           ]
         },
@@ -487,20 +487,20 @@
           "fell_back_unfiltered": false,
           "gold_direct": 4,
           "gold_cross": 5,
-          "pred_direct": 4,
-          "pred_direct_unique": 4,
-          "pred_cross": 0,
-          "tp_direct": 1,
+          "pred_direct": 5,
+          "pred_direct_unique": 5,
+          "pred_cross": 2,
+          "tp_direct": 2,
           "fp_direct": 3,
-          "fn_direct": 3,
-          "direct_f1": 0.25,
-          "direct_p": 0.25,
-          "direct_r": 0.25,
-          "tp_cross": 0,
+          "fn_direct": 2,
+          "direct_f1": 0.4444,
+          "direct_p": 0.4,
+          "direct_r": 0.5,
+          "tp_cross": 2,
           "fp_cross": 0,
-          "fn_cross": 5,
-          "cross_f1": 0.0,
-          "structural_match": 0.0833,
+          "fn_cross": 3,
+          "cross_f1": 0.5714,
+          "structural_match": 0.3333,
           "direction_reversals": 1,
           "sample_direct_preds": [
             [
@@ -518,9 +518,22 @@
             [
               "FimR",
               "Short Fimbriae"
+            ],
+            [
+              "FimS",
+              "FimR"
             ]
           ],
-          "sample_cross_preds": []
+          "sample_cross_preds": [
+            [
+              "FimS",
+              "Mfa1"
+            ],
+            [
+              "FimS",
+              "Short Fimbriae"
+            ]
+          ]
         },
         {
           "pmcid": "PMC2242835",
@@ -641,33 +654,25 @@
           "fell_back_unfiltered": false,
           "gold_direct": 5,
           "gold_cross": 5,
-          "pred_direct": 5,
-          "pred_direct_unique": 5,
+          "pred_direct": 4,
+          "pred_direct_unique": 4,
           "pred_cross": 0,
-          "tp_direct": 1,
-          "fp_direct": 4,
-          "fn_direct": 4,
-          "direct_f1": 0.2,
-          "direct_p": 0.2,
-          "direct_r": 0.2,
+          "tp_direct": 2,
+          "fp_direct": 2,
+          "fn_direct": 3,
+          "direct_f1": 0.4444,
+          "direct_p": 0.5,
+          "direct_r": 0.4,
           "tp_cross": 0,
           "fp_cross": 0,
           "fn_cross": 5,
           "cross_f1": 0.0,
-          "structural_match": 0.0714,
-          "direction_reversals": 2,
+          "structural_match": 0.1667,
+          "direction_reversals": 1,
           "sample_direct_preds": [
             [
               "SalR",
               "Virulence"
-            ],
-            [
-              "SalK",
-              "89K"
-            ],
-            [
-              "SalR",
-              "89K"
             ],
             [
               "Virulence",
@@ -675,6 +680,10 @@
             ],
             [
               "Virulence",
+              "SalR"
+            ],
+            [
+              "SalK",
               "SalR"
             ]
           ],
@@ -688,21 +697,21 @@
           "fell_back_unfiltered": false,
           "gold_direct": 5,
           "gold_cross": 4,
-          "pred_direct": 5,
-          "pred_direct_unique": 5,
-          "pred_cross": 2,
+          "pred_direct": 4,
+          "pred_direct_unique": 4,
+          "pred_cross": 1,
           "tp_direct": 3,
-          "fp_direct": 2,
+          "fp_direct": 1,
           "fn_direct": 2,
-          "direct_f1": 0.6,
-          "direct_p": 0.6,
+          "direct_f1": 0.6667,
+          "direct_p": 0.75,
           "direct_r": 0.6,
-          "tp_cross": 2,
+          "tp_cross": 1,
           "fp_cross": 0,
-          "fn_cross": 2,
-          "cross_f1": 0.6667,
-          "structural_match": 0.4545,
-          "direction_reversals": 1,
+          "fn_cross": 3,
+          "cross_f1": 0.4,
+          "structural_match": 0.4,
+          "direction_reversals": 0,
           "sample_direct_preds": [
             [
               "GraRS",
@@ -719,19 +728,11 @@
             [
               "LL-37",
               "Virulence"
-            ],
-            [
-              "dltA",
-              "GraRS"
             ]
           ],
           "sample_cross_preds": [
             [
               "GraRS",
-              "Virulence"
-            ],
-            [
-              "dltA",
               "Virulence"
             ]
           ]
@@ -741,38 +742,38 @@
     "locked_test": {
       "paper_count": 4,
       "macro_metrics": {
-        "direct_f1_mean": 0.4021,
+        "direct_f1_mean": 0.3923,
         "direct_f1_ci": [
           0.1901,
-          0.6176
+          0.5882
         ],
-        "cross_f1_mean": 0.2078,
+        "cross_f1_mean": 0.1652,
         "cross_f1_ci": [
           0.0,
-          0.4156
+          0.3304
         ],
-        "structural_match_mean": 0.2175,
+        "structural_match_mean": 0.1891,
         "structural_match_ci": [
           0.0827,
-          0.3853
+          0.3
         ]
       },
       "micro_metrics": {
         "direct": {
           "tp": 12,
-          "fp": 29,
+          "fp": 30,
           "fn": 9,
-          "precision": 0.2927,
+          "precision": 0.2857,
           "recall": 0.5714,
-          "f1": 0.3871
+          "f1": 0.381
         },
         "cross": {
           "tp": 4,
-          "fp": 9,
+          "fp": 14,
           "fn": 16,
-          "precision": 0.3077,
+          "precision": 0.2222,
           "recall": 0.2,
-          "f1": 0.2424
+          "f1": 0.2105
         }
       },
       "papers": [
@@ -784,20 +785,20 @@
           "fell_back_unfiltered": false,
           "gold_direct": 6,
           "gold_cross": 4,
-          "pred_direct": 11,
-          "pred_direct_unique": 11,
-          "pred_cross": 7,
+          "pred_direct": 12,
+          "pred_direct_unique": 12,
+          "pred_cross": 12,
           "tp_direct": 6,
-          "fp_direct": 5,
+          "fp_direct": 6,
           "fn_direct": 0,
-          "direct_f1": 0.7059,
-          "direct_p": 0.5455,
+          "direct_f1": 0.6667,
+          "direct_p": 0.5,
           "direct_r": 1.0,
           "tp_cross": 3,
-          "fp_cross": 4,
+          "fp_cross": 9,
           "fn_cross": 1,
-          "cross_f1": 0.5455,
-          "structural_match": 0.4737,
+          "cross_f1": 0.375,
+          "structural_match": 0.36,
           "direction_reversals": 2,
           "sample_direct_preds": [
             [
@@ -823,6 +824,10 @@
           ],
           "sample_cross_preds": [
             [
+              "CsrS",
+              "Streptolysin O"
+            ],
+            [
               "ScpC",
               "Virulence"
             ],
@@ -837,10 +842,6 @@
             [
               "CsrS",
               "IL-8"
-            ],
-            [
-              "Streptolysin O",
-              "ScpC"
             ]
           ]
         },
@@ -1012,30 +1013,30 @@
     "external": {
       "paper_count": 4,
       "macro_metrics": {
-        "direct_f1_mean": 0.0455,
+        "direct_f1_mean": 0.108,
         "direct_f1_ci": [
           0.0,
-          0.1364
+          0.2159
         ],
         "cross_f1_mean": 0.0833,
         "cross_f1_ci": [
           0.0,
           0.25
         ],
-        "structural_match_mean": 0.0333,
+        "structural_match_mean": 0.0542,
         "structural_match_ci": [
           0.0,
-          0.1
+          0.1083
         ]
       },
       "micro_metrics": {
         "direct": {
-          "tp": 1,
+          "tp": 2,
           "fp": 32,
-          "fn": 19,
-          "precision": 0.0303,
-          "recall": 0.05,
-          "f1": 0.0377
+          "fn": 18,
+          "precision": 0.0588,
+          "recall": 0.1,
+          "f1": 0.0741
         },
         "cross": {
           "tp": 1,
@@ -1166,20 +1167,20 @@
           "fell_back_unfiltered": false,
           "gold_direct": 5,
           "gold_cross": 5,
-          "pred_direct": 2,
-          "pred_direct_unique": 2,
+          "pred_direct": 3,
+          "pred_direct_unique": 3,
           "pred_cross": 0,
-          "tp_direct": 0,
+          "tp_direct": 1,
           "fp_direct": 2,
-          "fn_direct": 5,
-          "direct_f1": 0.0,
-          "direct_p": 0.0,
-          "direct_r": 0.0,
+          "fn_direct": 4,
+          "direct_f1": 0.25,
+          "direct_p": 0.3333,
+          "direct_r": 0.2,
           "tp_cross": 0,
           "fp_cross": 0,
           "fn_cross": 5,
           "cross_f1": 0.0,
-          "structural_match": 0.0,
+          "structural_match": 0.0833,
           "direction_reversals": 0,
           "sample_direct_preds": [
             [
@@ -1189,6 +1190,10 @@
             [
               "BvrS",
               "Virulence"
+            ],
+            [
+              "BvrS",
+              "BvrR"
             ]
           ],
           "sample_cross_preds": []
@@ -1255,9 +1260,9 @@
   "taxonomy_summary": {
     "gt_xml_mismatch": 1,
     "entity_normalization_gap": 0,
-    "direction_reversal": 12,
+    "direction_reversal": 11,
     "duplicate_assertion_inflation": 0,
-    "missing_transitive_bridge": 7,
+    "missing_transitive_bridge": 6,
     "filter_fallback_explosion": 2,
     "spurious_cooccurrence": 0
   }

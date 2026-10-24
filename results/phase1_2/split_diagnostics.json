@@ -1,0 +1,1269 @@
+{
+  "timestamp": "2026-10-24T02:00:00Z",
+  "description": "EVRYN Phase 1.1 Diagnostic Audit across 20 authentic PMC papers",
+  "splits": {
+    "train": {
+      "paper_count": 4,
+      "macro_metrics": {
+        "direct_f1_mean": 0.2996,
+        "direct_f1_ci": [
+          0.1825,
+          0.4306
+        ],
+        "cross_f1_mean": 0.0455,
+        "cross_f1_ci": [
+          0.0,
+          0.1364
+        ],
+        "structural_match_mean": 0.1198,
+        "structural_match_ci": [
+          0.0794,
+          0.1581
+        ]
+      },
+      "micro_metrics": {
+        "direct": {
+          "tp": 6,
+          "fp": 18,
+          "fn": 13,
+          "precision": 0.25,
+          "recall": 0.3158,
+          "f1": 0.2791
+        },
+        "cross": {
+          "tp": 1,
+          "fp": 9,
+          "fn": 15,
+          "precision": 0.1,
+          "recall": 0.0625,
+          "f1": 0.0769
+        }
+      },
+      "papers": [
+        {
+          "pmcid": "PMC2651894",
+          "title": "RpoE fine tunes expression of a subset of SsrB-regulated virulence factors in Salmonella enterica serovar Typhimurium",
+          "entity_coverage": 0.8571,
+          "is_gt_mismatch": false,
+          "fell_back_unfiltered": false,
+          "gold_direct": 5,
+          "gold_cross": 4,
+          "pred_direct": 9,
+          "pred_direct_unique": 9,
+          "pred_cross": 7,
+          "tp_direct": 1,
+          "fp_direct": 8,
+          "fn_direct": 4,
+          "direct_f1": 0.1429,
+          "direct_p": 0.1111,
+          "direct_r": 0.2,
+          "tp_cross": 1,
+          "fp_cross": 6,
+          "fn_cross": 3,
+          "cross_f1": 0.1818,
+          "structural_match": 0.087,
+          "direction_reversals": 1,
+          "sample_direct_preds": [
+            [
+              "SsrB",
+              "Virulence"
+            ],
+            [
+              "SPI-2",
+              "Virulence"
+            ],
+            [
+              "Virulence",
+              "SsrB"
+            ],
+            [
+              "RpoE",
+              "SseB"
+            ],
+            [
+              "SPI-2",
+              "RpoE"
+            ]
+          ],
+          "sample_cross_preds": [
+            [
+              "SsrB",
+              "SPI-2"
+            ],
+            [
+              "SsrB",
+              "SseB"
+            ],
+            [
+              "RpoE",
+              "Virulence"
+            ],
+            [
+              "SseB",
+              "Virulence"
+            ],
+            [
+              "SsrB",
+              "Virulence"
+            ]
+          ]
+        },
+        {
+          "pmcid": "PMC2682197",
+          "title": "Mycobacterium tuberculosis Universal Stress Protein Rv2623 Regulates Bacillary Growth by ATP-Binding: Requirement for Establishing Chronic Persistent Infection",
+          "entity_coverage": 0.8333,
+          "is_gt_mismatch": false,
+          "fell_back_unfiltered": false,
+          "gold_direct": 5,
+          "gold_cross": 5,
+          "pred_direct": 7,
+          "pred_direct_unique": 7,
+          "pred_cross": 0,
+          "tp_direct": 2,
+          "fp_direct": 5,
+          "fn_direct": 3,
+          "direct_f1": 0.3333,
+          "direct_p": 0.2857,
+          "direct_r": 0.4,
+          "tp_cross": 0,
+          "fp_cross": 0,
+          "fn_cross": 5,
+          "cross_f1": 0.0,
+          "structural_match": 0.1333,
+          "direction_reversals": 3,
+          "sample_direct_preds": [
+            [
+              "Rv2623",
+              "ATP-Binding"
+            ],
+            [
+              "Rv2623",
+              "ATP"
+            ],
+            [
+              "ATP",
+              "Persistent Infection"
+            ],
+            [
+              "ATP-Binding",
+              "ATP"
+            ],
+            [
+              "ATP-Binding",
+              "Rv2623"
+            ]
+          ],
+          "sample_cross_preds": []
+        },
+        {
+          "pmcid": "PMC2714965",
+          "title": "Caenorhabditis elegans Semi-Automated Liquid Screen Reveals a Specialized Role for the Chemotaxis Gene cheB2 in Pseudomonas aeruginosa Virulence",
+          "entity_coverage": 0.8333,
+          "is_gt_mismatch": false,
+          "fell_back_unfiltered": false,
+          "gold_direct": 4,
+          "gold_cross": 3,
+          "pred_direct": 4,
+          "pred_direct_unique": 4,
+          "pred_cross": 2,
+          "tp_direct": 2,
+          "fp_direct": 2,
+          "fn_direct": 2,
+          "direct_f1": 0.5,
+          "direct_p": 0.5,
+          "direct_r": 0.5,
+          "tp_cross": 0,
+          "fp_cross": 2,
+          "fn_cross": 3,
+          "cross_f1": 0.0,
+          "structural_match": 0.1818,
+          "direction_reversals": 0,
+          "sample_direct_preds": [
+            [
+              "cheB1",
+              "Virulence"
+            ],
+            [
+              "Virulence",
+              "cheB2"
+            ],
+            [
+              "cheB2",
+              "PMN Infiltration"
+            ],
+            [
+              "Chemotaxis",
+              "Virulence"
+            ]
+          ],
+          "sample_cross_preds": [
+            [
+              "Virulence",
+              "PMN Infiltration"
+            ],
+            [
+              "Chemotaxis",
+              "cheB2"
+            ]
+          ]
+        },
+        {
+          "pmcid": "PMC2774163",
+          "title": "A Novel Signaling Network Essential for Regulating Pseudomonas aeruginosa Biofilm Development",
+          "entity_coverage": 0.8333,
+          "is_gt_mismatch": false,
+          "fell_back_unfiltered": false,
+          "gold_direct": 5,
+          "gold_cross": 4,
+          "pred_direct": 4,
+          "pred_direct_unique": 4,
+          "pred_cross": 1,
+          "tp_direct": 1,
+          "fp_direct": 3,
+          "fn_direct": 4,
+          "direct_f1": 0.2222,
+          "direct_p": 0.25,
+          "direct_r": 0.2,
+          "tp_cross": 0,
+          "fp_cross": 1,
+          "fn_cross": 4,
+          "cross_f1": 0.0,
+          "structural_match": 0.0769,
+          "direction_reversals": 0,
+          "sample_direct_preds": [
+            [
+              "GacS",
+              "Virulence"
+            ],
+            [
+              "Biofilm",
+              "GacS"
+            ],
+            [
+              "GacS",
+              "Biofilm"
+            ],
+            [
+              "RetS",
+              "GacS"
+            ]
+          ],
+          "sample_cross_preds": [
+            [
+              "Biofilm",
+              "Virulence"
+            ]
+          ]
+        }
+      ]
+    },
+    "dev": {
+      "paper_count": 8,
+      "macro_metrics": {
+        "direct_f1_mean": 0.4894,
+        "direct_f1_ci": [
+          0.4302,
+          0.5486
+        ],
+        "cross_f1_mean": 0.2765,
+        "cross_f1_ci": [
+          0.1125,
+          0.4439
+        ],
+        "structural_match_mean": 0.273,
+        "structural_match_ci": [
+          0.2135,
+          0.3361
+        ]
+      },
+      "micro_metrics": {
+        "direct": {
+          "tp": 23,
+          "fp": 39,
+          "fn": 13,
+          "precision": 0.371,
+          "recall": 0.6389,
+          "f1": 0.4694
+        },
+        "cross": {
+          "tp": 12,
+          "fp": 22,
+          "fn": 23,
+          "precision": 0.3529,
+          "recall": 0.3429,
+          "f1": 0.3478
+        }
+      },
+      "papers": [
+        {
+          "pmcid": "PMC1804205",
+          "title": "Acid pH activation of the PmrA/PmrB two-component regulatory system of Salmonella enterica",
+          "entity_coverage": 1.0,
+          "is_gt_mismatch": false,
+          "fell_back_unfiltered": false,
+          "gold_direct": 5,
+          "gold_cross": 5,
+          "pred_direct": 14,
+          "pred_direct_unique": 14,
+          "pred_cross": 11,
+          "tp_direct": 5,
+          "fp_direct": 9,
+          "fn_direct": 0,
+          "direct_f1": 0.5263,
+          "direct_p": 0.3571,
+          "direct_r": 1.0,
+          "tp_cross": 3,
+          "fp_cross": 8,
+          "fn_cross": 2,
+          "cross_f1": 0.375,
+          "structural_match": 0.2963,
+          "direction_reversals": 2,
+          "sample_direct_preds": [
+            [
+              "PmrB",
+              "PmrA"
+            ],
+            [
+              "Lipopolysaccharide",
+              "Polymyxin B"
+            ],
+            [
+              "PmrA",
+              "Polymyxin B"
+            ],
+            [
+              "PmrA",
+              "Lipopolysaccharide"
+            ],
+            [
+              "Acid pH",
+              "PmrA"
+            ]
+          ],
+          "sample_cross_preds": [
+            [
+              "Acid pH",
+              "PmrA"
+            ],
+            [
+              "PmrB",
+              "Acid pH"
+            ],
+            [
+              "PmrB",
+              "Polymyxin B"
+            ],
+            [
+              "Polymyxin B",
+              "PmrD"
+            ],
+            [
+              "Acid pH",
+              "PmrB"
+            ]
+          ]
+        },
+        {
+          "pmcid": "PMC1874608",
+          "title": "Mlc regulation of Salmonella pathogenicity island I gene expression via hilE repression",
+          "entity_coverage": 1.0,
+          "is_gt_mismatch": false,
+          "fell_back_unfiltered": false,
+          "gold_direct": 5,
+          "gold_cross": 5,
+          "pred_direct": 19,
+          "pred_direct_unique": 19,
+          "pred_cross": 11,
+          "tp_direct": 4,
+          "fp_direct": 15,
+          "fn_direct": 1,
+          "direct_f1": 0.3333,
+          "direct_p": 0.2105,
+          "direct_r": 0.8,
+          "tp_cross": 2,
+          "fp_cross": 9,
+          "fn_cross": 3,
+          "cross_f1": 0.25,
+          "structural_match": 0.1765,
+          "direction_reversals": 4,
+          "sample_direct_preds": [
+            [
+              "Mlc",
+              "SPI1"
+            ],
+            [
+              "HilD",
+              "SPI1"
+            ],
+            [
+              "SPI1",
+              "Type III Secretion"
+            ],
+            [
+              "SPI1",
+              "HilA"
+            ],
+            [
+              "SPI1",
+              "InvF"
+            ]
+          ],
+          "sample_cross_preds": [
+            [
+              "InvF",
+              "SPI1"
+            ],
+            [
+              "Mlc",
+              "SPI1"
+            ],
+            [
+              "Mlc",
+              "HilA"
+            ],
+            [
+              "Mlc",
+              "InvF"
+            ],
+            [
+              "Mlc",
+              "HilD"
+            ]
+          ]
+        },
+        {
+          "pmcid": "PMC1913099",
+          "title": "Novel Algorithms Reveal Streptococcal Transcriptomes and Clues about Undefined Genes",
+          "entity_coverage": 1.0,
+          "is_gt_mismatch": false,
+          "fell_back_unfiltered": false,
+          "gold_direct": 4,
+          "gold_cross": 3,
+          "pred_direct": 4,
+          "pred_direct_unique": 4,
+          "pred_cross": 1,
+          "tp_direct": 2,
+          "fp_direct": 2,
+          "fn_direct": 2,
+          "direct_f1": 0.5,
+          "direct_p": 0.5,
+          "direct_r": 0.5,
+          "tp_cross": 0,
+          "fp_cross": 1,
+          "fn_cross": 3,
+          "cross_f1": 0.0,
+          "structural_match": 0.2,
+          "direction_reversals": 1,
+          "sample_direct_preds": [
+            [
+              "Adherence",
+              "Host Colonization"
+            ],
+            [
+              "Streptolysin O",
+              "Host Cell Cytotoxicity"
+            ],
+            [
+              "SpeB",
+              "Adherence"
+            ],
+            [
+              "Adherence",
+              "SpeB"
+            ]
+          ],
+          "sample_cross_preds": [
+            [
+              "SpeB",
+              "Host Colonization"
+            ]
+          ]
+        },
+        {
+          "pmcid": "PMC1974823",
+          "title": "Porphyromonas gingivalis short fimbriae are regulated by a FimS/FimR two-component system",
+          "entity_coverage": 1.0,
+          "is_gt_mismatch": false,
+          "fell_back_unfiltered": false,
+          "gold_direct": 4,
+          "gold_cross": 5,
+          "pred_direct": 5,
+          "pred_direct_unique": 5,
+          "pred_cross": 2,
+          "tp_direct": 2,
+          "fp_direct": 3,
+          "fn_direct": 2,
+          "direct_f1": 0.4444,
+          "direct_p": 0.4,
+          "direct_r": 0.5,
+          "tp_cross": 2,
+          "fp_cross": 0,
+          "fn_cross": 3,
+          "cross_f1": 0.5714,
+          "structural_match": 0.3333,
+          "direction_reversals": 1,
+          "sample_direct_preds": [
+            [
+              "FimR",
+              "Mfa1"
+            ],
+            [
+              "FimR",
+              "FimS"
+            ],
+            [
+              "FimS",
+              "Short Fimbriae"
+            ],
+            [
+              "FimR",
+              "Short Fimbriae"
+            ],
+            [
+              "FimS",
+              "FimR"
+            ]
+          ],
+          "sample_cross_preds": [
+            [
+              "FimS",
+              "Mfa1"
+            ],
+            [
+              "FimS",
+              "Short Fimbriae"
+            ]
+          ]
+        },
+        {
+          "pmcid": "PMC2242835",
+          "title": "Control of M. tuberculosis ESAT-6 Secretion and Specific T Cell Recognition by PhoP",
+          "entity_coverage": 1.0,
+          "is_gt_mismatch": false,
+          "fell_back_unfiltered": false,
+          "gold_direct": 4,
+          "gold_cross": 5,
+          "pred_direct": 8,
+          "pred_direct_unique": 8,
+          "pred_cross": 8,
+          "tp_direct": 3,
+          "fp_direct": 5,
+          "fn_direct": 1,
+          "direct_f1": 0.5,
+          "direct_p": 0.375,
+          "direct_r": 0.75,
+          "tp_cross": 4,
+          "fp_cross": 4,
+          "fn_cross": 1,
+          "cross_f1": 0.6154,
+          "structural_match": 0.3889,
+          "direction_reversals": 1,
+          "sample_direct_preds": [
+            [
+              "ESAT-6",
+              "PhoP"
+            ],
+            [
+              "EspA",
+              "ESAT-6"
+            ],
+            [
+              "PhoP",
+              "EspA"
+            ],
+            [
+              "EspA",
+              "T Cell Recognition"
+            ],
+            [
+              "ESX-1",
+              "ESAT-6"
+            ]
+          ],
+          "sample_cross_preds": [
+            [
+              "PhoP",
+              "ESAT-6"
+            ],
+            [
+              "PhoP",
+              "T Cell Recognition"
+            ],
+            [
+              "EspA",
+              "PhoP"
+            ],
+            [
+              "ESX-1",
+              "T Cell Recognition"
+            ],
+            [
+              "ESAT-6",
+              "EspA"
+            ]
+          ]
+        },
+        {
+          "pmcid": "PMC2266911",
+          "title": "Comparative analysis of the Photorhabdus luminescens and the Yersinia enterocolitica genomes: uncovering candidate genes involved in insect pathogenicity",
+          "entity_coverage": 1.0,
+          "is_gt_mismatch": false,
+          "fell_back_unfiltered": false,
+          "gold_direct": 4,
+          "gold_cross": 3,
+          "pred_direct": 4,
+          "pred_direct_unique": 4,
+          "pred_cross": 0,
+          "tp_direct": 2,
+          "fp_direct": 2,
+          "fn_direct": 2,
+          "direct_f1": 0.5,
+          "direct_p": 0.5,
+          "direct_r": 0.5,
+          "tp_cross": 0,
+          "fp_cross": 0,
+          "fn_cross": 3,
+          "cross_f1": 0.0,
+          "structural_match": 0.2222,
+          "direction_reversals": 1,
+          "sample_direct_preds": [
+            [
+              "LuxR",
+              "Virulence"
+            ],
+            [
+              "LuxR",
+              "Biofilm Formation"
+            ],
+            [
+              "LuxR",
+              "AHL"
+            ],
+            [
+              "c-di-GMP",
+              "Biofilm Formation"
+            ]
+          ],
+          "sample_cross_preds": []
+        },
+        {
+          "pmcid": "PMC2358977",
+          "title": "SalK/SalR, a Two-Component Signal Transduction System, Is Essential for Full Virulence of Highly Invasive Streptococcus suis Serotype 2",
+          "entity_coverage": 0.8,
+          "is_gt_mismatch": false,
+          "fell_back_unfiltered": false,
+          "gold_direct": 5,
+          "gold_cross": 5,
+          "pred_direct": 4,
+          "pred_direct_unique": 4,
+          "pred_cross": 0,
+          "tp_direct": 2,
+          "fp_direct": 2,
+          "fn_direct": 3,
+          "direct_f1": 0.4444,
+          "direct_p": 0.5,
+          "direct_r": 0.4,
+          "tp_cross": 0,
+          "fp_cross": 0,
+          "fn_cross": 5,
+          "cross_f1": 0.0,
+          "structural_match": 0.1667,
+          "direction_reversals": 1,
+          "sample_direct_preds": [
+            [
+              "SalR",
+              "Virulence"
+            ],
+            [
+              "Virulence",
+              "SalK"
+            ],
+            [
+              "Virulence",
+              "SalR"
+            ],
+            [
+              "SalK",
+              "SalR"
+            ]
+          ],
+          "sample_cross_preds": []
+        },
+        {
+          "pmcid": "PMC2430206",
+          "title": "The GraRS regulatory system controls Staphylococcus aureus susceptibility to antimicrobial host defenses",
+          "entity_coverage": 1.0,
+          "is_gt_mismatch": false,
+          "fell_back_unfiltered": false,
+          "gold_direct": 5,
+          "gold_cross": 4,
+          "pred_direct": 4,
+          "pred_direct_unique": 4,
+          "pred_cross": 1,
+          "tp_direct": 3,
+          "fp_direct": 1,
+          "fn_direct": 2,
+          "direct_f1": 0.6667,
+          "direct_p": 0.75,
+          "direct_r": 0.6,
+          "tp_cross": 1,
+          "fp_cross": 0,
+          "fn_cross": 3,
+          "cross_f1": 0.4,
+          "structural_match": 0.4,
+          "direction_reversals": 0,
+          "sample_direct_preds": [
+            [
+              "GraRS",
+              "LL-37"
+            ],
+            [
+              "GraRS",
+              "dltA"
+            ],
+            [
+              "GraRS",
+              "Virulence"
+            ],
+            [
+              "LL-37",
+              "Virulence"
+            ]
+          ],
+          "sample_cross_preds": [
+            [
+              "GraRS",
+              "Virulence"
+            ]
+          ]
+        }
+      ]
+    },
+    "locked_test": {
+      "paper_count": 4,
+      "macro_metrics": {
+        "direct_f1_mean": 0.3923,
+        "direct_f1_ci": [
+          0.1901,
+          0.5882
+        ],
+        "cross_f1_mean": 0.1652,
+        "cross_f1_ci": [
+          0.0,
+          0.3304
+        ],
+        "structural_match_mean": 0.1891,
+        "structural_match_ci": [
+          0.0827,
+          0.3
+        ]
+      },
+      "micro_metrics": {
+        "direct": {
+          "tp": 12,
+          "fp": 30,
+          "fn": 9,
+          "precision": 0.2857,
+          "recall": 0.5714,
+          "f1": 0.381
+        },
+        "cross": {
+          "tp": 4,
+          "fp": 14,
+          "fn": 16,
+          "precision": 0.2222,
+          "recall": 0.2,
+          "f1": 0.2105
+        }
+      },
+      "papers": [
+        {
+          "pmcid": "PMC2565068",
+          "title": "Incompetence of Neutrophils to Invasive Group A streptococcus Is Attributed to Induction of Plural Virulence Factors by Dysfunction of a Regulator",
+          "entity_coverage": 1.0,
+          "is_gt_mismatch": false,
+          "fell_back_unfiltered": false,
+          "gold_direct": 6,
+          "gold_cross": 4,
+          "pred_direct": 12,
+          "pred_direct_unique": 12,
+          "pred_cross": 12,
+          "tp_direct": 6,
+          "fp_direct": 6,
+          "fn_direct": 0,
+          "direct_f1": 0.6667,
+          "direct_p": 0.5,
+          "direct_r": 1.0,
+          "tp_cross": 3,
+          "fp_cross": 9,
+          "fn_cross": 1,
+          "cross_f1": 0.375,
+          "structural_match": 0.36,
+          "direction_reversals": 2,
+          "sample_direct_preds": [
+            [
+              "ScpC",
+              "Streptolysin O"
+            ],
+            [
+              "CsrS",
+              "IL-8"
+            ],
+            [
+              "CsrS",
+              "Virulence"
+            ],
+            [
+              "ScpC",
+              "IL-8"
+            ],
+            [
+              "CsrS",
+              "ScpC"
+            ]
+          ],
+          "sample_cross_preds": [
+            [
+              "CsrS",
+              "Streptolysin O"
+            ],
+            [
+              "ScpC",
+              "Virulence"
+            ],
+            [
+              "Streptolysin O",
+              "Virulence"
+            ],
+            [
+              "ScpC",
+              "Streptolysin O"
+            ],
+            [
+              "CsrS",
+              "IL-8"
+            ]
+          ]
+        },
+        {
+          "pmcid": "PMC2581603",
+          "title": "Extracellular DNA Chelates Cations and Induces Antibiotic Resistance in Pseudomonas aeruginosa Biofilms",
+          "entity_coverage": 0.8333,
+          "is_gt_mismatch": false,
+          "fell_back_unfiltered": false,
+          "gold_direct": 5,
+          "gold_cross": 6,
+          "pred_direct": 4,
+          "pred_direct_unique": 4,
+          "pred_cross": 1,
+          "tp_direct": 2,
+          "fp_direct": 2,
+          "fn_direct": 3,
+          "direct_f1": 0.4444,
+          "direct_p": 0.5,
+          "direct_r": 0.4,
+          "tp_cross": 1,
+          "fp_cross": 0,
+          "fn_cross": 5,
+          "cross_f1": 0.2857,
+          "structural_match": 0.2308,
+          "direction_reversals": 0,
+          "sample_direct_preds": [
+            [
+              "Extracellular DNA",
+              "Antibiotic Resistance"
+            ],
+            [
+              "Extracellular DNA",
+              "Cation Chelation"
+            ],
+            [
+              "Cation Chelation",
+              "Antibiotic Resistance"
+            ],
+            [
+              "PmrAB",
+              "arn Operon"
+            ]
+          ],
+          "sample_cross_preds": [
+            [
+              "Extracellular DNA",
+              "Antibiotic Resistance"
+            ]
+          ]
+        },
+        {
+          "pmcid": "PMC2593050",
+          "title": "The Two-Component Regulatory System VicRK is Important to Virulence of Streptococcus equi Subspecies equi",
+          "entity_coverage": 0.6,
+          "is_gt_mismatch": false,
+          "fell_back_unfiltered": true,
+          "gold_direct": 5,
+          "gold_cross": 4,
+          "pred_direct": 14,
+          "pred_direct_unique": 14,
+          "pred_cross": 0,
+          "tp_direct": 1,
+          "fp_direct": 13,
+          "fn_direct": 4,
+          "direct_f1": 0.1053,
+          "direct_p": 0.0714,
+          "direct_r": 0.2,
+          "tp_cross": 0,
+          "fp_cross": 0,
+          "fn_cross": 4,
+          "cross_f1": 0.0,
+          "structural_match": 0.0455,
+          "direction_reversals": 0,
+          "sample_direct_preds": [
+            [
+              "\u0394vicK",
+              "Virulence"
+            ],
+            [
+              "\u0394vicK",
+              "SeM"
+            ],
+            [
+              "signal activating or",
+              "target genes"
+            ],
+            [
+              "pathogen",
+              "equine strangles"
+            ],
+            [
+              "infection initially",
+              "nasal discharge and fever and"
+            ]
+          ],
+          "sample_cross_preds": []
+        },
+        {
+          "pmcid": "PMC2639726",
+          "title": "Coordinated Regulation of Virulence during Systemic Infection of Salmonella enterica Serovar Typhimurium",
+          "entity_coverage": 1.0,
+          "is_gt_mismatch": false,
+          "fell_back_unfiltered": false,
+          "gold_direct": 5,
+          "gold_cross": 6,
+          "pred_direct": 12,
+          "pred_direct_unique": 12,
+          "pred_cross": 5,
+          "tp_direct": 3,
+          "fp_direct": 9,
+          "fn_direct": 2,
+          "direct_f1": 0.3529,
+          "direct_p": 0.25,
+          "direct_r": 0.6,
+          "tp_cross": 0,
+          "fp_cross": 5,
+          "fn_cross": 6,
+          "cross_f1": 0.0,
+          "structural_match": 0.12,
+          "direction_reversals": 3,
+          "sample_direct_preds": [
+            [
+              "SsrB",
+              "Virulence"
+            ],
+            [
+              "SlyA",
+              "Virulence"
+            ],
+            [
+              "SPI-2",
+              "Virulence"
+            ],
+            [
+              "Virulence",
+              "SPI-2"
+            ],
+            [
+              "SPI-2",
+              "SlyA"
+            ]
+          ],
+          "sample_cross_preds": [
+            [
+              "SsrB",
+              "SlyA"
+            ],
+            [
+              "SlyA",
+              "SsrB"
+            ],
+            [
+              "SPI-2",
+              "SlyA"
+            ],
+            [
+              "Virulence",
+              "SsrB"
+            ],
+            [
+              "Virulence",
+              "SlyA"
+            ]
+          ]
+        }
+      ]
+    },
+    "external": {
+      "paper_count": 4,
+      "macro_metrics": {
+        "direct_f1_mean": 0.108,
+        "direct_f1_ci": [
+          0.0,
+          0.2159
+        ],
+        "cross_f1_mean": 0.0833,
+        "cross_f1_ci": [
+          0.0,
+          0.25
+        ],
+        "structural_match_mean": 0.0542,
+        "structural_match_ci": [
+          0.0,
+          0.1083
+        ]
+      },
+      "micro_metrics": {
+        "direct": {
+          "tp": 2,
+          "fp": 32,
+          "fn": 18,
+          "precision": 0.0588,
+          "recall": 0.1,
+          "f1": 0.0741
+        },
+        "cross": {
+          "tp": 1,
+          "fp": 6,
+          "fn": 16,
+          "precision": 0.1429,
+          "recall": 0.0588,
+          "f1": 0.0833
+        }
+      },
+      "papers": [
+        {
+          "pmcid": "PMC2816692",
+          "title": "Structural and Biochemical Characterization of SrcA, a Multi-Cargo Type III Secretion Chaperone in Salmonella Required for Pathogenic Association with a Host",
+          "entity_coverage": 0.1667,
+          "is_gt_mismatch": true,
+          "fell_back_unfiltered": true,
+          "gold_direct": 5,
+          "gold_cross": 4,
+          "pred_direct": 21,
+          "pred_direct_unique": 21,
+          "pred_cross": 5,
+          "tp_direct": 0,
+          "fp_direct": 21,
+          "fn_direct": 5,
+          "direct_f1": 0.0,
+          "direct_p": 0.0,
+          "direct_r": 0.0,
+          "tp_cross": 0,
+          "fp_cross": 5,
+          "fn_cross": 4,
+          "cross_f1": 0.0,
+          "structural_match": 0.0,
+          "direction_reversals": 0,
+          "sample_direct_preds": [
+            [
+              "suite of T3SS-associated chaperone proteins",
+              "cargo"
+            ],
+            [
+              "Type III Secretion",
+              "SPI-2"
+            ],
+            [
+              "SPI-2",
+              "Type III Secretion"
+            ],
+            [
+              "SsaN",
+              "efficiency of effector translocation"
+            ],
+            [
+              "Using competitive infections",
+              "bacterial fitness during host infection"
+            ]
+          ],
+          "sample_cross_preds": [
+            [
+              "SPI1",
+              "Type III Secretion"
+            ],
+            [
+              "SPI1",
+              "SPI-2"
+            ],
+            [
+              "SPI1",
+              "SsrB"
+            ],
+            [
+              "Type III Secretion",
+              "SsrB"
+            ],
+            [
+              "SsrB",
+              "SPI-2"
+            ]
+          ]
+        },
+        {
+          "pmcid": "PMC2829055",
+          "title": "Transit through the Flea Vector Induces a Pretransmission Innate Immunity Resistance Phenotype in Yersinia pestis",
+          "entity_coverage": 0.8571,
+          "is_gt_mismatch": false,
+          "fell_back_unfiltered": false,
+          "gold_direct": 5,
+          "gold_cross": 4,
+          "pred_direct": 4,
+          "pred_direct_unique": 4,
+          "pred_cross": 0,
+          "tp_direct": 0,
+          "fp_direct": 4,
+          "fn_direct": 5,
+          "direct_f1": 0.0,
+          "direct_p": 0.0,
+          "direct_r": 0.0,
+          "tp_cross": 0,
+          "fp_cross": 0,
+          "fn_cross": 4,
+          "cross_f1": 0.0,
+          "structural_match": 0.0,
+          "direction_reversals": 0,
+          "sample_direct_preds": [
+            [
+              "Temperature",
+              "Virulence"
+            ],
+            [
+              "Temperature",
+              "yfe"
+            ],
+            [
+              "ybt",
+              "Virulence"
+            ],
+            [
+              "yfe",
+              "Virulence"
+            ]
+          ],
+          "sample_cross_preds": []
+        },
+        {
+          "pmcid": "PMC2858072",
+          "title": "Transcriptome Analysis of the Brucella abortus BvrR/BvrS Two-Component Regulatory System",
+          "entity_coverage": 0.8333,
+          "is_gt_mismatch": false,
+          "fell_back_unfiltered": false,
+          "gold_direct": 5,
+          "gold_cross": 5,
+          "pred_direct": 3,
+          "pred_direct_unique": 3,
+          "pred_cross": 0,
+          "tp_direct": 1,
+          "fp_direct": 2,
+          "fn_direct": 4,
+          "direct_f1": 0.25,
+          "direct_p": 0.3333,
+          "direct_r": 0.2,
+          "tp_cross": 0,
+          "fp_cross": 0,
+          "fn_cross": 5,
+          "cross_f1": 0.0,
+          "structural_match": 0.0833,
+          "direction_reversals": 0,
+          "sample_direct_preds": [
+            [
+              "BvrR/BvrS",
+              "Virulence"
+            ],
+            [
+              "BvrS",
+              "Virulence"
+            ],
+            [
+              "BvrS",
+              "BvrR"
+            ]
+          ],
+          "sample_cross_preds": []
+        },
+        {
+          "pmcid": "PMC2885601",
+          "title": "IgG Endopeptidase SeMac does not Inhibit Opsonophagocytosis of Streptococcus equi Subspecies equi by Horse Polymorphonuclear Leukocytes",
+          "entity_coverage": 0.8333,
+          "is_gt_mismatch": false,
+          "fell_back_unfiltered": false,
+          "gold_direct": 5,
+          "gold_cross": 4,
+          "pred_direct": 6,
+          "pred_direct_unique": 6,
+          "pred_cross": 2,
+          "tp_direct": 1,
+          "fp_direct": 5,
+          "fn_direct": 4,
+          "direct_f1": 0.1818,
+          "direct_p": 0.1667,
+          "direct_r": 0.2,
+          "tp_cross": 1,
+          "fp_cross": 1,
+          "fn_cross": 3,
+          "cross_f1": 0.3333,
+          "structural_match": 0.1333,
+          "direction_reversals": 0,
+          "sample_direct_preds": [
+            [
+              "SeMac",
+              "Opsonophagocytosis"
+            ],
+            [
+              "IgG Endopeptidase",
+              "Opsonophagocytosis"
+            ],
+            [
+              "Mac",
+              "Opsonophagocytosis"
+            ],
+            [
+              "Mac",
+              "SeMac"
+            ],
+            [
+              "SeMac",
+              "Mac"
+            ]
+          ],
+          "sample_cross_preds": [
+            [
+              "Virulence",
+              "SeMac"
+            ],
+            [
+              "Mac",
+              "Opsonophagocytosis"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  "taxonomy_summary": {
+    "gt_xml_mismatch": 1,
+    "entity_normalization_gap": 0,
+    "direction_reversal": 11,
+    "duplicate_assertion_inflation": 0,
+    "missing_transitive_bridge": 6,
+    "filter_fallback_explosion": 2,
+    "spurious_cooccurrence": 0
+  }
+}

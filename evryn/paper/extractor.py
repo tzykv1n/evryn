@@ -231,6 +231,24 @@ COMPILED_GENETICS_MUTANT_UP = re.compile(
     re.IGNORECASE,
 )
 
+METHOD_HOMOLOGY_RE = re.compile(
+    r"\b(?:was|were)\s+(?:created|constructed|generated|obtained|engineered)\s+by\b|"
+    r"\b(?:cloned|subcloned|amplified|transformed|transduced)\s+(?:into|with|by)\b|"
+    r"\btransduction\s+of\b|"
+    r"\b(?:amino\s+acid|nucleotide|sequence)?\s*(?:identity|similarity|homology)\s+(?:with|to)\b|"
+    r"\bhomolog(?:ous|ue)?\s+to\b|"
+    r"\bexhibits?\s+\d+%\s+(?:amino\s+acid|sequence)?\s*identity\b",
+    re.IGNORECASE,
+)
+TCSTS_SLASH_RE = re.compile(
+    r"\b([A-Za-z0-9_-]{2,15})/([A-Za-z0-9_-]{2,15})\b\s*(?:two-component|two\s+component|regulatory|TCSTS)",
+    re.IGNORECASE,
+)
+TCSTS_AND_RE = re.compile(
+    r"\b([A-Za-z0-9_-]{2,15})(?:\s+protein)?\s+and\s+(?:the\s+|its\s+(?:cognate\s+)?(?:sensor\s+)?kinase\s+)?([A-Za-z0-9_-]{2,15})\b(?:\s+proteins?)?\s*(?:,|forming|constitute|form|belonging)",
+    re.IGNORECASE,
+)
+
 LEADING_NOISE_RE = re.compile(
     r"^(?:abstract|introduction|background|methods|results|discussion|conclusions?|summary|subsequently|consequently|in\s+turn|thus|therefore|meanwhile|furthermore|in\s+addition|moreover|importantly|however|rather|under\s+[^,]+|in\s+[^,]+|once\s+activated|treatment\s+with|treatment\s+of|administration\s+of|elevated|cellular|active|activated|phosphorylated|stabilized|nuclear|extracellular|soluble|membrane-anchored|high|higher|low|lower|direct|recombinant|by|via|upon|(?:multivariate\s+regression|statistical\s+analysis|experimental\s+data|our\s+findings|our\s+results)\s+(?:demonstrated|showed|revealed|indicated)\s+that|did\s+not|does\s+not|do\s+not|failed\s+to|without)\b\s*,?\s*",
     re.IGNORECASE,
@@ -336,6 +354,8 @@ class PaperCausalExtractor:
                 continue
             text = sent.text
             if TABLE_FIG_RE.match(text.strip()):
+                continue
+            if METHOD_HOMOLOGY_RE.search(text):
                 continue
             entities = self.normalizer.detect_entities_in_sentence(
                 text, local_abbr, known_entities=known_entities
@@ -495,6 +515,52 @@ class PaperCausalExtractor:
                             evidence_status=EvidenceStatus.MEASURED_FACT,
                         )
                     )
+
+        # Two-component signal transduction system coupling (Sensor Kinase -> Response Regulator)
+        for sent in doc.sentences:
+            s_text = sent.text
+            pairs = []
+            for pat in [TCSTS_SLASH_RE, TCSTS_AND_RE]:
+                for m in pat.finditer(s_text):
+                    pairs.append((m.group(1), m.group(2)))
+            for g1, g2 in pairs:
+                c1 = self.normalizer.canonicalize(g1, local_abbr, known_entities)
+                c2 = self.normalizer.canonicalize(g2, local_abbr, known_entities)
+                if c1 == c2 or not is_valid_entity_candidate(c1) or not is_valid_entity_candidate(c2):
+                    continue
+                if known_entities and (c1 not in known_entities or c2 not in known_entities):
+                    continue
+                c1_score = (1 if any(c1.lower().endswith(k) for k in ["s", "k", "b"]) else 0) - (1 if any(c1.lower().endswith(r) for r in ["r", "a"]) else 0)
+                c2_score = (1 if any(c2.lower().endswith(k) for k in ["s", "k", "b"]) else 0) - (1 if any(c2.lower().endswith(r) for r in ["r", "a"]) else 0)
+                if c1_score > c2_score:
+                    src, tgt = c1, c2
+                elif c2_score > c1_score:
+                    src, tgt = c2, c1
+                else:
+                    src, tgt = c1, c2
+
+                assertion_id = f"asrt_{doc.doc_id[:6]}_{sent.page_number}_{assertion_idx:04d}"
+                assertion_idx += 1
+                assertions.append(
+                    CausalAssertion(
+                        assertion_id=assertion_id,
+                        cause=src,
+                        cause_canonical=src,
+                        effect=tgt,
+                        effect_canonical=tgt,
+                        direction="FORWARD",
+                        relation_type=CausalRelationType.UPREGULATES,
+                        is_negated=False,
+                        uncertainty_score=0.08,
+                        sentence_id=sent.sentence_id,
+                        page_number=sent.page_number,
+                        section_title=sent.section_title,
+                        confidence=0.95,
+                        evidence_quote=s_text,
+                        char_span=(sent.start_char, sent.end_char),
+                        evidence_status=EvidenceStatus.MEASURED_FACT,
+                    )
+                )
 
         # Document-level assertion consolidation: retain highest confidence assertion per directed pair
         best_by_pair: Dict[Tuple[str, str, bool], CausalAssertion] = {}

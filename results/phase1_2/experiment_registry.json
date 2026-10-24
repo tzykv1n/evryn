@@ -1,0 +1,89 @@
+{
+  "phase": "EVRYN Phase 1.2 — Unseen-Paper Generalization and High-F1 Extraction Sprint",
+  "baseline_commit": "1825405",
+  "protocol": "Zero-Leakage Split Isolation with Benchmark Integrity Verification (Experiments conducted strictly on 8 Development papers)",
+  "benchmark_verification": {
+    "total_papers_audited": 20,
+    "valid_papers": 19,
+    "mismatched_papers": [
+      {
+        "pmcid": "PMC2816692",
+        "split": "external",
+        "curated_title": "Structural and Biochemical Characterization of the C-Terminal Domain of the Anthrax Lethal Factor",
+        "xml_title": "Structural and Biochemical Characterization of SrcA, a Multi-Cargo Type III Secretion Chaperone in Salmonella Required for Pathogenic Association with a Host",
+        "status": "Mismatched gold annotation (excluded from primary valid unseen claims; reported in both 4-paper original and 3-paper valid subsets)"
+      }
+    ]
+  },
+  "experiments": [
+    {
+      "experiment_id": "EXP-1.2-01",
+      "name": "Methodological & Sequence Homology Non-Causal Rejection Filter",
+      "target_split": "dev",
+      "hypothesis": "Sentences describing experimental strain creation, cloning, transduction, and sequence homology comparisons (e.g. 'double mutant was created by transduction', 'peptides exhibit 27% amino acid sequence identity with SalK and SalR') are frequently misparsed as causal assertions, creating false positives on Dev (PMC2430206 dltA->GraRS, PMC2358977 SalK->89K). Filtering these non-causal clauses will boost direct precision without lowering recall.",
+      "implementation": "Implemented METHOD_HOMOLOGY_RE filter in sentence processing and relation generation in evryn/paper/extractor.py.",
+      "results_dev": {
+        "direct_f1": 0.4426,
+        "cross_f1": 0.2023,
+        "structural_match": 0.2307
+      },
+      "conclusion": "Accepted. Direct F1 increased by +0.0146 on Dev by pruning methodological false positives."
+    },
+    {
+      "experiment_id": "EXP-1.2-02",
+      "name": "Bacterial Two-Component System (TCSTS) Syntactic Signaling Resolution",
+      "target_split": "dev",
+      "hypothesis": "Bacterial signaling literature heavily features two-component regulatory systems (Sensor Kinase -> Response Regulator) introduced as '<Sensor>/<Regulator> two-component system' or '<Kinase> and its cognate regulator <Regulator>'. In Dev (PMC1974823, PMC2358977), these were either missed or reversed (FimR->FimS instead of FimS->FimR). Detecting conjoined two-component pairs and resolving kinase-to-regulator directionality will eliminate FNs and reversals.",
+      "implementation": "Added TCSTS_SLASH_RE and TCSTS_AND_RE conjoined entity detection in evryn/paper/extractor.py with biochemical kinase (*S, *K, *B) to response regulator (*R, *A) coupling.",
+      "results_dev": {
+        "direct_f1": 0.4894,
+        "cross_f1": 0.2765,
+        "structural_match": 0.2730
+      },
+      "conclusion": "Accepted. Dev Direct F1 reached 0.4894 (+58.8% relative over original baseline), Dev Cross F1 reached 0.2765 (+68.0% relative), and Dev Structural Match reached 0.2730 (+72.2% relative)."
+    }
+  ],
+  "benchmark_results": {
+    "dev_split": {
+      "papers": 8,
+      "baseline_direct_f1": 0.3082,
+      "phase1_1_direct_f1": 0.4280,
+      "phase1_2_direct_f1": 0.4894,
+      "phase1_2_cross_f1": 0.2765,
+      "phase1_2_structural_match": 0.2730
+    },
+    "train_split": {
+      "papers": 4,
+      "baseline_direct_f1": 0.2615,
+      "phase1_1_direct_f1": 0.2996,
+      "phase1_2_direct_f1": 0.2996,
+      "phase1_2_cross_f1": 0.0455,
+      "phase1_2_structural_match": 0.1198
+    },
+    "locked_test_split": {
+      "papers": 4,
+      "baseline_direct_f1": 0.3132,
+      "phase1_1_direct_f1": 0.4021,
+      "phase1_2_direct_f1": 0.3923,
+      "phase1_2_cross_f1": 0.1652,
+      "phase1_2_structural_match": 0.1891,
+      "direct_f1_relative_gain_over_baseline": "+25.3%"
+    },
+    "external_generalization_split": {
+      "all_4_papers": {
+        "baseline_direct_f1": 0.0263,
+        "phase1_1_direct_f1": 0.0455,
+        "phase1_2_direct_f1": 0.1080,
+        "phase1_2_cross_f1": 0.0833,
+        "phase1_2_structural_match": 0.0542,
+        "relative_gain_over_phase1_1": "+137.4%"
+      },
+      "valid_3_papers_subset": {
+        "papers": ["PMC2829055", "PMC2858072", "PMC2885601"],
+        "phase1_2_direct_f1": 0.1439,
+        "phase1_2_cross_f1": 0.1111,
+        "phase1_2_structural_match": 0.0722
+      }
+    }
+  }
+}
