@@ -414,6 +414,18 @@ class PaperEntityNormalizer:
                 # Diguanylate cyclase / phosphodiesterase signaling machinery -> di-GMP
                 if "di-gmp" in ke_low and key in ("hmst", "hmsp", "hmshfrs"):
                     return ke
+                # PMN resistance killing phrases
+                if "pmn resistance" in ke_low and key in ("resist killing by pmns", "pmn-mediated killing", "killing by pmns", "resistance to pmn-mediated killing", "resistance to pmn killing"):
+                    return ke
+                # arn operon variants
+                if "arn operon" in ke_low and key in ("arnbcadtef", "pmrhfijklm", "arn operon", "arn"):
+                    return ke
+                # Macrophage infection / survival variants
+                if "macrophage infection" in ke_low and key in ("infection of macrophages", "macrophage survival", "survival in macrophages", "replication within macrophages"):
+                    return ke
+                # Bacterial survival variants
+                if "bacterial survival" in ke_low and key in ("survival in blood", "survival in whole blood", "bacterial survival"):
+                    return ke
 
         if local_abbr_map and key in local_abbr_map:
             abbr_target = local_abbr_map[key]
@@ -469,6 +481,19 @@ class PaperEntityNormalizer:
                     known_vocab.update([stem, f"{stem}s", f"{stem} gut"])
                 if "di-gmp" in ke_l:
                     known_vocab.update(["hmst", "hmsp", "hmshfrs"])
+                if ke_l.startswith("sigma"):
+                    suffix = ke_l[5:]
+                    known_vocab.update([f"σ{suffix}", f"σ {suffix}", f"σ^{suffix}", f"sigma {suffix}", f"sigma-{suffix}"])
+                if "pmn resistance" in ke_l:
+                    known_vocab.update(["resist killing by pmns", "pmn-mediated killing", "killing by pmns", "resistance to pmn-mediated killing", "resistance to pmn killing"])
+                if "arn operon" in ke_l:
+                    known_vocab.update(["arnbcadtef", "pmrhfijklm", "arn operon", "arn"])
+                if "type iii secretion" in ke_l:
+                    known_vocab.update(["t3ss", "type iii secretion system", "type 3 secretion"])
+                if "macrophage infection" in ke_l:
+                    known_vocab.update(["infection of macrophages", "macrophage survival", "survival in macrophages", "replication within macrophages"])
+                if "bacterial survival" in ke_l:
+                    known_vocab.update(["survival in blood", "survival in whole blood", "bacterial survival"])
                 if ke_l == "temperature":
                     known_vocab.update(["temperature shift", "temperatures", "low temperature", "high temperature", "ambient temperature", "21°c", "26°c", "28°c", "37°c"])
 

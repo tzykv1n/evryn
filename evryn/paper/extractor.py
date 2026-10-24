@@ -15,6 +15,7 @@ from .types import (
 )
 from .normalizer import PaperEntityNormalizer
 from .environmental_extractor import EnvironmentalParameterExtractor
+from .document_context import DocumentContextResolver
 
 
 CAUSAL_INFLUENCE_PATTERNS = [
@@ -346,6 +347,11 @@ class PaperCausalExtractor:
         enable_conjoined_causes: bool = True,
         enable_passive_restore: bool = True,
         enable_terminal_phenotype_invariant: bool = True,
+        enable_document_context: bool = True,
+        enable_sentence_stitch: bool = True,
+        enable_anaphora: bool = True,
+        enable_discourse_connectives: bool = True,
+        enable_doc_context_fp_controls: bool = True,
     ):
         self.normalizer = normalizer or PaperEntityNormalizer()
         self.enable_env_grammar = enable_env_grammar
@@ -354,7 +360,15 @@ class PaperCausalExtractor:
         self.enable_conjoined_causes = enable_conjoined_causes
         self.enable_passive_restore = enable_passive_restore
         self.enable_terminal_phenotype_invariant = enable_terminal_phenotype_invariant
+        self.enable_document_context = enable_document_context
         self.env_extractor = EnvironmentalParameterExtractor(self.normalizer)
+        self.document_context_resolver = DocumentContextResolver(
+            enabled=enable_document_context,
+            enable_sentence_stitch=enable_sentence_stitch,
+            enable_anaphora=enable_anaphora,
+            enable_discourse_connectives=enable_discourse_connectives,
+            enable_false_positive_controls=enable_doc_context_fp_controls,
+        )
 
     def extract_assertions(
         self,
@@ -489,67 +503,18 @@ class PaperCausalExtractor:
 
             assertions.extend(sent_assertions)
 
-        # Adjacent sentence discourse mechanism linking (cross-sentence intra-page/intra-section)
-        DISCOURSE_CONNECTIVE_RE = re.compile(
-            r"^(?:Consequently|Subsequently|As\s+a\s+result|Therefore|Thus|Hence|In\s+turn|Accordingly|Following\s+this|Thereby),?\s+",
-            re.IGNORECASE,
-        )
-        for k in range(len(doc.sentences) - 1):
-            s_curr = doc.sentences[k]
-            s_next = doc.sentences[k + 1]
-            if s_curr.section_title != s_next.section_title or s_curr.page_number != s_next.page_number:
-                continue
-            m_disc = DISCOURSE_CONNECTIVE_RE.match(s_next.text.strip())
-            if not m_disc:
-                continue
-
-            curr_asg = [a for a in assertions if a.sentence_id == s_curr.sentence_id and not a.is_negated]
-            next_ents = self.normalizer.detect_entities_in_sentence(s_next.text, local_abbr, known_entities=known_entities)
-            if not next_ents:
-                continue
-
-            causes_from_curr = []
-            if curr_asg:
-                for a in curr_asg:
-                    causes_from_curr.append((a.effect, a.effect_canonical))
-            else:
-                curr_ents = self.normalizer.detect_entities_in_sentence(s_curr.text, local_abbr, known_entities=known_entities)
-                if curr_ents:
-                    causes_from_curr.append((curr_ents[-1][0], curr_ents[-1][1]))
-
-            for c_raw, c_canon in causes_from_curr:
-                for e_raw, e_canon, _, _ in next_ents:
-                    if c_canon == e_canon:
-                        continue
-                    if not is_valid_entity_candidate(c_canon) or not is_valid_entity_candidate(e_canon):
-                        continue
-                    dedup_key = (c_canon, e_canon, s_next.sentence_id)
-                    if dedup_key in seen_keys:
-                        continue
-                    seen_keys.add(dedup_key)
-
-                    asrt_id = f"asrt_{doc.doc_id[:6]}_{s_next.page_number}_{assertion_idx:04d}"
-                    assertion_idx += 1
-                    assertions.append(
-                        CausalAssertion(
-                            assertion_id=asrt_id,
-                            cause=c_raw,
-                            cause_canonical=c_canon,
-                            effect=e_raw,
-                            effect_canonical=e_canon,
-                            direction="FORWARD",
-                            relation_type=CausalRelationType.DIRECT_CAUSE,
-                            is_negated=False,
-                            uncertainty_score=0.10,
-                            sentence_id=s_next.sentence_id,
-                            page_number=s_next.page_number,
-                            section_title=s_next.section_title,
-                            confidence=0.88,
-                            evidence_quote=f"{s_curr.text} {s_next.text}",
-                            char_span=(s_curr.start_char, s_next.end_char),
-                            evidence_status=EvidenceStatus.MEASURED_FACT,
-                        )
-                    )
+        # Document-context relation resolution (sentence split stitching, demonstrative anaphora, discourse connectives)
+        if getattr(self, "enable_document_context", True):
+            ctx_assertions = self.document_context_resolver.resolve_document_context(
+                doc=doc,
+                normalizer=self.normalizer,
+                local_abbr=local_abbr,
+                known_entities=known_entities,
+                existing_assertions=assertions,
+                start_assertion_idx=assertion_idx,
+            )
+            assertion_idx += len(ctx_assertions)
+            assertions.extend(ctx_assertions)
 
         # Two-component signal transduction system coupling (Sensor Kinase -> Response Regulator)
         for sent in doc.sentences:

@@ -180,6 +180,9 @@ class CausalAssertion:
     evidence_quote: str
     char_span: Tuple[int, int]
     evidence_status: EvidenceStatus = EvidenceStatus.MEASURED_FACT
+    evidence_sentence_ids: Optional[List[str]] = None
+    discourse_relation: Optional[str] = None
+    antecedent_quote: Optional[str] = None
 
     def to_dict(self) -> Dict[str, Any]:
         d = asdict(self)

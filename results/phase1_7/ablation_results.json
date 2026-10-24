@@ -1,0 +1,226 @@
+{
+  "config_a_baseline": {
+    "description": "Phase 1.6 baseline (no document-context resolution)",
+    "train": {
+      "direct_f1": 0.3521,
+      "direct_f1_ci": [
+        0.2549,
+        0.4583
+      ],
+      "direct_precision": 0.3214,
+      "direct_recall": 0.425,
+      "cross_f1": 0.0833,
+      "exact_match_ratio": 0.0,
+      "total_tp": 8,
+      "total_fp": 19,
+      "total_fn": 11
+    },
+    "dev": {
+      "direct_f1": 0.5133,
+      "direct_f1_ci": [
+        0.4674,
+        0.564
+      ],
+      "direct_precision": 0.4885,
+      "direct_recall": 0.6312,
+      "cross_f1": 0.3928,
+      "exact_match_ratio": 0.0,
+      "total_tp": 23,
+      "total_fp": 33,
+      "total_fn": 13
+    },
+    "elapsed_seconds": 7.82
+  },
+  "config_b_candidate_gen_only": {
+    "description": "Candidate generation only (candidates identified, not committed)",
+    "train": {
+      "direct_f1": 0.3521,
+      "direct_f1_ci": [
+        0.2549,
+        0.4583
+      ],
+      "direct_precision": 0.3214,
+      "direct_recall": 0.425,
+      "cross_f1": 0.0833,
+      "exact_match_ratio": 0.0,
+      "total_tp": 8,
+      "total_fp": 19,
+      "total_fn": 11
+    },
+    "dev": {
+      "direct_f1": 0.5133,
+      "direct_f1_ci": [
+        0.4674,
+        0.564
+      ],
+      "direct_precision": 0.4885,
+      "direct_recall": 0.6312,
+      "cross_f1": 0.3928,
+      "exact_match_ratio": 0.0,
+      "total_tp": 23,
+      "total_fp": 33,
+      "total_fn": 13
+    },
+    "elapsed_seconds": 7.78
+  },
+  "config_c_connectives_only": {
+    "description": "Discourse connectives only (no sentence stitching, no anaphora)",
+    "train": {
+      "direct_f1": 0.3521,
+      "direct_f1_ci": [
+        0.2549,
+        0.4583
+      ],
+      "direct_precision": 0.3214,
+      "direct_recall": 0.425,
+      "cross_f1": 0.0833,
+      "exact_match_ratio": 0.0,
+      "total_tp": 8,
+      "total_fp": 19,
+      "total_fn": 11
+    },
+    "dev": {
+      "direct_f1": 0.5076,
+      "direct_f1_ci": [
+        0.4625,
+        0.5584
+      ],
+      "direct_precision": 0.4819,
+      "direct_recall": 0.6312,
+      "cross_f1": 0.3864,
+      "exact_match_ratio": 0.0,
+      "total_tp": 23,
+      "total_fp": 34,
+      "total_fn": 13
+    },
+    "elapsed_seconds": 7.91
+  },
+  "config_d_full_document_context": {
+    "description": "Full document-context resolution (stitching + demonstrative anaphora + connectives + FP controls)",
+    "train": {
+      "direct_f1": 0.3353,
+      "direct_f1_ci": [
+        0.2333,
+        0.4519
+      ],
+      "direct_precision": 0.2952,
+      "direct_recall": 0.425,
+      "cross_f1": 0.0789,
+      "exact_match_ratio": 0.0,
+      "total_tp": 8,
+      "total_fp": 22,
+      "total_fn": 11
+    },
+    "dev": {
+      "direct_f1": 0.5136,
+      "direct_f1_ci": [
+        0.4451,
+        0.5854
+      ],
+      "direct_precision": 0.4728,
+      "direct_recall": 0.6562,
+      "cross_f1": 0.4032,
+      "exact_match_ratio": 0.0,
+      "total_tp": 24,
+      "total_fp": 37,
+      "total_fn": 12
+    },
+    "elapsed_seconds": 11.43
+  },
+  "config_e1_no_sentence_stitch": {
+    "description": "Ablation: Full system without sentence boundary stitching",
+    "train": {
+      "direct_f1": 0.3521,
+      "direct_f1_ci": [
+        0.2549,
+        0.4583
+      ],
+      "direct_precision": 0.3214,
+      "direct_recall": 0.425,
+      "cross_f1": 0.0833,
+      "exact_match_ratio": 0.0,
+      "total_tp": 8,
+      "total_fp": 19,
+      "total_fn": 11
+    },
+    "dev": {
+      "direct_f1": 0.5285,
+      "direct_f1_ci": [
+        0.4722,
+        0.5875
+      ],
+      "direct_precision": 0.4923,
+      "direct_recall": 0.6562,
+      "cross_f1": 0.3864,
+      "exact_match_ratio": 0.0,
+      "total_tp": 24,
+      "total_fp": 34,
+      "total_fn": 12
+    },
+    "elapsed_seconds": 7.96
+  },
+  "config_e2_no_anaphora": {
+    "description": "Ablation: Full system without demonstrative anaphora",
+    "train": {
+      "direct_f1": 0.3353,
+      "direct_f1_ci": [
+        0.2333,
+        0.4519
+      ],
+      "direct_precision": 0.2952,
+      "direct_recall": 0.425,
+      "cross_f1": 0.0789,
+      "exact_match_ratio": 0.0,
+      "total_tp": 8,
+      "total_fp": 22,
+      "total_fn": 11
+    },
+    "dev": {
+      "direct_f1": 0.4927,
+      "direct_f1_ci": [
+        0.4396,
+        0.5494
+      ],
+      "direct_precision": 0.4624,
+      "direct_recall": 0.6312,
+      "cross_f1": 0.4032,
+      "exact_match_ratio": 0.0,
+      "total_tp": 23,
+      "total_fp": 37,
+      "total_fn": 13
+    },
+    "elapsed_seconds": 11.31
+  },
+  "config_e3_no_fp_controls": {
+    "description": "Ablation: Full system without false-positive controls",
+    "train": {
+      "direct_f1": 0.3353,
+      "direct_f1_ci": [
+        0.2333,
+        0.4519
+      ],
+      "direct_precision": 0.2952,
+      "direct_recall": 0.425,
+      "cross_f1": 0.0789,
+      "exact_match_ratio": 0.0,
+      "total_tp": 8,
+      "total_fp": 22,
+      "total_fn": 11
+    },
+    "dev": {
+      "direct_f1": 0.5136,
+      "direct_f1_ci": [
+        0.4451,
+        0.5854
+      ],
+      "direct_precision": 0.4728,
+      "direct_recall": 0.6562,
+      "cross_f1": 0.4032,
+      "exact_match_ratio": 0.0,
+      "total_tp": 24,
+      "total_fp": 37,
+      "total_fn": 12
+    },
+    "elapsed_seconds": 11.22
+  }
+}
