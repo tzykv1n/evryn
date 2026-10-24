@@ -1,0 +1,146 @@
+{
+  "Phase 1.4 Baseline": {
+    "config": {
+      "extended_triggers": false,
+      "conjoined": false,
+      "genitive": false,
+      "min_conf": 0.58
+    },
+    "train": {
+      "direct_f1": 0.2996,
+      "cross_f1": 0.0455,
+      "structural_match": 0.1076,
+      "tp_d": 6,
+      "fp_d": 18,
+      "fn_d": 13
+    },
+    "dev": {
+      "direct_f1": 0.5144,
+      "cross_f1": 0.3405,
+      "structural_match": 0.3078,
+      "tp_d": 24,
+      "fp_d": 34,
+      "fn_d": 12
+    }
+  },
+  "Exp A: Trigger Coverage": {
+    "config": {
+      "extended_triggers": true,
+      "conjoined": false,
+      "genitive": false,
+      "min_conf": 0.58
+    },
+    "train": {
+      "direct_f1": 0.3306,
+      "cross_f1": 0.0417,
+      "structural_match": 0.1171,
+      "tp_d": 7,
+      "fp_d": 18,
+      "fn_d": 12
+    },
+    "dev": {
+      "direct_f1": 0.5122,
+      "cross_f1": 0.3442,
+      "structural_match": 0.3077,
+      "tp_d": 24,
+      "fp_d": 35,
+      "fn_d": 12
+    }
+  },
+  "Exp B: Conjoined Clauses": {
+    "config": {
+      "extended_triggers": false,
+      "conjoined": true,
+      "genitive": false,
+      "min_conf": 0.58
+    },
+    "train": {
+      "direct_f1": 0.2996,
+      "cross_f1": 0.0455,
+      "structural_match": 0.1076,
+      "tp_d": 6,
+      "fp_d": 18,
+      "fn_d": 13
+    },
+    "dev": {
+      "direct_f1": 0.5144,
+      "cross_f1": 0.3405,
+      "structural_match": 0.3078,
+      "tp_d": 24,
+      "fp_d": 34,
+      "fn_d": 12
+    }
+  },
+  "Exp C: Entity & Span Alignment": {
+    "config": {
+      "extended_triggers": false,
+      "conjoined": false,
+      "genitive": true,
+      "min_conf": 0.58
+    },
+    "train": {
+      "direct_f1": 0.2996,
+      "cross_f1": 0.0455,
+      "structural_match": 0.1076,
+      "tp_d": 6,
+      "fp_d": 18,
+      "fn_d": 13
+    },
+    "dev": {
+      "direct_f1": 0.5144,
+      "cross_f1": 0.3405,
+      "structural_match": 0.3078,
+      "tp_d": 24,
+      "fp_d": 34,
+      "fn_d": 12
+    }
+  },
+  "Exp D: Confidence Calibration (0.55)": {
+    "config": {
+      "extended_triggers": false,
+      "conjoined": false,
+      "genitive": false,
+      "min_conf": 0.55
+    },
+    "train": {
+      "direct_f1": 0.2996,
+      "cross_f1": 0.0455,
+      "structural_match": 0.1076,
+      "tp_d": 6,
+      "fp_d": 18,
+      "fn_d": 13
+    },
+    "dev": {
+      "direct_f1": 0.5144,
+      "cross_f1": 0.3359,
+      "structural_match": 0.3053,
+      "tp_d": 24,
+      "fp_d": 34,
+      "fn_d": 12
+    }
+  },
+  "Exp E: Combined Phase 1.5": {
+    "config": {
+      "extended_triggers": true,
+      "conjoined": true,
+      "genitive": true,
+      "min_conf": 0.58
+    },
+    "train": {
+      "direct_f1": 0.3306,
+      "cross_f1": 0.0417,
+      "structural_match": 0.1171,
+      "tp_d": 7,
+      "fp_d": 18,
+      "fn_d": 12
+    },
+    "dev": {
+      "direct_f1": 0.5007,
+      "cross_f1": 0.3421,
+      "structural_match": 0.301,
+      "tp_d": 23,
+      "fp_d": 35,
+      "fn_d": 13
+    }
+  }
+}

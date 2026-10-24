@@ -147,40 +147,54 @@ class BioCauseDataset:
 
         sentence_offsets = self._compute_sentence_offsets(text)
         relations: List[BioCauseRelation] = []
+        events_dict = {eid: (etype, args) for eid, etype, args in events}
+
+        def deref_annotation(target_id: str, depth: int = 0) -> Optional[BioCauseAnnotation]:
+            if depth > 6:
+                return None
+            if target_id in annotations:
+                return annotations[target_id]
+            if target_id in events_dict:
+                _, e_args = events_dict[target_id]
+                sub = e_args.get("Theme") or e_args.get("Effect") or e_args.get("Cause")
+                if sub:
+                    return deref_annotation(sub, depth + 1)
+            return None
 
         for eid, etype, args in events:
             if "Causality" in etype or "regulation" in etype.lower():
-                cause_id = args.get("Cause") or args.get("Theme")
-                effect_id = args.get("Effect") or args.get("Cause")
+                c_id_raw = args.get("Cause") or args.get("Evidence")
+                e_id_raw = args.get("Effect") if "Causality" in etype else (args.get("Theme") or args.get("Effect"))
                 evidence_id = args.get("Evidence")
                 trigger_id = args.get("_trigger")
 
-                if cause_id and effect_id and cause_id in annotations and effect_id in annotations:
-                    c_ann = annotations[cause_id]
-                    e_ann = annotations[effect_id]
-                    t_ann = annotations.get(trigger_id) if trigger_id else None
-                    ev_ann = annotations.get(evidence_id) if evidence_id else None
+                if c_id_raw and e_id_raw:
+                    c_ann = deref_annotation(c_id_raw)
+                    e_ann = deref_annotation(e_id_raw)
+                    if c_ann and e_ann:
+                        t_ann = annotations.get(trigger_id) if trigger_id else None
+                        ev_ann = annotations.get(evidence_id) if evidence_id else None
 
-                    is_cross = self._is_cross_sentence(c_ann.start, e_ann.start, sentence_offsets)
-                    rel = BioCauseRelation(
-                        id=eid,
-                        doc_id=doc_id,
-                        rel_type=etype,
-                        cause_id=cause_id,
-                        cause_text=c_ann.text,
-                        cause_span=(c_ann.start, c_ann.end),
-                        effect_id=effect_id,
-                        effect_text=e_ann.text,
-                        effect_span=(e_ann.start, e_ann.end),
-                        trigger_id=trigger_id if t_ann else None,
-                        trigger_text=t_ann.text if t_ann else None,
-                        trigger_span=(t_ann.start, t_ann.end) if t_ann else None,
-                        evidence_id=evidence_id if ev_ann else None,
-                        evidence_text=ev_ann.text if ev_ann else None,
-                        evidence_span=(ev_ann.start, ev_ann.end) if ev_ann else None,
-                        is_cross_sentence=is_cross,
-                    )
-                    relations.append(rel)
+                        is_cross = self._is_cross_sentence(c_ann.start, e_ann.start, sentence_offsets)
+                        rel = BioCauseRelation(
+                            id=eid,
+                            doc_id=doc_id,
+                            rel_type=etype,
+                            cause_id=c_ann.id,
+                            cause_text=c_ann.text,
+                            cause_span=(c_ann.start, c_ann.end),
+                            effect_id=e_ann.id,
+                            effect_text=e_ann.text,
+                            effect_span=(e_ann.start, e_ann.end),
+                            trigger_id=trigger_id if t_ann else None,
+                            trigger_text=t_ann.text if t_ann else None,
+                            trigger_span=(t_ann.start, t_ann.end) if t_ann else None,
+                            evidence_id=evidence_id if ev_ann else None,
+                            evidence_text=ev_ann.text if ev_ann else None,
+                            evidence_span=(ev_ann.start, ev_ann.end) if ev_ann else None,
+                            is_cross_sentence=is_cross,
+                        )
+                        relations.append(rel)
 
         return BioCauseDocument(
             doc_id=doc_id,

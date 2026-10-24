@@ -137,6 +137,22 @@ GLOBAL_SYNONYMS = {
     "spi-1": "SPI1",
     "type iii secretion": "Type III Secretion",
     "t3ss": "Type III Secretion",
+    "spi1-t3ss": "Type III Secretion",
+    "spi-1-t3ss": "Type III Secretion",
+    "spi1 t3ss": "Type III Secretion",
+    "spi-1 t3ss": "Type III Secretion",
+    "t3ss apparatus": "Type III Secretion",
+    "t3ss apparatus genes": "Type III Secretion",
+    "spi1-t3ss apparatus": "Type III Secretion",
+    "type iii secretion apparatus": "Type III Secretion",
+    "type iii secretion system": "Type III Secretion",
+    "type iii secretion chaperone": "Type III Secretion",
+    "phoq": "PhoQ",
+    "phop": "PhoP",
+    "phop/phoq": "PhoQ",
+    "phop-phoq": "PhoQ",
+    "pmra/pmrb": "PmrA",
+    "pmra-pmrb": "PmrA",
     "adherence": "Adherence",
     "pharyngeal cell adherence": "Adherence",
     "streptolysin o": "Streptolysin O",
@@ -332,6 +348,19 @@ class PaperEntityNormalizer:
             def strip_cyclic(s: str) -> str:
                 return re.sub(r"^(?:c-|cyclic-|cyclic\s+)", "", s.strip().lower())
 
+            # Strip genitive role prefixes e.g. "PmrA's cognate sensor kinase PmrB" -> "PmrB"
+            if getattr(self, "enable_genitive_stripping", True):
+                m_gen = re.match(
+                    r"^[A-Za-z0-9_-]+['’]s\s+(?:cognate\s+|post-translational\s+|upstream\s+|downstream\s+)?(?:sensor\s+|kinase\s+|activator\s+|regulator\s+|repressor\s+|protein\s+)*(.*)$",
+                    cleaned,
+                    re.IGNORECASE,
+                )
+                if m_gen and m_gen.group(1).strip():
+                    candidate = m_gen.group(1).strip()
+                    for ke in known_entities:
+                        if ke.lower() == candidate.lower() or ke.lower() == candidate.lower().rstrip("s"):
+                            return ke
+
             for ke in known_entities:
                 ke_low = ke.lower()
                 if key == ke_low:
@@ -347,6 +376,9 @@ class PaperEntityNormalizer:
                 if ke_low in ("outer membrane proteins", "outer membrane protein"):
                     if re.match(r"^omp[0-9a-z]*s?$", key) or key == "outer membrane protein":
                         return ke
+                # Type III Secretion variants
+                if "type iii secretion" in ke_low and key in ("t3ss", "spi1-t3ss", "spi-1-t3ss", "spi1 t3ss", "spi-1 t3ss", "t3ss apparatus", "spi1-t3ss apparatus", "type iii secretion system"):
+                    return ke
                 # LPS <-> Lipopolysaccharide
                 if (key == "lps" and "lipopolysaccharide" in ke_low) or (ke_low == "lps" and "lipopolysaccharide" in key):
                     return ke

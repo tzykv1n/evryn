@@ -81,6 +81,7 @@ INHIBITION_PATTERNS = [
     r"\b(?:decreases?|decreased|decreasing)\b",
     r"\b(?:dampens?|dampened|dampening)\b",
     r"\b(?:represses?|repressed|repressing)\b",
+    r"\b(?:abolishes?|abolished|abolishing)\b",
     r"\b(?:degrades?|degraded|degrading)\b",
     r"\b(?:degradation\s+of)\b",
     r"\b(?:loss\s+of)\b",
@@ -143,11 +144,14 @@ PASSIVE_INDICATORS = [
     r"\b(?:results?|resulted|resulting)\s+from\b",
     r"\bcaused\s+by\b",
     r"\bdue\s+to\b",
-    r"\b(?:is|was|are|were)?\s*(?:regulated|controlled|modulated)\s+(?:by|via|through)\b",
+    r"(?<!\bis\s)(?<!\bwas\s)(?<!\bare\s)(?<!\bwere\s)\b(?:requires?|requiring)\b",
+    r"\bpromoted\s+(?:\w+\s+)?(?:by|with|upon)\b",
+    r"\babolished\s+(?:\w+\s+)?(?:by|with|upon)\b",
+    r"\b(?:is|was|are|were)?\s*(?:regulated|controlled|modulated)\s+(?:\w+\s+)?(?:by|via|through)\b",
     r"\b(?:is|was|are|were)?\s*attributed\s+to\b",
     r"\b(?:is|was|are|were)?\s*encoded\s+by\b",
-    r"\b(?:is|was|are|were)?\s*(?:repressed|downregulated|degraded)\s+(?:by|upon)\b",
-    r"\b(?:is|was|are|were)?\s*required\s+by\b",
+    r"\b(?:is|was|are|were)?\s*(?:repressed|downregulated|degraded)\s+(?:\w+\s+)?(?:by|upon)\b",
+    r"\b(?:is|was|are|were)?\s*required\s+(?:\w+\s+)?by\b",
     r"\bdepends?\s+on\b",
     r"\bresponsive\s+to\b",
     r"\bunder\s+(?:the\s+)?control\s+of\b",
@@ -158,7 +162,7 @@ PASSIVE_INDICATORS = [
     r"\bfollowing\s+(?:treatment|stimulation|exposure|activation|addition|administration)\s+(?:with|to|of)\b",
     r"\bupon\s+(?:treatment|stimulation|exposure|activation|addition|administration|binding)\s+(?:with|to|of)\b",
     r"\b(?:is|was|are|were)?\s*(?:promoted|induced|activated|stimulated|upregulated|expressed)\s+in\s+(?:media\s+of\s+)?\b",
-    r"\b(?:is|was|are|were)?\s*(?:governed|driven|conferred|elicited)\s+by\b",
+    r"\b(?:is|was|are|were)?\s*(?:governed|driven|conferred|elicited)\s+(?:\w+\s+)?by\b",
     r"\b(?:is|was|are|were)?\s*required\s+for(?:\s+\w+){0,5}\s+in\s+response\s+to\b",
     r"\b(?:is|was|are|were)?\s*(?:also\s+)?(?:repressed|suppressed|down-?regulated|downregulated|reduced|decreased|attenuated|diminished|lost)\s+(?:\w+\s+){0,3}in\s+(?:the\s+)?(?:\w+\s+)?mutants?\b",
     r"\b(?:become|becomes|became|could\s+become|may\s+become)?\s*phosphorylated\s+(?:from|by)\b",
@@ -275,7 +279,7 @@ SPACES_RE = re.compile(r"\s+")
 TRAILING_PUNCT_RE = re.compile(r"[,;:\.]+$")
 
 COORDINATING_BOUNDARY_RE = re.compile(
-    r"(?:;\s*|,\s*(?:and|but|while|whereas|although)\s+)(?!.*(?:thereby|thus|consequently|leading\s+to|resulting\s+in|causing|downregulating|upregulating|suppressing|activating|inducing|induced|activated|triggered|indicating|suggesting|showing))",
+    r"(?:;\s*|,\s*(?:and|but|while|whereas|although)\s+)(?!.*(?:thereby|thus|consequently|leading\s+to|resulting\s+in|causing|downregulating|upregulating|suppressing|activating|inducing|induced|activated|triggered|indicating|suggesting|showing|repressed|repressing|inhibited|inhibiting|blocked|blocking|abolished|modulated|regulated|promoted|promoting))",
     re.IGNORECASE,
 )
 
@@ -337,10 +341,14 @@ class PaperCausalExtractor:
         normalizer: Optional[PaperEntityNormalizer] = None,
         enable_env_grammar: bool = True,
         env_variables: Optional[Set[str]] = None,
+        enable_extended_triggers: bool = True,
+        enable_conjoined_causes: bool = True,
     ):
         self.normalizer = normalizer or PaperEntityNormalizer()
         self.enable_env_grammar = enable_env_grammar
         self.env_variables = env_variables
+        self.enable_extended_triggers = enable_extended_triggers
+        self.enable_conjoined_causes = enable_conjoined_causes
         self.env_extractor = EnvironmentalParameterExtractor(self.normalizer)
 
     def extract_assertions(
@@ -657,12 +665,18 @@ class PaperCausalExtractor:
             return CausalRelationType.DOWNREGULATES, inv_dir, 0.93
 
         for pat_re, is_inhib in COMPILED_PASSIVE_INDICATORS:
+            if not getattr(self, "enable_extended_triggers", True):
+                if any(k in pat_re.pattern for k in ["requires", "promoted", "abolished"]):
+                    continue
             if pat_re.search(between_text):
                 rel = CausalRelationType.DOWNREGULATES if is_inhib else CausalRelationType.UPREGULATES
                 inv_dir = "BACKWARD" if direction == "FORWARD" else "FORWARD"
                 return rel, inv_dir, 0.92
 
         for pat_re in COMPILED_INHIBITION_PATTERNS:
+            if not getattr(self, "enable_extended_triggers", True):
+                if "abolish" in pat_re.pattern:
+                    continue
             if pat_re.search(between_text):
                 return CausalRelationType.DOWNREGULATES, direction, 0.90
 
@@ -722,18 +736,27 @@ class PaperCausalExtractor:
             flags=re.IGNORECASE,
         ).strip()
 
+        cleaned = re.sub(r"^both\s+", "", cleaned, flags=re.IGNORECASE).strip()
         cleaned = POSTFIX_STOPWORDS_RE.sub("", cleaned).strip()
         cleaned = PARENS_RE.sub("", cleaned).strip()
         cleaned = SPACES_RE.sub(" ", cleaned).strip()
         return cleaned
 
     def _parse_conjoined_phrases(self, raw: str) -> List[str]:
-        m_both = CONJOINED_BOTH_RE.search(raw)
+        if not getattr(self, "enable_conjoined_causes", True):
+            e = self._clean_phrase(raw)
+            return [e] if e else []
+        cleaned_raw = re.split(r",\s*(?:which|that|who)\b", raw, flags=re.IGNORECASE)[0].strip()
+        m_both = CONJOINED_BOTH_RE.search(cleaned_raw)
         if m_both:
             e1 = self._clean_phrase(m_both.group(1))
             e2 = self._clean_phrase(m_both.group(2))
             return [e for e in [e1, e2] if e]
-        e = self._clean_phrase(raw)
+        if " and " in cleaned_raw:
+            parts = [self._clean_phrase(p) for p in cleaned_raw.split(" and ")]
+            if len(parts) == 2 and all(parts) and all(len(p) >= 2 for p in parts):
+                return parts
+        e = self._clean_phrase(cleaned_raw)
         return [e] if e else []
 
     def _extract_syntactic_assertions(
@@ -810,7 +833,10 @@ class PaperCausalExtractor:
                             or has_clause_neg
                         )
 
-                        after_cut = re.split(r",\s*(?:which|that|thereby|and\s+thereby|ultimately|in\s+turn)\b|[,\.]", after)[0].strip()
+                        if CONJOINED_BOTH_RE.search(after):
+                            after_cut = re.split(r",\s*(?:which|that|thereby|and\s+thereby|ultimately|in\s+turn)\b", after)[0].strip()
+                        else:
+                            after_cut = re.split(r",\s*(?:which|that|thereby|and\s+thereby|ultimately|in\s+turn)\b|[,\.]", after)[0].strip()
                         before_cut = re.split(r",\s*(?:which|that)\b", before)[-1].strip()
 
                         if is_passive:
@@ -820,64 +846,64 @@ class PaperCausalExtractor:
                             cause_raw = before_cut
                             effect_raw = after_cut
 
-                        cause_cand = self._clean_phrase(cause_raw)
+                        cause_cands = self._parse_conjoined_phrases(cause_raw)
                         effect_cands = self._parse_conjoined_phrases(effect_raw)
 
-                        cause_canon = self.normalizer.canonicalize(cause_cand, local_abbr, known_entities)
+                        for cause_cand in cause_cands:
+                            cause_canon = self.normalizer.canonicalize(cause_cand, local_abbr, known_entities)
+                            for eff_cand in effect_cands:
+                                eff_canon = self.normalizer.canonicalize(eff_cand, local_abbr, known_entities)
 
-                        for eff_cand in effect_cands:
-                            eff_canon = self.normalizer.canonicalize(eff_cand, local_abbr, known_entities)
+                                if not is_valid_entity_candidate(cause_cand) or not is_valid_entity_candidate(eff_cand):
+                                    continue
+                                if not is_valid_entity_candidate(cause_canon) or not is_valid_entity_candidate(eff_canon):
+                                    continue
+                                if not cause_canon or not eff_canon or len(cause_canon) < 2 or len(eff_canon) < 2:
+                                    continue
+                                if cause_canon.lower() == eff_canon.lower():
+                                    continue
+                                if cause_canon.lower() in {"it", "we", "this", "these", "they", "there", "assay", "findings", "results", "cells", "experiment"}:
+                                    continue
+                                if eff_canon.lower() in {"it", "this", "these", "they", "there", "effect", "response", "cells"}:
+                                    continue
 
-                            if not is_valid_entity_candidate(cause_cand) or not is_valid_entity_candidate(eff_cand):
-                                continue
-                            if not is_valid_entity_candidate(cause_canon) or not is_valid_entity_candidate(eff_canon):
-                                continue
-                            if not cause_canon or not eff_canon or len(cause_canon) < 2 or len(eff_canon) < 2:
-                                continue
-                            if cause_canon.lower() == eff_canon.lower():
-                                continue
-                            if cause_canon.lower() in {"it", "we", "this", "these", "they", "there", "assay", "findings", "results", "cells", "experiment"}:
-                                continue
-                            if eff_canon.lower() in {"it", "this", "these", "they", "there", "effect", "response", "cells"}:
-                                continue
+                                dedup_key = (cause_canon, eff_canon, sent.sentence_id)
+                                if dedup_key in seen_keys:
+                                    continue
+                                seen_keys.add(dedup_key)
+                                claimed_verb_spans.append((start_pos, end_pos))
 
-                            dedup_key = (cause_canon, eff_canon, sent.sentence_id)
-                            if dedup_key in seen_keys:
-                                continue
-                            seen_keys.add(dedup_key)
-                            claimed_verb_spans.append((start_pos, end_pos))
+                                if is_neg:
+                                    status = EvidenceStatus.REFUTED_NEGATION
+                                elif clause_unc >= 0.5:
+                                    status = EvidenceStatus.HYPOTHESIS_CLAIM
+                                else:
+                                    status = EvidenceStatus.MEASURED_FACT
 
-                            if is_neg:
-                                status = EvidenceStatus.REFUTED_NEGATION
-                            elif clause_unc >= 0.5:
-                                status = EvidenceStatus.HYPOTHESIS_CLAIM
-                            else:
-                                status = EvidenceStatus.MEASURED_FACT
+                                assertion_id = f"asrt_{doc_id[:6]}_{sent.page_number}_{idx:04d}"
+                                idx += 1
 
-                            assertion_id = f"asrt_{doc_id[:6]}_{sent.page_number}_{idx:04d}"
-                            idx += 1
-
-                            results.append(
-                                CausalAssertion(
-                                    assertion_id=assertion_id,
-                                    cause=cause_cand,
-                                    cause_canonical=cause_canon,
-                                    effect=eff_cand,
-                                    effect_canonical=eff_canon,
-                                    direction="FORWARD",
-                                    relation_type=rel_type,
-                                    is_negated=is_neg,
-                                    uncertainty_score=clause_unc,
-                                    sentence_id=sent.sentence_id,
-                                    page_number=sent.page_number,
-                                    section_title=sent.section_title,
-                                    confidence=0.88,
-                                    evidence_quote=text,
-                                    char_span=(sent.start_char, sent.end_char),
-                                    evidence_status=status,
+                                results.append(
+                                    CausalAssertion(
+                                        assertion_id=assertion_id,
+                                        cause=cause_cand,
+                                        cause_canonical=cause_canon,
+                                        effect=eff_cand,
+                                        effect_canonical=eff_canon,
+                                        direction="FORWARD",
+                                        relation_type=rel_type,
+                                        is_negated=is_neg,
+                                        uncertainty_score=clause_unc,
+                                        sentence_id=sent.sentence_id,
+                                        page_number=sent.page_number,
+                                        section_title=sent.section_title,
+                                        confidence=0.88,
+                                        evidence_quote=text,
+                                        char_span=(sent.start_char, sent.end_char),
+                                        evidence_status=status,
+                                    )
                                 )
-                            )
-                            last_extracted_effect = eff_cand
+                                last_extracted_effect = eff_cand
                             if rel_type in (CausalRelationType.ASSOCIATED, CausalRelationType.MEDIATES):
                                 clause_has_associative = True
 

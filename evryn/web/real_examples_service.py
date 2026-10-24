@@ -379,7 +379,7 @@ class RealExamplesService:
                 else:
                     match_status = "FALSE_NEGATIVE"
                     pred_summary = "None (missed)"
-                    explanation = f"Annotated as {rel.rel_type} in BioCause ground truth; EVRYN parser required higher confidence."
+                    explanation = f"Annotated as {rel.rel_type} in BioCause ground truth; unextracted by syntactic trigger or entity alignment rules."
 
                 examples.append({
                     "id": f"text_ex_{item_id}",
