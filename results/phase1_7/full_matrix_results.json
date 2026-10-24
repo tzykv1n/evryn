@@ -1,0 +1,3026 @@
+{
+  "E0_Baseline": {
+    "name": "E0: Phase 1.6 Baseline",
+    "hypothesis": "Baseline sentence-local extraction without document-context resolution",
+    "elapsed_seconds": 14.12,
+    "splits": {
+      "train": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.3521,
+          "direct_f1_ci": [
+            0.2549,
+            0.4583
+          ],
+          "direct_precision_mean": 0.3214,
+          "direct_recall_mean": 0.425,
+          "cross_f1_mean": 0.0833,
+          "cross_f1_ci": [
+            0.0,
+            0.25
+          ],
+          "cross_precision_mean": 0.0536,
+          "cross_recall_mean": 0.1875,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 8,
+            "fp": 19,
+            "fn": 11,
+            "precision": 0.2963,
+            "recall": 0.4211
+          },
+          "cross": {
+            "tp": 3,
+            "fp": 15,
+            "fn": 13,
+            "precision": 0.1667,
+            "recall": 0.1875
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2651894",
+            "direct_f1": 0.3529,
+            "direct_p": 0.25,
+            "direct_r": 0.6,
+            "tp_d": 3,
+            "fp_d": 9,
+            "fn_d": 2,
+            "cross_f1": 0.3333,
+            "tp_c": 3,
+            "fp_c": 11,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC2682197",
+            "direct_f1": 0.3333,
+            "direct_p": 0.2857,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 5,
+            "fn_d": 3,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 3,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2714965",
+            "direct_f1": 0.5,
+            "direct_p": 0.5,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 2,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2774163",
+            "direct_f1": 0.2222,
+            "direct_p": 0.25,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 3,
+            "fn_d": 4,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 1,
+            "fn_c": 4
+          }
+        ]
+      },
+      "dev": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.5133,
+          "direct_f1_ci": [
+            0.4674,
+            0.564
+          ],
+          "direct_precision_mean": 0.4885,
+          "direct_recall_mean": 0.6312,
+          "cross_f1_mean": 0.3928,
+          "cross_f1_ci": [
+            0.2296,
+            0.5485
+          ],
+          "cross_precision_mean": 0.557,
+          "cross_recall_mean": 0.4313,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 23,
+            "fp": 33,
+            "fn": 13,
+            "precision": 0.4107,
+            "recall": 0.6389
+          },
+          "cross": {
+            "tp": 17,
+            "fp": 16,
+            "fn": 18,
+            "precision": 0.5152,
+            "recall": 0.4857
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC1804205",
+            "direct_f1": 0.5333,
+            "direct_p": 0.4,
+            "direct_r": 0.8,
+            "tp_d": 4,
+            "fp_d": 6,
+            "fn_d": 1,
+            "cross_f1": 0.6154,
+            "tp_c": 4,
+            "fp_c": 4,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC1874608",
+            "direct_f1": 0.4167,
+            "direct_p": 0.2632,
+            "direct_r": 1.0,
+            "tp_d": 5,
+            "fp_d": 14,
+            "fn_d": 0,
+            "cross_f1": 0.5556,
+            "tp_c": 5,
+            "fp_c": 8,
+            "fn_c": 0
+          },
+          {
+            "pmcid": "PMC1913099",
+            "direct_f1": 0.5,
+            "direct_p": 0.5,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 2,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 1,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC1974823",
+            "direct_f1": 0.4444,
+            "direct_p": 0.4,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 3,
+            "fn_d": 2,
+            "cross_f1": 0.5714,
+            "tp_c": 2,
+            "fp_c": 0,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2242835",
+            "direct_f1": 0.5455,
+            "direct_p": 0.4286,
+            "direct_r": 0.75,
+            "tp_d": 3,
+            "fp_d": 4,
+            "fn_d": 1,
+            "cross_f1": 0.6667,
+            "tp_c": 4,
+            "fp_c": 3,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC2266911",
+            "direct_f1": 0.5,
+            "direct_p": 0.5,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 2,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2358977",
+            "direct_f1": 0.5,
+            "direct_p": 0.6667,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 1,
+            "fn_d": 3,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 0,
+            "fn_c": 4
+          },
+          {
+            "pmcid": "PMC2430206",
+            "direct_f1": 0.6667,
+            "direct_p": 0.75,
+            "direct_r": 0.6,
+            "tp_d": 3,
+            "fp_d": 1,
+            "fn_d": 2,
+            "cross_f1": 0.4,
+            "tp_c": 1,
+            "fp_c": 0,
+            "fn_c": 3
+          }
+        ]
+      },
+      "locked_test": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.3261,
+          "direct_f1_ci": [
+            0.1369,
+            0.5625
+          ],
+          "direct_precision_mean": 0.2833,
+          "direct_recall_mean": 0.45,
+          "cross_f1_mean": 0.1548,
+          "cross_f1_ci": [
+            0.0,
+            0.3095
+          ],
+          "cross_precision_mean": 0.3036,
+          "cross_recall_mean": 0.2292,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 10,
+            "fp": 33,
+            "fn": 11,
+            "precision": 0.2326,
+            "recall": 0.4762
+          },
+          "cross": {
+            "tp": 4,
+            "fp": 17,
+            "fn": 16,
+            "precision": 0.1905,
+            "recall": 0.2
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2565068",
+            "direct_f1": 0.6667,
+            "direct_p": 0.5,
+            "direct_r": 1.0,
+            "tp_d": 6,
+            "fp_d": 6,
+            "fn_d": 0,
+            "cross_f1": 0.3333,
+            "tp_c": 3,
+            "fp_c": 11,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC2581603",
+            "direct_f1": 0.25,
+            "direct_p": 0.3333,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 2,
+            "fn_d": 4,
+            "cross_f1": 0.2857,
+            "tp_c": 1,
+            "fp_c": 0,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2593050",
+            "direct_f1": 0.08,
+            "direct_p": 0.05,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 19,
+            "fn_d": 4,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 3,
+            "fn_c": 4
+          },
+          {
+            "pmcid": "PMC2639726",
+            "direct_f1": 0.3077,
+            "direct_p": 0.25,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 6,
+            "fn_d": 3,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 3,
+            "fn_c": 6
+          }
+        ]
+      },
+      "external_v1": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.238,
+          "direct_f1_ci": [
+            0.0769,
+            0.3833
+          ],
+          "direct_precision_mean": 0.2375,
+          "direct_recall_mean": 0.25,
+          "cross_f1_mean": 0.1667,
+          "cross_f1_ci": [
+            0.0,
+            0.3333
+          ],
+          "cross_precision_mean": 0.25,
+          "cross_recall_mean": 0.125,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 5,
+            "fp": 54,
+            "fn": 15,
+            "precision": 0.0847,
+            "recall": 0.25
+          },
+          "cross": {
+            "tp": 2,
+            "fp": 27,
+            "fn": 15,
+            "precision": 0.069,
+            "recall": 0.1176
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2816692",
+            "direct_f1": 0.0,
+            "direct_p": 0.0,
+            "direct_r": 0.0,
+            "tp_d": 0,
+            "fp_d": 42,
+            "fn_d": 5,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 25,
+            "fn_c": 4
+          },
+          {
+            "pmcid": "PMC2829055",
+            "direct_f1": 0.3077,
+            "direct_p": 0.25,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 6,
+            "fn_d": 3,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2858072",
+            "direct_f1": 0.4444,
+            "direct_p": 0.5,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 3,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2885601",
+            "direct_f1": 0.2,
+            "direct_p": 0.2,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 4,
+            "fn_d": 4,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          }
+        ]
+      },
+      "external_v2": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.3289,
+          "direct_f1_ci": [
+            0.2409,
+            0.4103
+          ],
+          "direct_precision_mean": 0.3208,
+          "direct_recall_mean": 0.35,
+          "cross_f1_mean": 0.2667,
+          "cross_f1_ci": [
+            0.0833,
+            0.3833
+          ],
+          "cross_precision_mean": 0.375,
+          "cross_recall_mean": 0.2083,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 7,
+            "fp": 16,
+            "fn": 13,
+            "precision": 0.3043,
+            "recall": 0.35
+          },
+          "cross": {
+            "tp": 3,
+            "fp": 3,
+            "fn": 13,
+            "precision": 0.5,
+            "recall": 0.1875
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2816692",
+            "direct_f1": 0.3636,
+            "direct_p": 0.3333,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 4,
+            "fn_d": 3,
+            "cross_f1": 0.4,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 2
+          },
+          {
+            "pmcid": "PMC2829055",
+            "direct_f1": 0.3077,
+            "direct_p": 0.25,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 6,
+            "fn_d": 3,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2858072",
+            "direct_f1": 0.4444,
+            "direct_p": 0.5,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 3,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2885601",
+            "direct_f1": 0.2,
+            "direct_p": 0.2,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 4,
+            "fn_d": 4,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          }
+        ]
+      }
+    }
+  },
+  "E1_Bounded_Candidate_Gen": {
+    "name": "E1: Bounded Candidate Generation Only",
+    "hypothesis": "Generate cross-sentence candidates across sentence window dist<=1 without committing",
+    "elapsed_seconds": 14.17,
+    "splits": {
+      "train": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.3521,
+          "direct_f1_ci": [
+            0.2549,
+            0.4583
+          ],
+          "direct_precision_mean": 0.3214,
+          "direct_recall_mean": 0.425,
+          "cross_f1_mean": 0.0833,
+          "cross_f1_ci": [
+            0.0,
+            0.25
+          ],
+          "cross_precision_mean": 0.0536,
+          "cross_recall_mean": 0.1875,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 8,
+            "fp": 19,
+            "fn": 11,
+            "precision": 0.2963,
+            "recall": 0.4211
+          },
+          "cross": {
+            "tp": 3,
+            "fp": 15,
+            "fn": 13,
+            "precision": 0.1667,
+            "recall": 0.1875
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2651894",
+            "direct_f1": 0.3529,
+            "direct_p": 0.25,
+            "direct_r": 0.6,
+            "tp_d": 3,
+            "fp_d": 9,
+            "fn_d": 2,
+            "cross_f1": 0.3333,
+            "tp_c": 3,
+            "fp_c": 11,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC2682197",
+            "direct_f1": 0.3333,
+            "direct_p": 0.2857,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 5,
+            "fn_d": 3,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 3,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2714965",
+            "direct_f1": 0.5,
+            "direct_p": 0.5,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 2,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2774163",
+            "direct_f1": 0.2222,
+            "direct_p": 0.25,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 3,
+            "fn_d": 4,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 1,
+            "fn_c": 4
+          }
+        ]
+      },
+      "dev": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.5133,
+          "direct_f1_ci": [
+            0.4674,
+            0.564
+          ],
+          "direct_precision_mean": 0.4885,
+          "direct_recall_mean": 0.6312,
+          "cross_f1_mean": 0.3928,
+          "cross_f1_ci": [
+            0.2296,
+            0.5485
+          ],
+          "cross_precision_mean": 0.557,
+          "cross_recall_mean": 0.4313,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 23,
+            "fp": 33,
+            "fn": 13,
+            "precision": 0.4107,
+            "recall": 0.6389
+          },
+          "cross": {
+            "tp": 17,
+            "fp": 16,
+            "fn": 18,
+            "precision": 0.5152,
+            "recall": 0.4857
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC1804205",
+            "direct_f1": 0.5333,
+            "direct_p": 0.4,
+            "direct_r": 0.8,
+            "tp_d": 4,
+            "fp_d": 6,
+            "fn_d": 1,
+            "cross_f1": 0.6154,
+            "tp_c": 4,
+            "fp_c": 4,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC1874608",
+            "direct_f1": 0.4167,
+            "direct_p": 0.2632,
+            "direct_r": 1.0,
+            "tp_d": 5,
+            "fp_d": 14,
+            "fn_d": 0,
+            "cross_f1": 0.5556,
+            "tp_c": 5,
+            "fp_c": 8,
+            "fn_c": 0
+          },
+          {
+            "pmcid": "PMC1913099",
+            "direct_f1": 0.5,
+            "direct_p": 0.5,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 2,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 1,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC1974823",
+            "direct_f1": 0.4444,
+            "direct_p": 0.4,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 3,
+            "fn_d": 2,
+            "cross_f1": 0.5714,
+            "tp_c": 2,
+            "fp_c": 0,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2242835",
+            "direct_f1": 0.5455,
+            "direct_p": 0.4286,
+            "direct_r": 0.75,
+            "tp_d": 3,
+            "fp_d": 4,
+            "fn_d": 1,
+            "cross_f1": 0.6667,
+            "tp_c": 4,
+            "fp_c": 3,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC2266911",
+            "direct_f1": 0.5,
+            "direct_p": 0.5,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 2,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2358977",
+            "direct_f1": 0.5,
+            "direct_p": 0.6667,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 1,
+            "fn_d": 3,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 0,
+            "fn_c": 4
+          },
+          {
+            "pmcid": "PMC2430206",
+            "direct_f1": 0.6667,
+            "direct_p": 0.75,
+            "direct_r": 0.6,
+            "tp_d": 3,
+            "fp_d": 1,
+            "fn_d": 2,
+            "cross_f1": 0.4,
+            "tp_c": 1,
+            "fp_c": 0,
+            "fn_c": 3
+          }
+        ]
+      },
+      "locked_test": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.3261,
+          "direct_f1_ci": [
+            0.1369,
+            0.5625
+          ],
+          "direct_precision_mean": 0.2833,
+          "direct_recall_mean": 0.45,
+          "cross_f1_mean": 0.1548,
+          "cross_f1_ci": [
+            0.0,
+            0.3095
+          ],
+          "cross_precision_mean": 0.3036,
+          "cross_recall_mean": 0.2292,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 10,
+            "fp": 33,
+            "fn": 11,
+            "precision": 0.2326,
+            "recall": 0.4762
+          },
+          "cross": {
+            "tp": 4,
+            "fp": 17,
+            "fn": 16,
+            "precision": 0.1905,
+            "recall": 0.2
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2565068",
+            "direct_f1": 0.6667,
+            "direct_p": 0.5,
+            "direct_r": 1.0,
+            "tp_d": 6,
+            "fp_d": 6,
+            "fn_d": 0,
+            "cross_f1": 0.3333,
+            "tp_c": 3,
+            "fp_c": 11,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC2581603",
+            "direct_f1": 0.25,
+            "direct_p": 0.3333,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 2,
+            "fn_d": 4,
+            "cross_f1": 0.2857,
+            "tp_c": 1,
+            "fp_c": 0,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2593050",
+            "direct_f1": 0.08,
+            "direct_p": 0.05,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 19,
+            "fn_d": 4,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 3,
+            "fn_c": 4
+          },
+          {
+            "pmcid": "PMC2639726",
+            "direct_f1": 0.3077,
+            "direct_p": 0.25,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 6,
+            "fn_d": 3,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 3,
+            "fn_c": 6
+          }
+        ]
+      },
+      "external_v1": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.238,
+          "direct_f1_ci": [
+            0.0769,
+            0.3833
+          ],
+          "direct_precision_mean": 0.2375,
+          "direct_recall_mean": 0.25,
+          "cross_f1_mean": 0.1667,
+          "cross_f1_ci": [
+            0.0,
+            0.3333
+          ],
+          "cross_precision_mean": 0.25,
+          "cross_recall_mean": 0.125,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 5,
+            "fp": 54,
+            "fn": 15,
+            "precision": 0.0847,
+            "recall": 0.25
+          },
+          "cross": {
+            "tp": 2,
+            "fp": 27,
+            "fn": 15,
+            "precision": 0.069,
+            "recall": 0.1176
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2816692",
+            "direct_f1": 0.0,
+            "direct_p": 0.0,
+            "direct_r": 0.0,
+            "tp_d": 0,
+            "fp_d": 42,
+            "fn_d": 5,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 25,
+            "fn_c": 4
+          },
+          {
+            "pmcid": "PMC2829055",
+            "direct_f1": 0.3077,
+            "direct_p": 0.25,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 6,
+            "fn_d": 3,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2858072",
+            "direct_f1": 0.4444,
+            "direct_p": 0.5,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 3,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2885601",
+            "direct_f1": 0.2,
+            "direct_p": 0.2,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 4,
+            "fn_d": 4,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          }
+        ]
+      },
+      "external_v2": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.3289,
+          "direct_f1_ci": [
+            0.2409,
+            0.4103
+          ],
+          "direct_precision_mean": 0.3208,
+          "direct_recall_mean": 0.35,
+          "cross_f1_mean": 0.2667,
+          "cross_f1_ci": [
+            0.0833,
+            0.3833
+          ],
+          "cross_precision_mean": 0.375,
+          "cross_recall_mean": 0.2083,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 7,
+            "fp": 16,
+            "fn": 13,
+            "precision": 0.3043,
+            "recall": 0.35
+          },
+          "cross": {
+            "tp": 3,
+            "fp": 3,
+            "fn": 13,
+            "precision": 0.5,
+            "recall": 0.1875
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2816692",
+            "direct_f1": 0.3636,
+            "direct_p": 0.3333,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 4,
+            "fn_d": 3,
+            "cross_f1": 0.4,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 2
+          },
+          {
+            "pmcid": "PMC2829055",
+            "direct_f1": 0.3077,
+            "direct_p": 0.25,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 6,
+            "fn_d": 3,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2858072",
+            "direct_f1": 0.4444,
+            "direct_p": 0.5,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 3,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2885601",
+            "direct_f1": 0.2,
+            "direct_p": 0.2,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 4,
+            "fn_d": 4,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          }
+        ]
+      }
+    }
+  },
+  "E2_Adjacent_Connectives": {
+    "name": "E2: Adjacent-Sentence Discourse Connectives",
+    "hypothesis": "Resolve explicit discourse connectives ('Consequently', 'As a result', 'Therefore') across adjacent sentences",
+    "elapsed_seconds": 14.38,
+    "splits": {
+      "train": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.3521,
+          "direct_f1_ci": [
+            0.2549,
+            0.4583
+          ],
+          "direct_precision_mean": 0.3214,
+          "direct_recall_mean": 0.425,
+          "cross_f1_mean": 0.0833,
+          "cross_f1_ci": [
+            0.0,
+            0.25
+          ],
+          "cross_precision_mean": 0.0536,
+          "cross_recall_mean": 0.1875,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 8,
+            "fp": 19,
+            "fn": 11,
+            "precision": 0.2963,
+            "recall": 0.4211
+          },
+          "cross": {
+            "tp": 3,
+            "fp": 15,
+            "fn": 13,
+            "precision": 0.1667,
+            "recall": 0.1875
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2651894",
+            "direct_f1": 0.3529,
+            "direct_p": 0.25,
+            "direct_r": 0.6,
+            "tp_d": 3,
+            "fp_d": 9,
+            "fn_d": 2,
+            "cross_f1": 0.3333,
+            "tp_c": 3,
+            "fp_c": 11,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC2682197",
+            "direct_f1": 0.3333,
+            "direct_p": 0.2857,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 5,
+            "fn_d": 3,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 3,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2714965",
+            "direct_f1": 0.5,
+            "direct_p": 0.5,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 2,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2774163",
+            "direct_f1": 0.2222,
+            "direct_p": 0.25,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 3,
+            "fn_d": 4,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 1,
+            "fn_c": 4
+          }
+        ]
+      },
+      "dev": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.5076,
+          "direct_f1_ci": [
+            0.4625,
+            0.5584
+          ],
+          "direct_precision_mean": 0.4819,
+          "direct_recall_mean": 0.6312,
+          "cross_f1_mean": 0.3864,
+          "cross_f1_ci": [
+            0.2233,
+            0.5392
+          ],
+          "cross_precision_mean": 0.5481,
+          "cross_recall_mean": 0.4313,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 23,
+            "fp": 34,
+            "fn": 13,
+            "precision": 0.4035,
+            "recall": 0.6389
+          },
+          "cross": {
+            "tp": 17,
+            "fp": 17,
+            "fn": 18,
+            "precision": 0.5,
+            "recall": 0.4857
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC1804205",
+            "direct_f1": 0.5333,
+            "direct_p": 0.4,
+            "direct_r": 0.8,
+            "tp_d": 4,
+            "fp_d": 6,
+            "fn_d": 1,
+            "cross_f1": 0.6154,
+            "tp_c": 4,
+            "fp_c": 4,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC1874608",
+            "direct_f1": 0.4167,
+            "direct_p": 0.2632,
+            "direct_r": 1.0,
+            "tp_d": 5,
+            "fp_d": 14,
+            "fn_d": 0,
+            "cross_f1": 0.5556,
+            "tp_c": 5,
+            "fp_c": 8,
+            "fn_c": 0
+          },
+          {
+            "pmcid": "PMC1913099",
+            "direct_f1": 0.5,
+            "direct_p": 0.5,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 2,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 1,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC1974823",
+            "direct_f1": 0.4444,
+            "direct_p": 0.4,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 3,
+            "fn_d": 2,
+            "cross_f1": 0.5714,
+            "tp_c": 2,
+            "fp_c": 0,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2242835",
+            "direct_f1": 0.5,
+            "direct_p": 0.375,
+            "direct_r": 0.75,
+            "tp_d": 3,
+            "fp_d": 5,
+            "fn_d": 1,
+            "cross_f1": 0.6154,
+            "tp_c": 4,
+            "fp_c": 4,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC2266911",
+            "direct_f1": 0.5,
+            "direct_p": 0.5,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 2,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2358977",
+            "direct_f1": 0.5,
+            "direct_p": 0.6667,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 1,
+            "fn_d": 3,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 0,
+            "fn_c": 4
+          },
+          {
+            "pmcid": "PMC2430206",
+            "direct_f1": 0.6667,
+            "direct_p": 0.75,
+            "direct_r": 0.6,
+            "tp_d": 3,
+            "fp_d": 1,
+            "fn_d": 2,
+            "cross_f1": 0.4,
+            "tp_c": 1,
+            "fp_c": 0,
+            "fn_c": 3
+          }
+        ]
+      },
+      "locked_test": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.3429,
+          "direct_f1_ci": [
+            0.1537,
+            0.5625
+          ],
+          "direct_precision_mean": 0.289,
+          "direct_recall_mean": 0.5,
+          "cross_f1_mean": 0.2002,
+          "cross_f1_ci": [
+            0.0714,
+            0.3095
+          ],
+          "cross_precision_mean": 0.3536,
+          "cross_recall_mean": 0.2708,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 11,
+            "fp": 35,
+            "fn": 10,
+            "precision": 0.2391,
+            "recall": 0.5238
+          },
+          "cross": {
+            "tp": 5,
+            "fp": 18,
+            "fn": 15,
+            "precision": 0.2174,
+            "recall": 0.25
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2565068",
+            "direct_f1": 0.6667,
+            "direct_p": 0.5,
+            "direct_r": 1.0,
+            "tp_d": 6,
+            "fp_d": 6,
+            "fn_d": 0,
+            "cross_f1": 0.3333,
+            "tp_c": 3,
+            "fp_c": 11,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC2581603",
+            "direct_f1": 0.25,
+            "direct_p": 0.3333,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 2,
+            "fn_d": 4,
+            "cross_f1": 0.2857,
+            "tp_c": 1,
+            "fp_c": 0,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2593050",
+            "direct_f1": 0.08,
+            "direct_p": 0.05,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 19,
+            "fn_d": 4,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 3,
+            "fn_c": 4
+          },
+          {
+            "pmcid": "PMC2639726",
+            "direct_f1": 0.375,
+            "direct_p": 0.2727,
+            "direct_r": 0.6,
+            "tp_d": 3,
+            "fp_d": 8,
+            "fn_d": 2,
+            "cross_f1": 0.1818,
+            "tp_c": 1,
+            "fp_c": 4,
+            "fn_c": 5
+          }
+        ]
+      },
+      "external_v1": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.238,
+          "direct_f1_ci": [
+            0.0769,
+            0.3833
+          ],
+          "direct_precision_mean": 0.2375,
+          "direct_recall_mean": 0.25,
+          "cross_f1_mean": 0.1667,
+          "cross_f1_ci": [
+            0.0,
+            0.3333
+          ],
+          "cross_precision_mean": 0.25,
+          "cross_recall_mean": 0.125,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 5,
+            "fp": 55,
+            "fn": 15,
+            "precision": 0.0833,
+            "recall": 0.25
+          },
+          "cross": {
+            "tp": 2,
+            "fp": 31,
+            "fn": 15,
+            "precision": 0.0606,
+            "recall": 0.1176
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2816692",
+            "direct_f1": 0.0,
+            "direct_p": 0.0,
+            "direct_r": 0.0,
+            "tp_d": 0,
+            "fp_d": 43,
+            "fn_d": 5,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 29,
+            "fn_c": 4
+          },
+          {
+            "pmcid": "PMC2829055",
+            "direct_f1": 0.3077,
+            "direct_p": 0.25,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 6,
+            "fn_d": 3,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2858072",
+            "direct_f1": 0.4444,
+            "direct_p": 0.5,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 3,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2885601",
+            "direct_f1": 0.2,
+            "direct_p": 0.2,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 4,
+            "fn_d": 4,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          }
+        ]
+      },
+      "external_v2": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.3289,
+          "direct_f1_ci": [
+            0.2409,
+            0.4103
+          ],
+          "direct_precision_mean": 0.3208,
+          "direct_recall_mean": 0.35,
+          "cross_f1_mean": 0.2667,
+          "cross_f1_ci": [
+            0.0833,
+            0.3833
+          ],
+          "cross_precision_mean": 0.375,
+          "cross_recall_mean": 0.2083,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 7,
+            "fp": 16,
+            "fn": 13,
+            "precision": 0.3043,
+            "recall": 0.35
+          },
+          "cross": {
+            "tp": 3,
+            "fp": 3,
+            "fn": 13,
+            "precision": 0.5,
+            "recall": 0.1875
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2816692",
+            "direct_f1": 0.3636,
+            "direct_p": 0.3333,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 4,
+            "fn_d": 3,
+            "cross_f1": 0.4,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 2
+          },
+          {
+            "pmcid": "PMC2829055",
+            "direct_f1": 0.3077,
+            "direct_p": 0.25,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 6,
+            "fn_d": 3,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2858072",
+            "direct_f1": 0.4444,
+            "direct_p": 0.5,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 3,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2885601",
+            "direct_f1": 0.2,
+            "direct_p": 0.2,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 4,
+            "fn_d": 4,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          }
+        ]
+      }
+    }
+  },
+  "E3_Demonstrative_Anaphora": {
+    "name": "E3: Demonstrative Causal Anaphora Resolution",
+    "hypothesis": "Resolve demonstrative pronouns ('This result', 'These findings') to antecedent cause/effect",
+    "elapsed_seconds": 14.44,
+    "splits": {
+      "train": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.3521,
+          "direct_f1_ci": [
+            0.2549,
+            0.4583
+          ],
+          "direct_precision_mean": 0.3214,
+          "direct_recall_mean": 0.425,
+          "cross_f1_mean": 0.0833,
+          "cross_f1_ci": [
+            0.0,
+            0.25
+          ],
+          "cross_precision_mean": 0.0536,
+          "cross_recall_mean": 0.1875,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 8,
+            "fp": 19,
+            "fn": 11,
+            "precision": 0.2963,
+            "recall": 0.4211
+          },
+          "cross": {
+            "tp": 3,
+            "fp": 15,
+            "fn": 13,
+            "precision": 0.1667,
+            "recall": 0.1875
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2651894",
+            "direct_f1": 0.3529,
+            "direct_p": 0.25,
+            "direct_r": 0.6,
+            "tp_d": 3,
+            "fp_d": 9,
+            "fn_d": 2,
+            "cross_f1": 0.3333,
+            "tp_c": 3,
+            "fp_c": 11,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC2682197",
+            "direct_f1": 0.3333,
+            "direct_p": 0.2857,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 5,
+            "fn_d": 3,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 3,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2714965",
+            "direct_f1": 0.5,
+            "direct_p": 0.5,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 2,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2774163",
+            "direct_f1": 0.2222,
+            "direct_p": 0.25,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 3,
+            "fn_d": 4,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 1,
+            "fn_c": 4
+          }
+        ]
+      },
+      "dev": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.5285,
+          "direct_f1_ci": [
+            0.4722,
+            0.5875
+          ],
+          "direct_precision_mean": 0.4923,
+          "direct_recall_mean": 0.6562,
+          "cross_f1_mean": 0.3864,
+          "cross_f1_ci": [
+            0.2233,
+            0.5392
+          ],
+          "cross_precision_mean": 0.5481,
+          "cross_recall_mean": 0.4313,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 24,
+            "fp": 34,
+            "fn": 12,
+            "precision": 0.4138,
+            "recall": 0.6667
+          },
+          "cross": {
+            "tp": 17,
+            "fp": 17,
+            "fn": 18,
+            "precision": 0.5,
+            "recall": 0.4857
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC1804205",
+            "direct_f1": 0.5333,
+            "direct_p": 0.4,
+            "direct_r": 0.8,
+            "tp_d": 4,
+            "fp_d": 6,
+            "fn_d": 1,
+            "cross_f1": 0.6154,
+            "tp_c": 4,
+            "fp_c": 4,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC1874608",
+            "direct_f1": 0.4167,
+            "direct_p": 0.2632,
+            "direct_r": 1.0,
+            "tp_d": 5,
+            "fp_d": 14,
+            "fn_d": 0,
+            "cross_f1": 0.5556,
+            "tp_c": 5,
+            "fp_c": 8,
+            "fn_c": 0
+          },
+          {
+            "pmcid": "PMC1913099",
+            "direct_f1": 0.5,
+            "direct_p": 0.5,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 2,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 1,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC1974823",
+            "direct_f1": 0.4444,
+            "direct_p": 0.4,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 3,
+            "fn_d": 2,
+            "cross_f1": 0.5714,
+            "tp_c": 2,
+            "fp_c": 0,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2242835",
+            "direct_f1": 0.5,
+            "direct_p": 0.375,
+            "direct_r": 0.75,
+            "tp_d": 3,
+            "fp_d": 5,
+            "fn_d": 1,
+            "cross_f1": 0.6154,
+            "tp_c": 4,
+            "fp_c": 4,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC2266911",
+            "direct_f1": 0.5,
+            "direct_p": 0.5,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 2,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2358977",
+            "direct_f1": 0.6667,
+            "direct_p": 0.75,
+            "direct_r": 0.6,
+            "tp_d": 3,
+            "fp_d": 1,
+            "fn_d": 2,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 0,
+            "fn_c": 4
+          },
+          {
+            "pmcid": "PMC2430206",
+            "direct_f1": 0.6667,
+            "direct_p": 0.75,
+            "direct_r": 0.6,
+            "tp_d": 3,
+            "fp_d": 1,
+            "fn_d": 2,
+            "cross_f1": 0.4,
+            "tp_c": 1,
+            "fp_c": 0,
+            "fn_c": 3
+          }
+        ]
+      },
+      "locked_test": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.3429,
+          "direct_f1_ci": [
+            0.1537,
+            0.5625
+          ],
+          "direct_precision_mean": 0.289,
+          "direct_recall_mean": 0.5,
+          "cross_f1_mean": 0.2002,
+          "cross_f1_ci": [
+            0.0714,
+            0.3095
+          ],
+          "cross_precision_mean": 0.3536,
+          "cross_recall_mean": 0.2708,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 11,
+            "fp": 35,
+            "fn": 10,
+            "precision": 0.2391,
+            "recall": 0.5238
+          },
+          "cross": {
+            "tp": 5,
+            "fp": 18,
+            "fn": 15,
+            "precision": 0.2174,
+            "recall": 0.25
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2565068",
+            "direct_f1": 0.6667,
+            "direct_p": 0.5,
+            "direct_r": 1.0,
+            "tp_d": 6,
+            "fp_d": 6,
+            "fn_d": 0,
+            "cross_f1": 0.3333,
+            "tp_c": 3,
+            "fp_c": 11,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC2581603",
+            "direct_f1": 0.25,
+            "direct_p": 0.3333,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 2,
+            "fn_d": 4,
+            "cross_f1": 0.2857,
+            "tp_c": 1,
+            "fp_c": 0,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2593050",
+            "direct_f1": 0.08,
+            "direct_p": 0.05,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 19,
+            "fn_d": 4,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 3,
+            "fn_c": 4
+          },
+          {
+            "pmcid": "PMC2639726",
+            "direct_f1": 0.375,
+            "direct_p": 0.2727,
+            "direct_r": 0.6,
+            "tp_d": 3,
+            "fp_d": 8,
+            "fn_d": 2,
+            "cross_f1": 0.1818,
+            "tp_c": 1,
+            "fp_c": 4,
+            "fn_c": 5
+          }
+        ]
+      },
+      "external_v1": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.238,
+          "direct_f1_ci": [
+            0.0769,
+            0.3833
+          ],
+          "direct_precision_mean": 0.2375,
+          "direct_recall_mean": 0.25,
+          "cross_f1_mean": 0.1667,
+          "cross_f1_ci": [
+            0.0,
+            0.3333
+          ],
+          "cross_precision_mean": 0.25,
+          "cross_recall_mean": 0.125,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 5,
+            "fp": 55,
+            "fn": 15,
+            "precision": 0.0833,
+            "recall": 0.25
+          },
+          "cross": {
+            "tp": 2,
+            "fp": 31,
+            "fn": 15,
+            "precision": 0.0606,
+            "recall": 0.1176
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2816692",
+            "direct_f1": 0.0,
+            "direct_p": 0.0,
+            "direct_r": 0.0,
+            "tp_d": 0,
+            "fp_d": 43,
+            "fn_d": 5,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 29,
+            "fn_c": 4
+          },
+          {
+            "pmcid": "PMC2829055",
+            "direct_f1": 0.3077,
+            "direct_p": 0.25,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 6,
+            "fn_d": 3,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2858072",
+            "direct_f1": 0.4444,
+            "direct_p": 0.5,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 3,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2885601",
+            "direct_f1": 0.2,
+            "direct_p": 0.2,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 4,
+            "fn_d": 4,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          }
+        ]
+      },
+      "external_v2": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.3289,
+          "direct_f1_ci": [
+            0.2409,
+            0.4103
+          ],
+          "direct_precision_mean": 0.3208,
+          "direct_recall_mean": 0.35,
+          "cross_f1_mean": 0.2667,
+          "cross_f1_ci": [
+            0.0833,
+            0.3833
+          ],
+          "cross_precision_mean": 0.375,
+          "cross_recall_mean": 0.2083,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 7,
+            "fp": 16,
+            "fn": 13,
+            "precision": 0.3043,
+            "recall": 0.35
+          },
+          "cross": {
+            "tp": 3,
+            "fp": 3,
+            "fn": 13,
+            "precision": 0.5,
+            "recall": 0.1875
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2816692",
+            "direct_f1": 0.3636,
+            "direct_p": 0.3333,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 4,
+            "fn_d": 3,
+            "cross_f1": 0.4,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 2
+          },
+          {
+            "pmcid": "PMC2829055",
+            "direct_f1": 0.3077,
+            "direct_p": 0.25,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 6,
+            "fn_d": 3,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2858072",
+            "direct_f1": 0.4444,
+            "direct_p": 0.5,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 3,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2885601",
+            "direct_f1": 0.2,
+            "direct_p": 0.2,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 4,
+            "fn_d": 4,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          }
+        ]
+      }
+    }
+  },
+  "E4_Sentence_Stitching": {
+    "name": "E4: Sentence Boundary Abbreviation Stitching",
+    "hypothesis": "Stitch sentences fragmented by taxonomic genus and citation abbreviations ('P. gingivalis', 'et al.')",
+    "elapsed_seconds": 20.13,
+    "splits": {
+      "train": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.3353,
+          "direct_f1_ci": [
+            0.2333,
+            0.4519
+          ],
+          "direct_precision_mean": 0.2952,
+          "direct_recall_mean": 0.425,
+          "cross_f1_mean": 0.0789,
+          "cross_f1_ci": [
+            0.0,
+            0.2368
+          ],
+          "cross_precision_mean": 0.05,
+          "cross_recall_mean": 0.1875,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 8,
+            "fp": 22,
+            "fn": 11,
+            "precision": 0.2667,
+            "recall": 0.4211
+          },
+          "cross": {
+            "tp": 3,
+            "fp": 16,
+            "fn": 13,
+            "precision": 0.1579,
+            "recall": 0.1875
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2651894",
+            "direct_f1": 0.3333,
+            "direct_p": 0.2308,
+            "direct_r": 0.6,
+            "tp_d": 3,
+            "fp_d": 10,
+            "fn_d": 2,
+            "cross_f1": 0.3158,
+            "tp_c": 3,
+            "fp_c": 12,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC2682197",
+            "direct_f1": 0.3077,
+            "direct_p": 0.25,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 6,
+            "fn_d": 3,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 3,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2714965",
+            "direct_f1": 0.5,
+            "direct_p": 0.5,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 2,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2774163",
+            "direct_f1": 0.2,
+            "direct_p": 0.2,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 4,
+            "fn_d": 4,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 1,
+            "fn_c": 4
+          }
+        ]
+      },
+      "dev": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.4927,
+          "direct_f1_ci": [
+            0.4396,
+            0.5494
+          ],
+          "direct_precision_mean": 0.4624,
+          "direct_recall_mean": 0.6312,
+          "cross_f1_mean": 0.4032,
+          "cross_f1_ci": [
+            0.2305,
+            0.5749
+          ],
+          "cross_precision_mean": 0.5411,
+          "cross_recall_mean": 0.4562,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 23,
+            "fp": 37,
+            "fn": 13,
+            "precision": 0.3833,
+            "recall": 0.6389
+          },
+          "cross": {
+            "tp": 18,
+            "fp": 18,
+            "fn": 17,
+            "precision": 0.5,
+            "recall": 0.5143
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC1804205",
+            "direct_f1": 0.5333,
+            "direct_p": 0.4,
+            "direct_r": 0.8,
+            "tp_d": 4,
+            "fp_d": 6,
+            "fn_d": 1,
+            "cross_f1": 0.6154,
+            "tp_c": 4,
+            "fp_c": 4,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC1874608",
+            "direct_f1": 0.4167,
+            "direct_p": 0.2632,
+            "direct_r": 1.0,
+            "tp_d": 5,
+            "fp_d": 14,
+            "fn_d": 0,
+            "cross_f1": 0.5556,
+            "tp_c": 5,
+            "fp_c": 8,
+            "fn_c": 0
+          },
+          {
+            "pmcid": "PMC1913099",
+            "direct_f1": 0.5,
+            "direct_p": 0.5,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 2,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 1,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC1974823",
+            "direct_f1": 0.3636,
+            "direct_p": 0.2857,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 5,
+            "fn_d": 2,
+            "cross_f1": 0.75,
+            "tp_c": 3,
+            "fp_c": 0,
+            "fn_c": 2
+          },
+          {
+            "pmcid": "PMC2242835",
+            "direct_f1": 0.4615,
+            "direct_p": 0.3333,
+            "direct_r": 0.75,
+            "tp_d": 3,
+            "fp_d": 6,
+            "fn_d": 1,
+            "cross_f1": 0.5714,
+            "tp_c": 4,
+            "fp_c": 5,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC2266911",
+            "direct_f1": 0.5,
+            "direct_p": 0.5,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 2,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2358977",
+            "direct_f1": 0.5,
+            "direct_p": 0.6667,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 1,
+            "fn_d": 3,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 0,
+            "fn_c": 4
+          },
+          {
+            "pmcid": "PMC2430206",
+            "direct_f1": 0.6667,
+            "direct_p": 0.75,
+            "direct_r": 0.6,
+            "tp_d": 3,
+            "fp_d": 1,
+            "fn_d": 2,
+            "cross_f1": 0.4,
+            "tp_c": 1,
+            "fp_c": 0,
+            "fn_c": 3
+          }
+        ]
+      },
+      "locked_test": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.3352,
+          "direct_f1_ci": [
+            0.1496,
+            0.5556
+          ],
+          "direct_precision_mean": 0.2676,
+          "direct_recall_mean": 0.5,
+          "cross_f1_mean": 0.2002,
+          "cross_f1_ci": [
+            0.0714,
+            0.3095
+          ],
+          "cross_precision_mean": 0.3536,
+          "cross_recall_mean": 0.2708,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 11,
+            "fp": 37,
+            "fn": 10,
+            "precision": 0.2292,
+            "recall": 0.5238
+          },
+          "cross": {
+            "tp": 5,
+            "fp": 18,
+            "fn": 15,
+            "precision": 0.2174,
+            "recall": 0.25
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2565068",
+            "direct_f1": 0.6667,
+            "direct_p": 0.5,
+            "direct_r": 1.0,
+            "tp_d": 6,
+            "fp_d": 6,
+            "fn_d": 0,
+            "cross_f1": 0.3333,
+            "tp_c": 3,
+            "fp_c": 11,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC2581603",
+            "direct_f1": 0.2222,
+            "direct_p": 0.25,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 3,
+            "fn_d": 4,
+            "cross_f1": 0.2857,
+            "tp_c": 1,
+            "fp_c": 0,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2593050",
+            "direct_f1": 0.0769,
+            "direct_p": 0.0476,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 20,
+            "fn_d": 4,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 3,
+            "fn_c": 4
+          },
+          {
+            "pmcid": "PMC2639726",
+            "direct_f1": 0.375,
+            "direct_p": 0.2727,
+            "direct_r": 0.6,
+            "tp_d": 3,
+            "fp_d": 8,
+            "fn_d": 2,
+            "cross_f1": 0.1818,
+            "tp_c": 1,
+            "fp_c": 4,
+            "fn_c": 5
+          }
+        ]
+      },
+      "external_v1": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.2269,
+          "direct_f1_ci": [
+            0.0769,
+            0.3538
+          ],
+          "direct_precision_mean": 0.2125,
+          "direct_recall_mean": 0.25,
+          "cross_f1_mean": 0.1667,
+          "cross_f1_ci": [
+            0.0,
+            0.3333
+          ],
+          "cross_precision_mean": 0.25,
+          "cross_recall_mean": 0.125,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 5,
+            "fp": 56,
+            "fn": 15,
+            "precision": 0.082,
+            "recall": 0.25
+          },
+          "cross": {
+            "tp": 2,
+            "fp": 31,
+            "fn": 15,
+            "precision": 0.0606,
+            "recall": 0.1176
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2816692",
+            "direct_f1": 0.0,
+            "direct_p": 0.0,
+            "direct_r": 0.0,
+            "tp_d": 0,
+            "fp_d": 43,
+            "fn_d": 5,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 29,
+            "fn_c": 4
+          },
+          {
+            "pmcid": "PMC2829055",
+            "direct_f1": 0.3077,
+            "direct_p": 0.25,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 6,
+            "fn_d": 3,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2858072",
+            "direct_f1": 0.4,
+            "direct_p": 0.4,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 3,
+            "fn_d": 3,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2885601",
+            "direct_f1": 0.2,
+            "direct_p": 0.2,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 4,
+            "fn_d": 4,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          }
+        ]
+      },
+      "external_v2": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.3178,
+          "direct_f1_ci": [
+            0.2409,
+            0.3818
+          ],
+          "direct_precision_mean": 0.2958,
+          "direct_recall_mean": 0.35,
+          "cross_f1_mean": 0.2667,
+          "cross_f1_ci": [
+            0.0833,
+            0.3833
+          ],
+          "cross_precision_mean": 0.375,
+          "cross_recall_mean": 0.2083,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 7,
+            "fp": 17,
+            "fn": 13,
+            "precision": 0.2917,
+            "recall": 0.35
+          },
+          "cross": {
+            "tp": 3,
+            "fp": 3,
+            "fn": 13,
+            "precision": 0.5,
+            "recall": 0.1875
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2816692",
+            "direct_f1": 0.3636,
+            "direct_p": 0.3333,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 4,
+            "fn_d": 3,
+            "cross_f1": 0.4,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 2
+          },
+          {
+            "pmcid": "PMC2829055",
+            "direct_f1": 0.3077,
+            "direct_p": 0.25,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 6,
+            "fn_d": 3,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2858072",
+            "direct_f1": 0.4,
+            "direct_p": 0.4,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 3,
+            "fn_d": 3,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2885601",
+            "direct_f1": 0.2,
+            "direct_p": 0.2,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 4,
+            "fn_d": 4,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          }
+        ]
+      }
+    }
+  },
+  "E5_Full_Document_Context": {
+    "name": "E5: Full Calibrated Document-Context Resolver",
+    "hypothesis": "Stitching + Demonstrative Anaphora + Discourse Connectives + Invariant FP Controls",
+    "elapsed_seconds": 20.19,
+    "splits": {
+      "train": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.3353,
+          "direct_f1_ci": [
+            0.2333,
+            0.4519
+          ],
+          "direct_precision_mean": 0.2952,
+          "direct_recall_mean": 0.425,
+          "cross_f1_mean": 0.0789,
+          "cross_f1_ci": [
+            0.0,
+            0.2368
+          ],
+          "cross_precision_mean": 0.05,
+          "cross_recall_mean": 0.1875,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 8,
+            "fp": 22,
+            "fn": 11,
+            "precision": 0.2667,
+            "recall": 0.4211
+          },
+          "cross": {
+            "tp": 3,
+            "fp": 16,
+            "fn": 13,
+            "precision": 0.1579,
+            "recall": 0.1875
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2651894",
+            "direct_f1": 0.3333,
+            "direct_p": 0.2308,
+            "direct_r": 0.6,
+            "tp_d": 3,
+            "fp_d": 10,
+            "fn_d": 2,
+            "cross_f1": 0.3158,
+            "tp_c": 3,
+            "fp_c": 12,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC2682197",
+            "direct_f1": 0.3077,
+            "direct_p": 0.25,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 6,
+            "fn_d": 3,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 3,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2714965",
+            "direct_f1": 0.5,
+            "direct_p": 0.5,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 2,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2774163",
+            "direct_f1": 0.2,
+            "direct_p": 0.2,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 4,
+            "fn_d": 4,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 1,
+            "fn_c": 4
+          }
+        ]
+      },
+      "dev": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.5136,
+          "direct_f1_ci": [
+            0.4451,
+            0.5854
+          ],
+          "direct_precision_mean": 0.4728,
+          "direct_recall_mean": 0.6562,
+          "cross_f1_mean": 0.4032,
+          "cross_f1_ci": [
+            0.2305,
+            0.5749
+          ],
+          "cross_precision_mean": 0.5411,
+          "cross_recall_mean": 0.4562,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 24,
+            "fp": 37,
+            "fn": 12,
+            "precision": 0.3934,
+            "recall": 0.6667
+          },
+          "cross": {
+            "tp": 18,
+            "fp": 18,
+            "fn": 17,
+            "precision": 0.5,
+            "recall": 0.5143
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC1804205",
+            "direct_f1": 0.5333,
+            "direct_p": 0.4,
+            "direct_r": 0.8,
+            "tp_d": 4,
+            "fp_d": 6,
+            "fn_d": 1,
+            "cross_f1": 0.6154,
+            "tp_c": 4,
+            "fp_c": 4,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC1874608",
+            "direct_f1": 0.4167,
+            "direct_p": 0.2632,
+            "direct_r": 1.0,
+            "tp_d": 5,
+            "fp_d": 14,
+            "fn_d": 0,
+            "cross_f1": 0.5556,
+            "tp_c": 5,
+            "fp_c": 8,
+            "fn_c": 0
+          },
+          {
+            "pmcid": "PMC1913099",
+            "direct_f1": 0.5,
+            "direct_p": 0.5,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 2,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 1,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC1974823",
+            "direct_f1": 0.3636,
+            "direct_p": 0.2857,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 5,
+            "fn_d": 2,
+            "cross_f1": 0.75,
+            "tp_c": 3,
+            "fp_c": 0,
+            "fn_c": 2
+          },
+          {
+            "pmcid": "PMC2242835",
+            "direct_f1": 0.4615,
+            "direct_p": 0.3333,
+            "direct_r": 0.75,
+            "tp_d": 3,
+            "fp_d": 6,
+            "fn_d": 1,
+            "cross_f1": 0.5714,
+            "tp_c": 4,
+            "fp_c": 5,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC2266911",
+            "direct_f1": 0.5,
+            "direct_p": 0.5,
+            "direct_r": 0.5,
+            "tp_d": 2,
+            "fp_d": 2,
+            "fn_d": 2,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2358977",
+            "direct_f1": 0.6667,
+            "direct_p": 0.75,
+            "direct_r": 0.6,
+            "tp_d": 3,
+            "fp_d": 1,
+            "fn_d": 2,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 0,
+            "fn_c": 4
+          },
+          {
+            "pmcid": "PMC2430206",
+            "direct_f1": 0.6667,
+            "direct_p": 0.75,
+            "direct_r": 0.6,
+            "tp_d": 3,
+            "fp_d": 1,
+            "fn_d": 2,
+            "cross_f1": 0.4,
+            "tp_c": 1,
+            "fp_c": 0,
+            "fn_c": 3
+          }
+        ]
+      },
+      "locked_test": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.3352,
+          "direct_f1_ci": [
+            0.1496,
+            0.5556
+          ],
+          "direct_precision_mean": 0.2676,
+          "direct_recall_mean": 0.5,
+          "cross_f1_mean": 0.2002,
+          "cross_f1_ci": [
+            0.0714,
+            0.3095
+          ],
+          "cross_precision_mean": 0.3536,
+          "cross_recall_mean": 0.2708,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 11,
+            "fp": 37,
+            "fn": 10,
+            "precision": 0.2292,
+            "recall": 0.5238
+          },
+          "cross": {
+            "tp": 5,
+            "fp": 18,
+            "fn": 15,
+            "precision": 0.2174,
+            "recall": 0.25
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2565068",
+            "direct_f1": 0.6667,
+            "direct_p": 0.5,
+            "direct_r": 1.0,
+            "tp_d": 6,
+            "fp_d": 6,
+            "fn_d": 0,
+            "cross_f1": 0.3333,
+            "tp_c": 3,
+            "fp_c": 11,
+            "fn_c": 1
+          },
+          {
+            "pmcid": "PMC2581603",
+            "direct_f1": 0.2222,
+            "direct_p": 0.25,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 3,
+            "fn_d": 4,
+            "cross_f1": 0.2857,
+            "tp_c": 1,
+            "fp_c": 0,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2593050",
+            "direct_f1": 0.0769,
+            "direct_p": 0.0476,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 20,
+            "fn_d": 4,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 3,
+            "fn_c": 4
+          },
+          {
+            "pmcid": "PMC2639726",
+            "direct_f1": 0.375,
+            "direct_p": 0.2727,
+            "direct_r": 0.6,
+            "tp_d": 3,
+            "fp_d": 8,
+            "fn_d": 2,
+            "cross_f1": 0.1818,
+            "tp_c": 1,
+            "fp_c": 4,
+            "fn_c": 5
+          }
+        ]
+      },
+      "external_v1": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.2269,
+          "direct_f1_ci": [
+            0.0769,
+            0.3538
+          ],
+          "direct_precision_mean": 0.2125,
+          "direct_recall_mean": 0.25,
+          "cross_f1_mean": 0.1667,
+          "cross_f1_ci": [
+            0.0,
+            0.3333
+          ],
+          "cross_precision_mean": 0.25,
+          "cross_recall_mean": 0.125,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 5,
+            "fp": 56,
+            "fn": 15,
+            "precision": 0.082,
+            "recall": 0.25
+          },
+          "cross": {
+            "tp": 2,
+            "fp": 31,
+            "fn": 15,
+            "precision": 0.0606,
+            "recall": 0.1176
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2816692",
+            "direct_f1": 0.0,
+            "direct_p": 0.0,
+            "direct_r": 0.0,
+            "tp_d": 0,
+            "fp_d": 43,
+            "fn_d": 5,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 29,
+            "fn_c": 4
+          },
+          {
+            "pmcid": "PMC2829055",
+            "direct_f1": 0.3077,
+            "direct_p": 0.25,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 6,
+            "fn_d": 3,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2858072",
+            "direct_f1": 0.4,
+            "direct_p": 0.4,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 3,
+            "fn_d": 3,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2885601",
+            "direct_f1": 0.2,
+            "direct_p": 0.2,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 4,
+            "fn_d": 4,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          }
+        ]
+      },
+      "external_v2": {
+        "macro_metrics": {
+          "direct_f1_mean": 0.3178,
+          "direct_f1_ci": [
+            0.2409,
+            0.3818
+          ],
+          "direct_precision_mean": 0.2958,
+          "direct_recall_mean": 0.35,
+          "cross_f1_mean": 0.2667,
+          "cross_f1_ci": [
+            0.0833,
+            0.3833
+          ],
+          "cross_precision_mean": 0.375,
+          "cross_recall_mean": 0.2083,
+          "structural_match_ratio": 0.0
+        },
+        "micro_metrics": {
+          "direct": {
+            "tp": 7,
+            "fp": 17,
+            "fn": 13,
+            "precision": 0.2917,
+            "recall": 0.35
+          },
+          "cross": {
+            "tp": 3,
+            "fp": 3,
+            "fn": 13,
+            "precision": 0.5,
+            "recall": 0.1875
+          }
+        },
+        "per_paper": [
+          {
+            "pmcid": "PMC2816692",
+            "direct_f1": 0.3636,
+            "direct_p": 0.3333,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 4,
+            "fn_d": 3,
+            "cross_f1": 0.4,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 2
+          },
+          {
+            "pmcid": "PMC2829055",
+            "direct_f1": 0.3077,
+            "direct_p": 0.25,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 6,
+            "fn_d": 3,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          },
+          {
+            "pmcid": "PMC2858072",
+            "direct_f1": 0.4,
+            "direct_p": 0.4,
+            "direct_r": 0.4,
+            "tp_d": 2,
+            "fp_d": 3,
+            "fn_d": 3,
+            "cross_f1": 0.0,
+            "tp_c": 0,
+            "fp_c": 0,
+            "fn_c": 5
+          },
+          {
+            "pmcid": "PMC2885601",
+            "direct_f1": 0.2,
+            "direct_p": 0.2,
+            "direct_r": 0.2,
+            "tp_d": 1,
+            "fp_d": 4,
+            "fn_d": 4,
+            "cross_f1": 0.3333,
+            "tp_c": 1,
+            "fp_c": 1,
+            "fn_c": 3
+          }
+        ]
+      }
+    }
+  }
+}

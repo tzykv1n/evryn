@@ -349,7 +349,7 @@ class PaperCausalExtractor:
         enable_terminal_phenotype_invariant: bool = True,
         enable_document_context: bool = True,
         enable_sentence_stitch: bool = False,
-        enable_anaphora: bool = False,
+        enable_anaphora: bool = True,
         enable_discourse_connectives: bool = True,
         enable_doc_context_fp_controls: bool = True,
     ):
