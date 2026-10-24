@@ -377,6 +377,11 @@ def main():
         with open(json_path_p15, "w", encoding="utf-8") as f:
             json.dump(res, f, indent=2)
 
+        os.makedirs(os.path.join(REPO_ROOT, "results", "phase1_6"), exist_ok=True)
+        json_path_p16 = os.path.join(REPO_ROOT, "results", "phase1_6", f"phase1_6_benchmark_{v}.json")
+        with open(json_path_p16, "w", encoding="utf-8") as f:
+            json.dump(res, f, indent=2)
+
         # Also save default phase2_benchmark_results.json (points to v1 if both, or current)
         if v == "v1" or len(versions_to_run) == 1:
             default_json = os.path.join(REPO_ROOT, "results", "phase2", "phase2_benchmark_results.json")
@@ -392,6 +397,9 @@ def main():
         fig_path_p15 = os.path.join(REPO_ROOT, "results", "phase1_5", f"phase1_5_splits_comparison_{v}.png")
         plot_splits_comparison(res, fig_path_p15)
 
+        fig_path_p16 = os.path.join(REPO_ROOT, "results", "phase1_6", f"phase1_6_splits_comparison_{v}.png")
+        plot_splits_comparison(res, fig_path_p16)
+
         if v == "v1":
             default_fig = os.path.join(REPO_ROOT, "results", "phase2", "phase2_splits_comparison.png")
             plot_splits_comparison(res, default_fig)
@@ -399,12 +407,15 @@ def main():
             plot_splits_comparison(res, default_fig_p14)
             default_fig_p15 = os.path.join(REPO_ROOT, "results", "phase1_5", "phase1_5_splits_comparison.png")
             plot_splits_comparison(res, default_fig_p15)
+            default_fig_p16 = os.path.join(REPO_ROOT, "results", "phase1_6", "phase1_6_splits_comparison.png")
+            plot_splits_comparison(res, default_fig_p16)
             artifact_dir = "/home/tk/.gemini/antigravity-cli/brain/ef3fc705-911a-4157-bc28-1d5bdf2aa3f1"
             if os.path.exists(artifact_dir):
                 import shutil
                 shutil.copy2(default_fig, os.path.join(artifact_dir, "phase2_splits_comparison.png"))
                 shutil.copy2(default_fig_p14, os.path.join(artifact_dir, "phase1_4_splits_comparison.png"))
                 shutil.copy2(default_fig_p15, os.path.join(artifact_dir, "phase1_5_splits_comparison.png"))
+                shutil.copy2(default_fig_p16, os.path.join(artifact_dir, "phase1_6_splits_comparison.png"))
 
     # Generate comprehensive report comparing versions if both run
     report_path = os.path.join(REPO_ROOT, "docs", "phase2", "PHASE2_GENERALIZATION_REPORT.md")

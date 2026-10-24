@@ -1,0 +1,122 @@
+{
+  "Phase 1.5 Baseline": {
+    "config": {
+      "passive_restore": false,
+      "terminal_phenotype": false,
+      "greek_morphology": false,
+      "biofilm": false
+    },
+    "train": {
+      "direct_f1": 0.3306,
+      "tp_d": 7,
+      "fp_d": 18,
+      "fn_d": 12,
+      "precision_d": 0.28,
+      "recall_d": 0.3684
+    },
+    "dev": {
+      "direct_f1": 0.5007,
+      "tp_d": 23,
+      "fp_d": 35,
+      "fn_d": 13,
+      "precision_d": 0.3966,
+      "recall_d": 0.6389
+    }
+  },
+  "Exp A: Passive Genetic Complementation": {
+    "config": {
+      "passive_restore": true,
+      "terminal_phenotype": false,
+      "greek_morphology": false,
+      "biofilm": false
+    },
+    "train": {
+      "direct_f1": 0.3306,
+      "tp_d": 7,
+      "fp_d": 18,
+      "fn_d": 12,
+      "precision_d": 0.28,
+      "recall_d": 0.3684
+    },
+    "dev": {
+      "direct_f1": 0.5076,
+      "tp_d": 23,
+      "fp_d": 34,
+      "fn_d": 13,
+      "precision_d": 0.4035,
+      "recall_d": 0.6389
+    }
+  },
+  "Exp B: Terminal Phenotype Direction Invariant": {
+    "config": {
+      "passive_restore": false,
+      "terminal_phenotype": true,
+      "greek_morphology": false,
+      "biofilm": false
+    },
+    "train": {
+      "direct_f1": 0.3532,
+      "tp_d": 7,
+      "fp_d": 16,
+      "fn_d": 12,
+      "precision_d": 0.3043,
+      "recall_d": 0.3684
+    },
+    "dev": {
+      "direct_f1": 0.5166,
+      "tp_d": 23,
+      "fp_d": 33,
+      "fn_d": 13,
+      "precision_d": 0.4107,
+      "recall_d": 0.6389
+    }
+  },
+  "Exp C: Greek Morphology & Biofilm Canonicalization": {
+    "config": {
+      "passive_restore": false,
+      "terminal_phenotype": false,
+      "greek_morphology": true,
+      "biofilm": true
+    },
+    "train": {
+      "direct_f1": 0.3417,
+      "tp_d": 8,
+      "fp_d": 21,
+      "fn_d": 11,
+      "precision_d": 0.2759,
+      "recall_d": 0.4211
+    },
+    "dev": {
+      "direct_f1": 0.5007,
+      "tp_d": 23,
+      "fp_d": 35,
+      "fn_d": 13,
+      "precision_d": 0.3966,
+      "recall_d": 0.6389
+    }
+  },
+  "Exp D: Combined Phase 1.6 Pipeline": {
+    "config": {
+      "passive_restore": true,
+      "terminal_phenotype": true,
+      "greek_morphology": true,
+      "biofilm": true
+    },
+    "train": {
+      "direct_f1": 0.3521,
+      "tp_d": 8,
+      "fp_d": 19,
+      "fn_d": 11,
+      "precision_d": 0.2963,
+      "recall_d": 0.4211
+    },
+    "dev": {
+      "direct_f1": 0.5076,
+      "tp_d": 23,
+      "fp_d": 34,
+      "fn_d": 13,
+      "precision_d": 0.4035,
+      "recall_d": 0.6389
+    }
+  }
+}

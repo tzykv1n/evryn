@@ -1,7 +1,7 @@
 {
   "phase": "EVRYN Phase 2 Real-Paper Causal Benchmark & Generalization Evaluation (V2)",
   "benchmark_version": "v2",
-  "timestamp": "2026-10-24T04:28:46Z",
+  "timestamp": "2026-10-24T08:47:28Z",
   "total_papers": 20,
   "split_counts": {
     "train": 4,
@@ -14,38 +14,38 @@
       "split": "train",
       "paper_count": 4,
       "macro_metrics": {
-        "direct_f1_mean": 0.3306,
+        "direct_f1_mean": 0.3521,
         "direct_f1_ci": [
-          0.2333,
-          0.4417
+          0.2549,
+          0.4583
         ],
-        "cross_f1_mean": 0.0417,
+        "cross_f1_mean": 0.0833,
         "cross_f1_ci": [
           0.0,
-          0.125
+          0.25
         ],
-        "structural_match_mean": 0.1237,
+        "structural_match_mean": 0.1543,
         "structural_match_ci": [
-          0.0889,
-          0.1641
+          0.094,
+          0.2146
         ]
       },
       "micro_metrics": {
         "direct": {
-          "tp": 7,
-          "fp": 18,
-          "fn": 12,
-          "precision": 0.28,
-          "recall": 0.3684,
-          "f1": 0.3182
+          "tp": 8,
+          "fp": 19,
+          "fn": 11,
+          "precision": 0.2963,
+          "recall": 0.4211,
+          "f1": 0.3478
         },
         "cross_page": {
-          "tp": 1,
-          "fp": 13,
-          "fn": 15,
-          "precision": 0.0714,
-          "recall": 0.0625,
-          "f1": 0.0667
+          "tp": 3,
+          "fp": 15,
+          "fn": 13,
+          "precision": 0.1667,
+          "recall": 0.1875,
+          "f1": 0.1765
         }
       },
       "per_paper": [
@@ -55,21 +55,21 @@
           "page_count": 5,
           "gold_direct": 5,
           "gold_cross": 4,
-          "pred_direct": 10,
-          "pred_cross": 8,
-          "tp_direct": 2,
-          "fp_direct": 8,
-          "fn_direct": 3,
-          "direct_precision": 0.2,
-          "direct_recall": 0.4,
-          "direct_f1": 0.2667,
-          "tp_cross": 1,
-          "fp_cross": 7,
-          "fn_cross": 3,
-          "cross_precision": 0.125,
-          "cross_recall": 0.25,
-          "cross_f1": 0.1667,
-          "structural_match": 0.125
+          "pred_direct": 12,
+          "pred_cross": 14,
+          "tp_direct": 3,
+          "fp_direct": 9,
+          "fn_direct": 2,
+          "direct_precision": 0.25,
+          "direct_recall": 0.6,
+          "direct_f1": 0.3529,
+          "tp_cross": 3,
+          "fp_cross": 11,
+          "fn_cross": 1,
+          "cross_precision": 0.2143,
+          "cross_recall": 0.75,
+          "cross_f1": 0.3333,
+          "structural_match": 0.2069
         },
         {
           "pmcid": "PMC2682197",
@@ -100,7 +100,7 @@
           "gold_direct": 4,
           "gold_cross": 3,
           "pred_direct": 4,
-          "pred_cross": 2,
+          "pred_cross": 0,
           "tp_direct": 2,
           "fp_direct": 2,
           "fn_direct": 2,
@@ -108,12 +108,12 @@
           "direct_recall": 0.5,
           "direct_f1": 0.5,
           "tp_cross": 0,
-          "fp_cross": 2,
+          "fp_cross": 0,
           "fn_cross": 3,
           "cross_precision": 0.0,
           "cross_recall": 0.0,
           "cross_f1": 0.0,
-          "structural_match": 0.1818
+          "structural_match": 0.2222
         },
         {
           "pmcid": "PMC2774163",
@@ -143,38 +143,38 @@
       "split": "dev",
       "paper_count": 8,
       "macro_metrics": {
-        "direct_f1_mean": 0.5007,
+        "direct_f1_mean": 0.5076,
         "direct_f1_ci": [
-          0.4556,
-          0.5535
+          0.4625,
+          0.5584
         ],
-        "cross_f1_mean": 0.3447,
+        "cross_f1_mean": 0.3864,
         "cross_f1_ci": [
-          0.1538,
-          0.518
+          0.2233,
+          0.5392
         ],
-        "structural_match_mean": 0.3013,
+        "structural_match_mean": 0.3162,
         "structural_match_ci": [
-          0.2385,
-          0.3585
+          0.2648,
+          0.3634
         ]
       },
       "micro_metrics": {
         "direct": {
           "tp": 23,
-          "fp": 35,
+          "fp": 34,
           "fn": 13,
-          "precision": 0.3966,
+          "precision": 0.4035,
           "recall": 0.6389,
-          "f1": 0.4894
+          "f1": 0.4946
         },
         "cross_page": {
-          "tp": 16,
-          "fp": 18,
-          "fn": 19,
-          "precision": 0.4706,
-          "recall": 0.4571,
-          "f1": 0.4638
+          "tp": 17,
+          "fp": 17,
+          "fn": 18,
+          "precision": 0.5,
+          "recall": 0.4857,
+          "f1": 0.4928
         }
       },
       "per_paper": [
@@ -316,21 +316,21 @@
           "page_count": 9,
           "gold_direct": 5,
           "gold_cross": 5,
-          "pred_direct": 4,
+          "pred_direct": 3,
           "pred_cross": 1,
           "tp_direct": 2,
-          "fp_direct": 2,
+          "fp_direct": 1,
           "fn_direct": 3,
-          "direct_precision": 0.5,
+          "direct_precision": 0.6667,
           "direct_recall": 0.4,
-          "direct_f1": 0.4444,
-          "tp_cross": 0,
-          "fp_cross": 1,
-          "fn_cross": 5,
-          "cross_precision": 0.0,
-          "cross_recall": 0.0,
-          "cross_f1": 0.0,
-          "structural_match": 0.1538
+          "direct_f1": 0.5,
+          "tp_cross": 1,
+          "fp_cross": 0,
+          "fn_cross": 4,
+          "cross_precision": 1.0,
+          "cross_recall": 0.2,
+          "cross_f1": 0.3333,
+          "structural_match": 0.2727
         },
         {
           "pmcid": "PMC2430206",
@@ -360,38 +360,38 @@
       "split": "locked_test",
       "paper_count": 4,
       "macro_metrics": {
-        "direct_f1_mean": 0.3374,
+        "direct_f1_mean": 0.3429,
         "direct_f1_ci": [
-          0.1482,
+          0.1537,
           0.5625
         ],
-        "cross_f1_mean": 0.1932,
+        "cross_f1_mean": 0.2002,
         "cross_f1_ci": [
           0.0714,
           0.3095
         ],
-        "structural_match_mean": 0.1683,
+        "structural_match_mean": 0.1733,
         "structural_match_ci": [
-          0.0627,
+          0.0677,
           0.2885
         ]
       },
       "micro_metrics": {
         "direct": {
           "tp": 11,
-          "fp": 36,
+          "fp": 35,
           "fn": 10,
-          "precision": 0.234,
+          "precision": 0.2391,
           "recall": 0.5238,
-          "f1": 0.3235
+          "f1": 0.3284
         },
         "cross_page": {
           "tp": 5,
-          "fp": 20,
+          "fp": 18,
           "fn": 15,
-          "precision": 0.2,
+          "precision": 0.2174,
           "recall": 0.25,
-          "f1": 0.2222
+          "f1": 0.2326
         }
       },
       "per_paper": [
@@ -467,21 +467,21 @@
           "page_count": 14,
           "gold_direct": 5,
           "gold_cross": 6,
-          "pred_direct": 12,
-          "pred_cross": 7,
+          "pred_direct": 11,
+          "pred_cross": 5,
           "tp_direct": 3,
-          "fp_direct": 9,
+          "fp_direct": 8,
           "fn_direct": 2,
-          "direct_precision": 0.25,
+          "direct_precision": 0.2727,
           "direct_recall": 0.6,
-          "direct_f1": 0.3529,
+          "direct_f1": 0.375,
           "tp_cross": 1,
-          "fp_cross": 6,
+          "fp_cross": 4,
           "fn_cross": 5,
-          "cross_precision": 0.1429,
+          "cross_precision": 0.2,
           "cross_recall": 0.1667,
-          "cross_f1": 0.1538,
-          "structural_match": 0.1538
+          "cross_f1": 0.1818,
+          "structural_match": 0.1739
         }
       ]
     },
@@ -489,38 +489,38 @@
       "split": "external",
       "paper_count": 4,
       "macro_metrics": {
-        "direct_f1_mean": 0.3244,
+        "direct_f1_mean": 0.3289,
         "direct_f1_ci": [
-          0.2273,
+          0.2409,
           0.4103
         ],
-        "cross_f1_mean": 0.2458,
+        "cross_f1_mean": 0.2667,
         "cross_f1_ci": [
           0.0833,
-          0.3667
+          0.3833
         ],
-        "structural_match_mean": 0.1756,
+        "structural_match_mean": 0.1819,
         "structural_match_ci": [
-          0.1351,
+          0.154,
           0.2147
         ]
       },
       "micro_metrics": {
         "direct": {
           "tp": 7,
-          "fp": 17,
+          "fp": 16,
           "fn": 13,
-          "precision": 0.2917,
+          "precision": 0.3043,
           "recall": 0.35,
-          "f1": 0.3182
+          "f1": 0.3256
         },
         "cross_page": {
           "tp": 3,
-          "fp": 5,
+          "fp": 3,
           "fn": 13,
-          "precision": 0.375,
+          "precision": 0.5,
           "recall": 0.1875,
-          "f1": 0.25
+          "f1": 0.2727
         }
       },
       "per_paper": [
@@ -596,21 +596,21 @@
           "page_count": 6,
           "gold_direct": 5,
           "gold_cross": 4,
-          "pred_direct": 6,
-          "pred_cross": 4,
+          "pred_direct": 5,
+          "pred_cross": 2,
           "tp_direct": 1,
-          "fp_direct": 5,
+          "fp_direct": 4,
           "fn_direct": 4,
-          "direct_precision": 0.1667,
+          "direct_precision": 0.2,
           "direct_recall": 0.2,
-          "direct_f1": 0.1818,
+          "direct_f1": 0.2,
           "tp_cross": 1,
-          "fp_cross": 3,
+          "fp_cross": 1,
           "fn_cross": 3,
-          "cross_precision": 0.25,
+          "cross_precision": 0.5,
           "cross_recall": 0.25,
-          "cross_f1": 0.25,
-          "structural_match": 0.1176
+          "cross_f1": 0.3333,
+          "structural_match": 0.1429
         }
       ]
     }

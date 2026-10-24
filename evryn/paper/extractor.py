@@ -147,6 +147,7 @@ PASSIVE_INDICATORS = [
     r"(?<!\bis\s)(?<!\bwas\s)(?<!\bare\s)(?<!\bwere\s)\b(?:requires?|requiring)\b",
     r"\bpromoted\s+(?:\w+\s+)?(?:by|with|upon)\b",
     r"\babolished\s+(?:\w+\s+)?(?:by|with|upon)\b",
+    r"\b(?:is|was|are|were|has\s+been|have\s+been)?\s*(?:partially\s+|mostly\s+|fully\s+)?(?:restored|rescued)\s+(?:in|by|upon|with)\b",
     r"\b(?:is|was|are|were)?\s*(?:regulated|controlled|modulated)\s+(?:\w+\s+)?(?:by|via|through)\b",
     r"\b(?:is|was|are|were)?\s*attributed\s+to\b",
     r"\b(?:is|was|are|were)?\s*encoded\s+by\b",
@@ -343,12 +344,16 @@ class PaperCausalExtractor:
         env_variables: Optional[Set[str]] = None,
         enable_extended_triggers: bool = True,
         enable_conjoined_causes: bool = True,
+        enable_passive_restore: bool = True,
+        enable_terminal_phenotype_invariant: bool = True,
     ):
         self.normalizer = normalizer or PaperEntityNormalizer()
         self.enable_env_grammar = enable_env_grammar
         self.env_variables = env_variables
         self.enable_extended_triggers = enable_extended_triggers
         self.enable_conjoined_causes = enable_conjoined_causes
+        self.enable_passive_restore = enable_passive_restore
+        self.enable_terminal_phenotype_invariant = enable_terminal_phenotype_invariant
         self.env_extractor = EnvironmentalParameterExtractor(self.normalizer)
 
     def extract_assertions(
@@ -604,6 +609,22 @@ class PaperCausalExtractor:
             valid_assertions.append(a)
         assertions = valid_assertions
 
+        # Enforce terminal phenotype direction invariant: terminal host/disease outcomes
+        # act as downstream physiological endpoints, never upstream molecular causes of genes/operons
+        if getattr(self, "enable_terminal_phenotype_invariant", True):
+            TERMINAL_PHENOTYPES = {
+                "virulence", "pathogenicity", "host survival", "protective immunity",
+                "mortality", "lethality", "host colonization", "equine strangles",
+            }
+            valid_assertions = []
+            for a in assertions:
+                c_low = a.cause_canonical.lower()
+                e_low = a.effect_canonical.lower()
+                if c_low in TERMINAL_PHENOTYPES and e_low not in TERMINAL_PHENOTYPES:
+                    continue
+                valid_assertions.append(a)
+            assertions = valid_assertions
+
         # Document-level assertion consolidation: retain highest confidence assertion per directed pair
         best_by_pair: Dict[Tuple[str, str, bool], CausalAssertion] = {}
         for a in assertions:
@@ -667,6 +688,9 @@ class PaperCausalExtractor:
         for pat_re, is_inhib in COMPILED_PASSIVE_INDICATORS:
             if not getattr(self, "enable_extended_triggers", True):
                 if any(k in pat_re.pattern for k in ["requires", "promoted", "abolished"]):
+                    continue
+            if not getattr(self, "enable_passive_restore", True):
+                if "restored" in pat_re.pattern or "rescued" in pat_re.pattern:
                     continue
             if pat_re.search(between_text):
                 rel = CausalRelationType.DOWNREGULATES if is_inhib else CausalRelationType.UPREGULATES
