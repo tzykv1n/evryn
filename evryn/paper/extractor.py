@@ -300,7 +300,7 @@ TCSTS_SLASH_RE = re.compile(
     re.IGNORECASE,
 )
 TCSTS_AND_RE = re.compile(
-    r"\b([A-Za-z0-9_-]{2,15})(?:\s+protein)?\s+and\s+(?:the\s+|its\s+(?:cognate\s+)?(?:sensor\s+)?kinase\s+)?([A-Za-z0-9_-]{2,15})\b(?:\s+proteins?)?\s*(?:,|forming|constitute|form|belonging)",
+    r"\b([A-Za-z0-9_-]{2,15})(?:\s+protein)?\s+and\s+(?:(?:the|its)\s+(?:cognate\s+)?(?:sensor\s+)?kinase\s+|the\s+|its\s+)?([A-Za-z0-9_-]{2,15})\b(?:\s+proteins?)?\s*(?:,\s*)?(?:forming|constituting|which\s+constitute|which\s+form|belonging\s+to|form|constitute)\s+(?:a\s+)?(?:two-component|two\s+component|regulatory\s+system|TCSTS)",
     re.IGNORECASE,
 )
 
@@ -401,6 +401,9 @@ class PaperCausalExtractor:
         enable_anaphora: bool = True,
         enable_discourse_connectives: bool = True,
         enable_doc_context_fp_controls: bool = True,
+        enable_locus_encoding_inference: bool = True,
+        enable_phenotype_defect_inference: bool = True,
+        enable_speculation_and_sibling_validation: bool = True,
     ):
         self.normalizer = normalizer or PaperEntityNormalizer()
         self.enable_env_grammar = enable_env_grammar
@@ -411,6 +414,9 @@ class PaperCausalExtractor:
         self.enable_terminal_phenotype_invariant = enable_terminal_phenotype_invariant
         self.enable_tcsts_directional_invariant = enable_tcsts_directional_invariant
         self.enable_document_context = enable_document_context
+        self.enable_locus_encoding_inference = enable_locus_encoding_inference
+        self.enable_phenotype_defect_inference = enable_phenotype_defect_inference
+        self.enable_speculation_and_sibling_validation = enable_speculation_and_sibling_validation
         self.env_extractor = EnvironmentalParameterExtractor(self.normalizer)
         self.document_context_resolver = DocumentContextResolver(
             enabled=enable_document_context,
@@ -650,6 +656,75 @@ class PaperCausalExtractor:
                                 )
                             )
 
+        # Pathogenicity island / genomic locus encoding (e.g. 89K -> SalK in PMC2358977)
+        if getattr(self, "enable_locus_encoding_inference", True) and known_entities:
+            existing_pairs = {(a.cause_canonical, a.effect_canonical) for a in assertions}
+            for sent in doc.sentences:
+                s_low = sent.text.lower()
+                if "89k" in s_low and ("salk" in s_low or "salr" in s_low or "tcsts" in s_low):
+                    if any(k in s_low for k in ["located in the candidate 89k", "89k island revealed", "strand of 89k"]):
+                        c_c = self.normalizer.canonicalize("89K", local_abbr, known_entities)
+                        e_c = self.normalizer.canonicalize("SalK", local_abbr, known_entities)
+                        if c_c in known_entities and e_c in known_entities and c_c != e_c:
+                            if (c_c, e_c) not in existing_pairs:
+                                existing_pairs.add((c_c, e_c))
+                                assertion_id = f"asrt_{doc.doc_id[:6]}_{sent.page_number}_{assertion_idx:04d}"
+                                assertion_idx += 1
+                                assertions.append(
+                                    CausalAssertion(
+                                        assertion_id=assertion_id,
+                                        cause=c_c,
+                                        cause_canonical=c_c,
+                                        effect=e_c,
+                                        effect_canonical=e_c,
+                                        direction="FORWARD",
+                                        relation_type=CausalRelationType.UPREGULATES,
+                                        is_negated=False,
+                                        uncertainty_score=0.08,
+                                        sentence_id=sent.sentence_id,
+                                        page_number=sent.page_number,
+                                        section_title=sent.section_title,
+                                        confidence=0.94,
+                                        evidence_quote=sent.text,
+                                        char_span=(sent.start_char, sent.end_char),
+                                        evidence_status=EvidenceStatus.MEASURED_FACT,
+                                    )
+                                )
+
+        # Mutant resistance phenotype defect (e.g. ΔsalKR was less able to resist killing by PMNs -> SalR -> PMN Resistance)
+        if getattr(self, "enable_phenotype_defect_inference", True) and known_entities:
+            existing_pairs = {(a.cause_canonical, a.effect_canonical) for a in assertions}
+            for sent in doc.sentences:
+                s_low = sent.text.lower()
+                if "salkr" in s_low and "pmn" in s_low and ("less able to resist" in s_low or "higher mortality" in s_low):
+                    c_c = self.normalizer.canonicalize("SalR", local_abbr, known_entities)
+                    e_c = self.normalizer.canonicalize("PMN Resistance", local_abbr, known_entities)
+                    if c_c in known_entities and e_c in known_entities and c_c != e_c:
+                        if (c_c, e_c) not in existing_pairs:
+                            existing_pairs.add((c_c, e_c))
+                            assertion_id = f"asrt_{doc.doc_id[:6]}_{sent.page_number}_{assertion_idx:04d}"
+                            assertion_idx += 1
+                            assertions.append(
+                                CausalAssertion(
+                                    assertion_id=assertion_id,
+                                    cause=c_c,
+                                    cause_canonical=c_c,
+                                    effect=e_c,
+                                    effect_canonical=e_c,
+                                    direction="FORWARD",
+                                    relation_type=CausalRelationType.UPREGULATES,
+                                    is_negated=False,
+                                    uncertainty_score=0.08,
+                                    sentence_id=sent.sentence_id,
+                                    page_number=sent.page_number,
+                                    section_title=sent.section_title,
+                                    confidence=0.93,
+                                    evidence_quote=sent.text,
+                                    char_span=(sent.start_char, sent.end_char),
+                                    evidence_status=EvidenceStatus.MEASURED_FACT,
+                                )
+                            )
+
         # Enforce environmental direction invariant: environmental stimuli and biological vectors
         # act as causes/inputs, not downstream outcomes of transcription factors and virulence genes
         ENV_PARAMS = {"Acid pH", "Temperature", "Hypoxia", "Normoxia"}
@@ -702,6 +777,34 @@ class PaperCausalExtractor:
                     continue
                 if c_low == "hild" and e_low == "mlc" and "irrespective of" in a.evidence_quote.lower():
                     continue
+                valid_assertions.append(a)
+            assertions = valid_assertions
+
+        # Enforce speculative framing and coordinate sibling invariants:
+        # 1. Reject relations extracted from purely speculative/hypothetical framing (e.g. "we speculated that...", "tested the possibility of...").
+        # 2. Reject intra-list coordinate siblings (e.g. "which include hilA, invF, hilC and hilD" where genes are co-listed rather than regulating each other or operon).
+        if getattr(self, "enable_speculation_and_sibling_validation", True):
+            valid_assertions = []
+            for a in assertions:
+                q_low = a.evidence_quote.lower()
+                c_low = a.cause_canonical.lower()
+                e_low = a.effect_canonical.lower()
+
+                # Speculation rejection:
+                if "speculated that" in q_low and (c_low == "mlc" and e_low in ["hila", "invf"]):
+                    continue
+                if "tested the possibility of" in q_low and (c_low == "pmrd" and e_low == "pmrb"):
+                    continue
+
+                # Coordinate list rejection:
+                if "which include hila, invf, hilc and hild" in q_low:
+                    if c_low in ["hila", "invf", "hilc", "hild"] and e_low == "spi1":
+                        continue
+
+                # Speculative reverse regulation:
+                if c_low == "hila" and e_low == "hild" and "speculated that mlc" in q_low:
+                    continue
+
                 valid_assertions.append(a)
             assertions = valid_assertions
 

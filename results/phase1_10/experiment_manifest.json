@@ -1,0 +1,49 @@
+{
+  "phase": "1.10",
+  "description": "EVRYN Phase 1.10 Advanced Extraction Improvements, Evidence Validation, and Synchronized Deliverables",
+  "timestamp": "2026-10-25T16:00:00Z",
+  "branch": "phase2.1-benchmark-audit-and-ui-fix",
+  "baseline_dev_macro_f1": 0.6137,
+  "final_dev_macro_f1": 0.6551,
+  "baseline_locked_test_f1": 0.4658,
+  "final_locked_test_f1": 0.4756,
+  "train_macro_f1": 0.475,
+  "external_macro_f1_v2": 0.3289,
+  "configurations": [
+    {
+      "id": "A0_Phase1_9_Baseline",
+      "name": "Phase 1.9 Production Baseline",
+      "locus": false,
+      "phenotype": false,
+      "speculation": false
+    },
+    {
+      "id": "A1_Strict_TCSTS_Syntax",
+      "name": "Phase 1.9 + Strict TCSTS Syntax",
+      "locus": false,
+      "phenotype": false,
+      "speculation": false
+    },
+    {
+      "id": "A2_Locus_Encoding",
+      "name": "Phase 1.9 + Strict TCSTS + Locus Encoding",
+      "locus": true,
+      "phenotype": false,
+      "speculation": false
+    },
+    {
+      "id": "A3_Resistance_Defect",
+      "name": "Phase 1.9 + Strict TCSTS + Locus + Resistance Defect",
+      "locus": true,
+      "phenotype": true,
+      "speculation": false
+    },
+    {
+      "id": "A4_Full_Phase1_10",
+      "name": "Full Phase 1.10 (+ Speculation & Coordinate Filtering)",
+      "locus": true,
+      "phenotype": true,
+      "speculation": true
+    }
+  ]
+}
