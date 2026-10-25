@@ -1,0 +1,597 @@
+{
+  "A0_Phase1_12_Baseline": {
+    "definition": {
+      "id": "A0_Phase1_12_Baseline",
+      "description": "Phase 1.12 baseline configuration without genus protection, transitive gating, or new domain invariants",
+      "params": {
+        "enable_genus_protection": false,
+        "enable_transitive_invariants": false,
+        "enable_causal_grounding_filters": false
+      }
+    },
+    "v2": {
+      "train": {
+        "direct_f1_mean": 0.4958,
+        "direct_f1_ci": [
+          0.3667,
+          0.6625
+        ],
+        "cross_f1_mean": 0.212,
+        "cross_f1_ci": [
+          0.0,
+          0.4239
+        ],
+        "structural_match_mean": 0.2547
+      },
+      "dev": {
+        "direct_f1_mean": 0.6621,
+        "direct_f1_ci": [
+          0.5652,
+          0.7565
+        ],
+        "cross_f1_mean": 0.4678,
+        "cross_f1_ci": [
+          0.2644,
+          0.6582
+        ],
+        "structural_match_mean": 0.45
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5654,
+        "direct_f1_ci": [
+          0.375,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2637,
+        "cross_f1_ci": [
+          0.0769,
+          0.4176
+        ],
+        "structural_match_mean": 0.3019
+      },
+      "external": {
+        "direct_f1_mean": 0.4808,
+        "direct_f1_ci": [
+          0.3538,
+          0.6077
+        ],
+        "cross_f1_mean": 0.3262,
+        "cross_f1_ci": [
+          0.2857,
+          0.3714
+        ],
+        "structural_match_mean": 0.2696
+      }
+    },
+    "v1": {
+      "train": {
+        "direct_f1_mean": 0.4958,
+        "direct_f1_ci": [
+          0.3667,
+          0.6625
+        ],
+        "cross_f1_mean": 0.212,
+        "cross_f1_ci": [
+          0.0,
+          0.4239
+        ],
+        "structural_match_mean": 0.2547
+      },
+      "dev": {
+        "direct_f1_mean": 0.6621,
+        "direct_f1_ci": [
+          0.5652,
+          0.7565
+        ],
+        "cross_f1_mean": 0.4678,
+        "cross_f1_ci": [
+          0.2644,
+          0.6582
+        ],
+        "structural_match_mean": 0.45
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5654,
+        "direct_f1_ci": [
+          0.375,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2637,
+        "cross_f1_ci": [
+          0.0769,
+          0.4176
+        ],
+        "structural_match_mean": 0.3019
+      },
+      "external": {
+        "direct_f1_mean": 0.3269,
+        "direct_f1_ci": [
+          0.1,
+          0.5269
+        ],
+        "cross_f1_mean": 0.2548,
+        "cross_f1_ci": [
+          0.0833,
+          0.3714
+        ],
+        "structural_match_mean": 0.1863
+      }
+    }
+  },
+  "A1_Genus_Protection": {
+    "definition": {
+      "id": "A1_Genus_Protection",
+      "description": "Baseline + Genus abbreviation sentence segmentation protection (prevents clause severance on P./M./S./E. genus names)",
+      "params": {
+        "enable_genus_protection": true,
+        "enable_transitive_invariants": false,
+        "enable_causal_grounding_filters": false
+      }
+    },
+    "v2": {
+      "train": {
+        "direct_f1_mean": 0.4958,
+        "direct_f1_ci": [
+          0.3667,
+          0.6625
+        ],
+        "cross_f1_mean": 0.212,
+        "cross_f1_ci": [
+          0.0,
+          0.4239
+        ],
+        "structural_match_mean": 0.2547
+      },
+      "dev": {
+        "direct_f1_mean": 0.682,
+        "direct_f1_ci": [
+          0.5805,
+          0.7757
+        ],
+        "cross_f1_mean": 0.4904,
+        "cross_f1_ci": [
+          0.273,
+          0.7049
+        ],
+        "structural_match_mean": 0.4762
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5584,
+        "direct_f1_ci": [
+          0.3542,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2548,
+        "cross_f1_ci": [
+          0.0769,
+          0.4087
+        ],
+        "structural_match_mean": 0.2967
+      },
+      "external": {
+        "direct_f1_mean": 0.4808,
+        "direct_f1_ci": [
+          0.3538,
+          0.6077
+        ],
+        "cross_f1_mean": 0.3262,
+        "cross_f1_ci": [
+          0.2857,
+          0.3714
+        ],
+        "structural_match_mean": 0.2696
+      }
+    },
+    "v1": {
+      "train": {
+        "direct_f1_mean": 0.4958,
+        "direct_f1_ci": [
+          0.3667,
+          0.6625
+        ],
+        "cross_f1_mean": 0.212,
+        "cross_f1_ci": [
+          0.0,
+          0.4239
+        ],
+        "structural_match_mean": 0.2547
+      },
+      "dev": {
+        "direct_f1_mean": 0.682,
+        "direct_f1_ci": [
+          0.5805,
+          0.7757
+        ],
+        "cross_f1_mean": 0.4904,
+        "cross_f1_ci": [
+          0.273,
+          0.7049
+        ],
+        "structural_match_mean": 0.4762
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5584,
+        "direct_f1_ci": [
+          0.3542,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2548,
+        "cross_f1_ci": [
+          0.0769,
+          0.4087
+        ],
+        "structural_match_mean": 0.2967
+      },
+      "external": {
+        "direct_f1_mean": 0.3269,
+        "direct_f1_ci": [
+          0.1,
+          0.5269
+        ],
+        "cross_f1_mean": 0.2548,
+        "cross_f1_ci": [
+          0.0833,
+          0.3714
+        ],
+        "structural_match_mean": 0.1863
+      }
+    }
+  },
+  "A2_Transitive_Invariants": {
+    "definition": {
+      "id": "A2_Transitive_Invariants",
+      "description": "Baseline + CrossPageLinker domain invariant gating (terminal phenotype sink filtering and TCSTS reverse pair rejection)",
+      "params": {
+        "enable_genus_protection": false,
+        "enable_transitive_invariants": true,
+        "enable_causal_grounding_filters": false
+      }
+    },
+    "v2": {
+      "train": {
+        "direct_f1_mean": 0.4958,
+        "direct_f1_ci": [
+          0.3667,
+          0.6625
+        ],
+        "cross_f1_mean": 0.2,
+        "cross_f1_ci": [
+          0.0,
+          0.4
+        ],
+        "structural_match_mean": 0.2537
+      },
+      "dev": {
+        "direct_f1_mean": 0.6621,
+        "direct_f1_ci": [
+          0.5652,
+          0.7565
+        ],
+        "cross_f1_mean": 0.4678,
+        "cross_f1_ci": [
+          0.2644,
+          0.6582
+        ],
+        "structural_match_mean": 0.45
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5654,
+        "direct_f1_ci": [
+          0.375,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2868,
+        "cross_f1_ci": [
+          0.1,
+          0.4308
+        ],
+        "structural_match_mean": 0.3123
+      },
+      "external": {
+        "direct_f1_mean": 0.4808,
+        "direct_f1_ci": [
+          0.3538,
+          0.6077
+        ],
+        "cross_f1_mean": 0.3262,
+        "cross_f1_ci": [
+          0.2857,
+          0.3714
+        ],
+        "structural_match_mean": 0.2696
+      }
+    },
+    "v1": {
+      "train": {
+        "direct_f1_mean": 0.4958,
+        "direct_f1_ci": [
+          0.3667,
+          0.6625
+        ],
+        "cross_f1_mean": 0.2,
+        "cross_f1_ci": [
+          0.0,
+          0.4
+        ],
+        "structural_match_mean": 0.2537
+      },
+      "dev": {
+        "direct_f1_mean": 0.6621,
+        "direct_f1_ci": [
+          0.5652,
+          0.7565
+        ],
+        "cross_f1_mean": 0.4678,
+        "cross_f1_ci": [
+          0.2644,
+          0.6582
+        ],
+        "structural_match_mean": 0.45
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5654,
+        "direct_f1_ci": [
+          0.375,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2868,
+        "cross_f1_ci": [
+          0.1,
+          0.4308
+        ],
+        "structural_match_mean": 0.3123
+      },
+      "external": {
+        "direct_f1_mean": 0.3269,
+        "direct_f1_ci": [
+          0.1,
+          0.5269
+        ],
+        "cross_f1_mean": 0.2548,
+        "cross_f1_ci": [
+          0.0833,
+          0.3714
+        ],
+        "structural_match_mean": 0.1863
+      }
+    }
+  },
+  "A3_Causal_Grounding_Filters": {
+    "definition": {
+      "id": "A3_Causal_Grounding_Filters",
+      "description": "Baseline + Causal grounding filters (exploratory potential objective pruning, T3SS/opsonophagocytosis invariants, attenuated negation)",
+      "params": {
+        "enable_genus_protection": false,
+        "enable_transitive_invariants": false,
+        "enable_causal_grounding_filters": true
+      }
+    },
+    "v2": {
+      "train": {
+        "direct_f1_mean": 0.4958,
+        "direct_f1_ci": [
+          0.3667,
+          0.6625
+        ],
+        "cross_f1_mean": 0.212,
+        "cross_f1_ci": [
+          0.0,
+          0.4239
+        ],
+        "structural_match_mean": 0.2547
+      },
+      "dev": {
+        "direct_f1_mean": 0.6621,
+        "direct_f1_ci": [
+          0.5652,
+          0.7565
+        ],
+        "cross_f1_mean": 0.4678,
+        "cross_f1_ci": [
+          0.2644,
+          0.6582
+        ],
+        "structural_match_mean": 0.45
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5654,
+        "direct_f1_ci": [
+          0.375,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2637,
+        "cross_f1_ci": [
+          0.0769,
+          0.4176
+        ],
+        "structural_match_mean": 0.3019
+      },
+      "external": {
+        "direct_f1_mean": 0.4808,
+        "direct_f1_ci": [
+          0.3538,
+          0.6077
+        ],
+        "cross_f1_mean": 0.3262,
+        "cross_f1_ci": [
+          0.2857,
+          0.3714
+        ],
+        "structural_match_mean": 0.2696
+      }
+    },
+    "v1": {
+      "train": {
+        "direct_f1_mean": 0.4958,
+        "direct_f1_ci": [
+          0.3667,
+          0.6625
+        ],
+        "cross_f1_mean": 0.212,
+        "cross_f1_ci": [
+          0.0,
+          0.4239
+        ],
+        "structural_match_mean": 0.2547
+      },
+      "dev": {
+        "direct_f1_mean": 0.6621,
+        "direct_f1_ci": [
+          0.5652,
+          0.7565
+        ],
+        "cross_f1_mean": 0.4678,
+        "cross_f1_ci": [
+          0.2644,
+          0.6582
+        ],
+        "structural_match_mean": 0.45
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5654,
+        "direct_f1_ci": [
+          0.375,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2637,
+        "cross_f1_ci": [
+          0.0769,
+          0.4176
+        ],
+        "structural_match_mean": 0.3019
+      },
+      "external": {
+        "direct_f1_mean": 0.3269,
+        "direct_f1_ci": [
+          0.1,
+          0.5269
+        ],
+        "cross_f1_mean": 0.2548,
+        "cross_f1_ci": [
+          0.0833,
+          0.3714
+        ],
+        "structural_match_mean": 0.1863
+      }
+    }
+  },
+  "A4_Phase1_13_Production": {
+    "definition": {
+      "id": "A4_Phase1_13_Production",
+      "description": "Phase 1.13 Production configuration (Full combination of genus protection, transitive invariant gating, and causal grounding filters)",
+      "params": {
+        "enable_genus_protection": true,
+        "enable_transitive_invariants": true,
+        "enable_causal_grounding_filters": true
+      }
+    },
+    "v2": {
+      "train": {
+        "direct_f1_mean": 0.4958,
+        "direct_f1_ci": [
+          0.3667,
+          0.6625
+        ],
+        "cross_f1_mean": 0.2,
+        "cross_f1_ci": [
+          0.0,
+          0.4
+        ],
+        "structural_match_mean": 0.2537
+      },
+      "dev": {
+        "direct_f1_mean": 0.682,
+        "direct_f1_ci": [
+          0.5805,
+          0.7757
+        ],
+        "cross_f1_mean": 0.4904,
+        "cross_f1_ci": [
+          0.273,
+          0.7049
+        ],
+        "structural_match_mean": 0.4762
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5584,
+        "direct_f1_ci": [
+          0.3542,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2779,
+        "cross_f1_ci": [
+          0.1,
+          0.4308
+        ],
+        "structural_match_mean": 0.3071
+      },
+      "external": {
+        "direct_f1_mean": 0.4808,
+        "direct_f1_ci": [
+          0.3538,
+          0.6077
+        ],
+        "cross_f1_mean": 0.3262,
+        "cross_f1_ci": [
+          0.2857,
+          0.3714
+        ],
+        "structural_match_mean": 0.2696
+      }
+    },
+    "v1": {
+      "train": {
+        "direct_f1_mean": 0.4958,
+        "direct_f1_ci": [
+          0.3667,
+          0.6625
+        ],
+        "cross_f1_mean": 0.2,
+        "cross_f1_ci": [
+          0.0,
+          0.4
+        ],
+        "structural_match_mean": 0.2537
+      },
+      "dev": {
+        "direct_f1_mean": 0.682,
+        "direct_f1_ci": [
+          0.5805,
+          0.7757
+        ],
+        "cross_f1_mean": 0.4904,
+        "cross_f1_ci": [
+          0.273,
+          0.7049
+        ],
+        "structural_match_mean": 0.4762
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5584,
+        "direct_f1_ci": [
+          0.3542,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2779,
+        "cross_f1_ci": [
+          0.1,
+          0.4308
+        ],
+        "structural_match_mean": 0.3071
+      },
+      "external": {
+        "direct_f1_mean": 0.3269,
+        "direct_f1_ci": [
+          0.1,
+          0.5269
+        ],
+        "cross_f1_mean": 0.2548,
+        "cross_f1_ci": [
+          0.0833,
+          0.3714
+        ],
+        "structural_match_mean": 0.1863
+      }
+    }
+  }
+}

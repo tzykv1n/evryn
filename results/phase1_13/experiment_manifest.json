@@ -1,0 +1,52 @@
+{
+  "timestamp": "2026-10-25T19:32:21Z",
+  "phase": "1.13",
+  "ablations": [
+    {
+      "id": "A0_Phase1_12_Baseline",
+      "description": "Phase 1.12 baseline configuration without genus protection, transitive gating, or new domain invariants",
+      "params": {
+        "enable_genus_protection": false,
+        "enable_transitive_invariants": false,
+        "enable_causal_grounding_filters": false
+      }
+    },
+    {
+      "id": "A1_Genus_Protection",
+      "description": "Baseline + Genus abbreviation sentence segmentation protection (prevents clause severance on P./M./S./E. genus names)",
+      "params": {
+        "enable_genus_protection": true,
+        "enable_transitive_invariants": false,
+        "enable_causal_grounding_filters": false
+      }
+    },
+    {
+      "id": "A2_Transitive_Invariants",
+      "description": "Baseline + CrossPageLinker domain invariant gating (terminal phenotype sink filtering and TCSTS reverse pair rejection)",
+      "params": {
+        "enable_genus_protection": false,
+        "enable_transitive_invariants": true,
+        "enable_causal_grounding_filters": false
+      }
+    },
+    {
+      "id": "A3_Causal_Grounding_Filters",
+      "description": "Baseline + Causal grounding filters (exploratory potential objective pruning, T3SS/opsonophagocytosis invariants, attenuated negation)",
+      "params": {
+        "enable_genus_protection": false,
+        "enable_transitive_invariants": false,
+        "enable_causal_grounding_filters": true
+      }
+    },
+    {
+      "id": "A4_Phase1_13_Production",
+      "description": "Phase 1.13 Production configuration (Full combination of genus protection, transitive invariant gating, and causal grounding filters)",
+      "params": {
+        "enable_genus_protection": true,
+        "enable_transitive_invariants": true,
+        "enable_causal_grounding_filters": true
+      }
+    }
+  ],
+  "results_file": "results/phase1_13/ablation_results.json"
+}

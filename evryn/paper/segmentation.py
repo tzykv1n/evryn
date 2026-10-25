@@ -206,6 +206,14 @@ class PaperSegmenter:
             token_map[tok] = m.group(0)
             clean_text = clean_text[:m.start()] + tok + clean_text[m.end():]
 
+        # Protect single-capital-letter genus abbreviations (e.g. P. gingivalis, M. tuberculosis, S. enterica)
+        # when followed by whitespace and a lowercase species name.
+        genus_pattern = re.compile(r"\b([A-Z]\.)\s+(?=[a-z])")
+        for m in reversed(list(genus_pattern.finditer(clean_text))):
+            tok = f"__GENUS_{m.start()}__"
+            token_map[tok] = m.group(1)
+            clean_text = clean_text[:m.start()] + tok + clean_text[m.start() + len(m.group(1)):]
+
         results: List[Tuple[int, int, str]] = []
         raw_splits = list(re.finditer(r"([^.!?]+[.!?]+(?:\s+|$)|[^.!?]+$)", clean_text))
 

@@ -513,16 +513,16 @@ def generate_fig6_results_progression():
 
     splits = ["Train\n(4 papers)", "Dev\n(8 papers)", "Locked\n(4 papers)", "Ext V1\n(4 papers)", "Ext V2\n(4 papers)"]
 
-    # Phase 1.12 Verified Metrics
-    direct_f1 = [0.4750, 0.6551, 0.5654, 0.3269, 0.4808]
-    direct_err_low = [0.4750 - 0.3667, 0.6551 - 0.5521, 0.5654 - 0.3750, 0.3269 - 0.1000, 0.4808 - 0.3538]
-    direct_err_high = [0.6000 - 0.4750, 0.7523 - 0.6551, 0.7279 - 0.5654, 0.5269 - 0.3269, 0.6077 - 0.4808]
+    # Phase 1.13 Verified Metrics
+    direct_f1 = [0.4958, 0.6820, 0.5584, 0.3269, 0.4808]
+    direct_err_low = [0.4958 - 0.3667, 0.6820 - 0.5805, 0.5584 - 0.3542, 0.3269 - 0.1000, 0.4808 - 0.3538]
+    direct_err_high = [0.6625 - 0.4958, 0.7757 - 0.6820, 0.7279 - 0.5584, 0.5269 - 0.3269, 0.6077 - 0.4808]
 
-    cross_f1 = [0.2120, 0.4589, 0.2637, 0.2548, 0.3262]
-    cross_err_low = [0.2120 - 0.0000, 0.4589 - 0.2585, 0.2637 - 0.0769, 0.2548 - 0.0833, 0.3262 - 0.2857]
-    cross_err_high = [0.4239 - 0.2120, 0.6519 - 0.4589, 0.4176 - 0.2637, 0.3714 - 0.2548, 0.3714 - 0.3262]
+    cross_f1 = [0.2000, 0.4904, 0.2779, 0.2548, 0.3262]
+    cross_err_low = [0.2000 - 0.0000, 0.4904 - 0.2730, 0.2779 - 0.1000, 0.2548 - 0.0833, 0.3262 - 0.2857]
+    cross_err_high = [0.4000 - 0.2000, 0.7049 - 0.4904, 0.4308 - 0.2779, 0.3714 - 0.2548, 0.3714 - 0.3262]
 
-    match_ratio = [0.2408, 0.4430, 0.3019, 0.1863, 0.2696]
+    match_ratio = [0.2537, 0.4762, 0.3071, 0.1863, 0.2696]
 
     x = np.arange(len(splits))
     # Light restrained academic palette
@@ -570,7 +570,7 @@ def generate_fig6_results_progression():
         ax3.text(bar.get_x() + bar.get_width() / 2, val + 0.020, f"{val:.4f}",
                  ha="center", va="bottom", fontsize=9.2, fontweight="bold", color="#0F172A")
 
-    fig.suptitle("EVRYN Phase 1.12 Verified Benchmark Metrics Across Isolated Splits",
+    fig.suptitle("EVRYN Phase 1.13 Verified Benchmark Metrics Across Isolated Splits",
                  fontsize=14.0, fontweight="bold", y=1.02)
     plt.tight_layout()
     save_fig(fig, "fig6_results_progression")

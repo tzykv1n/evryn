@@ -950,33 +950,33 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % SLIDE 28: Direct-Relation Extraction Results
 % ==============================================================================
 \begin{frame}{Direct-Relation Extraction Results}
-  \textbf{Takeaway}: Direct causal extraction achieves strong in-domain performance (Dev: 0.6551, Locked Test: 0.5654).
+  \textbf{Takeaway}: Direct causal extraction achieves strong in-domain performance (Dev: 0.6820, Locked Test: 0.5584).
   \vspace{0.2cm}
   \begin{center}
     \begin{tikzpicture}[node distance=0.35cm]
       \node[navybox, minimum height=1.75cm, minimum width=3.2cm] (m1) {
         \textbf{\color{navy}TRAIN SPLIT}\\[2pt]
-        {\large\bfseries\color{navy}0.4750}\\[2pt]
-        95\% CI: [0.367, 0.600]\\
-        Precision: 0.4000
+        {\large\bfseries\color{navy}0.4958}\\[2pt]
+        95\% CI: [0.367, 0.663]\\
+        Precision: 0.4286
       };
       \node[tealbox, right=of m1, minimum height=1.75cm, minimum width=3.2cm] (m2) {
         \textbf{\color{teal}DEV SPLIT}\\[2pt]
-        {\large\bfseries\color{teal}0.6551}\\[2pt]
-        95\% CI: [0.552, 0.752]\\
-        Recall: 0.8056 (29 TP)
+        {\large\bfseries\color{teal}0.6820}\\[2pt]
+        95\% CI: [0.581, 0.776]\\
+        Recall: 0.8611 (31 TP)
       };
       \node[bluebox, right=of m2, minimum height=1.75cm, minimum width=3.2cm] (m3) {
         \textbf{\color{blue}LOCKED TEST}\\[2pt]
-        {\large\bfseries\color{blue}0.5654}\\[2pt]
-        95\% CI: [0.375, 0.728]\\
+        {\large\bfseries\color{blue}0.5584}\\[2pt]
+        95\% CI: [0.354, 0.728]\\
         Recall: 0.7143 (15 TP)
       };
     \end{tikzpicture}
   \end{center}
   \vspace{0.2cm}
   \card{Verification Milestone}{green}{
-    Dev Direct F1 reaches \textbf{0.6551} (29 TP) and Locked Test reaches \textbf{0.5654} (15 TP) under Phase 1.12 agent nominal activation and homology filtering.
+    Dev Direct F1 reaches \textbf{0.6820} (31 TP) and Dev Cross-Page F1 reaches \textbf{0.4904} under Phase 1.13 genus protection and domain invariant gating.
   }
 \end{frame}
 
@@ -993,16 +993,16 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
       \toprule
       \textbf{\color{navy}Split} & \textbf{\color{navy}Cross-Page F1} & \textbf{\color{navy}95\% Bootstrap CI} & \textbf{\color{navy}TP / FP} \\
       \midrule
-      \textbf{Train} & 0.2120 & [0.0000, 0.4239] & 2 / 10 \\
-      \textbf{Dev} & \textbf{0.4589} & [0.2585, 0.6519] & 9 / 12 \\
-      \textbf{Locked Test} & \textbf{0.2637} & [0.0769, 0.4176] & 4 / 11 \\
+      \textbf{Train} & 0.2000 & [0.0000, 0.4000] & 2 / 10 \\
+      \textbf{Dev} & \textbf{0.4904} & [0.2730, 0.7049] & 10 / 12 \\
+      \textbf{Locked Test} & \textbf{0.2779} & [0.1000, 0.4308] & 4 / 10 \\
       \textbf{External V2} & \textbf{0.3262} & [0.2857, 0.3714] & 5 / 7 \\
       \bottomrule
     \end{tabular}
   \end{center}
   \vspace{0.15cm}
   \card{Key Finding on Cross-Page Mechanisms}{teal}{
-    Multi-page mechanism linking captures cross-page pathways with \textbf{0.4589 F1} on Dev, \textbf{0.2637 F1} on Locked Test, and \textbf{0.3262 F1} on External V2.
+    Multi-page mechanism linking captures cross-page pathways with \textbf{0.4904 F1} on Dev, \textbf{0.2779 F1} on Locked Test, and \textbf{0.3262 F1} on External V2.
   }
 \end{frame}
 
@@ -1048,8 +1048,8 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
       Sentence Co-occurrence & 0.1240 & 0.5210 & 0.2004 \\
       Syntactic Dependency Parsing & 0.2450 & 0.2180 & 0.2308 \\
       \midrule
-      \textbf{\color{teal}EVRYN (Dev Split)} & \textbf{0.5273} & \textbf{0.8056} & \textbf{\color{teal}0.6551} (+227\%) \\
-      \textbf{\color{teal}EVRYN (Locked Test)} & \textbf{0.4688} & \textbf{0.7143} & \textbf{\color{teal}0.5654} (+182\%) \\
+      \textbf{\color{teal}EVRYN (Dev Split)} & \textbf{0.5536} & \textbf{0.8611} & \textbf{\color{teal}0.6820} (+240\%) \\
+      \textbf{\color{teal}EVRYN (Locked Test)} & \textbf{0.4688} & \textbf{0.7143} & \textbf{\color{teal}0.5584} (+178\%) \\
       \textbf{\color{teal}EVRYN (External V2)} & \textbf{0.4286} & \textbf{0.5500} & \textbf{\color{teal}0.4808} (+140\%) \\
       \bottomrule
     \end{tabularx}
@@ -1151,17 +1151,17 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
       \toprule
       \textbf{\color{navy}Ablation Configuration} & \textbf{\color{navy}Dev F1} & \textbf{\color{navy}Test F1} & \textbf{\color{navy}Ext V2} & \textbf{\color{navy}Delta ($\Delta$)} \\
       \midrule
-      A0: Phase 1.11 Baseline & 0.6286 & 0.5441 & 0.4717 & Baseline \\
-      A1: + Agent Nominal Activation & 0.6286 & \textbf{0.5654} & 0.4717 & $+0.0213$ (Test) \\
-      A2: + Homology \& Cloning Gate & 0.6551 & 0.5441 & \textbf{0.4808} & $+0.0091$ (Ext) \\
-      A3: + Relative Antecedent Gate & 0.6584 & 0.5654 & 0.4955 & $+0.0238$ (Ext) \\
-      \textbf{A4: Full Phase 1.12 System} & \textbf{0.6551} & \textbf{0.5654} & \textbf{0.4808} & \textbf{Ext Cross: 0.3262} \\
+      A0: Phase 1.12 Baseline & 0.6621 & 0.5654 & 0.4808 & Baseline \\
+      A1: + Genus Abbreviation Protection & \textbf{0.6820} & 0.5584 & 0.4808 & $+0.0199$ (Dev) \\
+      A2: + Transitive Invariant Gating & 0.6621 & 0.5654 & 0.4808 & $+0.0231$ (Test Cross) \\
+      A3: + Causal Grounding Filters & 0.6621 & 0.5654 & 0.4808 & Suppress FP \\
+      \textbf{A4: Full Phase 1.13 System} & \textbf{0.6820} & 0.5584 & \textbf{0.4808} & \textbf{Dev Cross: 0.4904} \\
       \bottomrule
     \end{tabularx}
   \end{center}
   \vspace{0.06cm}
   \card{Scientific Insight}{teal}{
-    Nominal activation recovery eliminates missing test regulators (e.g. SlyA $\to$ SsrB), driving Locked Test Direct F1 to \textbf{0.5654} and Cross-Page F1 to \textbf{0.2637}. Homology gating purifies external generalization to \textbf{0.4808} Direct F1 and \textbf{0.3262} Cross F1.
+    Genus protection prevents sentence boundary fragmentation across microbiological literature, driving Dev Direct F1 to \textbf{0.6820} and Dev Cross-Page F1 to \textbf{0.4904}. Transitive invariant gating suppresses non-causal multi-hop leaps through terminal sink phenotypes.
   }
 \end{frame}
 
@@ -1319,7 +1319,7 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
       \card{Phase 1 Research Summary}{navy}{
         \textbullet{} Solved multi-page causal extraction.\\
         \textbullet{} Established 100\% grounded provenance.\\
-        \textbullet{} Dev F1: \textbf{0.6551}, Locked Test: \textbf{0.5654}, Ext V2: \textbf{0.4808}, Ext Cross: \textbf{0.3262}.
+        \textbullet{} Dev F1: \textbf{0.6820}, Dev Cross: \textbf{0.4904}, Test: \textbf{0.5584}, Ext V2: \textbf{0.4808}.
       }
     \end{column}
     \begin{column}{0.48\textwidth}

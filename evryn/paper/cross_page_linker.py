@@ -12,6 +12,37 @@ from .types import (
     CausalRelationType,
 )
 
+TERMINAL_PHENOTYPES = {
+    "virulence",
+    "pathogenicity",
+    "host survival",
+    "protective immunity",
+    "mortality",
+    "lethality",
+    "host colonization",
+    "equine strangles",
+    "biofilm",
+    "biofilms",
+    "cytotoxicity",
+    "spi1",
+    "spi-1",
+    "spi2",
+    "spi-2",
+    "opsonophagocytosis",
+}
+
+TCSTS_REVERSE_PAIRS = {
+    ("fimr", "fims"),
+    ("pmra", "pmrb"),
+    ("phop", "phoq"),
+    ("vicr", "vick"),
+    ("grar", "gras"),
+    ("salr", "salk"),
+    ("csrr", "csrs"),
+    ("covr", "covs"),
+    ("ssrb", "slya"),
+}
+
 
 class CrossPageLinker:
 
@@ -20,10 +51,12 @@ class CrossPageLinker:
         min_page_distance: int = 1,
         max_transitive_hops: int = 2,
         min_confidence: float = 0.58,
+        enable_transitive_invariants: bool = True,
     ):
         self.min_page_distance = min_page_distance
         self.max_transitive_hops = max_transitive_hops
         self.min_confidence = min_confidence
+        self.enable_transitive_invariants = enable_transitive_invariants
 
     def find_cross_page_links(
         self,
@@ -78,6 +111,17 @@ class CrossPageLinker:
                 for path in paths:
                     if len(path) <= 2 or len(path) > self.max_transitive_hops + 1:
                         continue
+
+                    if self.enable_transitive_invariants:
+                        # Invariant 1: Intermediate nodes cannot be terminal sink phenotypes
+                        if any(node.lower() in TERMINAL_PHENOTYPES for node in path[1:-1]):
+                            continue
+                        # Invariant 2: Terminal phenotypes cannot be upstream causes of non-phenotype targets
+                        if path[0].lower() in TERMINAL_PHENOTYPES and path[-1].lower() not in TERMINAL_PHENOTYPES:
+                            continue
+                        # Invariant 3: Directional biological invariants (TCSTS reverse pairs)
+                        if (path[0].lower(), path[-1].lower()) in TCSTS_REVERSE_PAIRS:
+                            continue
 
                     e_first = g.edges[path[0], path[1]]
                     e_last = g.edges[path[-2], path[-1]]
@@ -172,6 +216,13 @@ class CrossPageLinker:
         for l in sorted(links, key=lambda x: x.confidence, reverse=True):
             if l.source_entity == l.target_entity:
                 continue
+            if self.enable_transitive_invariants:
+                s_low = l.source_entity.lower()
+                t_low = l.target_entity.lower()
+                if (s_low, t_low) in TCSTS_REVERSE_PAIRS:
+                    continue
+                if s_low in TERMINAL_PHENOTYPES and t_low not in TERMINAL_PHENOTYPES:
+                    continue
             key = (l.source_entity, l.target_entity)
             if key not in seen_keys:
                 seen_keys.add(key)

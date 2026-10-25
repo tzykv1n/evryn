@@ -241,9 +241,17 @@ class PMCOAIngester:
         return "BODY"
 
     def _split_sentences(self, text: str) -> List[str]:
+        # Protect single-capital-letter abbreviations (e.g. P. gingivalis, M. tuberculosis)
+        clean = re.sub(r"\b([A-Z])\.\s+(?=[a-z])", r"\1__DOT__ ", text)
+        clean = re.sub(
+            r"\b(e\.g|i\.e|et al|fig|figs|ref|refs|sp|spp|dr|prof|approx|ave|wt)\.\s+",
+            r"\1__DOT__ ",
+            clean,
+            flags=re.I,
+        )
         pattern = re.compile(r"(?<=[.!?])\s+")
-        splits = pattern.split(text)
-        return [s.strip() for s in splits if s.strip()]
+        splits = pattern.split(clean)
+        return [s.replace("__DOT__", ".").strip() for s in splits if s.strip()]
 
     def ingest_pmcid(self, pmcid: str) -> PMCOADocument:
         xml_str = self.fetch_xml(pmcid)

@@ -181,7 +181,8 @@ PASSIVE_INDICATORS = [
 NEGATION_PATTERNS = [
     r"\b(?:did\s+not|does\s+not|do\s+not)\s+(?:induce|cause|inhibit|activate|alter|affect|change|promote|decrease|increase|reduce|suppress|block|associate|correlate)\b",
     r"\b(?:is\s+not|are\s+not|was\s+not|were\s+not)\s+(?:associated\s+with|correlated\s+with|linked\s+to|caused\s+by|induced\s+by|altered\s+by|affected\s+by|sufficient\s+to)\b",
-    r"\b(?:is\s+not|are\s+not|was\s+not|were\s+not)\s+(?:altered|affected|changed|induced|inhibited|decreased|increased|reduced)\b",
+    r"\b(?:is\s+not|are\s+not|was\s+not|were\s+not)\s+(?:altered|affected|changed|induced|inhibited|decreased|increased|reduced|attenuated)\b",
+    r"\b(?:is\s+not|are\s+not|was\s+not|were\s+not)\s+significantly\s+attenuated\b",
     r"\bfailed\s+to\s+(?:induce|cause|inhibit|activate|alter|affect|change|promote|decrease|increase|reduce|suppress|block)\b",
     r"\bno\s+significant\s+(?:effect|change|increase|decrease|alteration|induction|inhibition|association|correlation)\b",
     r"\bwithout\s+(?:affecting|altering|changing|inducing|inhibiting|decreasing|increasing|reducing)\b",
@@ -332,7 +333,9 @@ METHOD_HOMOLOGY_RE = re.compile(
     r"\b(?:cloned|subcloned|amplified|transformed|transduced)\s+(?:into|with|by)\b|"
     r"\btransduction\s+of\b|"
     r"\b(?:amino\s+acid|nucleotide|sequence)?\s*(?:identity|similarity|homology)\s+(?:with|to)\b|"
-    r"\bhomolog(?:ous|ue)?\s+(?:to|of)\b|"
+    r"\bhomolog(?:ous|ue|y)?\b|"
+    r"\bsite-directed\s+mutagenesis\b|"
+    r"\bexpressed\s+in\s+E\.\s*coli\b|"
     r"\b(?:functions?|acts?)\s+(?:much\s+)?like\b|"
     r"\bexhibits?\s+\d+%\s+(?:amino\s+acid|sequence)?\s*identity\b",
     re.IGNORECASE,
@@ -1037,6 +1040,7 @@ class PaperCausalExtractor:
             TERMINAL_PHENOTYPES = {
                 "virulence", "pathogenicity", "host survival", "protective immunity",
                 "mortality", "lethality", "host colonization", "equine strangles",
+                "type iii secretion", "t3ss", "opsonophagocytosis",
             }
             valid_assertions = []
             for a in assertions:
@@ -1088,6 +1092,8 @@ class PaperCausalExtractor:
                 if "speculated that" in q_low and (c_low == "mlc" and e_low in ["hila", "invf"]):
                     continue
                 if "tested the possibility of" in q_low and (c_low == "pmrd" and e_low == "pmrb"):
+                    continue
+                if re.search(r"\b(?:we|authors?)\s+(?:analyzed|investigated|examined|tested|evaluated)\b.*\bfor\s+(?:their|its)?\s*potential\s+to\b", q_low):
                     continue
 
                 # Coordinate list rejection:
