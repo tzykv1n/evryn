@@ -216,33 +216,33 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \textbf{Takeaway}: Real scientific papers disperse causal evidence across sections and pages, severing sentence-local NLP.
   \vspace{0.2cm}
   \begin{center}
-    \begin{tikzpicture}[node distance=0.45cm]
-      \node[bluebox, minimum height=1.4cm, minimum width=2.4cm] (c1) {
-        \textbf{\color{blue}Cross-Page Dispersion}\\[2pt]
+    \begin{tikzpicture}[node distance=0.25cm]
+      \node[bluebox, minimum height=1.4cm, text width=2.7cm] (c1) {
+        \textbf{\color{blue}Cross-Page}\\[2pt]
         Cause on Page 2\\
         $\Downarrow$\\
         Effect on Page 8\\
-        Requires multi-page link
+        Multi-page linking
       };
-      \node[tealbox, right=of c1, minimum height=1.4cm, minimum width=2.4cm] (c2) {
-        \textbf{\color{teal}Directional Polarity}\\[2pt]
-        Activation vs Inhibition\\
-        Passive voice inversion\\
-        Negative assertion gating\\
-        Requires causal parsing
+      \node[tealbox, right=of c1, minimum height=1.4cm, text width=2.7cm] (c2) {
+        \textbf{\color{teal}Polarity}\\[2pt]
+        Activation vs Inhib.\\
+        Passive inversion\\
+        Negative gating\\
+        Causal parsing
       };
-      \node[navybox, right=of c2, minimum height=1.4cm, minimum width=2.4cm] (c3) {
-        \textbf{\color{navy}Evidence Grounding}\\[2pt]
-        Verifiable char offsets\\
-        Sentence ID tracking\\
-        Zero hallucinated links\\
-        Dual-sentence provenance
+      \node[navybox, right=of c2, minimum height=1.4cm, text width=2.7cm] (c3) {
+        \textbf{\color{navy}Grounding}\\[2pt]
+        Verifiable offsets\\
+        Sentence ID trace\\
+        Zero hallucinations\\
+        Dual provenance
       };
     \end{tikzpicture}
   \end{center}
   \vspace{0.15cm}
   \card{Formal Extraction Challenge}{navy}{
-    Given scientific document $\mathcal{D} = \{S_1, \dots, S_n\}$, extract causal assertions $\mathcal{A} = \{(c, e, \tau, \rho, \kappa, \mathcal{E})\}$ where $c$ is cause, $e$ is effect, $\tau$ is relation type, $\rho \in \{+, -\}$ is polarity, and $\mathcal{E}$ is verifiable character-level provenance.
+    \small Given document $\mathcal{D} = \{S_1, \dots, S_n\}$, extract assertions $\mathcal{A} = \{(c, e, \tau, \rho, \kappa, \mathcal{E})\}$ where $c$ is cause, $e$ is effect, $\tau$ is relation type, $\rho \in \{+, -\}$ is polarity, and $\mathcal{E}$ is verifiable character provenance.
   }
 \end{frame}
 
@@ -306,7 +306,7 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \end{center}
   \vspace{0.12cm}
   \begin{center}
-    {\footnotesize\color{green}\textbf{Milestone Status}: All three Phase 1 objectives fully delivered, verified, and audited.}
+    {\footnotesize\color{blue}\textbf{Phase 1 Status}: Extraction architecture and provenance grounding delivered; benchmark evaluation in progress (Cross-Page $F_1$ progressing toward 0.50 target).}
   \end{center}
 \end{frame}
 
@@ -444,12 +444,12 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \textbf{Takeaway}: Five sequential stages transform raw XML papers into verifiable causal knowledge graphs.
   \vspace{0.2cm}
   \begin{center}
-    \begin{tikzpicture}[node distance=0.22cm]
-      \node[navybox, minimum height=1.35cm, minimum width=2.0cm] (s1) {\textbf{1. XML}\\[2pt]Ingest};
-      \node[bluebox, right=of s1, minimum height=1.35cm, minimum width=2.0cm] (s2) {\textbf{2. Entity}\\[2pt]Detect};
-      \node[tealbox, right=of s2, minimum height=1.35cm, minimum width=2.0cm] (s3) {\textbf{3. Causal}\\[2pt]Extract};
-      \node[amberbox, right=of s3, minimum height=1.35cm, minimum width=2.0cm] (s4) {\textbf{4. Ground}\\[2pt]Verify};
-      \node[greenbox, right=of s4, minimum height=1.35cm, minimum width=2.0cm] (s5) {\textbf{5. Graph}\\[2pt]Synthesize};
+    \begin{tikzpicture}[node distance=0.18cm]
+      \node[navybox, minimum height=1.35cm, minimum width=1.85cm] (s1) {\textbf{1. XML}\\[2pt]Ingest};
+      \node[bluebox, right=of s1, minimum height=1.35cm, minimum width=1.85cm] (s2) {\textbf{2. Entity}\\[2pt]Detect};
+      \node[tealbox, right=of s2, minimum height=1.35cm, minimum width=1.85cm] (s3) {\textbf{3. Causal}\\[2pt]Extract};
+      \node[amberbox, right=of s3, minimum height=1.35cm, minimum width=1.85cm] (s4) {\textbf{4. Ground}\\[2pt]Verify};
+      \node[greenbox, right=of s4, minimum height=1.35cm, minimum width=1.85cm] (s5) {\textbf{5. Graph}\\[2pt]Synthesize};
 
       \draw[arr] (s1) -- (s2);
       \draw[bluearr] (s2) -- (s3);
@@ -458,7 +458,7 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
     \end{tikzpicture}
   \end{center}
   \vspace{0.2cm}
-  \begin{columns}[T]
+  \begin{columns}[T,onlytextwidth]
     \begin{column}{0.48\textwidth}
       \card{Stages 1--3: NLP Ingestion}{blue}{
         \textbullet{} JATS XML section classification\\
@@ -797,11 +797,11 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \vspace{0.2cm}
   \begin{center}
     \begin{tikzpicture}[node distance=0.35cm]
-      \node[navybox, minimum height=1.35cm, minimum width=2.0cm] (tr) {\textbf{\color{navy}Train (4)}\\PMC2829055\\PMC2774163\\PMC2816692\\PMC2888461};
-      \node[bluebox, right=of tr, minimum height=1.35cm, minimum width=2.0cm] (dev) {\textbf{\color{blue}Dev (8)}\\PMC1913099\\PMC2774163\\PMC2829055\\+5 Papers};
+      \node[navybox, minimum height=1.35cm, minimum width=2.0cm] (tr) {\textbf{\color{navy}Train (4)}\\PMC2651894\\PMC2682197\\PMC2714965\\PMC2774163};
+      \node[bluebox, right=of tr, minimum height=1.35cm, minimum width=2.0cm] (dev) {\textbf{\color{blue}Dev (8)}\\PMC1804205\\PMC1874608\\PMC1913099\\+5 Papers};
       \node[redbox, right=of dev, line width=2.0pt, minimum height=1.55cm, minimum width=0.35cm] (gate) {};
-      \node[amberbox, right=of gate, minimum height=1.35cm, minimum width=2.0cm] (test) {\textbf{\color{amber}Locked (4)}\\PMC2888461\\PMC2829055\\+2 Papers\\Frozen Gate};
-      \node[greenbox, right=of test, minimum height=1.35cm, minimum width=2.0cm] (ext) {\textbf{\color{green}External (4)}\\PMC2816692\\PMC2774163\\+2 Papers\\Unseen Set};
+      \node[amberbox, right=of gate, minimum height=1.35cm, minimum width=2.0cm] (test) {\textbf{\color{amber}Locked (4)}\\PMC2565068\\PMC2581603\\PMC2593050\\PMC2639726};
+      \node[greenbox, right=of test, minimum height=1.35cm, minimum width=2.0cm] (ext) {\textbf{\color{green}External (4)}\\PMC2816692\\PMC2829055\\PMC2858072\\PMC2885601};
 
       \node[above=0.08cm of gate, font=\tiny\bfseries\color{red}] {LOCKED GATE};
     \end{tikzpicture}
@@ -933,7 +933,7 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
         \end{equation*}
         \textbullet{} Computed per paper, then averaged.\\
         \textbullet{} Prevents long papers dominating score.\\
-        \textbullet{} Acceptance threshold: $F_1 \ge 0.30$.
+        \textbullet{} Formal target: Cross-Page $F_1 \ge 0.50$ (In Progress).
       }
     \end{column}
     \begin{column}{0.48\textwidth}
@@ -950,7 +950,7 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % SLIDE 28: Direct-Relation Extraction Results
 % ==============================================================================
 \begin{frame}{Direct-Relation Extraction Results}
-  \textbf{Takeaway}: EVRYN achieves state-of-the-art causal extraction across all evaluation splits.
+  \textbf{Takeaway}: Direct causal extraction achieves strong in-domain performance (Dev: 0.6551, Locked Test: 0.5654).
   \vspace{0.2cm}
   \begin{center}
     \begin{tikzpicture}[node distance=0.35cm]
@@ -989,9 +989,9 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \begin{center}
     \small
     \renewcommand{\arraystretch}{1.15}
-    \begin{tabularx}{\linewidth}{Xccc}
+    \begin{tabularx}{0.98\linewidth}{l ccc}
       \toprule
-      \textbf{\color{navy}Split} & \textbf{\color{navy}Cross-Page Macro F1} & \textbf{\color{navy}95\% Bootstrap CI} & \textbf{\color{navy}Cross TP / FP} \\
+      \textbf{\color{navy}Split} & \textbf{\color{navy}Cross-Page F1} & \textbf{\color{navy}95\% Bootstrap CI} & \textbf{\color{navy}TP / FP} \\
       \midrule
       \textbf{Train} & 0.2120 & [0.0000, 0.4239] & 2 / 10 \\
       \textbf{Dev} & \textbf{0.4589} & [0.2585, 0.6519] & 9 / 12 \\
@@ -1013,15 +1013,15 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \textbf{Takeaway}: 100\% of extracted edges possess verified character-level provenance coordinates.
   \vspace{0.18cm}
   \begin{center}
-    \begin{tikzpicture}[node distance=0.4cm]
-      \node[greenbox, minimum height=1.45cm, minimum width=4.5cm] (p1) {
+    \begin{tikzpicture}[node distance=0.25cm]
+      \node[greenbox, minimum height=1.45cm, minimum width=4.3cm] (p1) {
         \textbf{\color{green}Provenance Grounding Rate}\\[2pt]
         {\Large\bfseries\color{green}100.0\%}\\[2pt]
         Zero ungrounded edges
       };
-      \node[bluebox, right=of p1, minimum height=1.45cm, minimum width=4.8cm] (p2) {
+      \node[bluebox, right=of p1, minimum height=1.45cm, minimum width=4.5cm] (p2) {
         \textbf{\color{blue}Exact Structural Match}\\[2pt]
-        {\large\bfseries\color{blue}44.30\% (Dev) $\mid$ 30.19\% (Test)}\\[2pt]
+        {\normalsize\bfseries\color{blue}Dev: 44.3\% $\mid$ Test: 30.2\%}\\[2pt]
         Complete graph identity
       };
     \end{tikzpicture}
@@ -1041,7 +1041,7 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \begin{center}
     \small
     \renewcommand{\arraystretch}{1.15}
-    \begin{tabularx}{\linewidth}{Xccc}
+    \begin{tabularx}{0.98\linewidth}{Xccc}
       \toprule
       \textbf{\color{navy}Method} & \textbf{\color{navy}Precision} & \textbf{\color{navy}Recall} & \textbf{\color{navy}Direct Macro F1} \\
       \midrule
@@ -1095,29 +1095,29 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % SLIDE 33: Diagnostic Error Analysis: Failure Mode Taxonomy
 % ==============================================================================
 \begin{frame}{Diagnostic Error Analysis: Failure Mode Taxonomy}
-  \textbf{Takeaway}: Rigorous error audit decomposes all 48 False Negatives and 104 False Positives.
+  \textbf{Takeaway}: Rigorous error audit decomposes all 29 False Negatives and 76 False Positives in Benchmark V2.
   \vspace{0.18cm}
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
-      \card{48 False Negatives Breakdown}{red}{
-        \textbullet{} \textbf{Discourse-Level Claims}: 28 cases (58\%)\\
-        \textbullet{} \textbf{Synonym / Operon Gaps}: 13 cases (27\%)\\
-        \textbullet{} \textbf{Syntactic Passives}: 4 cases (8\%)\\
-        \textbullet{} \textbf{Complex Invariants}: 3 cases (6\%)
+      \card{29 False Negatives Breakdown}{red}{
+        \textbullet{} \textbf{Multi-Complex Assembly}: 10 cases (35\%)\\
+        \textbullet{} \textbf{Implicit Promoters}: 9 cases (31\%)\\
+        \textbullet{} \textbf{Multi-Hop Hypoxia}: 6 cases (21\%)\\
+        \textbullet{} \textbf{Negative Feedback}: 4 cases (14\%)
       }
     \end{column}
     \begin{column}{0.48\textwidth}
-      \card{104 False Positives Breakdown}{amber}{
-        \textbullet{} \textbf{Associational Verbs}: 42 cases (40\%)\\
-        \textbullet{} \textbf{General Bio Correlation}: 31 cases (30\%)\\
-        \textbullet{} \textbf{Broad Entity Matches}: 18 cases (17\%)\\
-        \textbullet{} \textbf{Discourse Bleed}: 13 cases (13\%)
+      \card{76 False Positives Breakdown}{amber}{
+        \textbullet{} \textbf{Experimental Controls}: 28 cases (37\%)\\
+        \textbullet{} \textbf{Co-occurring Regulators}: 24 cases (32\%)\\
+        \textbullet{} \textbf{Assay Reagents}: 14 cases (18\%)\\
+        \textbullet{} \textbf{Broad Phenotypes}: 10 cases (13\%)
       }
     \end{column}
   \end{columns}
   \vspace{0.15cm}
   \card{Audit Result}{navy}{
-    Document-context resolution in Phase 1.7 successfully recovered discourse claims while biological invariants prevented false positive expansion.
+    Homology noise rejection and agent-nominal activation in Phase 1.12 reduced false positives while recovering direct regulon links.
   }
 \end{frame}
 
@@ -1289,20 +1289,20 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \textbf{Takeaway}: Phase 1 establishes the verified foundation for Phase 2 continual SCM forecasting.
   \vspace{0.2cm}
   \begin{center}
-    \begin{tikzpicture}[node distance=0.40cm]
-      \node[navybox, minimum height=1.45cm, minimum width=3.1cm] (p1) {
+    \begin{tikzpicture}[node distance=0.22cm]
+      \node[navybox, minimum height=1.45cm, minimum width=2.95cm] (p1) {
         \textbf{\color{navy}Phase 1 (Delivered)}\\[2pt]
         Grounded Extraction\\
         Multi-Page Graphs\\
         20-Paper Benchmark
       };
-      \node[tealbox, right=of p1, minimum height=1.45cm, minimum width=3.3cm] (p2) {
+      \node[tealbox, right=of p1, minimum height=1.45cm, minimum width=3.15cm] (p2) {
         \textbf{\color{teal}Phase 2 (Dec--Feb)}\\[2pt]
         Dynamic SCM Updating\\
         25-Yr Longitudinal Corpus\\
         Continual Causal Flux
       };
-      \node[bluebox, right=of p2, minimum height=1.45cm, minimum width=3.1cm] (p3) {
+      \node[bluebox, right=of p2, minimum height=1.45cm, minimum width=2.95cm] (p3) {
         \textbf{\color{blue}Phase 3 (Mar--Apr)}\\[2pt]
         Discovery Forecasting\\
         Prospective Link Predict\\
@@ -1314,7 +1314,7 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
     \end{tikzpicture}
   \end{center}
   \vspace{0.2cm}
-  \begin{columns}[T]
+  \begin{columns}[T,onlytextwidth]
     \begin{column}{0.48\textwidth}
       \card{Phase 1 Research Summary}{navy}{
         \textbullet{} Solved multi-page causal extraction.\\
