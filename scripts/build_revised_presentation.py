@@ -135,18 +135,18 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % ==============================================================================
 \begin{frame}{Research Context: Automated Science \& Biomedical Literature}
   \textbf{Takeaway}: Exponential literature growth overwhelms manual curation, requiring automated causal extraction.
-  \vspace{0.2cm}
+  \vspace{0.10cm}
   \begin{center}
-    \begin{tikzpicture}[node distance=0.85cm]
-      \node[redbox, minimum height=1.1cm, minimum width=2.6cm] (b1) {\textbf{\color{red}1.5M+ Papers/Yr}\\[2pt]{\scriptsize PubMed Avalanche}\\{\scriptsize Unstructured PDFs}};
-      \node[amberbox, right=of b1, minimum height=1.1cm, minimum width=2.6cm] (b2) {\textbf{\color{amber}Curated Databases}\\[2pt]{\scriptsize KEGG / Reactome}\\{\scriptsize 3--7 Year Lag ($<5\%$)}};
-      \node[tealbox, right=of b2, minimum height=1.1cm, minimum width=2.6cm] (b3) {\textbf{\color{teal}Automated Discovery}\\[2pt]{\scriptsize EVRYN SCM Pipeline}\\{\scriptsize Verifiable Grounding}};
+    \begin{tikzpicture}[node distance=1.1cm]
+      \node[redbox, minimum height=1.05cm, text width=2.4cm] (b1) {\textbf{\color{red}1.5M+ Papers/Yr}\\[2pt]{\scriptsize PubMed Avalanche}\\{\scriptsize Unstructured PDFs}};
+      \node[amberbox, right=of b1, minimum height=1.05cm, text width=2.4cm] (b2) {\textbf{\color{amber}Curated Databases}\\[2pt]{\scriptsize KEGG / Reactome}\\{\scriptsize 3--7 Year Lag ($<5\%$)}};
+      \node[tealbox, right=of b2, minimum height=1.05cm, text width=2.4cm] (b3) {\textbf{\color{teal}Automated Discovery}\\[2pt]{\scriptsize EVRYN SCM Pipeline}\\{\scriptsize Verifiable Grounding}};
 
-      \draw[arr] (b1) -- node[above, font=\scriptsize\bfseries\color{navy}] {Exceeds Human} (b2);
-      \draw[arr] (b2) -- node[above, font=\scriptsize\bfseries\color{navy}] {Urgent Need} (b3);
+      \draw[arr] (b1) -- node[above, font=\tiny\bfseries\color{navy}, fill=white, inner sep=1.5pt] {Exceeds Human} (b2);
+      \draw[arr] (b2) -- node[above, font=\tiny\bfseries\color{navy}, fill=white, inner sep=1.5pt] {Urgent Need} (b3);
     \end{tikzpicture}
   \end{center}
-  \vspace{0.15cm}
+  \vspace{0.08cm}
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
       \card{Curation Bottleneck}{red}{
@@ -287,24 +287,24 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % ==============================================================================
 \begin{frame}{Research Objectives of Phase 1}
   \textbf{Takeaway}: Phase 1 establishes the evidence-grounded extraction pipeline and benchmark foundation.
-  \vspace{0.2cm}
+  \vspace{0.10cm}
   \begin{center}
-    \begin{tikzpicture}[node distance=0.3cm]
-      \node[tealbox, widebox, minimum height=1.15cm] (o1) {
+    \begin{tikzpicture}[node distance=0.22cm]
+      \node[tealbox, widebox, minimum height=1.02cm] (o1) {
         \textbf{\color{teal}Objective 1: Multi-Page Causal Relation Extraction}\\[1pt]
         Extract directed causal pairs across page boundaries with exact character coordinates.
       };
-      \node[bluebox, widebox, below=of o1, minimum height=1.15cm] (o2) {
+      \node[bluebox, widebox, below=of o1, minimum height=1.02cm] (o2) {
         \textbf{\color{blue}Objective 2: Evidence Grounding \& Provenance Verification}\\[1pt]
         Bind every causal edge to verbatim text, sentence IDs, and page offsets with zero hallucinations.
       };
-      \node[navybox, widebox, below=of o2, minimum height=1.15cm] (o3) {
+      \node[navybox, widebox, below=of o2, minimum height=1.02cm] (o3) {
         \textbf{\color{navy}Objective 3: Rigorous Benchmark Isolation \& Generalization}\\[1pt]
         Construct 20-paper PMC benchmark with strictly isolated Train, Dev, Test, and External splits.
       };
     \end{tikzpicture}
   \end{center}
-  \vspace{0.12cm}
+  \vspace{0.06cm}
   \begin{center}
     {\footnotesize\color{blue}\textbf{Phase 1 Status}: Extraction architecture and provenance grounding delivered; benchmark evaluation in progress (Cross-Page $F_1$ progressing toward 0.50 target).}
   \end{center}
@@ -318,7 +318,7 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \vspace{0.15cm}
   \begin{center}
     \scriptsize
-    \begin{tabularx}{\linewidth}{p{1.0cm}p{3.8cm}X}
+    \begin{tabularx}{\linewidth}{p{1.0cm}>{\raggedright\arraybackslash}p{3.8cm}>{\raggedright\arraybackslash}X}
       \toprule
       \textbf{\color{navy}RQ} & \textbf{\color{navy}Core Question} & \textbf{\color{navy}Methodological Answer} \\
       \midrule
@@ -353,8 +353,8 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
     \end{column}
     \begin{column}{0.48\textwidth}
       \card{Delimited Scope}{amber}{
-        \textbullet{} \textbf{Included}: Direct causal relations, cross-page mechanisms, polarity, environmental shifts.\\
-        \textbullet{} \textbf{Deferred to Phase 2}: Continual longitudinal corpus updating and prospective discovery forecasting.
+        \textbullet{} \textbf{Included}: Direct causal relations, cross-page mechanisms, polarity, and environmental shifts.\\
+        \textbullet{} \textbf{Deferred to Phase 2}: Continual longitudinal updating and prospective discovery forecasting.
       }
     \end{column}
   \end{columns}
@@ -414,22 +414,22 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % ==============================================================================
 \begin{frame}{Definitions and Causal Terminology}
   \textbf{Takeaway}: Strict mathematical definitions govern causal assertion extraction.
-  \vspace{0.18cm}
+  \vspace{0.10cm}
   \begin{center}
-    \begin{tikzpicture}[node distance=0.32cm]
-      \node[tealbox, widebox, minimum height=0.9cm] (t1) {
+    \begin{tikzpicture}[node distance=0.20cm]
+      \node[tealbox, widebox, minimum height=0.80cm] (t1) {
         \textbf{\color{teal}Direct Causal Relation} ($X \to Y$)\\[1pt]
         $X$ directly modulates $Y$ without observed intermediates in the local discourse context.
       };
-      \node[bluebox, widebox, below=of t1, minimum height=0.9cm] (t2) {
+      \node[bluebox, widebox, below=of t1, minimum height=0.80cm] (t2) {
         \textbf{\color{blue}Cross-Page Mechanism Link} ($X \rightsquigarrow Z$)\\[1pt]
         Causal path conjoined across page boundaries: $X \to Y$ on Page $p_1$ and $Y \to Z$ on Page $p_2$.
       };
-      \node[amberbox, widebox, below=of t2, minimum height=0.9cm] (t3) {
+      \node[amberbox, widebox, below=of t2, minimum height=0.80cm] (t3) {
         \textbf{\color{amber}Directional Polarity} ($\rho \in \{+, -\}$)\\[1pt]
         Positive activation / promotion vs Negative inhibition / repression / attenuation.
       };
-      \node[greenbox, widebox, below=of t3, minimum height=0.9cm] (t4) {
+      \node[greenbox, widebox, below=of t3, minimum height=0.80cm] (t4) {
         \textbf{\color{green}Terminal Phenotype} ($\mathcal{P}_{\text{terminal}}$)\\[1pt]
         High-level outcome (e.g. Virulence, Survival, Colonization) incapable of causing molecular genes.
       };
@@ -481,20 +481,20 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % ==============================================================================
 \begin{frame}{Overall Architecture: Engineering Blueprint}
   \textbf{Takeaway}: Four decoupled layers maintain clean separation of concerns and crash resilience.
-  \vspace{0.10cm}
+  \vspace{0.08cm}
   \begin{center}
-    \begin{tikzpicture}[node distance=0.26cm]
-      \node[navybox, wideboxcenter, minimum height=0.76cm] (l1) {\textbf{\color{navy}Presentation Layer}: Next.js React UI / Cytoscape Graph / REST API};
-      \node[tealbox, wideboxcenter, below=of l1, minimum height=0.76cm] (l2) {\textbf{\color{teal}Causal Engine}: Graph Linker / Provenance Grounding / Bounded Context};
-      \node[bluebox, wideboxcenter, below=of l2, minimum height=0.76cm] (l3) {\textbf{\color{blue}NLP Extraction Core}: Normalizer / Regex Triggers / Environmental Extractor};
-      \node[basebox, wideboxcenter, below=of l3, minimum height=0.76cm] (l4) {\textbf{Data Ingestion Layer}: PMC-OA XML Ingester / PDF Parser / Cache Store};
+    \begin{tikzpicture}[node distance=0.18cm]
+      \node[navybox, wideboxcenter, minimum height=0.70cm] (l1) {\textbf{\color{navy}Presentation Layer}: Next.js React UI / Cytoscape Graph / REST API};
+      \node[tealbox, wideboxcenter, below=of l1, minimum height=0.70cm] (l2) {\textbf{\color{teal}Causal Engine}: Graph Linker / Provenance Grounding / Bounded Context};
+      \node[bluebox, wideboxcenter, below=of l2, minimum height=0.70cm] (l3) {\textbf{\color{blue}NLP Extraction Core}: Normalizer / Regex Triggers / Environmental Extractor};
+      \node[basebox, wideboxcenter, below=of l3, minimum height=0.70cm] (l4) {\textbf{Data Ingestion Layer}: PMC-OA XML Ingester / PDF Parser / Cache Store};
 
       \draw[arr] (l4) -- (l3);
       \draw[bluearr] (l3) -- (l2);
       \draw[tealarr] (l2) -- (l1);
     \end{tikzpicture}
   \end{center}
-  \vspace{0.10cm}
+  \vspace{0.08cm}
   \card{Architectural Invariant}{navy}{
     Strict isolation between extraction logic and web server: UI crashes cannot corrupt extraction pipelines.
   }
@@ -538,20 +538,20 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % ==============================================================================
 \begin{frame}{Architecture: Extraction Pipeline}
   \textbf{Takeaway}: Multi-pass syntactic extraction resolves entities, triggers, and passive voice.
-  \vspace{0.2cm}
+  \vspace{0.10cm}
   \begin{center}
-    \begin{tikzpicture}[node distance=0.28cm]
-      \node[bluebox, wideboxcenter, minimum height=0.88cm] (e1) {\textbf{Pass 1}: Bio-Entity Detection \& Local Abbreviation Mapping};
-      \node[tealbox, wideboxcenter, below=of e1, minimum height=0.88cm] (e2) {\textbf{Pass 2}: Syntactic Causal Trigger Matching (Forward / Reverse)};
-      \node[amberbox, wideboxcenter, below=of e2, minimum height=0.88cm] (e3) {\textbf{Pass 3}: Passive Voice Inversion \& Polarity Gating};
-      \node[greenbox, wideboxcenter, below=of e3, minimum height=0.88cm] (e4) {\textbf{Pass 4}: Document-Context Anaphora \& Connective Resolution};
+    \begin{tikzpicture}[node distance=0.20cm]
+      \node[bluebox, wideboxcenter, minimum height=0.76cm] (e1) {\textbf{Pass 1}: Bio-Entity Detection \& Local Abbreviation Mapping};
+      \node[tealbox, wideboxcenter, below=of e1, minimum height=0.76cm] (e2) {\textbf{Pass 2}: Syntactic Causal Trigger Matching (Forward / Reverse)};
+      \node[amberbox, wideboxcenter, below=of e2, minimum height=0.76cm] (e3) {\textbf{Pass 3}: Passive Voice Inversion \& Polarity Gating};
+      \node[greenbox, wideboxcenter, below=of e3, minimum height=0.76cm] (e4) {\textbf{Pass 4}: Document-Context Anaphora \& Connective Resolution};
 
       \draw[arr] (e1) -- (e2);
       \draw[tealarr] (e2) -- (e3);
       \draw[bluearr] (e3) -- (e4);
     \end{tikzpicture}
   \end{center}
-  \vspace{0.15cm}
+  \vspace{0.10cm}
   \card{Key Innovation}{teal}{
     Passive voice inversion restores true agent: `"Y is activated by X"` $\to$ Cause: $X$, Effect: $Y$.
   }
@@ -820,7 +820,7 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \vspace{0.15cm}
   \begin{center}
     \footnotesize
-    \begin{tabularx}{\linewidth}{lcccc}
+    \begin{tabularx}{\linewidth}{lccc>{\raggedright\arraybackslash}X}
       \toprule
       \textbf{\color{navy}Split} & \textbf{\color{navy}Papers} & \textbf{\color{navy}Direct} & \textbf{\color{navy}Cross} & \textbf{\color{navy}Role} \\
       \midrule
@@ -901,19 +901,19 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % ==============================================================================
 \begin{frame}{EVRYN Method: Bounded Multi-Page Causal Inference}
   \textbf{Takeaway}: Chains local causal assertions into transitive mechanisms across page boundaries.
-  \vspace{0.18cm}
+  \vspace{0.15cm}
   \begin{center}
-    \begin{tikzpicture}[node distance=1.6cm]
+    \begin{tikzpicture}[node distance=1.4cm]
       \node[tealbox, minimum width=2.4cm, minimum height=0.95cm] (x) {\textbf{BvrR}\\[1pt]{\scriptsize Sensor Kinase}};
       \node[bluebox, right=of x, minimum width=2.4cm, minimum height=0.95cm] (y) {\textbf{OMPs}\\[1pt]{\scriptsize Outer Membrane}};
       \node[greenbox, right=of y, minimum width=2.4cm, minimum height=0.95cm] (z) {\textbf{Virulence}\\[1pt]{\scriptsize Macrophage Entry}};
 
       \draw[tealarr] (x) -- node[above, font=\scriptsize\bfseries] {Page 2 (+)} (y);
       \draw[tealarr] (y) -- node[above, font=\scriptsize\bfseries] {Page 5 (+)} (z);
-      \draw[arr, dashed] (x) to[bend right=42] node[below, font=\scriptsize\bfseries\color{navy}] {Inferred Transitive Link ($d \ge 1$ page, $\le 2$ hops)} (z);
+      \draw[arr, dashed] (x) to[bend right=36] node[below, font=\scriptsize\bfseries\color{navy}, fill=white, inner sep=1.5pt] {Inferred Transitive Link ($d \ge 1$ page, $\le 2$ hops)} (z);
     \end{tikzpicture}
   \end{center}
-  \vspace{0.2cm}
+  \vspace{0.15cm}
   \card{Transitive Mechanism Synthesis}{teal}{
     If $(A \to B)$ asserted on Page $p_1$ and $(B \to C)$ asserted on Page $p_2$ ($p_2 > p_1$), EVRYN synthesizes the cross-page link $(A \rightsquigarrow C)$ with dual-page provenance.
   }
@@ -989,7 +989,7 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \begin{center}
     \small
     \renewcommand{\arraystretch}{1.15}
-    \begin{tabularx}{0.98\linewidth}{l ccc}
+    \begin{tabular}{l ccc}
       \toprule
       \textbf{\color{navy}Split} & \textbf{\color{navy}Cross-Page F1} & \textbf{\color{navy}95\% Bootstrap CI} & \textbf{\color{navy}TP / FP} \\
       \midrule
@@ -998,7 +998,7 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
       \textbf{Locked Test} & \textbf{0.2637} & [0.0769, 0.4176] & 4 / 11 \\
       \textbf{External V2} & \textbf{0.3262} & [0.2857, 0.3714] & 5 / 7 \\
       \bottomrule
-    \end{tabularx}
+    \end{tabular}
   \end{center}
   \vspace{0.15cm}
   \card{Key Finding on Cross-Page Mechanisms}{teal}{
@@ -1143,10 +1143,10 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % ==============================================================================
 \begin{frame}{Ablation and Component Analysis}
   \textbf{Takeaway}: Controlled ablation confirms monotonic generalization gains across unseen literature.
-  \vspace{0.10cm}
+  \vspace{0.06cm}
   \begin{center}
     \footnotesize
-    \renewcommand{\arraystretch}{1.10}
+    \renewcommand{\arraystretch}{0.98}
     \begin{tabularx}{\linewidth}{Xcccc}
       \toprule
       \textbf{\color{navy}Ablation Configuration} & \textbf{\color{navy}Dev F1} & \textbf{\color{navy}Test F1} & \textbf{\color{navy}Ext V2} & \textbf{\color{navy}Delta ($\Delta$)} \\
@@ -1159,7 +1159,7 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
       \bottomrule
     \end{tabularx}
   \end{center}
-  \vspace{0.10cm}
+  \vspace{0.06cm}
   \card{Scientific Insight}{teal}{
     Nominal activation recovery eliminates missing test regulators (e.g. SlyA $\to$ SsrB), driving Locked Test Direct F1 to \textbf{0.5654} and Cross-Page F1 to \textbf{0.2637}. Homology gating purifies external generalization to \textbf{0.4808} Direct F1 and \textbf{0.3262} Cross F1.
   }
@@ -1170,10 +1170,11 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % ==============================================================================
 \begin{frame}{Performance and Runtime Analysis: Measured Benchmarks}
   \textbf{Takeaway}: Sub-second end-to-end execution per paper enables real-time interactive extraction.
-  \vspace{0.15cm}
+  \vspace{0.04cm}
   \begin{center}
-    \footnotesize
-    \begin{tabularx}{\linewidth}{Xccc}
+    \scriptsize
+    \renewcommand{\arraystretch}{0.84}
+    \begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}Xccc}
       \toprule
       \textbf{\color{navy}Pipeline Stage} & \textbf{\color{navy}Latency (Mean)} & \textbf{\color{navy}Memory Footprint} & \textbf{\color{navy}Throughput} \\
       \midrule
@@ -1186,7 +1187,7 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
       \bottomrule
     \end{tabularx}
   \end{center}
-  \vspace{0.06cm}
+  \vspace{0.03cm}
   \card{Efficiency Advantage}{green}{
     Lightweight rule-based extraction requires zero GPUs, runs entirely on CPU, and processes the entire 20-paper corpus in under 15 seconds.
   }
@@ -1256,18 +1257,29 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 \end{frame}
 
 % ==============================================================================
-% SLIDE 39: Research Implementation Roadmap & Gantt Milestone Schedule
+% SLIDE 39: Research Implementation Roadmap & Milestone Schedule
 % ==============================================================================
 \begin{frame}{Research Implementation Roadmap \& Milestone Schedule}
   \textbf{Takeaway}: Disciplined monthly progression from Phase 1 consolidation to Phase 3 discovery prediction.
   \vspace{0.08cm}
-  \begin{center}
-    \includegraphics[height=3.8cm, keepaspectratio]{figures/gantt_schedule.pdf}
-  \end{center}
-  \vspace{0.05cm}
-  \card{Milestone Governance}{navy}{
-    \textbf{M1 (Nov 30)}: Phase 1 Defense $\mid$ \textbf{M2 (Feb 28)}: Longitudinal Transfer Audit $\mid$ \textbf{M3 (Apr 30)}: Final M.Tech Defense.
-  }
+
+  \tiny
+  \renewcommand{\arraystretch}{1.12}
+  \begin{tabularx}{\linewidth}{l >{\raggedright\arraybackslash}p{3.2cm} c l >{\raggedright\arraybackslash}X}
+    \toprule
+    \textbf{\color{navy}Phase} & \textbf{\color{navy}Deliverable / Task} & \textbf{\color{navy}Window} & \textbf{\color{navy}Status} & \textbf{\color{navy}Target Milestone} \\
+    \midrule
+    \textbf{Phase 1} & Benchmark Consolidation \& Monograph & Nov 2026 & \textbf{\color{green}Delivered} & \textbf{M1}: CUSAT Defense (Nov 30) \\
+    \textbf{Phase 2A} & Conformal Semantic Gating (PubMedBERT) & Dec 2026 & \textbf{\color{teal}In Progress} & False Transitive Filter ($F_1 \ge 0.50$) \\
+    \textbf{Phase 2B} & 25-Year PMC-OA Longitudinal Corpus & Jan 2027 & Planned & Scaled Temporal Graph Index \\
+    \textbf{Phase 2C} & Continual Mechanism Adaptation (FLUX) & Feb 2027 & Planned & \textbf{M2}: Transfer Audit (Feb 28) \\
+    \textbf{Phase 3A} & SCM Prospective Discovery Forecaster & Mar 2027 & Planned & Historical Backtesting Validation \\
+    \textbf{Phase 3B} & Thesis Compilation \& Department Defense & Apr 2027 & Planned & \textbf{M3}: Final Defense (Apr 30) \\
+    \bottomrule
+  \end{tabularx}
+
+  \vspace{0.12cm}
+  {\scriptsize\color{mutedtext}\textbf{Milestone Governance}: M1 (Phase 1 CUSAT Defense) $\to$ M2 (Longitudinal Transfer Audit) $\to$ M3 (Final Thesis Defense).}
 \end{frame}
 
 % ==============================================================================
