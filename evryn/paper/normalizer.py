@@ -373,11 +373,19 @@ class PaperEntityNormalizer:
                         if ke.lower() == candidate.lower() or ke.lower() == candidate.lower().rstrip("s"):
                             return ke
 
+            # Pass 1: exact case-insensitive match against known entities
+            for ke in known_entities:
+                if key == ke.lower():
+                    return ke
+
             for ke in known_entities:
                 ke_low = ke.lower()
                 if key == ke_low:
                     return ke
-                if key.rstrip("s") == ke_low.rstrip("s"):
+                # Guard against TCSTS operon (e.g. GraRS) colliding with response regulator (GraR)
+                if ke_low.endswith("rs") and key.endswith("r"):
+                    pass
+                elif key.rstrip("s") == ke_low.rstrip("s"):
                     return ke
                 if key.replace("-", "").replace(" ", "") == ke_low.replace("-", "").replace(" ", ""):
                     return ke

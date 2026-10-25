@@ -1,0 +1,1302 @@
+{
+  "version": "v2",
+  "fn_taxonomy": {
+    "incorrect_direction": 4,
+    "cross_sentence_discourse": 9,
+    "missed_causal_trigger": 10,
+    "entity_alias_or_canonicalization_failure": 15,
+    "negation_speculation_refutation": 1
+  },
+  "fp_taxonomy": {
+    "over_generated_or_spurious_relation": 51,
+    "environmental_confounder": 4,
+    "incorrect_direction": 20,
+    "genetic_complementation_and_rescue": 2,
+    "unsupported_association": 8
+  },
+  "fn_count": 39,
+  "fp_count": 85,
+  "fn_errors": [
+    {
+      "pmcid": "PMC1804205",
+      "split": "dev",
+      "cause": "PmrA",
+      "effect": "PmrD",
+      "category": "incorrect_direction",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 8,
+      "sample_sent": "Here we report that this activation requires both PmrA's cognate sensor kinase PmrB, which had been previously shown to respond to Fe3+ and Al3+, and PmrA's post-translational activator PmrD."
+    },
+    {
+      "pmcid": "PMC1913099",
+      "split": "dev",
+      "cause": "Adherence",
+      "effect": "Streptolysin O",
+      "category": "cross_sentence_discourse",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC1913099",
+      "split": "dev",
+      "cause": "SpeB",
+      "effect": "Host Colonization",
+      "category": "cross_sentence_discourse",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC1974823",
+      "split": "dev",
+      "cause": "Short Fimbriae",
+      "effect": "Biofilm",
+      "category": "cross_sentence_discourse",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC2242835",
+      "split": "dev",
+      "cause": "EspA",
+      "effect": "ESX-1",
+      "category": "cross_sentence_discourse",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC2266911",
+      "split": "dev",
+      "cause": "AHL",
+      "effect": "LuxR",
+      "category": "incorrect_direction",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 5,
+      "sample_sent": "They produce membrane diffusible signalling molecules, acyl homoserine lactones (AHLs), which are sensed by the receptor/regulator LuxR when exceeding a threshold concentration."
+    },
+    {
+      "pmcid": "PMC2266911",
+      "split": "dev",
+      "cause": "Biofilm Formation",
+      "effect": "Virulence",
+      "category": "missed_causal_trigger",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 2,
+      "sample_sent": "Virulence, bioluminescence, mutualism, antibiotic production and biofilm formation are often regulated by LuxI/LuxR quorum sensing systems in Gram-negative bacteria."
+    },
+    {
+      "pmcid": "PMC2358977",
+      "split": "dev",
+      "cause": "89K",
+      "effect": "SalK",
+      "category": "missed_causal_trigger",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 8,
+      "sample_sent": "Further bioinformatics analysis revealed a unique two-component signal transduction system (TCSTS) located in the candidate 89K PAI, which is orthologous to the SalK/SalR regulatory system of Streptococcus salivarius."
+    },
+    {
+      "pmcid": "PMC2358977",
+      "split": "dev",
+      "cause": "SalR",
+      "effect": "PMN Resistance",
+      "category": "entity_alias_or_canonicalization_failure",
+      "c_found": true,
+      "e_found": false,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC2430206",
+      "split": "dev",
+      "cause": "dltA",
+      "effect": "LL-37",
+      "category": "cross_sentence_discourse",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC2581603",
+      "split": "locked_test",
+      "cause": "Cation Chelation",
+      "effect": "PhoPQ",
+      "category": "cross_sentence_discourse",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC2581603",
+      "split": "locked_test",
+      "cause": "PhoPQ",
+      "effect": "PmrAB",
+      "category": "missed_causal_trigger",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 7,
+      "sample_sent": "Sub-inhibitory concentrations of DNA created a cation-limited environment that resulted in induction of the PhoPQ- and PmrAB-regulated cationic antimicrobial peptide resistance operon PA3552\u2013PA3559 in P."
+    },
+    {
+      "pmcid": "PMC2581603",
+      "split": "locked_test",
+      "cause": "PmrAB",
+      "effect": "arn Operon",
+      "category": "entity_alias_or_canonicalization_failure",
+      "c_found": true,
+      "e_found": false,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC2581603",
+      "split": "locked_test",
+      "cause": "arn Operon",
+      "effect": "Antibiotic Resistance",
+      "category": "entity_alias_or_canonicalization_failure",
+      "c_found": false,
+      "e_found": true,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC2593050",
+      "split": "locked_test",
+      "cause": "VicK",
+      "effect": "VicR",
+      "category": "missed_causal_trigger",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 3,
+      "sample_sent": "This study aims at evaluating the importance of the two-component regulatory system VicRK to virulence of the horse pathogen Streptococcus equi subspecies equi and the potential of a vicK mutant as a live vaccine candidate using mouse infection models."
+    },
+    {
+      "pmcid": "PMC2593050",
+      "split": "locked_test",
+      "cause": "Bacterial Growth",
+      "effect": "Virulence",
+      "category": "entity_alias_or_canonicalization_failure",
+      "c_found": false,
+      "e_found": true,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC2593050",
+      "split": "locked_test",
+      "cause": "Virulence",
+      "effect": "Protective Immunity",
+      "category": "entity_alias_or_canonicalization_failure",
+      "c_found": true,
+      "e_found": false,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC2639726",
+      "split": "locked_test",
+      "cause": "PhoQ",
+      "effect": "PhoP",
+      "category": "missed_causal_trigger",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 10,
+      "sample_sent": "For the two-component regulator ssrA/ssrB we constructed in-frame deletions missing ssrA, ssrB or both; for the other two two-component regulators, phoP/phoQ and ompR/envZ, both the signal sensor and response regulator were deleted."
+    },
+    {
+      "pmcid": "PMC2639726",
+      "split": "locked_test",
+      "cause": "SlyA",
+      "effect": "SsrB",
+      "category": "incorrect_direction",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 24,
+      "sample_sent": "These experiments validated the regulatory model and showed that the response regulator SsrB and the MarR type regulator, SlyA, are the terminal regulators in a cascade that integrates multiple signals."
+    },
+    {
+      "pmcid": "PMC2682197",
+      "split": "train",
+      "cause": "ATP-Binding",
+      "effect": "Bacillary Growth",
+      "category": "entity_alias_or_canonicalization_failure",
+      "c_found": true,
+      "e_found": false,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC2682197",
+      "split": "train",
+      "cause": "Bacillary Growth",
+      "effect": "Persistent Infection",
+      "category": "entity_alias_or_canonicalization_failure",
+      "c_found": false,
+      "e_found": true,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC2682197",
+      "split": "train",
+      "cause": "Persistent Infection",
+      "effect": "Virulence",
+      "category": "negation_speculation_refutation",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 1,
+      "sample_sent": "tuberculosis USP Rv2623 has the ability to regulate mycobacterial growth, as evident by the in vivo hypervirulence phenotype of \u0394rv2623, which fails to establish a persistent infection in susceptible hosts, as well as the growth attenuation observed in mycobacteria overexpressing this USP."
+    },
+    {
+      "pmcid": "PMC2714965",
+      "split": "train",
+      "cause": "PMN Infiltration",
+      "effect": "Host Survival",
+      "category": "entity_alias_or_canonicalization_failure",
+      "c_found": true,
+      "e_found": false,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC2774163",
+      "split": "train",
+      "cause": "GacS",
+      "effect": "cyclic-di-GMP",
+      "category": "cross_sentence_discourse",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC2774163",
+      "split": "train",
+      "cause": "Type III Secretion",
+      "effect": "Virulence",
+      "category": "entity_alias_or_canonicalization_failure",
+      "c_found": false,
+      "e_found": true,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC2774163",
+      "split": "train",
+      "cause": "Biofilm",
+      "effect": "Virulence",
+      "category": "missed_causal_trigger",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 2,
+      "sample_sent": "Expression of the pel and psl genes is coordinated by the global regulator RetS, a hybrid sensor kinase-response regulator protein, that plays a key role in the reciprocal regulation of virulence factors and biofilm formation required for acute versus chronic infection [36]."
+    },
+    {
+      "pmcid": "PMC2816692",
+      "split": "external",
+      "cause": "SrcA",
+      "effect": "PipB2",
+      "category": "missed_causal_trigger",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 9,
+      "sample_sent": "Further biochemical and quantitative proteomics data revealed three protein interactions with SrcA, including two effector cargos (SseL and PipB2) and the type III-associated ATPase, SsaN, that increases the efficiency of effector translocation."
+    },
+    {
+      "pmcid": "PMC2816692",
+      "split": "external",
+      "cause": "SrcA",
+      "effect": "SseL",
+      "category": "missed_causal_trigger",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 8,
+      "sample_sent": "Further biochemical and quantitative proteomics data revealed three protein interactions with SrcA, including two effector cargos (SseL and PipB2) and the type III-associated ATPase, SsaN, that increases the efficiency of effector translocation."
+    },
+    {
+      "pmcid": "PMC2816692",
+      "split": "external",
+      "cause": "Effector Translocation",
+      "effect": "Virulence",
+      "category": "cross_sentence_discourse",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC2829055",
+      "split": "external",
+      "cause": "di-GMP",
+      "effect": "ybt",
+      "category": "cross_sentence_discourse",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC2829055",
+      "split": "external",
+      "cause": "ybt",
+      "effect": "Phagocytosis Resistance",
+      "category": "entity_alias_or_canonicalization_failure",
+      "c_found": true,
+      "e_found": false,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC2829055",
+      "split": "external",
+      "cause": "Phagocytosis Resistance",
+      "effect": "Virulence",
+      "category": "entity_alias_or_canonicalization_failure",
+      "c_found": false,
+      "e_found": true,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC2858072",
+      "split": "external",
+      "cause": "BvrR",
+      "effect": "BvrR/BvrS",
+      "category": "incorrect_direction",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 31,
+      "sample_sent": "The two-component BvrR/BvrS system is essential for Brucella abortus virulence."
+    },
+    {
+      "pmcid": "PMC2858072",
+      "split": "external",
+      "cause": "Outer Membrane Proteins",
+      "effect": "Macrophage Infection",
+      "category": "entity_alias_or_canonicalization_failure",
+      "c_found": true,
+      "e_found": false,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC2858072",
+      "split": "external",
+      "cause": "Macrophage Infection",
+      "effect": "Virulence",
+      "category": "entity_alias_or_canonicalization_failure",
+      "c_found": false,
+      "e_found": true,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC2885601",
+      "split": "external",
+      "cause": "SeMac",
+      "effect": "IgG Endopeptidase",
+      "category": "missed_causal_trigger",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 4,
+      "sample_sent": "SeMac was characterized to determine whether SeMac has IgG endopeptidase activity and inhibits opsonophagocytosis of S."
+    },
+    {
+      "pmcid": "PMC2885601",
+      "split": "external",
+      "cause": "Mac",
+      "effect": "IgG Endopeptidase",
+      "category": "missed_causal_trigger",
+      "c_found": true,
+      "e_found": true,
+      "co_occur_count": 4,
+      "sample_sent": "SeMac was characterized to determine whether SeMac has IgG endopeptidase activity and inhibits opsonophagocytosis of S."
+    },
+    {
+      "pmcid": "PMC2885601",
+      "split": "external",
+      "cause": "Opsonophagocytosis",
+      "effect": "Bacterial Survival",
+      "category": "entity_alias_or_canonicalization_failure",
+      "c_found": true,
+      "e_found": false,
+      "co_occur_count": 0,
+      "sample_sent": null
+    },
+    {
+      "pmcid": "PMC2885601",
+      "split": "external",
+      "cause": "Bacterial Survival",
+      "effect": "Virulence",
+      "category": "entity_alias_or_canonicalization_failure",
+      "c_found": false,
+      "e_found": true,
+      "co_occur_count": 0,
+      "sample_sent": null
+    }
+  ],
+  "fp_errors": [
+    {
+      "pmcid": "PMC1804205",
+      "split": "dev",
+      "cause": "PmrA",
+      "effect": "Polymyxin B",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "Our results suggest that protonation of the PmrB periplasmic histidine and/or of the glutamic acid residues activate the PmrA protein, and that mild acid promotes cellular changes resulting in polymyxin B resistance.",
+      "sent_id": "sec_1_s9",
+      "page": 1
+    },
+    {
+      "pmcid": "PMC1804205",
+      "split": "dev",
+      "cause": "Acid pH",
+      "effect": "PmrA",
+      "category": "environmental_confounder",
+      "quote": "The transcriptional activation of PmrA-regulated genes taking place at pH 5.8 could be due to trace amounts of metals such as Fe3+, which is more soluble at acidic pH.",
+      "sent_id": "sec_3_s6",
+      "page": 3
+    },
+    {
+      "pmcid": "PMC1804205",
+      "split": "dev",
+      "cause": "PmrA",
+      "effect": "PmrB",
+      "category": "incorrect_direction",
+      "quote": "Besides mild acid pH, two other stimuli are known to promote expression of PmrA-activated genes: (i) submillimolar levels of extracellular Fe3+ or Al3+, which are directly sensed by the PmrB protein (Wosten et al., 2000), and (ii) low concentrations of extracellular Mg2+ (Soncini and Groisman, 1996) (Fig.",
+      "sent_id": "sec_2_s15",
+      "page": 2
+    },
+    {
+      "pmcid": "PMC1804205",
+      "split": "dev",
+      "cause": "PmrD",
+      "effect": "PmrA",
+      "category": "incorrect_direction",
+      "quote": "The low Mg2+ activation of the PmrA protein requires PhoQ, a protein that senses extracellular Mg2+ levels (Vescovi et al., 1996), PhoQ's cognate regulator PhoP, and the PhoP-activated protein PmrD (Kox et al., 2000; Kato and Groisman, 2004).",
+      "sent_id": "sec_2_s17",
+      "page": 2
+    },
+    {
+      "pmcid": "PMC1804205",
+      "split": "dev",
+      "cause": "PmrD",
+      "effect": "PmrB",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "Thus, we tested the possibility of PmrD participating in the PmrA-dependent response to acidic conditions, and thus contributing to the pbgP transcription remaining in a pmrB mutant.",
+      "sent_id": "sec_5_s3",
+      "page": 4
+    },
+    {
+      "pmcid": "PMC1804205",
+      "split": "dev",
+      "cause": "Acid pH",
+      "effect": "PmrD",
+      "category": "environmental_confounder",
+      "quote": "Consistent with its role in acid pH activation, expression of the pmrD gene was promoted in media of mild acid pH (Fig.",
+      "sent_id": "sec_8_s33",
+      "page": 7
+    },
+    {
+      "pmcid": "PMC1874608",
+      "split": "dev",
+      "cause": "Mlc",
+      "effect": "SPI1",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "To identify the target gene in SPI1 that is regulated by Mlc, the expression patterns of the SPI1-regulatory genes, which include hilA, invF, hilC and hilD, were examined by primer extension analysis of total RNA from SL1344 and SR1304 grown statically to the exponential phase.",
+      "sent_id": "sec_15_s1",
+      "page": 7
+    },
+    {
+      "pmcid": "PMC1874608",
+      "split": "dev",
+      "cause": "HilD",
+      "effect": "SPI1",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "To identify the target gene in SPI1 that is regulated by Mlc, the expression patterns of the SPI1-regulatory genes, which include hilA, invF, hilC and hilD, were examined by primer extension analysis of total RNA from SL1344 and SR1304 grown statically to the exponential phase.",
+      "sent_id": "sec_15_s1",
+      "page": 7
+    },
+    {
+      "pmcid": "PMC1874608",
+      "split": "dev",
+      "cause": "HilA",
+      "effect": "Type III Secretion",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "HilA plays a crucial role in the expression of genes that encode the SPI1-T3SS apparatus, the prg and inv/spa operons, by binding upstream of prgH and invF (10).",
+      "sent_id": "sec_2_s9",
+      "page": 1
+    },
+    {
+      "pmcid": "PMC1874608",
+      "split": "dev",
+      "cause": "Type III Secretion",
+      "effect": "InvF",
+      "category": "incorrect_direction",
+      "quote": "HilA plays a crucial role in the expression of genes that encode the SPI1-T3SS apparatus, the prg and inv/spa operons, by binding upstream of prgH and invF (10).",
+      "sent_id": "sec_2_s9",
+      "page": 1
+    },
+    {
+      "pmcid": "PMC1874608",
+      "split": "dev",
+      "cause": "InvF",
+      "effect": "SPI1",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "The expression of invF leads to the induction of several effector genes encoded both within SPI1 (sic/sip operon) and outside SPI1 (sigD/sopB and sopE), with SicA as a co-factor (11).",
+      "sent_id": "sec_2_s10",
+      "page": 2
+    },
+    {
+      "pmcid": "PMC1874608",
+      "split": "dev",
+      "cause": "HilD",
+      "effect": "InvF",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "The expression levels of hilA and invF were previously shown to be affected by both HilC and HilD (8,9,16) but since hilC levels are unaffected by the mlc mutation (Figure 2A) we speculated that Mlc was regulating hilA and invF expression indirectly probably by modulating the expression of hilD or the higher regulator of hilD.",
+      "sent_id": "sec_15_s6",
+      "page": 7
+    },
+    {
+      "pmcid": "PMC1874608",
+      "split": "dev",
+      "cause": "Type III Secretion",
+      "effect": "SPI1",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "This process is rapid, specific and depends on the T3SS encoded within SPI1 (33,34).",
+      "sent_id": "sec_14_s18",
+      "page": 7
+    },
+    {
+      "pmcid": "PMC1874608",
+      "split": "dev",
+      "cause": "Mlc",
+      "effect": "HilA",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "The expression levels of hilA and invF were previously shown to be affected by both HilC and HilD (8,9,16) but since hilC levels are unaffected by the mlc mutation (Figure 2A) we speculated that Mlc was regulating hilA and invF expression indirectly probably by modulating the expression of hilD or the higher regulator of hilD.",
+      "sent_id": "sec_15_s6",
+      "page": 7
+    },
+    {
+      "pmcid": "PMC1874608",
+      "split": "dev",
+      "cause": "Mlc",
+      "effect": "InvF",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "The expression levels of hilA and invF were previously shown to be affected by both HilC and HilD (8,9,16) but since hilC levels are unaffected by the mlc mutation (Figure 2A) we speculated that Mlc was regulating hilA and invF expression indirectly probably by modulating the expression of hilD or the higher regulator of hilD.",
+      "sent_id": "sec_15_s6",
+      "page": 7
+    },
+    {
+      "pmcid": "PMC1874608",
+      "split": "dev",
+      "cause": "HilA",
+      "effect": "HilD",
+      "category": "incorrect_direction",
+      "quote": "The expression levels of hilA and invF were previously shown to be affected by both HilC and HilD (8,9,16) but since hilC levels are unaffected by the mlc mutation (Figure 2A) we speculated that Mlc was regulating hilA and invF expression indirectly probably by modulating the expression of hilD or the higher regulator of hilD.",
+      "sent_id": "sec_15_s6",
+      "page": 7
+    },
+    {
+      "pmcid": "PMC1874608",
+      "split": "dev",
+      "cause": "HilD",
+      "effect": "Mlc",
+      "category": "incorrect_direction",
+      "quote": "Additionally, the over-expression of HilD from the plasmid pJB3 containing hilD gene under the control of a lac promoter caused the induction of hilA by \u223c2-fold and invF by \u223c6-fold irrespective of hilE or mlc mutation when real-time PCR was used to compare the expression levels (data not shown).",
+      "sent_id": "sec_16_s24",
+      "page": 8
+    },
+    {
+      "pmcid": "PMC1874608",
+      "split": "dev",
+      "cause": "InvF",
+      "effect": "HilD",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "The hilC mutation had little effect on SPI1 gene expression or the invasive phenotype, whereas the over-expression of hilC suppressed the hilD mutation, thereby promoting high levels of hilA and invF expression, which suggests that HilC can partially compensate for the loss of function of HilD and the invasive phenotype (8,9,15).",
+      "sent_id": "sec_20_s10",
+      "page": 12
+    },
+    {
+      "pmcid": "PMC1874608",
+      "split": "dev",
+      "cause": "InvF",
+      "effect": "HilA",
+      "category": "incorrect_direction",
+      "quote": "A Salmonella enterica serovar Typhimurium mlc mutant showed reduced levels of invasion and cytotoxicity compared to the wild-type, and exhibited reduced expression levels of hilD, hilA and invF, which are regulatory genes in the Salmonella pathogenicity island 1 (SPI1).",
+      "sent_id": "sec_1_s2",
+      "page": 1
+    },
+    {
+      "pmcid": "PMC1913099",
+      "split": "dev",
+      "cause": "Adherence",
+      "effect": "Host Colonization",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "Although recent microarray studies have highlighted the molecular responses of streptococci in relevant host conditions [8\u201310], characterizing differentially expressed loci during pharyngeal cell adherence is critical for understanding the molecular basis for host colonization.",
+      "sent_id": "sec_2_s15",
+      "page": 2
+    },
+    {
+      "pmcid": "PMC1913099",
+      "split": "dev",
+      "cause": "SpeB",
+      "effect": "Adherence",
+      "category": "incorrect_direction",
+      "quote": "When SpeB expression is limited, several streptococcal proteins necessary for adherence remain intact [24,32,33]; thus, decreased SpeB production (as indicated here) may promote pharyngeal cell attachment.",
+      "sent_id": "sec_5_s12",
+      "page": 4
+    },
+    {
+      "pmcid": "PMC1974823",
+      "split": "dev",
+      "cause": "FimR",
+      "effect": "FimS",
+      "category": "incorrect_direction",
+      "quote": "FimR, a response regulator of the fimS/fimR two-component system was identified, and FimA expression was found to be dramatically reduced in fimR mutants (Hayashi et al., 2000).",
+      "sent_id": "sec_2_s15",
+      "page": 1
+    },
+    {
+      "pmcid": "PMC1974823",
+      "split": "dev",
+      "cause": "FimS",
+      "effect": "Short Fimbriae",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "The data presented here provide evidence that these two distinct fimbriae are under the control of a two-component regulatory system: FimS/FimR.",
+      "sent_id": "sec_13_s47",
+      "page": 8
+    },
+    {
+      "pmcid": "PMC1974823",
+      "split": "dev",
+      "cause": "FimR",
+      "effect": "Short Fimbriae",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "This analysis suggests the FimS/FimR system is required for expression of both major and minor fimbriae.",
+      "sent_id": "sec_10_s12",
+      "page": 5
+    },
+    {
+      "pmcid": "PMC2242835",
+      "split": "dev",
+      "cause": "ESAT-6",
+      "effect": "PhoP",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "In contrast, splenocytes from H37Ra::phoP inoculated mice showed very strong IFN-\u03b3 production in response to incubation with ESAT-6 and CFP-10.",
+      "sent_id": "sec_7_s10",
+      "page": 5
+    },
+    {
+      "pmcid": "PMC2242835",
+      "split": "dev",
+      "cause": "EspA",
+      "effect": "ESAT-6",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "In previous studies rv3614c, rv3615c, rv3616c (espA) were independently shown to be essential for proper ESAT-6 secretion [27,28].",
+      "sent_id": "sec_8_s14",
+      "page": 6
+    },
+    {
+      "pmcid": "PMC2242835",
+      "split": "dev",
+      "cause": "EspA",
+      "effect": "T Cell Recognition",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "Since in previous, independent studies it has been demonstrated that functions of the rv3614c-rv3616c (espA) gene cluster were essential for the secretion of ESAT-6 and CFP-10 [27,28], it is quite probable that the lack of ESAT-6-specific T cell responses observed for strains H37Ra and SO2 (Figure 3) might be caused by the insufficient expression of rv3612c-rv3616c, which results from the lack of a fully functional PhoP in these strains.",
+      "sent_id": "sec_9_s26",
+      "page": 8
+    },
+    {
+      "pmcid": "PMC2242835",
+      "split": "dev",
+      "cause": "PhoP",
+      "effect": "ESAT-6",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "By complementation with the wild-type copy of PhoP, we obtained a significant increase in virulence in ex vivo and animal models as well as restoration of ESAT-6 secretion and the accompanying antigen-specific immunological recognition by sensitized splenocytes or T cell hybridomas.",
+      "sent_id": "sec_9_s41",
+      "page": 9
+    },
+    {
+      "pmcid": "PMC2242835",
+      "split": "dev",
+      "cause": "ESAT-6",
+      "effect": "ESX-1",
+      "category": "incorrect_direction",
+      "quote": "Finally, it is intriguing that both BCG and H37Ra, the two most often used attenuated tubercle bacilli, are attenuated for reasons linked to loss of ESAT-6 functions. Thus, our results once more emphasize the great importance of the ESX-1 system for tubercle bacilli and provide important new information about the phoP-associated virulence regulation in M.",
+      "sent_id": "sec_9_s55",
+      "page": 9
+    },
+    {
+      "pmcid": "PMC2266911",
+      "split": "dev",
+      "cause": "LuxR",
+      "effect": "Biofilm Formation",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "Virulence, bioluminescence, mutualism, antibiotic production and biofilm formation are often regulated by LuxI/LuxR quorum sensing systems in Gram-negative bacteria.",
+      "sent_id": "sec_6_s1",
+      "page": 5
+    },
+    {
+      "pmcid": "PMC2266911",
+      "split": "dev",
+      "cause": "LuxR",
+      "effect": "AHL",
+      "category": "incorrect_direction",
+      "quote": "35 of these potential LuxR-like receptors exhibit PAS_4 signal binding domains instead of an AHL-binding domain, and two have a signalling domain with a yet unidentified motif (Fig.",
+      "sent_id": "sec_8_s3",
+      "page": 7
+    },
+    {
+      "pmcid": "PMC2358977",
+      "split": "dev",
+      "cause": "SalK",
+      "effect": "Virulence",
+      "category": "genetic_complementation_and_rescue",
+      "quote": "The reduction in virulence was mostly restored in a complemented strain upon reintroduction of functional copies of salK and salR into the mutant, suggesting that it did not result from polar effects on expression of flanking genes.",
+      "sent_id": "sec_12_s15",
+      "page": 7
+    },
+    {
+      "pmcid": "PMC2430206",
+      "split": "dev",
+      "cause": "GraRS",
+      "effect": "Virulence",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "To investigate the impact of reduced resistance of the graRS mutant to neutrophil and CAMP-mediated killing on the ability of the bacteria to cause infections in vivo, we compared the virulence of WT and mutant bacteria in a mouse challenge model.",
+      "sent_id": "sec_5_s1",
+      "page": 3
+    },
+    {
+      "pmcid": "PMC2565068",
+      "split": "locked_test",
+      "cause": "ScpC",
+      "effect": "Streptolysin O",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "These results demonstrate that clinically isolated invasive GAS impaired PMN recruitment and its survival, as a result of productions of ScpC and SLO, respectively.",
+      "sent_id": "sec_6_s6",
+      "page": 4
+    },
+    {
+      "pmcid": "PMC2565068",
+      "split": "locked_test",
+      "cause": "CsrS",
+      "effect": "IL-8",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "We now show a direct and previously unrecognized link between functional loss of a factor CsrS of two-component sensor/regulator system (CsrS/CsrR: also known as CovS/CovR) and escape from killing by PMN via inducing necrosis to them and digesting IL-8, a PMN-attracting chemokine.",
+      "sent_id": "sec_2_s13",
+      "page": 2
+    },
+    {
+      "pmcid": "PMC2565068",
+      "split": "locked_test",
+      "cause": "ScpC",
+      "effect": "Virulence",
+      "category": "unsupported_association",
+      "quote": "In contrast to the previous view [18], we observed that both of ScpC and SLO together, but not each of them, mediated sufficient in vivo virulence (Table 1), thus compatible with the notion that plural virulence-associated factors under the regulation of csrS abrogate PMN bactericidal functions and induce invasive diseases in in vivo animal model.",
+      "sent_id": "sec_10_s28",
+      "page": 8
+    },
+    {
+      "pmcid": "PMC2565068",
+      "split": "locked_test",
+      "cause": "Streptolysin O",
+      "effect": "CsrS",
+      "category": "incorrect_direction",
+      "quote": "The expression of DNase as well as the slo and the scpC genes in emm1-genotype strains was enhanced under the csrS mutation [5].",
+      "sent_id": "sec_10_s18",
+      "page": 7
+    },
+    {
+      "pmcid": "PMC2565068",
+      "split": "locked_test",
+      "cause": "ScpC",
+      "effect": "CsrS",
+      "category": "incorrect_direction",
+      "quote": "The expression of DNase as well as the slo and the scpC genes in emm1-genotype strains was enhanced under the csrS mutation [5].",
+      "sent_id": "sec_10_s18",
+      "page": 7
+    },
+    {
+      "pmcid": "PMC2565068",
+      "split": "locked_test",
+      "cause": "Streptolysin O",
+      "effect": "ScpC",
+      "category": "unsupported_association",
+      "quote": "These results demonstrate the prominent changes in the transcriptional profile of several virulence-associated genes, including the slo and the scpC, in the all severe invasive GAS.",
+      "sent_id": "sec_7_s4",
+      "page": 4
+    },
+    {
+      "pmcid": "PMC2581603",
+      "split": "locked_test",
+      "cause": "Extracellular DNA",
+      "effect": "Antibiotic Resistance",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "Thus, the presence of extracellular DNA in the biofilm matrix contributes to cation gradients, genomic DNA release and inducible antibiotic resistance.",
+      "sent_id": "sec_1_s10",
+      "page": 1
+    },
+    {
+      "pmcid": "PMC2581603",
+      "split": "locked_test",
+      "cause": "Cation Chelation",
+      "effect": "Antibiotic Resistance",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "aeruginosa\n[44],[45],[47], we sought to determine if Mg2+ chelation by DNA may account, at least in part, for the increased antibiotic resistance observed in biofilms.",
+      "sent_id": "sec_5_s15",
+      "page": 6
+    },
+    {
+      "pmcid": "PMC2639726",
+      "split": "locked_test",
+      "cause": "SsrB",
+      "effect": "Virulence",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "Furthermore, experiments to demonstrate epistatic relationships showed that SsrB can replace SlyA and, in some cases, SlyA can replace SsrB for expression of SPI-2 encoded virulence factors.",
+      "sent_id": "sec_1_s10",
+      "page": 1
+    },
+    {
+      "pmcid": "PMC2639726",
+      "split": "locked_test",
+      "cause": "SlyA",
+      "effect": "Virulence",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "Furthermore, experiments to demonstrate epistatic relationships showed that SsrB can replace SlyA and, in some cases, SlyA can replace SsrB for expression of SPI-2 encoded virulence factors.",
+      "sent_id": "sec_1_s10",
+      "page": 1
+    },
+    {
+      "pmcid": "PMC2639726",
+      "split": "locked_test",
+      "cause": "SPI-2",
+      "effect": "SlyA",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "Furthermore there was a clear dichotomy in expression between the first two SPI-2 operons encoding ssaB-ssaE and sseA-sseG and the operons further downstream (ssaG-ssaQ) suggesting that slyA may act at different sites within SPI-2.",
+      "sent_id": "sec_10_s12",
+      "page": 10
+    },
+    {
+      "pmcid": "PMC2639726",
+      "split": "locked_test",
+      "cause": "SPI-2",
+      "effect": "SsrB",
+      "category": "incorrect_direction",
+      "quote": "So, in Figure 6B all regulatory effects on SPI-2 have been removed except for those mediated directly by slyA and ssrB based on additional genetic data as described below.",
+      "sent_id": "sec_8_s12",
+      "page": 9
+    },
+    {
+      "pmcid": "PMC2639726",
+      "split": "locked_test",
+      "cause": "SlyA",
+      "effect": "SPI-2",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "As shown in Figure 7D, slyA is capable of activating expression of SPI-2 genes independently of ssrB, ompR/envZ, phoP/phoQ, csrA and himD (ihf), although the effects are not as strong as ssrB.",
+      "sent_id": "sec_10_s11",
+      "page": 10
+    },
+    {
+      "pmcid": "PMC2639726",
+      "split": "locked_test",
+      "cause": "SsrB",
+      "effect": "SlyA",
+      "category": "incorrect_direction",
+      "quote": "These 14 regulators are very diverse including alternative sigma factors (rpoS and rpoE), two-component regulators (ompR/envZ, phoP/phoQ, and ssrA/ssrB), post-transcriptional regulators (csrA, hfq and smpB), a bending protein (ihf) and an assortment of other DNA binding proteins (fruR, spvR, crp, slyA, and hnr; see Table 1 for references).",
+      "sent_id": "sec_11_s3",
+      "page": 10
+    },
+    {
+      "pmcid": "PMC2639726",
+      "split": "locked_test",
+      "cause": "PhoP",
+      "effect": "SsrB",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "In agreement with this model, SlyA and PhoP counteract H-NS silencing at pagC\n[85],[87]. Thus, one explanation for the transcription we observe following over-expression of ssrB or slyA may be that both SlyA and SsrB counteract binding of small nucleoid-like proteins including both H-NS and YdgD/Hha in this A+T rich SPI-2 region [70].",
+      "sent_id": "sec_13_s16",
+      "page": 14
+    },
+    {
+      "pmcid": "PMC2639726",
+      "split": "locked_test",
+      "cause": "PhoP",
+      "effect": "SPI-2",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "In agreement with this model, SlyA and PhoP counteract H-NS silencing at pagC\n[85],[87]. Thus, one explanation for the transcription we observe following over-expression of ssrB or slyA may be that both SlyA and SsrB counteract binding of small nucleoid-like proteins including both H-NS and YdgD/Hha in this A+T rich SPI-2 region [70].",
+      "sent_id": "sec_13_s16",
+      "page": 14
+    },
+    {
+      "pmcid": "PMC2651894",
+      "split": "train",
+      "cause": "SsrB",
+      "effect": "Virulence",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "SsrB regulates the expression of SPI-2 encoded substrate effectors including ssaB, as well as several integrated virulence effectors such as sseL [8] and srfN [9] that are encoded elsewhere on the chromosome but that have integrated into the SsrB regulon.",
+      "sent_id": "sec_2_s4",
+      "page": 1
+    },
+    {
+      "pmcid": "PMC2651894",
+      "split": "train",
+      "cause": "RseA",
+      "effect": "Virulence",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "Deletion of rseA in Yersinia pseudotuberculosis causes elevated virulence effector synthesis and secretion [18], establishing links between alternative sigma factors and virulence-specific regulators.",
+      "sent_id": "sec_2_s15",
+      "page": 2
+    },
+    {
+      "pmcid": "PMC2651894",
+      "split": "train",
+      "cause": "sigmaE",
+      "effect": "SsrB",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "Taken together, a connection between \u03c3E and SsrB is suggested from the available literature, however the role of \u03c3E in activating SsrB-regulated genes has not been studied.",
+      "sent_id": "sec_2_s16",
+      "page": 2
+    },
+    {
+      "pmcid": "PMC2651894",
+      "split": "train",
+      "cause": "RpoE",
+      "effect": "SseB",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "Both rpoE and rpoN deletions resulted in decreased SseB levels with a more pronounced effect in the rpoE deletion.",
+      "sent_id": "sec_3_s8",
+      "page": 2
+    },
+    {
+      "pmcid": "PMC2651894",
+      "split": "train",
+      "cause": "SPI-2",
+      "effect": "RpoE",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "Since we were predominantly interested in sigma factors that activate SPI-2 and which could be linked to the previous observation that rpoE mutants are highly attenuated in vivo we choose to focus on RpoE in the current study, which had the most influence on SseB levels in the cell.",
+      "sent_id": "sec_3_s9",
+      "page": 2
+    },
+    {
+      "pmcid": "PMC2651894",
+      "split": "train",
+      "cause": "RpoE",
+      "effect": "SPI-2",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "Since we were predominantly interested in sigma factors that activate SPI-2 and which could be linked to the previous observation that rpoE mutants are highly attenuated in vivo we choose to focus on RpoE in the current study, which had the most influence on SseB levels in the cell.",
+      "sent_id": "sec_3_s9",
+      "page": 2
+    },
+    {
+      "pmcid": "PMC2651894",
+      "split": "train",
+      "cause": "SseB",
+      "effect": "RpoE",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "Since we were predominantly interested in sigma factors that activate SPI-2 and which could be linked to the previous observation that rpoE mutants are highly attenuated in vivo we choose to focus on RpoE in the current study, which had the most influence on SseB levels in the cell.",
+      "sent_id": "sec_3_s9",
+      "page": 2
+    },
+    {
+      "pmcid": "PMC2651894",
+      "split": "train",
+      "cause": "SsrB",
+      "effect": "RpoE",
+      "category": "incorrect_direction",
+      "quote": "These data point to a potential connection between the virulence phenotype of strains lacking ssrB and rpoE, and highlight new transcriptional regulation that might be essential for appropriate temporal and spatial control of the virulence-associated type III secretion system during host infection.",
+      "sent_id": "sec_1_s6",
+      "page": 1
+    },
+    {
+      "pmcid": "PMC2651894",
+      "split": "train",
+      "cause": "RpoE",
+      "effect": "Virulence",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "We predict that RpoE confers a similar fine-tuning effect on Salmonella virulence gene expression that is required for optimal within-host fitness during infection.",
+      "sent_id": "sec_6_s4",
+      "page": 4
+    },
+    {
+      "pmcid": "PMC2651894",
+      "split": "train",
+      "cause": "RpoE",
+      "effect": "sigmaE",
+      "category": "incorrect_direction",
+      "quote": "Although there is no evidence that \u03c3E can directly repress transcription, the negative effect on two promoters observed here might be due to an intermediate RpoE-regulated repressor or compensatory effect where loss of rpoE increases the relative abundance of another sigma factor that can directly activate the ssaG and srfN promoters.",
+      "sent_id": "sec_6_s12",
+      "page": 5
+    },
+    {
+      "pmcid": "PMC2682197",
+      "split": "train",
+      "cause": "Rv2623",
+      "effect": "ATP",
+      "category": "unsupported_association",
+      "quote": "Analysis of mycobacteria overexpressing these mutants revealed that the in vitro growth-inhibitory property of Rv2623 correlates with its ability to bind ATP.",
+      "sent_id": "sec_1_s10",
+      "page": 1
+    },
+    {
+      "pmcid": "PMC2682197",
+      "split": "train",
+      "cause": "ATP",
+      "effect": "Persistent Infection",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "We propose that Rv2623 may function as an ATP-dependent signaling intermediate in a pathway that promotes persistent infection.",
+      "sent_id": "sec_1_s13",
+      "page": 1
+    },
+    {
+      "pmcid": "PMC2682197",
+      "split": "train",
+      "cause": "ATP",
+      "effect": "Rv2623",
+      "category": "incorrect_direction",
+      "quote": "coli-expressed Rv2623 using nano ESI mass spectrometry also demonstrated that an ATP-saturated form of dimeric Rv2623 (composed of 2 bound ATP molecules per monomer) constitutes at least half of the purified sample (data not shown).",
+      "sent_id": "sec_6_s12",
+      "page": 5
+    },
+    {
+      "pmcid": "PMC2682197",
+      "split": "train",
+      "cause": "ATP-Binding",
+      "effect": "Rv2623",
+      "category": "incorrect_direction",
+      "quote": "HPLC analysis of nucleotides extracted from Rv2623D15E and Rv2623G117A revealed that the mutant proteins are indeed deficient in ATP-binding, exhibiting \u223c34% (p<0.001) and \u223c29% (p\u200a=\u200a0.0018) of the amount of ATP bound by wild-type Rv2623, respectively (Figure 7B).",
+      "sent_id": "sec_8_s4",
+      "page": 7
+    },
+    {
+      "pmcid": "PMC2682197",
+      "split": "train",
+      "cause": "ATP",
+      "effect": "ATP-Binding",
+      "category": "incorrect_direction",
+      "quote": "Likewise, following an overnight incubation with [\u03b1-33P] ATP at 4\u00b0C, the amount of protein-bound radioactivity, which represented a very small fraction of the total ATP binding sites, was significantly less for the mutant proteins than wild-type Rv2623 (data not shown).",
+      "sent_id": "sec_8_s5",
+      "page": 7
+    },
+    {
+      "pmcid": "PMC2714965",
+      "split": "train",
+      "cause": "cheB1",
+      "effect": "Virulence",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "We show that, in contrast to the cheB2 mutant, a cheB1 mutant is not attenuated for virulence in C.",
+      "sent_id": "sec_1_s17",
+      "page": 1
+    },
+    {
+      "pmcid": "PMC2714965",
+      "split": "train",
+      "cause": "cheB2",
+      "effect": "Virulence",
+      "category": "genetic_complementation_and_rescue",
+      "quote": "As shown in Figure 3B the virulence was restored in the complemented cheB2 mutant TB0173sp2B2 (p<0.009), whereas the cheB2 mutant strain TB0173sCTX (p<0.005) remained fully attenuated.",
+      "sent_id": "sec_7_s23",
+      "page": 7
+    },
+    {
+      "pmcid": "PMC2774163",
+      "split": "train",
+      "cause": "GacS",
+      "effect": "Virulence",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "Inactivation of RetS results in reduced cytotoxicity but increased attachment and biofilm formation, while inactivation of both LadS and GacS results in increased virulence but decreased biofilm formation capacity [36],[37].",
+      "sent_id": "sec_2_s30",
+      "page": 3
+    },
+    {
+      "pmcid": "PMC2774163",
+      "split": "train",
+      "cause": "Biofilm",
+      "effect": "GacS",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "As PA4197, PA4101 and GacS were all phosphorylated by 24 hr of biofilm growth, we asked whether the three proteins are modified simultaneously or in a sequential manner.",
+      "sent_id": "sec_5_s20",
+      "page": 6
+    },
+    {
+      "pmcid": "PMC2774163",
+      "split": "train",
+      "cause": "GacS",
+      "effect": "Biofilm",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "However, phosphorylation of both GacS and PA4197 was detected in \u0394PA4101 mutant biofilms, indicating that PA4101 phosphorylation may occur downstream of GacS and PA4197.",
+      "sent_id": "sec_5_s24",
+      "page": 6
+    },
+    {
+      "pmcid": "PMC2816692",
+      "split": "external",
+      "cause": "SrcA",
+      "effect": "Effector Translocation",
+      "category": "unsupported_association",
+      "quote": "Further biochemical and quantitative proteomics data revealed three protein interactions with SrcA, including two effector cargos (SseL and PipB2) and the type III-associated ATPase, SsaN, that increases the efficiency of effector translocation.",
+      "sent_id": "sec_1_s7",
+      "page": 1
+    },
+    {
+      "pmcid": "PMC2816692",
+      "split": "external",
+      "cause": "SseL",
+      "effect": "Effector Translocation",
+      "category": "unsupported_association",
+      "quote": "Further biochemical and quantitative proteomics data revealed three protein interactions with SrcA, including two effector cargos (SseL and PipB2) and the type III-associated ATPase, SsaN, that increases the efficiency of effector translocation.",
+      "sent_id": "sec_1_s7",
+      "page": 1
+    },
+    {
+      "pmcid": "PMC2816692",
+      "split": "external",
+      "cause": "PipB2",
+      "effect": "Effector Translocation",
+      "category": "unsupported_association",
+      "quote": "Further biochemical and quantitative proteomics data revealed three protein interactions with SrcA, including two effector cargos (SseL and PipB2) and the type III-associated ATPase, SsaN, that increases the efficiency of effector translocation.",
+      "sent_id": "sec_1_s7",
+      "page": 1
+    },
+    {
+      "pmcid": "PMC2816692",
+      "split": "external",
+      "cause": "SsaN",
+      "effect": "SrcA",
+      "category": "incorrect_direction",
+      "quote": "When SrcA was mixed with SsaN, a new protein complex of high molecular weight was observed, along with diminished peaks corresponding to the SrcA dimer and SsaN monomer (\nFig.",
+      "sent_id": "sec_6_s17",
+      "page": 6
+    },
+    {
+      "pmcid": "PMC2829055",
+      "split": "external",
+      "cause": "Temperature",
+      "effect": "Virulence",
+      "category": "environmental_confounder",
+      "quote": "pestis virulence factors that are required for plague in mammals have been identified, and most of them are induced by a temperature shift from <26\u00b0C to 37\u00b0C, which mimics the transition from a flea to the warm-blooded host [1].",
+      "sent_id": "sec_2_s7",
+      "page": 1
+    },
+    {
+      "pmcid": "PMC2829055",
+      "split": "external",
+      "cause": "Flea Vector",
+      "effect": "Virulence",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "In addition to genes involved in metabolic adaptation to the flea gut and biofilm formation, several genes with known or predicted roles in resistance to innate immunity and pathogenicity in the mammal were upregulated in the flea.",
+      "sent_id": "sec_1_s10",
+      "page": 1
+    },
+    {
+      "pmcid": "PMC2829055",
+      "split": "external",
+      "cause": "Temperature",
+      "effect": "yfe",
+      "category": "environmental_confounder",
+      "quote": "In addition to the known temperature-induced virulence factors, iron acquisition systems, including the ybt and yfe operons that are required for virulence; and oxidative and nitrosative stress response genes, including the hmp virulence factor, are highly upregulated in the rat bubo, but not the flea.",
+      "sent_id": "sec_6_s8",
+      "page": 6
+    },
+    {
+      "pmcid": "PMC2829055",
+      "split": "external",
+      "cause": "ybt",
+      "effect": "Virulence",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "In addition to the known temperature-induced virulence factors, iron acquisition systems, including the ybt and yfe operons that are required for virulence; and oxidative and nitrosative stress response genes, including the hmp virulence factor, are highly upregulated in the rat bubo, but not the flea.",
+      "sent_id": "sec_6_s8",
+      "page": 6
+    },
+    {
+      "pmcid": "PMC2829055",
+      "split": "external",
+      "cause": "yfe",
+      "effect": "Virulence",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "In addition to the known temperature-induced virulence factors, iron acquisition systems, including the ybt and yfe operons that are required for virulence; and oxidative and nitrosative stress response genes, including the hmp virulence factor, are highly upregulated in the rat bubo, but not the flea.",
+      "sent_id": "sec_6_s8",
+      "page": 6
+    },
+    {
+      "pmcid": "PMC2829055",
+      "split": "external",
+      "cause": "Flea Vector",
+      "effect": "Phagocytosis Resistance",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "Expression of genes in the pH 6 antigen locus (psaEFABC), responsible for the synthesis and transport of the PsaA fimbriae that enhance resistance to phagocytosis by macrophages [35],[36], were higher in the bubo than the flea, although the usher protein gene psaC was upregulated in the flea compared to in vitro growth (Tables 1, S1).",
+      "sent_id": "sec_6_s15",
+      "page": 6
+    },
+    {
+      "pmcid": "PMC2858072",
+      "split": "external",
+      "cause": "BvrR/BvrS",
+      "effect": "Virulence",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "The two-component BvrR/BvrS system is essential for Brucella abortus virulence.",
+      "sent_id": "sec_1_s1",
+      "page": 1
+    },
+    {
+      "pmcid": "PMC2858072",
+      "split": "external",
+      "cause": "BvrS",
+      "effect": "Virulence",
+      "category": "unsupported_association",
+      "quote": "Although this general expression changes could explain the complete loss of virulence of these mutants, it was remarkable the presence among them of ten genes, in addition to bvrS, whose products are already known to be associated with Brucella virulence [10], [11], [33], [34].",
+      "sent_id": "sec_7_s3",
+      "page": 7
+    },
+    {
+      "pmcid": "PMC2885601",
+      "split": "external",
+      "cause": "SeMac",
+      "effect": "Opsonophagocytosis",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "SeMac was characterized to determine whether SeMac has IgG endopeptidase activity and inhibits opsonophagocytosis of S.",
+      "sent_id": "sec_1_s4",
+      "page": 1
+    },
+    {
+      "pmcid": "PMC2885601",
+      "split": "external",
+      "cause": "Mac",
+      "effect": "Opsonophagocytosis",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "We found that GAS produces a secreted Mac protein (also known as IdeE), which inhibits opsonophagocytosis of GAS by human PMNs [5].",
+      "sent_id": "sec_2_s14",
+      "page": 1
+    },
+    {
+      "pmcid": "PMC2885601",
+      "split": "external",
+      "cause": "Mac",
+      "effect": "SeMac",
+      "category": "over_generated_or_spurious_relation",
+      "quote": "equi mac gene encoding mature SeMac was cloned, and recombinant SeMac was purified to >95% purity as assessed by SDS-PAGE (Fig.",
+      "sent_id": "sec_12_s2",
+      "page": 4
+    },
+    {
+      "pmcid": "PMC2885601",
+      "split": "external",
+      "cause": "SeMac",
+      "effect": "Mac",
+      "category": "unsupported_association",
+      "quote": "Thus, there is a correlation between the enzymatic activity of SeMac and its ability to inhibit opsonophagocytosis, suggesting that SeMac functions like GAS M1 Mac in the inhibition of opsonophagocytosis of GAS by human PMNs.",
+      "sent_id": "sec_15_s17",
+      "page": 6
+    }
+  ]
+}

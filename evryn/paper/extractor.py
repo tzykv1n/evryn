@@ -60,7 +60,8 @@ ACTIVATION_PATTERNS = [
     r"\b(?:positive\s+effects?\s+(?:on|upon)|positive\s+regulation\s+of|positively\s+(?:regulates?|regulated|regulating))\b",
     r"\b(?:favou?rs?|favou?red|favou?ring)\b",
     r"\b(?:facilitates?|facilitated|facilitating)\b",
-    r"\b(?:plays?\s+(?:a\s+)?(?:primary|key|crucial|essential|major|critical|central)?\s*role\s+in\s+(?:the\s+)?(?:activation|induction|expression|regulation|stimulation)\s+of)\b",
+    r"\b(?:plays?\s+(?:an?\s+)?(?:primary|key|crucial|essential|major|critical|central|important|pivotal|significant)?\s*role\s+in\s+(?:(?:the\s+)?(?:activation|induction|expression|regulation|stimulation|control)\s+of|(?:regulating|controlling|activating|inducing|promoting|stimulating)))\b",
+    r"\b(?:is|was|are|were|has\s+been|have\s+been)?\s*(?:involved\s+in|implicated\s+in|participates?\s+in)\s+(?:(?:the\s+)?(?:fine-tuning|regulation|control|modulation|expression|activation|induction)\s+(?:of\s+)?|(?:fine-tuning|regulating|controlling|modulating|activating|inducing|promoting))\b",
     r"\b(?:acts?|acted|acting|serves?|served|serving)\s+as\s+an?\s+(?:activator|inducer|stimulator)\s+of\b",
 ]
 
@@ -91,7 +92,7 @@ INHIBITION_PATTERNS = [
     r"\b(?:deletion\s+(?:in|of))\b",
     r"\b(?:negative\s+effects?\s+(?:on|upon)|negative\s+regulation\s+of|negatively\s+(?:regulates?|regulated|regulating))\b",
     r"\b(?:acts?|acted|acting|serves?|served|serving)\s+as\s+an?\s+(?:inhibitor|repressor)\s+of\b",
-    r"\b(?:plays?\s+(?:a\s+)?(?:primary|key|crucial|essential|major|critical|central)?\s*role\s+in\s+(?:the\s+)?(?:repression|inhibition|suppression)\s+of)\b",
+    r"\b(?:plays?\s+(?:an?\s+)?(?:primary|key|crucial|essential|major|critical|central|important|pivotal|significant)?\s*role\s+in\s+(?:(?:the\s+)?(?:repression|inhibition|suppression)\s+of|(?:repressing|inhibiting|suppressing)))\b",
 ]
 
 MEDIATION_PATTERNS = [
@@ -230,11 +231,51 @@ COMPILED_ACTIVATION_PATTERNS = [re.compile(p, re.IGNORECASE) for p in ACTIVATION
 COMPILED_MEDIATION_PATTERNS = [re.compile(p, re.IGNORECASE) for p in MEDIATION_PATTERNS]
 COMPILED_ASSOCIATION_PATTERNS = [re.compile(p, re.IGNORECASE) for p in ASSOCIATION_PATTERNS]
 COMPILED_GENETICS_MUTANT_DOWN = re.compile(
-    r"\b(?:is|was|are|were|has\s+been|have\s+been)?\s*(?:also\s+)?(?:strongly|dramatically|significantly|substantially|markedly|approximately\s+\w+(?:-fold|fold)|\w+(?:-fold|fold))?\s*(?:downregulated|reduced|repressed|decreased|attenuated|lower|diminished|abolished|lost|eliminated)\s*(?:(?:approximately\s+)?\w+(?:-fold|fold))?\s+in\s+(?:the|a|an)?\s*",
+    r"\b(?:is|was|are|were|has\s+been|have\s+been)?\s*(?:also\s+)?(?:strongly|dramatically|significantly|substantially|markedly|approximately\s+\w+(?:-fold|fold)|\w+(?:-fold|fold))?\s*"
+    r"(?:downregulated|reduced|repressed|decreased|attenuated|lower|diminished|abolished|lost|eliminated|less|suppressed|inhibited|impaired|defective|lacking)\s*"
+    r"(?:(?:approximately\s+)?\w+(?:-fold|fold))?\s+in\s+(?:the|a|an)?\s*",
     re.IGNORECASE,
 )
 COMPILED_GENETICS_MUTANT_UP = re.compile(
-    r"\b(?:is|was|are|were|has\s+been|have\s+been)?\s*(?:also\s+)?(?:strongly|dramatically|significantly|substantially|markedly|approximately\s+\w+(?:-fold|fold)|\w+(?:-fold|fold))?\s*(?:upregulated|increased|elevated|higher|induced|activated|derepressed)\s*(?:(?:approximately\s+)?\w+(?:-fold|fold))?\s+in\s+(?:the|a|an)?\s*",
+    r"\b(?:is|was|are|were|has\s+been|have\s+been)?\s*(?:also\s+)?(?:strongly|dramatically|significantly|substantially|markedly|approximately\s+\w+(?:-fold|fold)|\w+(?:-fold|fold))?\s*"
+    r"(?:upregulated|increased|elevated|higher|induced|activated|derepressed|enhanced|augmented|greater|promoted|hyper-?induced|hyper-?activated|accumulated|over-?expressed)\s*"
+    r"(?:(?:approximately\s+)?\w+(?:-fold|fold))?\s+in\s+(?:the|a|an)?\s*",
+    re.IGNORECASE,
+)
+COMPILED_GENETICS_MUTANT_DEFECT = re.compile(
+    r"\b(?:mutant|mutation|null|deletion|deficiency)\b(?:\s+\w+){0,6}\s+(?:showed|exhibited|displayed|caused|led\s+to|resulted\s+in)\s+(?:a\s+)?(?:defect|impairment|loss|reduction)\s+in\s+",
+    re.IGNORECASE,
+)
+
+COMPILED_DIRECT_CAUSATIVE_PATTERNS = [
+    re.compile(p, re.IGNORECASE) for p in [
+        r"\b(?:causes?|caused|causing)\b",
+        r"\b(?:leads?|led|leading)\s+to\b",
+        r"\b(?:results?|resulted|resulting)\s+in\b",
+    ]
+]
+
+ACTIVE_MATRIX_CAUSATIVE_VERBS = re.compile(
+    r"\b(?:causes?|caused|causing|leads?\s+to|led\s+to|leading\s+to|results?\s+in|resulted\s+in|resulting\s+in|"
+    r"induces?|induced|inducing|activates?|activated|activating|promotes?|promoted|promoting|"
+    r"stimulates?|stimulated|stimulating|represses?|repressed|repressing|inhibits?|inhibited|inhibiting|"
+    r"downregulates?|downregulated|downregulating|upregulates?|upregulated|upregulating|"
+    r"triggers?|triggered|triggering)\b",
+    re.IGNORECASE,
+)
+
+SUBORDINATE_PREP_MODIFIERS = re.compile(
+    r"\b(?:under\s+(?:the\s+)?(?:control|regulation)\s+of|in\s+response\s+to|responsive\s+to|"
+    r"following\s+(?:treatment|stimulation|exposure|activation|addition)\s+(?:with|to|of)|"
+    r"as\s+a\s+(?:result|consequence)\s+of)\b",
+    re.IGNORECASE,
+)
+
+FORWARD_CONNECTIVE_RE = re.compile(r"\b(?:and\s+)?(?:thus|thereby|hence)\b", re.IGNORECASE)
+ANTI_FACTOR_RE = re.compile(r"\b(?:from\s+(?:its\s+)?(?:[a-z-]+\s+){0,3}anti-(?:sigma\s+)?factor|anti-sigma\s+factor\s*,?\s*)\b", re.IGNORECASE)
+ENCODED_WITHIN_LOCUS_RE = re.compile(r"\b(?:encoded\s+within|encoded\s+by)\s+(?:the\s+)?(?:pathogenicity\s+island|island|operon|cluster|spi\s*[-0-9]*)\b", re.IGNORECASE)
+TCSTS_OPERON_RE = re.compile(
+    r"\b([A-Za-z0-9_-]{2,15})(RS|AB|PQ)\b\s*(?:regulatory\s+genes|regulatory\s+system|two-component\s+system|two-component\s+regulatory\s+system|system|operon)",
     re.IGNORECASE,
 )
 
@@ -562,6 +603,44 @@ class PaperCausalExtractor:
                     )
                 )
 
+        # TCSTS operon-regulator coupling (e.g. GraRS regulatory genes -> GraR)
+        if known_entities:
+            existing_pairs = {(a.cause_canonical, a.effect_canonical) for a in assertions}
+            for sent in doc.sentences:
+                for m in TCSTS_OPERON_RE.finditer(sent.text):
+                    prefix = m.group(1)
+                    suf = m.group(2).upper()
+                    reg_letter = suf[0]
+                    operon_raw = prefix + suf
+                    reg_raw = prefix + reg_letter
+                    operon_c = self.normalizer.canonicalize(operon_raw, local_abbr, known_entities)
+                    reg_c = self.normalizer.canonicalize(reg_raw, local_abbr, known_entities)
+                    if operon_c in known_entities and reg_c in known_entities and operon_c != reg_c:
+                        if (operon_c, reg_c) not in existing_pairs:
+                            existing_pairs.add((operon_c, reg_c))
+                            assertion_id = f"asrt_{doc.doc_id[:6]}_{sent.page_number}_{assertion_idx:04d}"
+                            assertion_idx += 1
+                            assertions.append(
+                                CausalAssertion(
+                                    assertion_id=assertion_id,
+                                    cause=operon_c,
+                                    cause_canonical=operon_c,
+                                    effect=reg_c,
+                                    effect_canonical=reg_c,
+                                    direction="FORWARD",
+                                    relation_type=CausalRelationType.UPREGULATES,
+                                    is_negated=False,
+                                    uncertainty_score=0.08,
+                                    sentence_id=sent.sentence_id,
+                                    page_number=sent.page_number,
+                                    section_title=sent.section_title,
+                                    confidence=0.93,
+                                    evidence_quote=sent.text,
+                                    char_span=(sent.start_char, sent.end_char),
+                                    evidence_status=EvidenceStatus.MEASURED_FACT,
+                                )
+                            )
+
         # Enforce environmental direction invariant: environmental stimuli and biological vectors
         # act as causes/inputs, not downstream outcomes of transcription factors and virulence genes
         ENV_PARAMS = {"Acid pH", "Temperature", "Hypoxia", "Normoxia"}
@@ -632,6 +711,10 @@ class PaperCausalExtractor:
         if COORDINATING_BOUNDARY_RE.search(between_text):
             return None
 
+        # Reject genomic locus encoding as causal edge
+        if ENCODED_WITHIN_LOCUS_RE.search(between_text):
+            return None
+
         # Check for means clauses: e.g. "represses hilA by inhibiting HilD" -> HilD (cause) represses hilA (effect)
         m_means = BY_MEANS_RE.search(between_text)
         if m_means:
@@ -650,6 +733,28 @@ class PaperCausalExtractor:
             inv_dir = "BACKWARD" if direction == "FORWARD" else "FORWARD"
             return CausalRelationType.DOWNREGULATES, inv_dir, 0.93
 
+        # Mutant defect pattern: e.g. "cheB1 mutant ... showed a defect in chemotaxis"
+        if COMPILED_GENETICS_MUTANT_DEFECT.search(between_text):
+            return CausalRelationType.UPREGULATES, direction, 0.93
+
+        # Anti-factor release: e.g. "Release of σE from its inner membrane anchored anti-sigma factor, RseA"
+        if ANTI_FACTOR_RE.search(between_text):
+            inv_dir = "BACKWARD" if direction == "FORWARD" else "FORWARD"
+            return CausalRelationType.DOWNREGULATES, inv_dir, 0.92
+
+        # Forward connectives: e.g. "cyclic-di-GMP and thus, biofilm formation"
+        if FORWARD_CONNECTIVE_RE.search(between_text):
+            return CausalRelationType.UPREGULATES, direction, 0.88
+
+        # Structural composition: e.g. "The short fimbriae are made up of a 67 kDa protein (Mfa1)"
+        if re.search(r"\b(?:is|was|are|were)?\s*(?:made\s+up\s+of|composed\s+of|consists?\s+of)\b", between_text, re.IGNORECASE):
+            inv_dir = "BACKWARD" if direction == "FORWARD" else "FORWARD"
+            return CausalRelationType.UPREGULATES, inv_dir, 0.92
+
+        # Active matrix verb precedence over subordinate prepositional modifiers
+        m_sub = SUBORDINATE_PREP_MODIFIERS.search(between_text)
+        m_act = ACTIVE_MATRIX_CAUSATIVE_VERBS.search(between_text)
+
         for pat_re, is_inhib in COMPILED_PASSIVE_INDICATORS:
             if not getattr(self, "enable_extended_triggers", True):
                 if any(k in pat_re.pattern for k in ["requires", "promoted", "abolished"]):
@@ -657,7 +762,12 @@ class PaperCausalExtractor:
             if not getattr(self, "enable_passive_restore", True):
                 if "restored" in pat_re.pattern or "rescued" in pat_re.pattern:
                     continue
-            if pat_re.search(between_text):
+            m_pass = pat_re.search(between_text)
+            if m_pass:
+                # If this passive match is within a subordinate modifier and an active causative verb is present, let active verb govern!
+                if m_sub and m_act and m_pass.start() >= m_sub.start() and m_pass.end() <= m_sub.end():
+                    continue
+
                 rel = CausalRelationType.DOWNREGULATES if is_inhib else CausalRelationType.UPREGULATES
                 inv_dir = "BACKWARD" if direction == "FORWARD" else "FORWARD"
                 return rel, inv_dir, 0.92
@@ -670,6 +780,10 @@ class PaperCausalExtractor:
                 return CausalRelationType.DOWNREGULATES, direction, 0.90
 
         for pat_re in COMPILED_ACTIVATION_PATTERNS:
+            if pat_re.search(between_text):
+                return CausalRelationType.UPREGULATES, direction, 0.90
+
+        for pat_re in COMPILED_DIRECT_CAUSATIVE_PATTERNS:
             if pat_re.search(between_text):
                 return CausalRelationType.UPREGULATES, direction, 0.90
 

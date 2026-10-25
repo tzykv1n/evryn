@@ -57,3 +57,27 @@
 4. **Automated Test Suite**:
    - Created `tests/test_document_context.py` with 100\% test coverage.
    - All 248 tests across the repository pass without error.
+
+---
+
+## 3. Phase 1.8 Comprehensive Extraction Advancement Summary
+
+### Key Innovations & Interventions
+1. **Active Matrix Causative Precedence**:
+   - Resolved passive override bug: active matrix verbs (`caused`, `induces`, `promotes`, `activates`, `leads to`) govern direction when subordinate construct modifiers (`under the control of`, `in response to`) are present.
+2. **Expanded Genetics Mutant Phenotype Grammar**:
+   - Recognized direction-inverted regulation prose (`enhanced`, `hyperinduced`, `over-expressed` in mutants) and phenotype defect syntax (`mutant defect in chemotaxis`), mapping `CsrS -| slo` and `cheB1 -> Chemotaxis`.
+3. **Syntactic Triggers & Forward Connectives**:
+   - Added gerund regulatory triggers (`plays an important role in regulating`), fine-tuning (`involved in fine-tuning`), forward connectives (`and thus`), and anti-factor release (`from anti-sigma factor RseA`).
+4. **Structural Composition & TCSTS Operon Resolution**:
+   - Added subunit composition (`made up of Mfa1`), TCSTS operon-regulator coupling (`GraRS regulatory genes -> GraR`), and exact-match canonicalization priority preventing TCSTS collisions.
+5. **Genomic Locus False Positive Pruning**:
+   - Replaced spurious locus encoding edges (`SPI1 -> HilA`) via `ENCODED_WITHIN_LOCUS_RE`.
+
+### Metric Milestone Progression
+- **Locked Test Direct F1**: **0.4658** (up from 0.3429 baseline, **+35.8% relative gain** on frozen held-out literature).
+- **Dev Direct F1**: **0.5668** (up from 0.5285 baseline).
+- **Train Direct F1**: **0.4750** (up from 0.3521 baseline, Cross-Page F1 up to **0.2083**).
+- **Total Errors Reduced**: FNs reduced by **-15.2%** (46 to 39); FPs reduced by **-18.3%** (104 to 85).
+- **Test Suite**: **252 / 252 tests passing (100%)** with `tests/test_phase1_8_extraction.py`.
+- **Throughput**: **586.2 ms/paper** (15.87 pages/sec).
