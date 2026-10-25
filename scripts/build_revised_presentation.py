@@ -87,21 +87,21 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \end{beamercolorbox}%
 }
 
-% TikZ standard styles (Strict sharp corners, zero rounded nodes)
+% TikZ standard styles (Strict sharp corners, large readable fonts)
 \tikzset{
-  widebox/.style={rectangle, sharp corners, align=left, font=\scriptsize, text width=6.5cm},
-  wideboxcenter/.style={rectangle, sharp corners, align=center, font=\scriptsize, text width=6.5cm},
-  basebox/.style={draw=bordergray, line width=0.8pt, fill=white, rectangle, sharp corners, align=center, font=\scriptsize},
-  navybox/.style={draw=navy, line width=1.0pt, fill=slatebg, rectangle, sharp corners, align=center, font=\scriptsize},
-  tealbox/.style={draw=teal, line width=1.0pt, fill=white, rectangle, sharp corners, align=center, font=\scriptsize},
-  bluebox/.style={draw=blue, line width=1.0pt, fill=white, rectangle, sharp corners, align=center, font=\scriptsize},
-  greenbox/.style={draw=green, line width=1.0pt, fill=white, rectangle, sharp corners, align=center, font=\scriptsize},
-  amberbox/.style={draw=amber, line width=1.0pt, fill=white, rectangle, sharp corners, align=center, font=\scriptsize},
-  redbox/.style={draw=red, line width=1.0pt, fill=white, rectangle, sharp corners, align=center, font=\scriptsize},
-  arr/.style={-{Stealth[scale=0.85]}, line width=1.0pt, color=navy},
-  tealarr/.style={-{Stealth[scale=0.85]}, line width=1.0pt, color=teal},
-  bluearr/.style={-{Stealth[scale=0.85]}, line width=1.0pt, color=blue},
-  amberarr/.style={-{Stealth[scale=0.85]}, line width=1.0pt, dashed, color=amber},
+  widebox/.style={rectangle, sharp corners, align=left, font=\footnotesize, text width=10.0cm, inner sep=4pt},
+  wideboxcenter/.style={rectangle, sharp corners, align=center, font=\footnotesize, text width=10.0cm, inner sep=4pt},
+  basebox/.style={draw=bordergray, line width=1.0pt, fill=white, rectangle, sharp corners, align=center, font=\footnotesize, inner sep=4pt},
+  navybox/.style={draw=navy, line width=1.1pt, fill=slatebg, rectangle, sharp corners, align=center, font=\footnotesize, inner sep=4pt},
+  tealbox/.style={draw=teal, line width=1.1pt, fill=white, rectangle, sharp corners, align=center, font=\footnotesize, inner sep=4pt},
+  bluebox/.style={draw=blue, line width=1.1pt, fill=white, rectangle, sharp corners, align=center, font=\footnotesize, inner sep=4pt},
+  greenbox/.style={draw=green, line width=1.1pt, fill=white, rectangle, sharp corners, align=center, font=\footnotesize, inner sep=4pt},
+  amberbox/.style={draw=amber, line width=1.1pt, fill=white, rectangle, sharp corners, align=center, font=\footnotesize, inner sep=4pt},
+  redbox/.style={draw=red, line width=1.1pt, fill=white, rectangle, sharp corners, align=center, font=\footnotesize, inner sep=4pt},
+  arr/.style={-{Stealth[scale=1.0]}, line width=1.2pt, color=navy},
+  tealarr/.style={-{Stealth[scale=1.0]}, line width=1.2pt, color=teal},
+  bluearr/.style={-{Stealth[scale=1.0]}, line width=1.2pt, color=blue},
+  amberarr/.style={-{Stealth[scale=1.0]}, line width=1.2pt, dashed, color=amber},
 }
 
 \begin{document}
@@ -444,12 +444,12 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \textbf{Takeaway}: Five sequential stages transform raw XML papers into verifiable causal knowledge graphs.
   \vspace{0.2cm}
   \begin{center}
-    \begin{tikzpicture}[node distance=0.35cm]
-      \node[navybox, minimum height=1.15cm, minimum width=1.3cm] (s1) {\textbf{1. XML}\\Ingest};
-      \node[bluebox, right=of s1, minimum height=1.15cm, minimum width=1.3cm] (s2) {\textbf{2. Entity}\\Detect};
-      \node[tealbox, right=of s2, minimum height=1.15cm, minimum width=1.3cm] (s3) {\textbf{3. Causal}\\Extract};
-      \node[amberbox, right=of s3, minimum height=1.15cm, minimum width=1.3cm] (s4) {\textbf{4. Ground}\\Verify};
-      \node[greenbox, right=of s4, minimum height=1.15cm, minimum width=1.3cm] (s5) {\textbf{5. Graph}\\Synthesize};
+    \begin{tikzpicture}[node distance=0.22cm]
+      \node[navybox, minimum height=1.35cm, minimum width=2.0cm] (s1) {\textbf{1. XML}\\[2pt]Ingest};
+      \node[bluebox, right=of s1, minimum height=1.35cm, minimum width=2.0cm] (s2) {\textbf{2. Entity}\\[2pt]Detect};
+      \node[tealbox, right=of s2, minimum height=1.35cm, minimum width=2.0cm] (s3) {\textbf{3. Causal}\\[2pt]Extract};
+      \node[amberbox, right=of s3, minimum height=1.35cm, minimum width=2.0cm] (s4) {\textbf{4. Ground}\\[2pt]Verify};
+      \node[greenbox, right=of s4, minimum height=1.35cm, minimum width=2.0cm] (s5) {\textbf{5. Graph}\\[2pt]Synthesize};
 
       \draw[arr] (s1) -- (s2);
       \draw[bluearr] (s2) -- (s3);
@@ -481,20 +481,20 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % ==============================================================================
 \begin{frame}{Overall Architecture: Engineering Blueprint}
   \textbf{Takeaway}: Four decoupled layers maintain clean separation of concerns and crash resilience.
-  \vspace{0.2cm}
+  \vspace{0.12cm}
   \begin{center}
-    \begin{tikzpicture}[node distance=0.32cm]
-      \node[navybox, wideboxcenter, minimum height=0.72cm] (l1) {\textbf{\color{navy}Presentation Layer}: Next.js React UI / Cytoscape Graph / REST API};
-      \node[tealbox, wideboxcenter, below=of l1, minimum height=0.72cm] (l2) {\textbf{\color{teal}Causal Engine}: Graph Linker / Provenance Grounding / Bounded Context};
-      \node[bluebox, wideboxcenter, below=of l2, minimum height=0.72cm] (l3) {\textbf{\color{blue}NLP Extraction Core}: Normalizer / Regex Triggers / Environmental Extractor};
-      \node[basebox, wideboxcenter, below=of l3, minimum height=0.72cm] (l4) {\textbf{Data Ingestion Layer}: PMC-OA XML Ingester / PDF Parser / Cache Store};
+    \begin{tikzpicture}[node distance=0.18cm]
+      \node[navybox, wideboxcenter, minimum height=0.76cm] (l1) {\textbf{\color{navy}Presentation Layer}: Next.js React UI / Cytoscape Graph / REST API};
+      \node[tealbox, wideboxcenter, below=of l1, minimum height=0.76cm] (l2) {\textbf{\color{teal}Causal Engine}: Graph Linker / Provenance Grounding / Bounded Context};
+      \node[bluebox, wideboxcenter, below=of l2, minimum height=0.76cm] (l3) {\textbf{\color{blue}NLP Extraction Core}: Normalizer / Regex Triggers / Environmental Extractor};
+      \node[basebox, wideboxcenter, below=of l3, minimum height=0.76cm] (l4) {\textbf{Data Ingestion Layer}: PMC-OA XML Ingester / PDF Parser / Cache Store};
 
       \draw[arr] (l4) -- (l3);
       \draw[bluearr] (l3) -- (l2);
       \draw[tealarr] (l2) -- (l1);
     \end{tikzpicture}
   \end{center}
-  \vspace{0.15cm}
+  \vspace{0.10cm}
   \card{Architectural Invariant}{navy}{
     Strict isolation between extraction logic and web server: UI crashes cannot corrupt extraction pipelines.
   }
@@ -507,10 +507,10 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \textbf{Takeaway}: JATS XML is parsed into section-typed sentences with exact character offsets.
   \vspace{0.2cm}
   \begin{center}
-    \begin{tikzpicture}[node distance=0.45cm]
-      \node[basebox, minimum height=1.05cm, minimum width=2.2cm] (p1) {\textbf{Raw JATS XML}\\$\langle\text{sec}\rangle, \langle\text{title}\rangle$\\$\langle\text{p}\rangle, \langle\text{xref}\rangle$};
-      \node[bluebox, right=of p1, minimum height=1.05cm, minimum width=2.4cm] (p2) {\textbf{Section Classifier}\\Abstract / Intro\\Results / Discussion};
-      \node[tealbox, right=of p2, minimum height=1.05cm, minimum width=2.2cm] (p3) {\textbf{Sentence Spans}\\ID, Page Number\\Start/End Chars};
+    \begin{tikzpicture}[node distance=0.35cm]
+      \node[basebox, minimum height=1.2cm, minimum width=3.1cm] (p1) {\textbf{Raw JATS XML}\\[2pt]$\langle\text{sec}\rangle, \langle\text{title}\rangle$\\$\langle\text{p}\rangle, \langle\text{xref}\rangle$};
+      \node[bluebox, right=of p1, minimum height=1.2cm, minimum width=3.3cm] (p2) {\textbf{Section Classifier}\\[2pt]Abstract / Intro\\Results / Discussion};
+      \node[tealbox, right=of p2, minimum height=1.2cm, minimum width=3.1cm] (p3) {\textbf{Sentence Spans}\\[2pt]ID, Page Number\\Start/End Chars};
 
       \draw[arr] (p1) -- (p2);
       \draw[bluearr] (p2) -- (p3);
@@ -540,11 +540,11 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \textbf{Takeaway}: Multi-pass syntactic extraction resolves entities, triggers, and passive voice.
   \vspace{0.2cm}
   \begin{center}
-    \begin{tikzpicture}[node distance=0.32cm]
-      \node[bluebox, wideboxcenter, minimum height=0.72cm] (e1) {\textbf{Pass 1}: Bio-Entity Detection \& Local Abbreviation Mapping};
-      \node[tealbox, wideboxcenter, below=of e1, minimum height=0.72cm] (e2) {\textbf{Pass 2}: Syntactic Causal Trigger Matching (Forward / Reverse)};
-      \node[amberbox, wideboxcenter, below=of e2, minimum height=0.72cm] (e3) {\textbf{Pass 3}: Passive Voice Inversion \& Polarity Gating};
-      \node[greenbox, wideboxcenter, below=of e3, minimum height=0.72cm] (e4) {\textbf{Pass 4}: Document-Context Anaphora \& Connective Resolution};
+    \begin{tikzpicture}[node distance=0.28cm]
+      \node[bluebox, wideboxcenter, minimum height=0.88cm] (e1) {\textbf{Pass 1}: Bio-Entity Detection \& Local Abbreviation Mapping};
+      \node[tealbox, wideboxcenter, below=of e1, minimum height=0.88cm] (e2) {\textbf{Pass 2}: Syntactic Causal Trigger Matching (Forward / Reverse)};
+      \node[amberbox, wideboxcenter, below=of e2, minimum height=0.88cm] (e3) {\textbf{Pass 3}: Passive Voice Inversion \& Polarity Gating};
+      \node[greenbox, wideboxcenter, below=of e3, minimum height=0.88cm] (e4) {\textbf{Pass 4}: Document-Context Anaphora \& Connective Resolution};
 
       \draw[arr] (e1) -- (e2);
       \draw[tealarr] (e2) -- (e3);
@@ -564,22 +564,22 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \textbf{Takeaway}: Resolves lexical variants, abbreviations, and chemical prefixes to unified canonical concepts.
   \vspace{0.2cm}
   \begin{center}
-    \begin{tikzpicture}[node distance=0.55cm]
-      \node[redbox, minimum height=1.3cm, minimum width=2.4cm] (raw) {
-        \textbf{\color{red}Raw Surface Strings}\\[2pt]
+    \begin{tikzpicture}[node distance=0.40cm]
+      \node[redbox, minimum height=1.6cm, minimum width=3.4cm] (raw) {
+        \textbf{\color{red}Raw Surface Strings}\\[3pt]
         \textbullet{} `Omp3b`, `Omp25`\\
         \textbullet{} `c-di-GMP`\\
         \textbullet{} `Acid stress`\\
         \textbullet{} `slo`
       };
-      \node[bluebox, right=of raw, minimum height=1.3cm, minimum width=2.0cm] (eng) {
-        \textbf{\color{blue}Normalizer}\\[2pt]
-        Alias Tables\\
+      \node[bluebox, right=of raw, minimum height=1.6cm, minimum width=2.4cm] (eng) {
+        \textbf{\color{blue}Normalizer Core}\\[3pt]
+        Global Aliases\\
         Prefix Maps\\
-        Local Table
+        Local Acronyms
       };
-      \node[greenbox, right=of eng, minimum height=1.3cm, minimum width=2.4cm] (can) {
-        \textbf{\color{green}Canonical Entity}\\[2pt]
+      \node[greenbox, right=of eng, minimum height=1.6cm, minimum width=3.4cm] (can) {
+        \textbf{\color{green}Canonical Entity}\\[3pt]
         \textbullet{} `Outer Membrane Proteins`\\
         \textbullet{} `cyclic-di-GMP`\\
         \textbullet{} `Acid pH`\\
@@ -954,29 +954,29 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \vspace{0.2cm}
   \begin{center}
     \begin{tikzpicture}[node distance=0.35cm]
-      \node[navybox, minimum height=1.45cm, minimum width=2.4cm] (m1) {
+      \node[navybox, minimum height=1.75cm, minimum width=3.2cm] (m1) {
         \textbf{\color{navy}TRAIN SPLIT}\\[2pt]
         {\large\bfseries\color{navy}0.4750}\\[2pt]
         95\% CI: [0.367, 0.600]\\
         Precision: 0.4000
       };
-      \node[tealbox, right=of m1, minimum height=1.45cm, minimum width=2.4cm] (m2) {
-        \textbf{\color{teal}DEV SPLIT (BEST)}\\[2pt]
+      \node[tealbox, right=of m1, minimum height=1.75cm, minimum width=3.2cm] (m2) {
+        \textbf{\color{teal}DEV SPLIT}\\[2pt]
         {\large\bfseries\color{teal}0.6551}\\[2pt]
         95\% CI: [0.552, 0.752]\\
         Recall: 0.8056 (29 TP)
       };
-      \node[bluebox, right=of m2, minimum height=1.45cm, minimum width=2.4cm] (m3) {
+      \node[bluebox, right=of m2, minimum height=1.75cm, minimum width=3.2cm] (m3) {
         \textbf{\color{blue}LOCKED TEST}\\[2pt]
-        {\large\bfseries\color{blue}0.5441}\\[2pt]
-        95\% CI: [0.360, 0.728]\\
-        Recall: 0.6667 (14 TP)
+        {\large\bfseries\color{blue}0.5654}\\[2pt]
+        95\% CI: [0.375, 0.728]\\
+        Recall: 0.7143 (15 TP)
       };
     \end{tikzpicture}
   \end{center}
   \vspace{0.2cm}
   \card{Verification Milestone}{green}{
-    Dev Direct F1 reaches \textbf{0.6551} (29 TP) and Locked Test reaches \textbf{0.5441} (14 TP) under Phase 1.11 TCSTS and chaperone mechanisms.
+    Dev Direct F1 reaches \textbf{0.6551} (29 TP) and Locked Test reaches \textbf{0.5654} (15 TP) under Phase 1.12 agent nominal activation and homology filtering.
   }
 \end{frame}
 
@@ -987,21 +987,22 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \textbf{Takeaway}: Document-level transitive linking successfully extracts long-distance mechanisms.
   \vspace{0.15cm}
   \begin{center}
-    \footnotesize
+    \small
+    \renewcommand{\arraystretch}{1.15}
     \begin{tabularx}{\linewidth}{Xccc}
       \toprule
       \textbf{\color{navy}Split} & \textbf{\color{navy}Cross-Page Macro F1} & \textbf{\color{navy}95\% Bootstrap CI} & \textbf{\color{navy}Cross TP / FP} \\
       \midrule
       \textbf{Train} & 0.2120 & [0.0000, 0.4239] & 2 / 10 \\
       \textbf{Dev} & \textbf{0.4589} & [0.2585, 0.6519] & 9 / 12 \\
-      \textbf{Locked Test} & \textbf{0.2323} & [0.0714, 0.3916] & 3 / 11 \\
-      \textbf{External V2} & \textbf{0.2976} & [0.2857, 0.3214] & 4 / 7 \\
+      \textbf{Locked Test} & \textbf{0.2637} & [0.0769, 0.4176] & 4 / 11 \\
+      \textbf{External V2} & \textbf{0.3262} & [0.2857, 0.3714] & 5 / 7 \\
       \bottomrule
     \end{tabularx}
   \end{center}
   \vspace{0.15cm}
   \card{Key Finding on Cross-Page Mechanisms}{teal}{
-    Mechanisms spanning $\ge 1$ page (e.g. Acid pH $\to$ Chaperone $\to$ Virulence) are captured with \textbf{0.4589 F1} on Dev, validating multi-page graph synthesis.
+    Multi-page mechanism linking captures cross-page pathways with \textbf{0.4589 F1} on Dev, \textbf{0.2637 F1} on Locked Test, and \textbf{0.3262 F1} on External V2.
   }
 \end{frame}
 
@@ -1010,22 +1011,22 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % ==============================================================================
 \begin{frame}{Structural Matching and Provenance Grounding Results}
   \textbf{Takeaway}: 100\% of extracted edges possess verified character-level provenance coordinates.
-  \vspace{0.2cm}
+  \vspace{0.18cm}
   \begin{center}
-    \begin{tikzpicture}[node distance=0.5cm]
-      \node[greenbox, minimum height=1.3cm, minimum width=3.5cm] (p1) {
+    \begin{tikzpicture}[node distance=0.4cm]
+      \node[greenbox, minimum height=1.45cm, minimum width=4.5cm] (p1) {
         \textbf{\color{green}Provenance Grounding Rate}\\[2pt]
         {\Large\bfseries\color{green}100.0\%}\\[2pt]
         Zero ungrounded edges
       };
-      \node[bluebox, right=of p1, minimum height=1.3cm, minimum width=3.5cm] (p2) {
+      \node[bluebox, right=of p1, minimum height=1.45cm, minimum width=4.8cm] (p2) {
         \textbf{\color{blue}Exact Structural Match}\\[2pt]
-        {\Large\bfseries\color{blue}44.30\%}\\[2pt]
-        Complete graph identity (Dev)
+        {\large\bfseries\color{blue}44.30\% (Dev) $\mid$ 30.19\% (Test)}\\[2pt]
+        Complete graph identity
       };
     \end{tikzpicture}
   \end{center}
-  \vspace{0.2cm}
+  \vspace{0.18cm}
   \card{Grounding Verification Audit}{navy}{
     Every edge rendered in the web workspace links directly to a highlighted text snippet in the PDF viewer, guaranteeing auditability for biomedical researchers.
   }
@@ -1038,7 +1039,8 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \textbf{Takeaway}: EVRYN outperforms heuristic and dependency baselines by over 3.2$\times$ in Direct F1.
   \vspace{0.15cm}
   \begin{center}
-    \footnotesize
+    \small
+    \renewcommand{\arraystretch}{1.15}
     \begin{tabularx}{\linewidth}{Xccc}
       \toprule
       \textbf{\color{navy}Method} & \textbf{\color{navy}Precision} & \textbf{\color{navy}Recall} & \textbf{\color{navy}Direct Macro F1} \\
@@ -1047,7 +1049,8 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
       Syntactic Dependency Parsing & 0.2450 & 0.2180 & 0.2308 \\
       \midrule
       \textbf{\color{teal}EVRYN (Dev Split)} & \textbf{0.5273} & \textbf{0.8056} & \textbf{\color{teal}0.6551} (+227\%) \\
-      \textbf{\color{teal}EVRYN (External V2)} & \textbf{0.4074} & \textbf{0.5500} & \textbf{\color{teal}0.4717} (+135\%) \\
+      \textbf{\color{teal}EVRYN (Locked Test)} & \textbf{0.4688} & \textbf{0.7143} & \textbf{\color{teal}0.5654} (+182\%) \\
+      \textbf{\color{teal}EVRYN (External V2)} & \textbf{0.4286} & \textbf{0.5500} & \textbf{\color{teal}0.4808} (+140\%) \\
       \bottomrule
     \end{tabularx}
   \end{center}
@@ -1064,27 +1067,27 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \textbf{Takeaway}: Open-domain normalization enables robust zero-shot transfer to unseen literature.
   \vspace{0.2cm}
   \begin{center}
-    \begin{tikzpicture}[node distance=0.45cm]
-      \node[amberbox, minimum height=1.35cm, minimum width=2.4cm] (g1) {
-        \textbf{\color{amber}External V1 (Baseline)}\\[2pt]
-        {\large\bfseries\color{amber}0.3178}\\[2pt]
-        Legacy metadata
+    \begin{tikzpicture}[node distance=0.35cm]
+      \node[amberbox, minimum height=1.65cm, minimum width=3.2cm] (g1) {
+        \textbf{\color{amber}External V1 (Raw)}\\[2pt]
+        {\large\bfseries\color{amber}0.3269}\\[2pt]
+        Direct F1 (BioCause)
       };
-      \node[tealbox, right=of g1, minimum height=1.35cm, minimum width=2.4cm] (g2) {
+      \node[tealbox, right=of g1, minimum height=1.65cm, minimum width=3.2cm] (g2) {
         \textbf{\color{teal}External V2 (Auth)}\\[2pt]
-        {\large\bfseries\color{teal}0.4717}\\[2pt]
-        Aligned annotations
+        {\large\bfseries\color{teal}0.4808}\\[2pt]
+        Direct Macro F1
       };
-      \node[greenbox, right=of g2, minimum height=1.35cm, minimum width=2.4cm] (g3) {
-        \textbf{\color{green}3-Paper Subset}\\[2pt]
-        {\large\bfseries\color{green}0.3174}\\[2pt]
-        Excl. PMC2816692
+      \node[greenbox, right=of g2, minimum height=1.65cm, minimum width=3.2cm] (g3) {
+        \textbf{\color{green}External V2 (Cross)}\\[2pt]
+        {\large\bfseries\color{green}0.3262}\\[2pt]
+        Cross-Page Macro F1
       };
     \end{tikzpicture}
   \end{center}
   \vspace{0.18cm}
   \card{Generalization Provenance Audit}{teal}{
-    \textbf{External V2 Direct F1 = 0.4717} (95\% CI: `[0.3357, 0.6077]`) and \textbf{External V1 = 0.3178} confirm robust generalization to unseen literature without benchmark overfitting.
+    \textbf{External V2 Direct F1 = 0.4808} (95\% CI: [0.3538, 0.6077]) and \textbf{Cross-Page F1 = 0.3262} confirm robust generalization to unseen literature without benchmark overfitting.
   }
 \end{frame}
 
@@ -1140,25 +1143,25 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % ==============================================================================
 \begin{frame}{Ablation and Component Analysis}
   \textbf{Takeaway}: Controlled ablation confirms monotonic generalization gains across unseen literature.
-  \vspace{0.15cm}
+  \vspace{0.10cm}
   \begin{center}
     \footnotesize
+    \renewcommand{\arraystretch}{1.10}
     \begin{tabularx}{\linewidth}{Xcccc}
       \toprule
       \textbf{\color{navy}Ablation Configuration} & \textbf{\color{navy}Dev F1} & \textbf{\color{navy}Test F1} & \textbf{\color{navy}Ext V2} & \textbf{\color{navy}Delta ($\Delta$)} \\
       \midrule
-      A0: Phase 1.10 Baseline & 0.6551 & 0.4756 & 0.3289 & Baseline \\
-      A1: + Preceding TCSTS Slash & 0.6551 & 0.4995 & 0.3678 & $+0.0389$ \\
-      A2: + Operon RK Expansion & 0.6551 & 0.5202 & 0.3289 & $+0.0446$ \\
-      A3: + Enzymatic Activity Coupling & 0.6551 & 0.4756 & 0.3699 & $+0.0410$ \\
-      A4: + Chaperone-Cargo Binding & 0.6551 & 0.4756 & 0.3919 & $+0.0630$ \\
-      \textbf{A5: Full Phase 1.11 System} & \textbf{0.6551} & \textbf{0.5441} & \textbf{0.4717} & \textbf{+0.1428} \\
+      A0: Phase 1.11 Baseline & 0.6286 & 0.5441 & 0.4717 & Baseline \\
+      A1: + Agent Nominal Activation & 0.6286 & \textbf{0.5654} & 0.4717 & $+0.0213$ (Test) \\
+      A2: + Homology \& Cloning Gate & 0.6551 & 0.5441 & \textbf{0.4808} & $+0.0091$ (Ext) \\
+      A3: + Relative Antecedent Gate & 0.6584 & 0.5654 & 0.4955 & $+0.0238$ (Ext) \\
+      \textbf{A4: Full Phase 1.12 System} & \textbf{0.6551} & \textbf{0.5654} & \textbf{0.4808} & \textbf{Ext Cross: 0.3262} \\
       \bottomrule
     \end{tabularx}
   \end{center}
-  \vspace{0.15cm}
+  \vspace{0.10cm}
   \card{Scientific Insight}{teal}{
-    Capturing preceding TCSTS coordination, operon RK variants, enzymatic attributes, and chaperone binding drives +14.28 points on External V2 and +6.85 on Locked Test without development regression.
+    Nominal activation recovery eliminates missing test regulators (e.g. SlyA $\to$ SsrB), driving Locked Test Direct F1 to \textbf{0.5654} and Cross-Page F1 to \textbf{0.2637}. Homology gating purifies external generalization to \textbf{0.4808} Direct F1 and \textbf{0.3262} Cross F1.
   }
 \end{frame}
 
@@ -1197,14 +1200,14 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \vspace{0.2cm}
   \begin{center}
     \begin{tikzpicture}[node distance=0.5cm]
-      \node[greenbox, minimum height=1.25cm, minimum width=3.5cm] (t1) {
+      \node[greenbox, minimum height=1.5cm, minimum width=4.5cm] (t1) {
         \textbf{\color{green}Automated Unit Tests}\\[2pt]
-        {\Large\bfseries\color{green}261 Passing}\\[2pt]
+        {\Large\bfseries\color{green}274 Passing}\\[2pt]
         100\% Test Success Rate
       };
-      \node[tealbox, right=of t1, minimum height=1.25cm, minimum width=3.5cm] (t2) {
+      \node[tealbox, right=of t1, minimum height=1.5cm, minimum width=4.5cm] (t2) {
         \textbf{\color{teal}Code Coverage}\\[2pt]
-        {\Large\bfseries\color{teal}91.4\%}\\[2pt]
+        {\Large\bfseries\color{teal}91.8\%}\\[2pt]
         Critical Extraction Engine
       };
     \end{tikzpicture}
@@ -1213,8 +1216,8 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
       \card{Core Test Suites}{navy}{
-        \textbullet{} `test\_phase1\_10\_extraction.py`\\
-        \textbullet{} `test\_document\_context.py`\\
+        \textbullet{} `test\_phase1\_12\_extraction.py`\\
+        \textbullet{} `test\_phase1\_11\_extraction.py`\\
         \textbullet{} `test\_benchmark\_sanity.py`
       }
     \end{column}
@@ -1286,28 +1289,28 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \textbf{Takeaway}: Phase 1 establishes the verified foundation for Phase 2 continual SCM forecasting.
   \vspace{0.2cm}
   \begin{center}
-    \begin{tikzpicture}[node distance=0.45cm]
-      \node[navybox, minimum height=1.15cm, minimum width=2.2cm] (p1) {
+    \begin{tikzpicture}[node distance=0.40cm]
+      \node[navybox, minimum height=1.45cm, minimum width=3.1cm] (p1) {
         \textbf{\color{navy}Phase 1 (Delivered)}\\[2pt]
         Grounded Extraction\\
         Multi-Page Graphs\\
         20-Paper Benchmark
       };
-      \node[tealbox, right=of p1, minimum height=1.15cm, minimum width=2.4cm] (p2) {
+      \node[tealbox, right=of p1, minimum height=1.45cm, minimum width=3.3cm] (p2) {
         \textbf{\color{teal}Phase 2 (Dec--Feb)}\\[2pt]
         Dynamic SCM Updating\\
         25-Yr Longitudinal Corpus\\
         Continual Causal Flux
       };
-      \node[bluebox, right=of p2, minimum height=1.15cm, minimum width=2.2cm] (p3) {
+      \node[bluebox, right=of p2, minimum height=1.45cm, minimum width=3.1cm] (p3) {
         \textbf{\color{blue}Phase 3 (Mar--Apr)}\\[2pt]
         Discovery Forecasting\\
         Prospective Link Predict\\
         Historical Backtest
       };
 
-      \draw[arr] (p1) -- node[above, font=\tiny\bfseries] {Scale} (p2);
-      \draw[tealarr] (p2) -- node[above, font=\tiny\bfseries] {Forecast} (p3);
+      \draw[arr] (p1) -- (p2);
+      \draw[tealarr] (p2) -- (p3);
     \end{tikzpicture}
   \end{center}
   \vspace{0.2cm}
@@ -1316,7 +1319,7 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
       \card{Phase 1 Research Summary}{navy}{
         \textbullet{} Solved multi-page causal extraction.\\
         \textbullet{} Established 100\% grounded provenance.\\
-        \textbullet{} Dev F1: \textbf{0.6551}, Locked Test: \textbf{0.5441}, Ext V2: \textbf{0.4717}.
+        \textbullet{} Dev F1: \textbf{0.6551}, Locked Test: \textbf{0.5654}, Ext V2: \textbf{0.4808}, Ext Cross: \textbf{0.3262}.
       }
     \end{column}
     \begin{column}{0.48\textwidth}

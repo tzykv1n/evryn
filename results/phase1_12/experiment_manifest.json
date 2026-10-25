@@ -1,0 +1,52 @@
+{
+  "timestamp": "2026-10-25T14:35:46Z",
+  "phase": "1.12",
+  "ablations": [
+    {
+      "id": "A0_Phase1_11_Baseline",
+      "description": "Phase 1.11 baseline configuration without nominal activation or homology gate",
+      "params": {
+        "enable_agent_nominal_activation": false,
+        "enable_homology_filter": false,
+        "enable_relative_clause_barrier": false
+      }
+    },
+    {
+      "id": "A1_Nominal_Activation",
+      "description": "Baseline + Agent Nominal Activation ([Agent] activation/induction of [Target])",
+      "params": {
+        "enable_agent_nominal_activation": true,
+        "enable_homology_filter": false,
+        "enable_relative_clause_barrier": false
+      }
+    },
+    {
+      "id": "A2_Homology_Filter",
+      "description": "Baseline + Homology & Gene Cloning Non-Causal Gating",
+      "params": {
+        "enable_agent_nominal_activation": false,
+        "enable_homology_filter": true,
+        "enable_relative_clause_barrier": false
+      }
+    },
+    {
+      "id": "A3_Relative_Clause_Barrier",
+      "description": "Full configuration + Relative clause antecedent barrier",
+      "params": {
+        "enable_agent_nominal_activation": true,
+        "enable_homology_filter": true,
+        "enable_relative_clause_barrier": true
+      }
+    },
+    {
+      "id": "A4_Phase1_12_Production",
+      "description": "Phase 1.12 Production Configuration (Nominal Activation + Homology Gating)",
+      "params": {
+        "enable_agent_nominal_activation": true,
+        "enable_homology_filter": true,
+        "enable_relative_clause_barrier": false
+      }
+    }
+  ],
+  "results_file": "results/phase1_12/ablation_results.json"
+}

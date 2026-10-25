@@ -1,0 +1,597 @@
+{
+  "A0_Phase1_11_Baseline": {
+    "definition": {
+      "id": "A0_Phase1_11_Baseline",
+      "description": "Phase 1.11 baseline configuration without nominal activation or homology gate",
+      "params": {
+        "enable_agent_nominal_activation": false,
+        "enable_homology_filter": false,
+        "enable_relative_clause_barrier": false
+      }
+    },
+    "v1": {
+      "train": {
+        "direct_f1_mean": 0.475,
+        "direct_f1_ci": [
+          0.3667,
+          0.6
+        ],
+        "cross_f1_mean": 0.212,
+        "cross_f1_ci": [
+          0.0,
+          0.4239
+        ],
+        "structural_match_mean": 0.2408
+      },
+      "dev": {
+        "direct_f1_mean": 0.6286,
+        "direct_f1_ci": [
+          0.5492,
+          0.6994
+        ],
+        "cross_f1_mean": 0.4527,
+        "cross_f1_ci": [
+          0.2587,
+          0.6345
+        ],
+        "structural_match_mean": 0.414
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5441,
+        "direct_f1_ci": [
+          0.3603,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2323,
+        "cross_f1_ci": [
+          0.0714,
+          0.3916
+        ],
+        "structural_match_mean": 0.2833
+      },
+      "external": {
+        "direct_f1_mean": 0.3178,
+        "direct_f1_ci": [
+          0.0909,
+          0.5269
+        ],
+        "cross_f1_mean": 0.2262,
+        "cross_f1_ci": [
+          0.0714,
+          0.3214
+        ],
+        "structural_match_mean": 0.1738
+      }
+    },
+    "v2": {
+      "train": {
+        "direct_f1_mean": 0.475,
+        "direct_f1_ci": [
+          0.3667,
+          0.6
+        ],
+        "cross_f1_mean": 0.212,
+        "cross_f1_ci": [
+          0.0,
+          0.4239
+        ],
+        "structural_match_mean": 0.2408
+      },
+      "dev": {
+        "direct_f1_mean": 0.6286,
+        "direct_f1_ci": [
+          0.5492,
+          0.6994
+        ],
+        "cross_f1_mean": 0.4527,
+        "cross_f1_ci": [
+          0.2587,
+          0.6345
+        ],
+        "structural_match_mean": 0.414
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5441,
+        "direct_f1_ci": [
+          0.3603,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2323,
+        "cross_f1_ci": [
+          0.0714,
+          0.3916
+        ],
+        "structural_match_mean": 0.2833
+      },
+      "external": {
+        "direct_f1_mean": 0.4717,
+        "direct_f1_ci": [
+          0.3357,
+          0.6077
+        ],
+        "cross_f1_mean": 0.2976,
+        "cross_f1_ci": [
+          0.2857,
+          0.3214
+        ],
+        "structural_match_mean": 0.2571
+      }
+    }
+  },
+  "A1_Nominal_Activation": {
+    "definition": {
+      "id": "A1_Nominal_Activation",
+      "description": "Baseline + Agent Nominal Activation ([Agent] activation/induction of [Target])",
+      "params": {
+        "enable_agent_nominal_activation": true,
+        "enable_homology_filter": false,
+        "enable_relative_clause_barrier": false
+      }
+    },
+    "v1": {
+      "train": {
+        "direct_f1_mean": 0.475,
+        "direct_f1_ci": [
+          0.3667,
+          0.6
+        ],
+        "cross_f1_mean": 0.212,
+        "cross_f1_ci": [
+          0.0,
+          0.4239
+        ],
+        "structural_match_mean": 0.2408
+      },
+      "dev": {
+        "direct_f1_mean": 0.6286,
+        "direct_f1_ci": [
+          0.5492,
+          0.6994
+        ],
+        "cross_f1_mean": 0.4527,
+        "cross_f1_ci": [
+          0.2587,
+          0.6345
+        ],
+        "structural_match_mean": 0.414
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5654,
+        "direct_f1_ci": [
+          0.375,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2637,
+        "cross_f1_ci": [
+          0.0769,
+          0.4176
+        ],
+        "structural_match_mean": 0.3019
+      },
+      "external": {
+        "direct_f1_mean": 0.3178,
+        "direct_f1_ci": [
+          0.0909,
+          0.5269
+        ],
+        "cross_f1_mean": 0.2262,
+        "cross_f1_ci": [
+          0.0714,
+          0.3214
+        ],
+        "structural_match_mean": 0.1738
+      }
+    },
+    "v2": {
+      "train": {
+        "direct_f1_mean": 0.475,
+        "direct_f1_ci": [
+          0.3667,
+          0.6
+        ],
+        "cross_f1_mean": 0.212,
+        "cross_f1_ci": [
+          0.0,
+          0.4239
+        ],
+        "structural_match_mean": 0.2408
+      },
+      "dev": {
+        "direct_f1_mean": 0.6286,
+        "direct_f1_ci": [
+          0.5492,
+          0.6994
+        ],
+        "cross_f1_mean": 0.4527,
+        "cross_f1_ci": [
+          0.2587,
+          0.6345
+        ],
+        "structural_match_mean": 0.414
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5654,
+        "direct_f1_ci": [
+          0.375,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2637,
+        "cross_f1_ci": [
+          0.0769,
+          0.4176
+        ],
+        "structural_match_mean": 0.3019
+      },
+      "external": {
+        "direct_f1_mean": 0.4717,
+        "direct_f1_ci": [
+          0.3357,
+          0.6077
+        ],
+        "cross_f1_mean": 0.2976,
+        "cross_f1_ci": [
+          0.2857,
+          0.3214
+        ],
+        "structural_match_mean": 0.2571
+      }
+    }
+  },
+  "A2_Homology_Filter": {
+    "definition": {
+      "id": "A2_Homology_Filter",
+      "description": "Baseline + Homology & Gene Cloning Non-Causal Gating",
+      "params": {
+        "enable_agent_nominal_activation": false,
+        "enable_homology_filter": true,
+        "enable_relative_clause_barrier": false
+      }
+    },
+    "v1": {
+      "train": {
+        "direct_f1_mean": 0.475,
+        "direct_f1_ci": [
+          0.3667,
+          0.6
+        ],
+        "cross_f1_mean": 0.212,
+        "cross_f1_ci": [
+          0.0,
+          0.4239
+        ],
+        "structural_match_mean": 0.2408
+      },
+      "dev": {
+        "direct_f1_mean": 0.6551,
+        "direct_f1_ci": [
+          0.5521,
+          0.7523
+        ],
+        "cross_f1_mean": 0.4589,
+        "cross_f1_ci": [
+          0.2585,
+          0.6519
+        ],
+        "structural_match_mean": 0.443
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5441,
+        "direct_f1_ci": [
+          0.3603,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2323,
+        "cross_f1_ci": [
+          0.0714,
+          0.3916
+        ],
+        "structural_match_mean": 0.2833
+      },
+      "external": {
+        "direct_f1_mean": 0.3269,
+        "direct_f1_ci": [
+          0.1,
+          0.5269
+        ],
+        "cross_f1_mean": 0.2548,
+        "cross_f1_ci": [
+          0.0833,
+          0.3714
+        ],
+        "structural_match_mean": 0.1863
+      }
+    },
+    "v2": {
+      "train": {
+        "direct_f1_mean": 0.475,
+        "direct_f1_ci": [
+          0.3667,
+          0.6
+        ],
+        "cross_f1_mean": 0.212,
+        "cross_f1_ci": [
+          0.0,
+          0.4239
+        ],
+        "structural_match_mean": 0.2408
+      },
+      "dev": {
+        "direct_f1_mean": 0.6551,
+        "direct_f1_ci": [
+          0.5521,
+          0.7523
+        ],
+        "cross_f1_mean": 0.4589,
+        "cross_f1_ci": [
+          0.2585,
+          0.6519
+        ],
+        "structural_match_mean": 0.443
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5441,
+        "direct_f1_ci": [
+          0.3603,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2323,
+        "cross_f1_ci": [
+          0.0714,
+          0.3916
+        ],
+        "structural_match_mean": 0.2833
+      },
+      "external": {
+        "direct_f1_mean": 0.4808,
+        "direct_f1_ci": [
+          0.3538,
+          0.6077
+        ],
+        "cross_f1_mean": 0.3262,
+        "cross_f1_ci": [
+          0.2857,
+          0.3714
+        ],
+        "structural_match_mean": 0.2696
+      }
+    }
+  },
+  "A3_Relative_Clause_Barrier": {
+    "definition": {
+      "id": "A3_Relative_Clause_Barrier",
+      "description": "Full configuration + Relative clause antecedent barrier",
+      "params": {
+        "enable_agent_nominal_activation": true,
+        "enable_homology_filter": true,
+        "enable_relative_clause_barrier": true
+      }
+    },
+    "v1": {
+      "train": {
+        "direct_f1_mean": 0.475,
+        "direct_f1_ci": [
+          0.3667,
+          0.6
+        ],
+        "cross_f1_mean": 0.212,
+        "cross_f1_ci": [
+          0.0,
+          0.4239
+        ],
+        "structural_match_mean": 0.2408
+      },
+      "dev": {
+        "direct_f1_mean": 0.6584,
+        "direct_f1_ci": [
+          0.5586,
+          0.7535
+        ],
+        "cross_f1_mean": 0.463,
+        "cross_f1_ci": [
+          0.2591,
+          0.656
+        ],
+        "structural_match_mean": 0.4462
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5654,
+        "direct_f1_ci": [
+          0.375,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2637,
+        "cross_f1_ci": [
+          0.0769,
+          0.4176
+        ],
+        "structural_match_mean": 0.3019
+      },
+      "external": {
+        "direct_f1_mean": 0.2955,
+        "direct_f1_ci": [
+          0.0909,
+          0.5
+        ],
+        "cross_f1_mean": 0.1714,
+        "cross_f1_ci": [
+          0.0,
+          0.3429
+        ],
+        "structural_match_mean": 0.1561
+      }
+    },
+    "v2": {
+      "train": {
+        "direct_f1_mean": 0.475,
+        "direct_f1_ci": [
+          0.3667,
+          0.6
+        ],
+        "cross_f1_mean": 0.212,
+        "cross_f1_ci": [
+          0.0,
+          0.4239
+        ],
+        "structural_match_mean": 0.2408
+      },
+      "dev": {
+        "direct_f1_mean": 0.6584,
+        "direct_f1_ci": [
+          0.5586,
+          0.7535
+        ],
+        "cross_f1_mean": 0.463,
+        "cross_f1_ci": [
+          0.2591,
+          0.656
+        ],
+        "structural_match_mean": 0.4462
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5654,
+        "direct_f1_ci": [
+          0.375,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2637,
+        "cross_f1_ci": [
+          0.0769,
+          0.4176
+        ],
+        "structural_match_mean": 0.3019
+      },
+      "external": {
+        "direct_f1_mean": 0.4955,
+        "direct_f1_ci": [
+          0.2864,
+          0.7
+        ],
+        "cross_f1_mean": 0.2548,
+        "cross_f1_ci": [
+          0.0833,
+          0.3833
+        ],
+        "structural_match_mean": 0.2697
+      }
+    }
+  },
+  "A4_Phase1_12_Production": {
+    "definition": {
+      "id": "A4_Phase1_12_Production",
+      "description": "Phase 1.12 Production Configuration (Nominal Activation + Homology Gating)",
+      "params": {
+        "enable_agent_nominal_activation": true,
+        "enable_homology_filter": true,
+        "enable_relative_clause_barrier": false
+      }
+    },
+    "v1": {
+      "train": {
+        "direct_f1_mean": 0.475,
+        "direct_f1_ci": [
+          0.3667,
+          0.6
+        ],
+        "cross_f1_mean": 0.212,
+        "cross_f1_ci": [
+          0.0,
+          0.4239
+        ],
+        "structural_match_mean": 0.2408
+      },
+      "dev": {
+        "direct_f1_mean": 0.6551,
+        "direct_f1_ci": [
+          0.5521,
+          0.7523
+        ],
+        "cross_f1_mean": 0.4589,
+        "cross_f1_ci": [
+          0.2585,
+          0.6519
+        ],
+        "structural_match_mean": 0.443
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5654,
+        "direct_f1_ci": [
+          0.375,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2637,
+        "cross_f1_ci": [
+          0.0769,
+          0.4176
+        ],
+        "structural_match_mean": 0.3019
+      },
+      "external": {
+        "direct_f1_mean": 0.3269,
+        "direct_f1_ci": [
+          0.1,
+          0.5269
+        ],
+        "cross_f1_mean": 0.2548,
+        "cross_f1_ci": [
+          0.0833,
+          0.3714
+        ],
+        "structural_match_mean": 0.1863
+      }
+    },
+    "v2": {
+      "train": {
+        "direct_f1_mean": 0.475,
+        "direct_f1_ci": [
+          0.3667,
+          0.6
+        ],
+        "cross_f1_mean": 0.212,
+        "cross_f1_ci": [
+          0.0,
+          0.4239
+        ],
+        "structural_match_mean": 0.2408
+      },
+      "dev": {
+        "direct_f1_mean": 0.6551,
+        "direct_f1_ci": [
+          0.5521,
+          0.7523
+        ],
+        "cross_f1_mean": 0.4589,
+        "cross_f1_ci": [
+          0.2585,
+          0.6519
+        ],
+        "structural_match_mean": 0.443
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5654,
+        "direct_f1_ci": [
+          0.375,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2637,
+        "cross_f1_ci": [
+          0.0769,
+          0.4176
+        ],
+        "structural_match_mean": 0.3019
+      },
+      "external": {
+        "direct_f1_mean": 0.4808,
+        "direct_f1_ci": [
+          0.3538,
+          0.6077
+        ],
+        "cross_f1_mean": 0.3262,
+        "cross_f1_ci": [
+          0.2857,
+          0.3714
+        ],
+        "structural_match_mean": 0.2696
+      }
+    }
+  }
+}

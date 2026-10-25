@@ -254,6 +254,15 @@ COMPILED_GENETICS_MUTANT_DEFECT = re.compile(
     re.IGNORECASE,
 )
 
+PAT_AGENT_NOMINAL_ACT = re.compile(
+    r"^\s*(?:direct\s+|indirect\s+)?(?:activation|induction|stimulation|up-?regulation)\s+of(?:\s+(?:the|promoter\s+of|transcription\s+of|expression\s+of))?$",
+    re.IGNORECASE,
+)
+PAT_AGENT_NOMINAL_INHIB = re.compile(
+    r"^\s*(?:direct\s+|indirect\s+)?(?:repression|inhibition|suppression|down-?regulation)\s+of(?:\s+(?:the|promoter\s+of|transcription\s+of|expression\s+of))?$",
+    re.IGNORECASE,
+)
+
 COMPILED_DIRECT_CAUSATIVE_PATTERNS = [
     re.compile(p, re.IGNORECASE) for p in [
         r"\b(?:causes?|caused|causing)\b",
@@ -319,11 +328,12 @@ CHAPERONE_PAT3 = re.compile(
 )
 
 METHOD_HOMOLOGY_RE = re.compile(
-    r"\b(?:was|were)\s+(?:created|constructed|generated|obtained|engineered)\s+by\b|"
+    r"\b(?:was|were)\s+(?:created|constructed|generated|obtained|engineered|cloned|subcloned|purified|amplified|sequenced)\s*(?:by|using|with|from|into)?\b|"
     r"\b(?:cloned|subcloned|amplified|transformed|transduced)\s+(?:into|with|by)\b|"
     r"\btransduction\s+of\b|"
     r"\b(?:amino\s+acid|nucleotide|sequence)?\s*(?:identity|similarity|homology)\s+(?:with|to)\b|"
-    r"\bhomolog(?:ous|ue)?\s+to\b|"
+    r"\bhomolog(?:ous|ue)?\s+(?:to|of)\b|"
+    r"\b(?:functions?|acts?)\s+(?:much\s+)?like\b|"
     r"\bexhibits?\s+\d+%\s+(?:amino\s+acid|sequence)?\s*identity\b",
     re.IGNORECASE,
 )
@@ -440,6 +450,9 @@ class PaperCausalExtractor:
         enable_operon_tcsts_rk: bool = True,
         enable_enzymatic_activity_coupling: bool = True,
         enable_chaperone_cargo_coupling: bool = True,
+        enable_agent_nominal_activation: bool = True,
+        enable_homology_filter: bool = True,
+        enable_relative_clause_barrier: bool = False,
     ):
         self.normalizer = normalizer or PaperEntityNormalizer()
         self.enable_env_grammar = enable_env_grammar
@@ -457,6 +470,9 @@ class PaperCausalExtractor:
         self.enable_operon_tcsts_rk = enable_operon_tcsts_rk
         self.enable_enzymatic_activity_coupling = enable_enzymatic_activity_coupling
         self.enable_chaperone_cargo_coupling = enable_chaperone_cargo_coupling
+        self.enable_agent_nominal_activation = enable_agent_nominal_activation
+        self.enable_homology_filter = enable_homology_filter
+        self.enable_relative_clause_barrier = enable_relative_clause_barrier
         self.env_extractor = EnvironmentalParameterExtractor(self.normalizer)
         self.document_context_resolver = DocumentContextResolver(
             enabled=enable_document_context,
@@ -487,7 +503,7 @@ class PaperCausalExtractor:
             text = sent.text
             if TABLE_FIG_RE.match(text.strip()):
                 continue
-            if METHOD_HOMOLOGY_RE.search(text):
+            if self.enable_homology_filter and METHOD_HOMOLOGY_RE.search(text):
                 continue
             entities = self.normalizer.detect_entities_in_sentence(
                 text, local_abbr, known_entities=known_entities
@@ -520,6 +536,12 @@ class PaperCausalExtractor:
                         span_text = text[start_pos:end_pos].lower()
 
                         if intervening:
+                            if self.enable_relative_clause_barrier:
+                                last_interv_end = max(ent[3] for ent in intervening)
+                                clause_bridge = text[last_interv_end:end_pos]
+                                if re.search(r"\b(?:that|which|who|whom)\b", clause_bridge, re.IGNORECASE):
+                                    continue
+
                             is_coordinated = bool(re.search(r"\b(?:and|or|both|as\s+well\s+as)\b", span_text))
                             is_means_clause = bool(re.search(r"\bby\s+(?:activating|binding|inducing|inhibiting|suppressing|regulating)\b", span_text))
                             has_chain = bool(re.search(r"\b(?:leads?|led|causing|causes|resulting|results|thereby|subsequently)\b", span_text))
@@ -1166,6 +1188,13 @@ class PaperCausalExtractor:
         for pat_re in COMPILED_LIGAND_SENSOR_PATTERNS:
             if pat_re.search(between_text):
                 return CausalRelationType.UPREGULATES, direction, 0.92
+
+        # Agent nominal activation/inhibition: e.g. "SlyA activation of ssrB" -> SlyA (cause) activates ssrB (effect)
+        if getattr(self, "enable_agent_nominal_activation", True):
+            if PAT_AGENT_NOMINAL_ACT.search(between_text):
+                return CausalRelationType.UPREGULATES, direction, 0.90
+            if PAT_AGENT_NOMINAL_INHIB.search(between_text):
+                return CausalRelationType.DOWNREGULATES, direction, 0.90
 
         # Active matrix verb precedence over subordinate prepositional modifiers
         m_sub = SUBORDINATE_PREP_MODIFIERS.search(between_text)

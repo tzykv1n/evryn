@@ -1,7 +1,7 @@
 {
   "phase": "EVRYN Phase 2 Real-Paper Causal Benchmark & Generalization Evaluation (V1)",
   "benchmark_version": "v1",
-  "timestamp": "2026-10-25T11:36:41Z",
+  "timestamp": "2026-10-25T14:32:42Z",
   "total_papers": 20,
   "split_counts": {
     "train": 4,
@@ -360,38 +360,38 @@
       "split": "locked_test",
       "paper_count": 4,
       "macro_metrics": {
-        "direct_f1_mean": 0.5441,
+        "direct_f1_mean": 0.5654,
         "direct_f1_ci": [
-          0.3603,
+          0.375,
           0.7279
         ],
-        "cross_f1_mean": 0.2323,
+        "cross_f1_mean": 0.2637,
         "cross_f1_ci": [
-          0.0714,
-          0.3916
+          0.0769,
+          0.4176
         ],
-        "structural_match_mean": 0.2833,
+        "structural_match_mean": 0.3019,
         "structural_match_ci": [
-          0.1856,
-          0.381
+          0.1987,
+          0.3943
         ]
       },
       "micro_metrics": {
         "direct": {
-          "tp": 14,
+          "tp": 15,
           "fp": 15,
-          "fn": 7,
-          "precision": 0.4828,
-          "recall": 0.6667,
-          "f1": 0.56
+          "fn": 6,
+          "precision": 0.5,
+          "recall": 0.7143,
+          "f1": 0.5882
         },
         "cross_page": {
-          "tp": 5,
-          "fp": 10,
-          "fn": 15,
-          "precision": 0.3333,
-          "recall": 0.25,
-          "f1": 0.2857
+          "tp": 6,
+          "fp": 11,
+          "fn": 14,
+          "precision": 0.3529,
+          "recall": 0.3,
+          "f1": 0.3243
         }
       },
       "per_paper": [
@@ -467,21 +467,21 @@
           "page_count": 14,
           "gold_direct": 5,
           "gold_cross": 6,
-          "pred_direct": 12,
-          "pred_cross": 5,
-          "tp_direct": 4,
+          "pred_direct": 13,
+          "pred_cross": 7,
+          "tp_direct": 5,
           "fp_direct": 8,
-          "fn_direct": 1,
-          "direct_precision": 0.3333,
-          "direct_recall": 0.8,
-          "direct_f1": 0.4706,
-          "tp_cross": 1,
-          "fp_cross": 4,
-          "fn_cross": 5,
-          "cross_precision": 0.2,
-          "cross_recall": 0.1667,
-          "cross_f1": 0.1818,
-          "structural_match": 0.2174
+          "fn_direct": 0,
+          "direct_precision": 0.3846,
+          "direct_recall": 1.0,
+          "direct_f1": 0.5556,
+          "tp_cross": 2,
+          "fp_cross": 5,
+          "fn_cross": 4,
+          "cross_precision": 0.2857,
+          "cross_recall": 0.3333,
+          "cross_f1": 0.3077,
+          "structural_match": 0.2917
         }
       ]
     },
@@ -489,38 +489,38 @@
       "split": "external",
       "paper_count": 4,
       "macro_metrics": {
-        "direct_f1_mean": 0.3178,
+        "direct_f1_mean": 0.3269,
         "direct_f1_ci": [
-          0.0909,
+          0.1,
           0.5269
         ],
-        "cross_f1_mean": 0.2262,
+        "cross_f1_mean": 0.2548,
         "cross_f1_ci": [
-          0.0714,
-          0.3214
+          0.0833,
+          0.3714
         ],
-        "structural_match_mean": 0.1738,
+        "structural_match_mean": 0.1863,
         "structural_match_ci": [
-          0.05,
-          0.2776
+          0.0625,
+          0.2788
         ]
       },
       "micro_metrics": {
         "direct": {
           "tp": 7,
-          "fp": 55,
+          "fp": 54,
           "fn": 13,
-          "precision": 0.1129,
+          "precision": 0.1148,
           "recall": 0.35,
-          "f1": 0.1707
+          "f1": 0.1728
         },
         "cross_page": {
           "tp": 3,
-          "fp": 33,
+          "fp": 31,
           "fn": 14,
-          "precision": 0.0833,
+          "precision": 0.0882,
           "recall": 0.1765,
-          "f1": 0.1132
+          "f1": 0.1176
         }
       },
       "per_paper": [
@@ -596,21 +596,21 @@
           "page_count": 6,
           "gold_direct": 5,
           "gold_cross": 4,
-          "pred_direct": 6,
-          "pred_cross": 3,
+          "pred_direct": 5,
+          "pred_cross": 1,
           "tp_direct": 2,
-          "fp_direct": 4,
+          "fp_direct": 3,
           "fn_direct": 3,
-          "direct_precision": 0.3333,
+          "direct_precision": 0.4,
           "direct_recall": 0.4,
-          "direct_f1": 0.3636,
+          "direct_f1": 0.4,
           "tp_cross": 1,
-          "fp_cross": 2,
+          "fp_cross": 0,
           "fn_cross": 3,
-          "cross_precision": 0.3333,
+          "cross_precision": 1.0,
           "cross_recall": 0.25,
-          "cross_f1": 0.2857,
-          "structural_match": 0.2
+          "cross_f1": 0.4,
+          "structural_match": 0.25
         }
       ]
     }
