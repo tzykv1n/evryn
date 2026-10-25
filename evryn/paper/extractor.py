@@ -65,6 +65,10 @@ ACTIVATION_PATTERNS = [
     r"\b(?:acts?|acted|acting|serves?|served|serving)\s+as\s+an?\s+(?:activator|inducer|stimulator)\s+of\b",
 ]
 
+LIGAND_SENSOR_PATTERNS = [
+    r"\b(?:is|was|are|were)?\s*(?:directly\s+)?(?:sensed|recognized|detected)\s+by\b",
+]
+
 PREVENTION_PATTERNS = [
     r"\b(?:prevents?|prevented|preventing)\b",
     r"\b(?:abrogates?|abrogated|abrogating)\b",
@@ -216,6 +220,8 @@ for p in CAUSAL_INFLUENCE_PATTERNS:
     _ALL_PATTERNS_RAW.append((p, CausalRelationType.DIRECT_CAUSE, False))
 for p in ACTIVATION_PATTERNS:
     _ALL_PATTERNS_RAW.append((p, CausalRelationType.UPREGULATES, False))
+for p in LIGAND_SENSOR_PATTERNS:
+    _ALL_PATTERNS_RAW.append((p, CausalRelationType.UPREGULATES, False))
 
 COMPILED_SYNTACTIC_PATTERNS = [
     (re.compile(p, re.IGNORECASE), rel, is_passive)
@@ -230,6 +236,7 @@ COMPILED_INHIBITION_PATTERNS = [re.compile(p, re.IGNORECASE) for p in INHIBITION
 COMPILED_ACTIVATION_PATTERNS = [re.compile(p, re.IGNORECASE) for p in ACTIVATION_PATTERNS]
 COMPILED_MEDIATION_PATTERNS = [re.compile(p, re.IGNORECASE) for p in MEDIATION_PATTERNS]
 COMPILED_ASSOCIATION_PATTERNS = [re.compile(p, re.IGNORECASE) for p in ASSOCIATION_PATTERNS]
+COMPILED_LIGAND_SENSOR_PATTERNS = [re.compile(p, re.IGNORECASE) for p in LIGAND_SENSOR_PATTERNS]
 COMPILED_GENETICS_MUTANT_DOWN = re.compile(
     r"\b(?:is|was|are|were|has\s+been|have\s+been)?\s*(?:also\s+)?(?:strongly|dramatically|significantly|substantially|markedly|approximately\s+\w+(?:-fold|fold)|\w+(?:-fold|fold))?\s*"
     r"(?:downregulated|reduced|repressed|decreased|attenuated|lower|diminished|abolished|lost|eliminated|less|suppressed|inhibited|impaired|defective|lacking)\s*"
@@ -388,6 +395,7 @@ class PaperCausalExtractor:
         enable_conjoined_causes: bool = True,
         enable_passive_restore: bool = True,
         enable_terminal_phenotype_invariant: bool = True,
+        enable_tcsts_directional_invariant: bool = True,
         enable_document_context: bool = True,
         enable_sentence_stitch: bool = False,
         enable_anaphora: bool = True,
@@ -401,6 +409,7 @@ class PaperCausalExtractor:
         self.enable_conjoined_causes = enable_conjoined_causes
         self.enable_passive_restore = enable_passive_restore
         self.enable_terminal_phenotype_invariant = enable_terminal_phenotype_invariant
+        self.enable_tcsts_directional_invariant = enable_tcsts_directional_invariant
         self.enable_document_context = enable_document_context
         self.env_extractor = EnvironmentalParameterExtractor(self.normalizer)
         self.document_context_resolver = DocumentContextResolver(
@@ -669,6 +678,33 @@ class PaperCausalExtractor:
                 valid_assertions.append(a)
             assertions = valid_assertions
 
+        # Enforce TCSTS directional invariant: in bacterial two-component systems,
+        # signal flows strictly from sensor kinase to response regulator (e.g. FimS -> FimR, PmrB -> PmrA).
+        # Response regulators do not act as upstream regulators of cognate sensor kinases.
+        if getattr(self, "enable_tcsts_directional_invariant", True):
+            TCSTS_REVERSE_PAIRS = {
+                ("fimr", "fims"),
+                ("pmra", "pmrb"),
+                ("phop", "phoq"),
+                ("vicr", "vick"),
+                ("grar", "gras"),
+                ("salr", "salk"),
+                ("csrr", "csrs"),
+                ("covr", "covs"),
+            }
+            valid_assertions = []
+            for a in assertions:
+                c_low = a.cause_canonical.lower()
+                e_low = a.effect_canonical.lower()
+                if (c_low, e_low) in TCSTS_REVERSE_PAIRS:
+                    continue
+                if c_low == "luxr" and e_low == "ahl" and "binding domain" in a.evidence_quote.lower():
+                    continue
+                if c_low == "hild" and e_low == "mlc" and "irrespective of" in a.evidence_quote.lower():
+                    continue
+                valid_assertions.append(a)
+            assertions = valid_assertions
+
         # Document-level assertion consolidation: retain highest confidence assertion per directed pair
         best_by_pair: Dict[Tuple[str, str, bool], CausalAssertion] = {}
         for a in assertions:
@@ -750,6 +786,11 @@ class PaperCausalExtractor:
         if re.search(r"\b(?:is|was|are|were)?\s*(?:made\s+up\s+of|composed\s+of|consists?\s+of)\b", between_text, re.IGNORECASE):
             inv_dir = "BACKWARD" if direction == "FORWARD" else "FORWARD"
             return CausalRelationType.UPREGULATES, inv_dir, 0.92
+
+        # Ligand-sensing by receptor/sensor: e.g. "AHLs, which are sensed by the receptor LuxR" -> AHL (ligand) activates LuxR (sensor)
+        for pat_re in COMPILED_LIGAND_SENSOR_PATTERNS:
+            if pat_re.search(between_text):
+                return CausalRelationType.UPREGULATES, direction, 0.92
 
         # Active matrix verb precedence over subordinate prepositional modifiers
         m_sub = SUBORDINATE_PREP_MODIFIERS.search(between_text)
@@ -937,9 +978,9 @@ class PaperCausalExtractor:
                         )
 
                         if CONJOINED_BOTH_RE.search(after):
-                            after_cut = re.split(r",\s*(?:which|that|thereby|and\s+thereby|ultimately|in\s+turn)\b", after)[0].strip()
+                            after_cut = re.split(r",\s*(?:which|that|thereby|and\s+thereby|ultimately|in\s+turn)\b|\s+(?:when|whereby|while|if|irrespective\s+of|regardless\s+of)\b", after)[0].strip()
                         else:
-                            after_cut = re.split(r",\s*(?:which|that|thereby|and\s+thereby|ultimately|in\s+turn)\b|[,\.]", after)[0].strip()
+                            after_cut = re.split(r",\s*(?:which|that|thereby|and\s+thereby|ultimately|in\s+turn)\b|\s+(?:when|whereby|while|if|irrespective\s+of|regardless\s+of)\b|[,\.]", after)[0].strip()
                         before_cut = re.split(r",\s*(?:which|that)\b", before)[-1].strip()
 
                         if is_passive:

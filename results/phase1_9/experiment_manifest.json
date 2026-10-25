@@ -1,0 +1,128 @@
+{
+  "phase": "1.9",
+  "title": "Evidence-Grounded Research Improvement and Directional Invariant Calibration",
+  "timestamp": "2026-10-25T15:15:00Z",
+  "baseline_commit": "c9f503b",
+  "branch": "phase2.1-benchmark-audit-and-ui-fix",
+  "evaluation_engine": "scripts/evaluate_phase2_splits.py",
+  "test_suite": {
+    "total_tests": 257,
+    "passed_tests": 257,
+    "failed_tests": 0,
+    "pass_rate": 1.0,
+    "execution_time_seconds": 205.24
+  },
+  "metrics": {
+    "v2": {
+      "dev": {
+        "papers_count": 8,
+        "direct_macro_f1": 0.6137,
+        "direct_f1_ci": [0.5273, 0.6860],
+        "cross_page_f1": 0.4087,
+        "cross_page_ci": [0.2308, 0.5810],
+        "structural_match": 0.3909,
+        "tp_direct": 27,
+        "fp_direct": 29,
+        "fn_direct": 9,
+        "precision_direct": 0.482,
+        "recall_direct": 0.750,
+        "baseline_comparison": {
+          "phase_1_8_direct_f1": 0.5668,
+          "delta_direct_f1": 0.0469,
+          "delta_relative_pct": 8.28
+        }
+      },
+      "train": {
+        "papers_count": 4,
+        "direct_macro_f1": 0.4750,
+        "direct_f1_ci": [0.3667, 0.6000],
+        "cross_page_f1": 0.2083,
+        "cross_page_ci": [0.0000, 0.4167],
+        "structural_match": 0.2389,
+        "tp_direct": 12,
+        "fp_direct": 20,
+        "fn_direct": 7,
+        "baseline_comparison": {
+          "phase_1_8_direct_f1": 0.4750,
+          "delta_direct_f1": 0.0000
+        }
+      },
+      "locked_test": {
+        "papers_count": 4,
+        "direct_macro_f1": 0.4658,
+        "direct_f1_ci": [0.3125, 0.6190],
+        "cross_page_f1": 0.2051,
+        "cross_page_ci": [0.0714, 0.3193],
+        "structural_match": 0.2240,
+        "tp_direct": 12,
+        "fp_direct": 16,
+        "fn_direct": 9,
+        "baseline_comparison": {
+          "phase_1_8_direct_f1": 0.4658,
+          "delta_direct_f1": 0.0000
+        }
+      },
+      "external": {
+        "papers_count": 4,
+        "direct_macro_f1": 0.3289,
+        "direct_f1_ci": [0.2409, 0.4103],
+        "cross_page_f1": 0.2667,
+        "cross_page_ci": [0.0833, 0.3833],
+        "structural_match": 0.1819,
+        "baseline_comparison": {
+          "phase_1_8_direct_f1": 0.3289,
+          "delta_direct_f1": 0.0000
+        }
+      }
+    },
+    "v1": {
+      "dev": {
+        "direct_macro_f1": 0.6137,
+        "cross_page_f1": 0.4087,
+        "structural_match": 0.3909
+      },
+      "train": {
+        "direct_macro_f1": 0.4750,
+        "cross_page_f1": 0.2083,
+        "structural_match": 0.2389
+      },
+      "locked_test": {
+        "direct_macro_f1": 0.4658,
+        "cross_page_f1": 0.2051,
+        "structural_match": 0.2240
+      },
+      "external": {
+        "direct_macro_f1": 0.2380,
+        "cross_page_f1": 0.1667,
+        "structural_match": 0.1243
+      }
+    }
+  },
+  "ablations": {
+    "A0_Phase_1_8_Baseline": {
+      "dev_macro_f1": 0.5668,
+      "tp": 26,
+      "fp": 33,
+      "fn": 10
+    },
+    "A1_Ligand_Sensing_Only": {
+      "dev_macro_f1": 0.5877,
+      "tp": 27,
+      "fp": 33,
+      "fn": 9,
+      "delta": 0.0209
+    },
+    "A2_Ligand_Plus_TCSTS_Invariant": {
+      "dev_macro_f1": 0.6137,
+      "tp": 27,
+      "fp": 29,
+      "fn": 9,
+      "delta": 0.0469
+    }
+  },
+  "key_findings": [
+    "Biological ligand sensing ('sensed by', 'recognized by') requires forward syntax (ligand -> receptor, UPREGULATES). Standard passive reversal treats the receptor as the cause and ligand as effect, causing directional inversion false negatives.",
+    "Bacterial two-component systems (TCSTS) adhere to strict directional signaling flow: Histidine Kinase Sensor -> Cognate Response Regulator. Spurious reverse regulation (RR -> SK) caused by co-occurrence in operon descriptions is eliminated by the TCSTS directional invariant.",
+    "Gold annotation audit identified a discrepancy in PMC1804205, where gold specifies PmrA -> PmrD but paper text explicitly and repeatedly demonstrates that PmrD activates PmrA ('PmrD, the post-translational activator of the PmrA protein'). Both original and adjusted metrics are documented."
+  ]
+}

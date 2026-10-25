@@ -297,10 +297,12 @@ class PaperEntityNormalizer:
         enable_genitive_stripping: bool = True,
         enable_greek_morphology: bool = True,
         enable_biofilm_canonicalization: bool = True,
+        enable_appositive_role_stripping: bool = True,
     ):
         self.enable_genitive_stripping = enable_genitive_stripping
         self.enable_greek_morphology = enable_greek_morphology
         self.enable_biofilm_canonicalization = enable_biofilm_canonicalization
+        self.enable_appositive_role_stripping = enable_appositive_role_stripping
         self.abbreviation_pattern = re.compile(
             r"\b([A-Za-z][A-Za-z0-9\s-]{2,45})\s*\(([A-Za-z0-9\u0370-\u03ff-]{2,15})\)"
         )
@@ -349,6 +351,13 @@ class PaperEntityNormalizer:
         cleaned = re.sub(r"^(?:abstract|introduction|background|methods|results|discussion|conclusion|page\s+\d+)\s+", "", cleaned, flags=re.IGNORECASE)
         cleaned = re.sub(r"^the\s+|^a\s+|^an\s+", "", cleaned, flags=re.IGNORECASE)
         cleaned = re.sub(r"^(?:phosphorylated|activated|active|nuclear|cytosolic|membrane-anchored|elevated|stabilized|secreted|soluble|dimerized|pro-apoptotic)\s+", "", cleaned, flags=re.IGNORECASE)
+        if getattr(self, "enable_appositive_role_stripping", True):
+            cleaned = re.sub(
+                r"^(?:receptor/regulator|receptor|regulator|sensor\s+kinase|response\s+regulator|transcriptional\s+regulator|activator\s+protein|activator|chaperone\s+protein|chaperone)\s+",
+                "",
+                cleaned,
+                flags=re.IGNORECASE,
+            )
         if getattr(self, "enable_greek_morphology", True):
             cleaned = re.sub(r"^[Δ\u0394]\s*|^delta-\s*", "", cleaned, flags=re.IGNORECASE)
             cleaned = re.sub(r"^[σΣ]\s*\(([A-Za-z0-9]+)\)", r"sigma\1", cleaned)
