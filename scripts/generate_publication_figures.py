@@ -77,7 +77,18 @@ def generate_fig1_system_architecture():
             zorder=4
         )
         if label:
-            ax.text((x1 + x2) / 2, (y1 + y2) / 2 + 1.8, label, ha="center", va="bottom", fontsize=9.2, fontweight="bold", color="black", zorder=5)
+            if x1 == x2:  # Vertical arrow
+                ax.text(x1 + 1.4, (y1 + y2) / 2, label, ha="left", va="center",
+                        fontsize=9.0, fontweight="bold", color="black", zorder=5,
+                        bbox=dict(boxstyle="square,pad=0.2", fc="white", ec="none"))
+            elif y1 == y2:  # Horizontal arrow
+                ax.text((x1 + x2) / 2, y1 + 1.8, label, ha="center", va="bottom",
+                        fontsize=9.0, fontweight="bold", color="black", zorder=5,
+                        bbox=dict(boxstyle="square,pad=0.2", fc="white", ec="none"))
+            else:
+                ax.text((x1 + x2) / 2, (y1 + y2) / 2, label, ha="center", va="center",
+                        fontsize=9.0, fontweight="bold", color="black", zorder=5,
+                        bbox=dict(boxstyle="square,pad=0.2", fc="white", ec="none"))
 
     # Stages 1 to 5
     draw_box(2, 33, 22, 19, "Stage 1: Ingestion", "PMC-OA JATS XML / PDF\nLayout Geometry Offset")
@@ -98,7 +109,7 @@ def generate_fig1_system_architecture():
     draw_box(102, 4, 28, 20, "Causal Graph Output", "Traceable Mechanism SCM\n100% Span Provenance", fill="#F1F5F9", edge="black", lw=1.4)
     draw_arrow(116, 33, 116, 24, "Resolved Claims")
 
-    # Evidence Grounding Subsystem (Wide Lower Box)
+    # Evidence Grounding Subsystem (Wide Lower Box: x=2, w=94 -> right edge x=96)
     draw_box(2, 4, 94, 20, "Evidence Grounding Subsystem & Provenance Audit Contract",
              "Exact Character Index Spans [c_start, c_end] | Physical Page Numbers | Verbatim Quotes\nTerminal Phenotype Direction Invariant | Environmental Parameter Invariant | Homology Non-Causal Gating",
              fill="#FFFFFF", edge="black", lw=1.3, ls="--")
@@ -108,8 +119,9 @@ def generate_fig1_system_architecture():
     draw_arrow(38, 33, 38, 24)
     draw_arrow(63, 33, 63, 24)
     draw_arrow(88, 33, 88, 24)
-    draw_arrow(94, 14, 102, 14)
-    ax.text(98, 16.2, "Verified", ha="center", va="bottom", fontsize=8.8, fontweight="bold", color="black", zorder=6)
+    draw_arrow(96, 14, 102, 14)
+    ax.text(99, 16.2, "Verified", ha="center", va="bottom", fontsize=8.8, fontweight="bold", color="black", zorder=6,
+            bbox=dict(boxstyle="square,pad=0.2", fc="white", ec="none"))
 
     ax.set_title("EVRYN System Architecture: Modular End-to-End Multi-Page Causal Pipeline",
                  fontsize=13.5, fontweight="bold", pad=12)
@@ -117,20 +129,24 @@ def generate_fig1_system_architecture():
 
 
 def generate_fig2_extraction_workflow():
-    """Figure 2: Relation Extraction Workflow (High-legibility processing flow)."""
-    fig, ax = plt.subplots(figsize=(13.2, 6.2), dpi=300)
-    ax.set_xlim(0, 132)
-    ax.set_ylim(0, 62)
+    """Figure 2: Relation Extraction Workflow & Progress Architecture (Enlarged, high-legibility processing flow)."""
+    fig, ax = plt.subplots(figsize=(14.0, 7.0), dpi=300)
+    ax.set_xlim(0, 140)
+    ax.set_ylim(0, 70)
     ax.axis("off")
 
-    def draw_box(x, y, w, h, title, subtitle="", fill="#FFFFFF", edge="black", lw=1.2, ls="-", title_frac=0.68, sub_frac=0.32, sub_size=9.0):
+    def draw_box(x, y, w, h, title, subtitle="", badge="", fill="#FFFFFF", edge="black", lw=1.2, ls="-", title_frac=0.68, sub_frac=0.32, sub_size=9.2):
         rect = patches.Rectangle((x, y), w, h, facecolor=fill, edgecolor=edge, linewidth=lw, linestyle=ls, zorder=2)
         ax.add_patch(rect)
+        if badge:
+            badge_color = "#16A34A" if "DELIVERED" in badge or "100%" in badge else ("#D97706" if "PROGRESS" in badge else "#2563EB")
+            ax.text(x + w - 1.2, y + h - 2.0, badge, ha="right", va="top", fontsize=7.8, fontweight="bold",
+                    color=badge_color, zorder=4, bbox=dict(boxstyle="square,pad=0.18", fc="#F8FAFC", ec=badge_color, lw=0.8))
         if subtitle:
-            ax.text(x + w / 2, y + h * title_frac, title, ha="center", va="center", fontsize=11, fontweight="bold", color="black", zorder=3)
+            ax.text(x + w / 2, y + h * title_frac, title, ha="center", va="center", fontsize=11.5, fontweight="bold", color="black", zorder=3)
             ax.text(x + w / 2, y + h * sub_frac, subtitle, ha="center", va="center", fontsize=sub_size, color="#1e293b", zorder=3)
         else:
-            ax.text(x + w / 2, y + h / 2, title, ha="center", va="center", fontsize=11, fontweight="bold", color="black", zorder=3)
+            ax.text(x + w / 2, y + h / 2, title, ha="center", va="center", fontsize=11.5, fontweight="bold", color="black", zorder=3)
 
     def draw_arrow(x1, y1, x2, y2, label=""):
         ax.annotate(
@@ -139,37 +155,58 @@ def generate_fig2_extraction_workflow():
             zorder=4
         )
         if label:
-            ax.text((x1 + x2) / 2, (y1 + y2) / 2, label, ha="center", va="center",
-                    fontsize=8.8, fontweight="bold", color="black", zorder=5,
-                    bbox=dict(boxstyle="square,pad=0.2", fc="white", ec="none"))
+            if x1 == x2:  # Vertical arrow
+                ax.text(x1 + 1.4, (y1 + y2) / 2, label, ha="left", va="center",
+                        fontsize=8.6, fontweight="bold", color="black", zorder=5,
+                        bbox=dict(boxstyle="square,pad=0.2", fc="white", ec="none"))
+            elif y1 == y2:  # Horizontal arrow
+                ax.text((x1 + x2) / 2, y1 + 1.8, label, ha="center", va="bottom",
+                        fontsize=8.6, fontweight="bold", color="black", zorder=5,
+                        bbox=dict(boxstyle="square,pad=0.2", fc="white", ec="none"))
+            else:
+                ax.text((x1 + x2) / 2, (y1 + y2) / 2, label, ha="center", va="center",
+                        fontsize=8.6, fontweight="bold", color="black", zorder=5,
+                        bbox=dict(boxstyle="square,pad=0.2", fc="white", ec="none"))
 
-    # Left to right processing flow (upper row: y=36, h=18)
-    draw_box(2, 36, 29, 18, "1. Candidate Generation", "Sentence-Level Entities\nLocal Syntactic Pairs")
-    draw_arrow(31, 45, 35, 45)
+    # Left to right processing flow (upper row: y=40, h=23)
+    draw_box(3, 40, 31, 23, "1. Candidate Generation", "Sentence-Level Bio-Entities\nLocal Intra-Sentence Pairs",
+             badge="DELIVERED (100%)", title_frac=0.62, sub_frac=0.28)
+    draw_arrow(34, 51.5, 38, 51.5)
 
-    draw_box(35, 36, 29, 18, "2. Syntactic Validation", "Active/Passive Verbs\nAgent Nominal Patterns\nNegation Classification")
-    draw_arrow(64, 45, 68, 45)
+    draw_box(38, 40, 31, 23, "2. Syntactic Validation", "Active/Passive Verb Inversion\nAgent Nominal Patterns\nStrict Negation Classification",
+             badge="DELIVERED (100%)", title_frac=0.68, sub_frac=0.32)
+    draw_arrow(69, 51.5, 73, 51.5)
 
-    draw_box(68, 36, 29, 18, "3. Context Resolution", "Demonstrative Anaphora\nAbbreviation Stitching\nDiscourse Connectives")
-    draw_arrow(97, 45, 101, 45)
+    draw_box(73, 40, 31, 23, "3. Context Resolution", "Demonstrative Anaphora Link\nLocal Abbreviation Stitching\nDiscourse Connective Gating",
+             badge="DELIVERED (100%)", title_frac=0.68, sub_frac=0.32)
+    draw_arrow(104, 51.5, 108, 51.5)
 
-    draw_box(101, 36, 29, 18, "4. Multi-Page Linking", "2-Hop Transitive Search\nSemantic Gating\nCycle & Decay Pruning")
+    draw_box(108, 40, 29, 23, "4. Multi-Page Linking", "Bounded 2-Hop Transitive Search\nSemantic Context Gating\nCycle Pruning & Distance Decay",
+             badge="IN PROGRESS", title_frac=0.68, sub_frac=0.32)
 
-    # Lower Filter and Grounding Layer (lower row: y=4, h=23)
-    draw_box(2, 4, 62, 23, "Strict False-Positive Controls",
-             "Terminal Phenotype Invariant (Virulence cannot cause upstream genes)\nEnvironmental Parameter Invariant (Temperature/pH cannot be regulated)\nHomology & Cloning Non-Causal Gating (Cloning verbs & analogies filtered)",
-             fill="#F8FAFC", edge="black", lw=1.2, ls="-", title_frac=0.76, sub_frac=0.36, sub_size=8.5)
+    # Lower Filter and Grounding Layer (lower row: y=4, h=27)
+    draw_box(3, 4, 66, 27, "Strict False-Positive Controls & Invariants",
+             "Terminal Phenotype Invariant: Virulence / disease cannot cause upstream regulatory genes\n"
+             "Environmental Parameter Invariant: Temperature / pH cannot be transcriptionally modulated\n"
+             "Homology & Cloning Gating: Non-causal method statements & homologue analogies suppressed",
+             badge="ACTIVE INVARIANTS", fill="#F8FAFC", edge="black", lw=1.2, ls="-",
+             title_frac=0.78, sub_frac=0.38, sub_size=8.8)
 
-    draw_box(68, 4, 62, 23, "5. Provenance & Calibration",
-             "Dual-Sentence Evidence Tracking [S_causal, S_entity]\nCalibrated Confidence Score k in [0, 1]\nExact Character Spans & Verbatim Quotes",
-             fill="#F1F5F9", edge="black", lw=1.3, title_frac=0.76, sub_frac=0.36, sub_size=8.5)
+    draw_box(73, 4, 64, 27, "5. Provenance Grounding & Verification",
+             "Dual-Sentence Evidence Tracking: [S_causal, S_entity] verbatim bindings\n"
+             "Calibrated Confidence Metric: Empirical precision calibration in [0, 1]\n"
+             "Full Auditability: Exact character indices [c_start, c_end] and page offsets",
+             badge="VERIFIED 100%", fill="#F1F5F9", edge="black", lw=1.3,
+             title_frac=0.78, sub_frac=0.38, sub_size=8.8)
 
-    draw_arrow(33, 36, 33, 27, "Direction Check")
-    draw_arrow(82, 36, 82, 27, "Dual Spans")
-    draw_arrow(115, 36, 115, 27, "Path Traversal")
+    # Vertical connectors from upper stages to lower verification layer
+    draw_arrow(53.5, 40, 53.5, 31, "Direction Check")
+    draw_arrow(88.5, 40, 88.5, 31, "Dual Spans [Sc, Se]")
+    draw_arrow(122.5, 40, 122.5, 31, "Transitive <= 2 Hops")
+    draw_arrow(69, 17.5, 73, 17.5, "Gated")
 
-    ax.set_title("EVRYN Relation Extraction Workflow: Candidate Generation to Grounded Attribution",
-                 fontsize=13.5, fontweight="bold", pad=12)
+    ax.set_title("EVRYN Relation Extraction Workflow & Modular Progress Architecture",
+                 fontsize=13.8, fontweight="bold", pad=12)
     save_fig(fig, "fig2_extraction_workflow")
 
 
@@ -386,15 +423,114 @@ def generate_fig6_results_progression():
     save_fig(fig, "fig6_results_progression")
 
 
+def generate_gantt_schedule():
+    """Gantt Milestone Schedule: Publication-quality implementation roadmap (Nov 2026 – Apr 2027)."""
+    fig, ax = plt.subplots(figsize=(15.2, 8.0), dpi=300)
+
+    # Set up grid
+    month_names = ["Nov 2026", "Dec 2026", "Jan 2027", "Feb 2027", "Mar 2027", "Apr 2027"]
+    for i in range(6):
+        bg_color = "#FFFFFF" if i % 2 == 0 else "#F8FAFC"
+        ax.axvspan(i, i + 1, facecolor=bg_color, alpha=1.0, zorder=0)
+        ax.axvline(i, color="#CBD5E1", linewidth=1.0, linestyle="-", zorder=1)
+    ax.axvline(6, color="#CBD5E1", linewidth=1.0, linestyle="-", zorder=1)
+
+    tasks = [
+        # (row, display_name, start, end, status, badge)
+        (9, "1. JATS XML & PDF Ingestion Engine", 0.0, 0.75, "DELIVERED", "Delivered (100%)"),
+        (8, "2. Syntactic Trigger & Polarity Engine", 0.0, 0.85, "DELIVERED", "Delivered (100%)"),
+        (7, "3. 20-Paper Benchmark & Provenance Audit", 0.0, 0.95, "DELIVERED", "Delivered (100%)"),
+        (6, "4. M.Tech Phase 1 Monograph & Presentation", 0.0, 1.0, "DELIVERED", "Delivered (100%)"),
+
+        (4, "5. Conformal Semantic Gating (PubMedBERT)", 1.0, 2.0, "IN_PROGRESS", "In Progress (Active)"),
+        (3, "6. 25-Yr Longitudinal PMC-OA Corpus Graph", 2.0, 3.0, "PLANNED", "Planned (Jan)"),
+        (2, "7. Continual Mechanism Adaptation (FLUX)", 3.0, 4.0, "PLANNED", "Planned (Feb)"),
+
+        (1, "8. SCM-Forecaster Discovery Link Prediction", 4.0, 5.0, "PLANNED", "Planned (Mar)"),
+        (0, "9. Final M.Tech Thesis & Code Release", 5.0, 6.0, "PLANNED", "Planned (Apr)"),
+    ]
+
+    color_map = {
+        "DELIVERED": ("#0F172A", "white"),    # Dark Navy
+        "IN_PROGRESS": ("#0D9488", "white"),  # Teal
+        "PLANNED": ("#475569", "white"),      # Slate
+    }
+
+    for row, name, start, end, status, badge in tasks:
+        bar_fc, text_fc = color_map[status]
+        bar = patches.Rectangle((start, row - 0.26), end - start, 0.52,
+                                facecolor=bar_fc, edgecolor="black", linewidth=1.1, zorder=3)
+        ax.add_patch(bar)
+        bar_center_x = (start + end) / 2
+        ax.text(bar_center_x, row, badge, ha="center", va="center",
+                fontsize=9.0, fontweight="bold", color=text_fc, zorder=4)
+
+    # Y-axis task labels
+    ax.set_yticks([t[0] for t in tasks])
+    ax.set_yticklabels([t[1] for t in tasks], fontsize=11.0, fontweight="bold", color="#0F172A")
+    ax.tick_params(axis="y", which="both", length=0, pad=10)
+
+    # Section category separator lines and labels
+    ax.axhline(5.2, color="#0F172A", linewidth=1.1, linestyle="--", alpha=0.4, zorder=2)
+    ax.axhline(1.5, color="#0D9488", linewidth=1.1, linestyle="--", alpha=0.4, zorder=2)
+
+    # Pure data coordinates
+    ax.text(0.05, 9.65, "PHASE 1: CONSOLIDATION & EVIDENCE GROUNDING",
+            fontsize=9.8, fontweight="bold", color="#0F172A", zorder=5)
+    ax.text(1.05, 4.65, "PHASE 2: LONGITUDINAL CORPUS TRANSFER & CONTINUAL ADAPTATION",
+            fontsize=9.8, fontweight="bold", color="#0D9488", zorder=5)
+    ax.text(4.05, 1.65, "PHASE 3: PROSPECTIVE DISCOVERY PREDICTION & FINAL THESIS DEFENSE",
+            fontsize=9.8, fontweight="bold", color="#2563EB", zorder=5)
+
+    # Milestones
+    milestones = [
+        (1.0, 6.0, "Milestone M1 (Nov 30)\nPhase 1 Defense & Benchmark Freeze", "#D97706"),
+        (4.0, 2.0, "Milestone M2 (Feb 28)\nLongitudinal Transfer & Gating Audit", "#D97706"),
+        (6.0, 0.0, "Milestone M3 (Apr 30)\nFinal M.Tech Thesis & Degree Defense", "#16A34A"),
+    ]
+
+    for mx, my, mtitle, mcolor in milestones:
+        ax.plot(mx, my, marker="D", markersize=12, color=mcolor, markeredgecolor="black", markeredgewidth=1.2, zorder=5)
+        ax.axvline(mx, color=mcolor, linewidth=1.3, linestyle=":", alpha=0.8, zorder=2)
+        offset_x = -0.05 if mx >= 5.5 else 0.05
+        ha = "right" if mx >= 5.5 else "left"
+        ax.text(mx + offset_x, my + 0.45, mtitle, ha=ha, va="bottom", fontsize=9.0, fontweight="bold",
+                color="#0F172A", zorder=6,
+                bbox=dict(boxstyle="square,pad=0.25", fc="white", ec=mcolor, lw=1.0))
+
+    # X-axis
+    ax.set_xlim(0, 6.0)
+    ax.set_ylim(-0.8, 10.2)
+    ax.set_xticks([i + 0.5 for i in range(6)])
+    ax.set_xticklabels(month_names, fontsize=12.0, fontweight="bold")
+    ax.tick_params(axis="x", which="both", length=0, pad=10)
+
+    ax.set_title("EVRYN Research Implementation Roadmap & Gantt Milestone Schedule (Nov 2026 – Apr 2027)",
+                 fontsize=13.5, fontweight="bold", pad=16)
+
+    # Legend
+    leg_handles = [
+        patches.Patch(facecolor="#0F172A", edgecolor="black", label="Completed Work (Phase 1 Delivered 100%)"),
+        patches.Patch(facecolor="#0D9488", edgecolor="black", label="Work in Progress (Phase 2 Active Gating)"),
+        patches.Patch(facecolor="#475569", edgecolor="black", label="Planned Work (Phase 2–3 Scaling & Discovery)"),
+        matplotlib.lines.Line2D([0], [0], marker="D", color="w", markerfacecolor="#D97706", markeredgecolor="black", markersize=9, label="Phase Milestone (M1, M2, M3)"),
+    ]
+    ax.legend(handles=leg_handles, loc="upper right", bbox_to_anchor=(1.0, -0.08), ncol=4, frameon=True, fontsize=9.5)
+
+    fig.subplots_adjust(left=0.30, right=0.96, top=0.92, bottom=0.12)
+    save_fig(fig, "gantt_schedule")
+
+
 def main():
-    print("Generating 6 redesigned, large-format publication-quality academic figures...")
+    print("Generating redesigned, large-format publication-quality academic figures and Gantt schedule...")
     generate_fig1_system_architecture()
     generate_fig2_extraction_workflow()
     generate_fig3_evidence_direction()
     generate_fig4_evaluation_workflow()
     generate_fig5_error_analysis()
     generate_fig6_results_progression()
-    print("All 6 figures successfully regenerated in PDF and PNG vector/raster formats!")
+    generate_gantt_schedule()
+    print("All 7 figures successfully regenerated in PDF and PNG vector/raster formats!")
 
 
 if __name__ == "__main__":

@@ -137,13 +137,13 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
   \textbf{Takeaway}: Exponential literature growth overwhelms manual curation, requiring automated causal extraction.
   \vspace{0.2cm}
   \begin{center}
-    \begin{tikzpicture}[node distance=0.55cm]
-      \node[redbox, minimum height=1.0cm, minimum width=2.4cm] (b1) {\textbf{\color{red}1.5M+ Papers/Yr}\\PubMed Avalanche\\Unstructured PDFs};
-      \node[amberbox, right=of b1, minimum height=1.0cm, minimum width=2.4cm] (b2) {\textbf{\color{amber}Curated Databases}\\KEGG / Reactome\\3--7 Year Lag ($<5\%$)};
-      \node[tealbox, right=of b2, minimum height=1.0cm, minimum width=2.4cm] (b3) {\textbf{\color{teal}Automated Discovery}\\EVRYN SCM Pipeline\\Verifiable Grounding};
+    \begin{tikzpicture}[node distance=0.85cm]
+      \node[redbox, minimum height=1.1cm, minimum width=2.6cm] (b1) {\textbf{\color{red}1.5M+ Papers/Yr}\\[2pt]{\scriptsize PubMed Avalanche}\\{\scriptsize Unstructured PDFs}};
+      \node[amberbox, right=of b1, minimum height=1.1cm, minimum width=2.6cm] (b2) {\textbf{\color{amber}Curated Databases}\\[2pt]{\scriptsize KEGG / Reactome}\\{\scriptsize 3--7 Year Lag ($<5\%$)}};
+      \node[tealbox, right=of b2, minimum height=1.1cm, minimum width=2.6cm] (b3) {\textbf{\color{teal}Automated Discovery}\\[2pt]{\scriptsize EVRYN SCM Pipeline}\\{\scriptsize Verifiable Grounding}};
 
-      \draw[arr] (b1) -- node[above, font=\tiny\bfseries] {Exceeds Human} (b2);
-      \draw[arr] (b2) -- node[above, font=\tiny\bfseries] {Urgent Need} (b3);
+      \draw[arr] (b1) -- node[above, font=\scriptsize\bfseries\color{navy}] {Exceeds Human} (b2);
+      \draw[arr] (b2) -- node[above, font=\scriptsize\bfseries\color{navy}] {Urgent Need} (b3);
     \end{tikzpicture}
   \end{center}
   \vspace{0.15cm}
@@ -442,14 +442,14 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % ==============================================================================
 \begin{frame}{System Overview: End-to-End Pipeline}
   \textbf{Takeaway}: Five sequential stages transform raw XML papers into verifiable causal knowledge graphs.
-  \vspace{0.2cm}
+  \vspace{0.15cm}
   \begin{center}
     \begin{tikzpicture}[node distance=0.18cm]
-      \node[navybox, minimum height=1.35cm, minimum width=1.85cm] (s1) {\textbf{1. XML}\\[2pt]Ingest};
-      \node[bluebox, right=of s1, minimum height=1.35cm, minimum width=1.85cm] (s2) {\textbf{2. Entity}\\[2pt]Detect};
-      \node[tealbox, right=of s2, minimum height=1.35cm, minimum width=1.85cm] (s3) {\textbf{3. Causal}\\[2pt]Extract};
-      \node[amberbox, right=of s3, minimum height=1.35cm, minimum width=1.85cm] (s4) {\textbf{4. Ground}\\[2pt]Verify};
-      \node[greenbox, right=of s4, minimum height=1.35cm, minimum width=1.85cm] (s5) {\textbf{5. Graph}\\[2pt]Synthesize};
+      \node[navybox, minimum height=1.25cm, minimum width=1.65cm] (s1) {\textbf{1. XML}\\[2pt]{\scriptsize Ingestion}};
+      \node[bluebox, right=of s1, minimum height=1.25cm, minimum width=1.65cm] (s2) {\textbf{2. Entity}\\[2pt]{\scriptsize Detect}};
+      \node[tealbox, right=of s2, minimum height=1.25cm, minimum width=1.65cm] (s3) {\textbf{3. Causal}\\[2pt]{\scriptsize Extract}};
+      \node[amberbox, right=of s3, minimum height=1.25cm, minimum width=1.65cm] (s4) {\textbf{4. Ground}\\[2pt]{\scriptsize Verify}};
+      \node[greenbox, right=of s4, minimum height=1.25cm, minimum width=1.65cm] (s5) {\textbf{5. Graph}\\[2pt]{\scriptsize Synthesize}};
 
       \draw[arr] (s1) -- (s2);
       \draw[bluearr] (s2) -- (s3);
@@ -481,9 +481,9 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % ==============================================================================
 \begin{frame}{Overall Architecture: Engineering Blueprint}
   \textbf{Takeaway}: Four decoupled layers maintain clean separation of concerns and crash resilience.
-  \vspace{0.12cm}
+  \vspace{0.10cm}
   \begin{center}
-    \begin{tikzpicture}[node distance=0.18cm]
+    \begin{tikzpicture}[node distance=0.26cm]
       \node[navybox, wideboxcenter, minimum height=0.76cm] (l1) {\textbf{\color{navy}Presentation Layer}: Next.js React UI / Cytoscape Graph / REST API};
       \node[tealbox, wideboxcenter, below=of l1, minimum height=0.76cm] (l2) {\textbf{\color{teal}Causal Engine}: Graph Linker / Provenance Grounding / Bounded Context};
       \node[bluebox, wideboxcenter, below=of l2, minimum height=0.76cm] (l3) {\textbf{\color{blue}NLP Extraction Core}: Normalizer / Regex Triggers / Environmental Extractor};
@@ -901,16 +901,16 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % ==============================================================================
 \begin{frame}{EVRYN Method: Bounded Multi-Page Causal Inference}
   \textbf{Takeaway}: Chains local causal assertions into transitive mechanisms across page boundaries.
-  \vspace{0.2cm}
+  \vspace{0.18cm}
   \begin{center}
-    \begin{tikzpicture}[node distance=0.7cm]
-      \node[tealbox, minimum size=0.55cm] (x) {\textbf{BvrR}};
-      \node[bluebox, right=of x, minimum size=0.55cm] (y) {\textbf{OMPs}};
-      \node[greenbox, right=of y, minimum size=0.55cm] (z) {\textbf{Virulence}};
+    \begin{tikzpicture}[node distance=1.6cm]
+      \node[tealbox, minimum width=2.4cm, minimum height=0.95cm] (x) {\textbf{BvrR}\\[1pt]{\scriptsize Sensor Kinase}};
+      \node[bluebox, right=of x, minimum width=2.4cm, minimum height=0.95cm] (y) {\textbf{OMPs}\\[1pt]{\scriptsize Outer Membrane}};
+      \node[greenbox, right=of y, minimum width=2.4cm, minimum height=0.95cm] (z) {\textbf{Virulence}\\[1pt]{\scriptsize Macrophage Entry}};
 
-      \draw[tealarr] (x) -- node[above, font=\tiny\bfseries] {Page 2 (+)} (y);
-      \draw[tealarr] (y) -- node[above, font=\tiny\bfseries] {Page 5 (+)} (z);
-      \draw[arr, dashed] (x) to[bend right=35] node[below, font=\tiny\bfseries\color{navy}] {Inferred Mechanism Link ($d \ge 1$ page)} (z);
+      \draw[tealarr] (x) -- node[above, font=\scriptsize\bfseries] {Page 2 (+)} (y);
+      \draw[tealarr] (y) -- node[above, font=\scriptsize\bfseries] {Page 5 (+)} (z);
+      \draw[arr, dashed] (x) to[bend right=42] node[below, font=\scriptsize\bfseries\color{navy}] {Inferred Transitive Link ($d \ge 1$ page, $\le 2$ hops)} (z);
     \end{tikzpicture}
   \end{center}
   \vspace{0.2cm}
@@ -1256,29 +1256,17 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 \end{frame}
 
 % ==============================================================================
-% SLIDE 39: Remaining Work and Phase 1 Completion Matrix
+% SLIDE 39: Research Implementation Roadmap & Gantt Milestone Schedule
 % ==============================================================================
-\begin{frame}{Remaining Work and Phase 1 Completion Matrix}
-  \textbf{Takeaway}: All Phase 1 engineering, benchmarking, and reporting milestones fully satisfied.
-  \vspace{0.12cm}
+\begin{frame}{Research Implementation Roadmap \& Milestone Schedule}
+  \textbf{Takeaway}: Disciplined monthly progression from Phase 1 consolidation to Phase 3 discovery prediction.
+  \vspace{0.08cm}
   \begin{center}
-    \scriptsize
-    \begin{tabularx}{\linewidth}{Xcc}
-      \toprule
-      \textbf{\color{navy}Phase 1 Milestone Deliverable} & \textbf{\color{navy}Target} & \textbf{\color{navy}Current Status} \\
-      \midrule
-      PMC-OA XML Full-Text Ingestion Engine & Week 4 & {\color{green}\textbf{Completed (100\%)}} \\
-      Causal Trigger \& Entity Normalization Core & Week 7 & {\color{green}\textbf{Completed (100\%)}} \\
-      20-Paper Ground-Truth Benchmark \& Isolation & Week 9 & {\color{green}\textbf{Completed (100\%)}} \\
-      Document-Context Anaphora \& Connective Resolver & Week 11 & {\color{green}\textbf{Completed (100\%)}} \\
-      Multi-Page Provenance Grounding \& Cytoscape UI & Week 12 & {\color{green}\textbf{Completed (100\%)}} \\
-      Comprehensive M.Tech Research Report & Week 14 & {\color{green}\textbf{Completed (100\%)}} \\
-      \bottomrule
-    \end{tabularx}
+    \includegraphics[height=3.8cm, keepaspectratio]{figures/gantt_schedule.pdf}
   \end{center}
-  \vspace{0.12cm}
-  \card{Phase 1 Sign-Off}{green}{
-    Zero open critical bugs; all benchmarks reproduced and committed to branch `phase2.1-benchmark-audit-and-ui-fix`.
+  \vspace{0.05cm}
+  \card{Milestone Governance}{navy}{
+    \textbf{M1 (Nov 30)}: Phase 1 Defense $\mid$ \textbf{M2 (Feb 28)}: Longitudinal Transfer Audit $\mid$ \textbf{M3 (Apr 30)}: Final M.Tech Defense.
   }
 \end{frame}
 
