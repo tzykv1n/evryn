@@ -225,15 +225,15 @@
         "graph_has_direct_a": 1.0,
         "graph_has_direct_b": 1.0,
         "graph_has_mediator": 0.0,
-        "flux_pid_synergy": 0.007080069085134444,
-        "flux_pid_redundancy": 0.1445372976246036,
-        "flux_interaction_info": -0.026833709969247777,
-        "flux_delta_r2": 0.02890689356297326,
-        "flux_delta_r2_nonparam": 0.02573097444201624,
-        "flux_hsic_interaction": 0.05952026450310409,
-        "flux_dcor_interaction": 0.05356823805279368,
-        "flux_confounding_score": 0.062088933609233926,
-        "flux_cmi_stability": 0.5796150274120195
+        "flux_pid_synergy": 0.014247893846191224,
+        "flux_pid_redundancy": 0.2952377316366505,
+        "flux_interaction_info": -0.02286358071658194,
+        "flux_delta_r2": 0.027476488748014623,
+        "flux_delta_r2_nonparam": 0.05712001089009175,
+        "flux_hsic_interaction": 0.040481969726975646,
+        "flux_dcor_interaction": 0.03643377275427808,
+        "flux_confounding_score": 0.11463560529910904,
+        "flux_cmi_stability": 0.7831543150258597
       }
     },
     {
@@ -281,15 +281,15 @@
         "graph_has_direct_a": 1.0,
         "graph_has_direct_b": 1.0,
         "graph_has_mediator": 0.0,
-        "flux_pid_synergy": 0.007080069085134444,
-        "flux_pid_redundancy": 0.1445372976246036,
-        "flux_interaction_info": -0.026833709969247777,
-        "flux_delta_r2": 0.02890689356297326,
-        "flux_delta_r2_nonparam": 0.02573097444201624,
-        "flux_hsic_interaction": 0.05952026450310409,
-        "flux_dcor_interaction": 0.05356823805279368,
-        "flux_confounding_score": 0.062088933609233926,
-        "flux_cmi_stability": 0.5796150274120195
+        "flux_pid_synergy": 0.014247893846191224,
+        "flux_pid_redundancy": 0.2952377316366505,
+        "flux_interaction_info": -0.02286358071658194,
+        "flux_delta_r2": 0.027476488748014623,
+        "flux_delta_r2_nonparam": 0.05712001089009175,
+        "flux_hsic_interaction": 0.040481969726975646,
+        "flux_dcor_interaction": 0.03643377275427808,
+        "flux_confounding_score": 0.11463560529910904,
+        "flux_cmi_stability": 0.7831543150258597
       }
     },
     {
@@ -338,15 +338,15 @@
         "graph_has_direct_a": 0.0,
         "graph_has_direct_b": 0.0,
         "graph_has_mediator": 1.0,
-        "flux_pid_synergy": 0.02184558617570159,
-        "flux_pid_redundancy": 0.19335101395238463,
-        "flux_interaction_info": -0.0672334997718399,
-        "flux_delta_r2": 0.035978818276792474,
-        "flux_delta_r2_nonparam": 0.03876638685359609,
-        "flux_hsic_interaction": 0.054521152245578464,
-        "flux_dcor_interaction": 0.04906903702102062,
-        "flux_confounding_score": 0.0838474103686498,
-        "flux_cmi_stability": 0.8857529957341608
+        "flux_pid_synergy": 0.0007931357955220353,
+        "flux_pid_redundancy": 0.22679142980261746,
+        "flux_interaction_info": -0.06840973959813247,
+        "flux_delta_r2": 0.004797557130089154,
+        "flux_delta_r2_nonparam": 0.0368058526343684,
+        "flux_hsic_interaction": 0.043586388041835795,
+        "flux_dcor_interaction": 0.03922774923765222,
+        "flux_confounding_score": 0.0943853506617532,
+        "flux_cmi_stability": 0.8114902357845635
       }
     },
     {
@@ -394,15 +394,15 @@
         "graph_has_direct_a": 1.0,
         "graph_has_direct_b": 1.0,
         "graph_has_mediator": 0.0,
-        "flux_pid_synergy": 0.49551472983300715,
-        "flux_pid_redundancy": 0.1445372976246036,
-        "flux_interaction_info": 0.46160095077862495,
-        "flux_delta_r2": 0.5473887654575027,
-        "flux_delta_r2_nonparam": 0.4395554057593234,
-        "flux_hsic_interaction": 0.7183445575199547,
-        "flux_dcor_interaction": 0.6465101017679593,
-        "flux_confounding_score": 0.03893614185634832,
-        "flux_cmi_stability": 0.5796150274120195
+        "flux_pid_synergy": 0.5415936032969436,
+        "flux_pid_redundancy": 0.2952377316366505,
+        "flux_interaction_info": 0.5044821287341704,
+        "flux_delta_r2": 0.5341575209191353,
+        "flux_delta_r2_nonparam": 0.6781120827646973,
+        "flux_hsic_interaction": 0.5959555196734149,
+        "flux_dcor_interaction": 0.5363599677060734,
+        "flux_confounding_score": 0.07506197864313746,
+        "flux_cmi_stability": 0.7831543150258597
       }
     },
     {
@@ -450,15 +450,15 @@
         "graph_has_direct_a": 1.0,
         "graph_has_direct_b": 1.0,
         "graph_has_mediator": 0.0,
-        "flux_pid_synergy": 0.49551472983300715,
-        "flux_pid_redundancy": 0.1445372976246036,
-        "flux_interaction_info": 0.46160095077862495,
-        "flux_delta_r2": 0.5473887654575027,
-        "flux_delta_r2_nonparam": 0.4395554057593234,
-        "flux_hsic_interaction": 0.7183445575199547,
-        "flux_dcor_interaction": 0.6465101017679593,
-        "flux_confounding_score": 0.03893614185634832,
-        "flux_cmi_stability": 0.5796150274120195
+        "flux_pid_synergy": 0.5415936032969436,
+        "flux_pid_redundancy": 0.2952377316366505,
+        "flux_interaction_info": 0.5044821287341704,
+        "flux_delta_r2": 0.5341575209191353,
+        "flux_delta_r2_nonparam": 0.6781120827646973,
+        "flux_hsic_interaction": 0.5959555196734149,
+        "flux_dcor_interaction": 0.5363599677060734,
+        "flux_confounding_score": 0.07506197864313746,
+        "flux_cmi_stability": 0.7831543150258597
       }
     },
     {
@@ -505,15 +505,15 @@
         "graph_has_direct_a": 1.0,
         "graph_has_direct_b": 0.0,
         "graph_has_mediator": 0.0,
-        "flux_pid_synergy": 0.007080069085134444,
-        "flux_pid_redundancy": 0.1445372976246036,
-        "flux_interaction_info": -0.026833709969247777,
-        "flux_delta_r2": 0.02890689356297326,
-        "flux_delta_r2_nonparam": 0.02573097444201624,
-        "flux_hsic_interaction": 0.05952026450310409,
-        "flux_dcor_interaction": 0.05356823805279368,
-        "flux_confounding_score": 0.062088933609233926,
-        "flux_cmi_stability": 0.5796150274120195
+        "flux_pid_synergy": 0.014247893846191224,
+        "flux_pid_redundancy": 0.2952377316366505,
+        "flux_interaction_info": -0.02286358071658194,
+        "flux_delta_r2": 0.027476488748014623,
+        "flux_delta_r2_nonparam": 0.05712001089009175,
+        "flux_hsic_interaction": 0.040481969726975646,
+        "flux_dcor_interaction": 0.03643377275427808,
+        "flux_confounding_score": 0.11463560529910904,
+        "flux_cmi_stability": 0.7831543150258597
       }
     },
     {
@@ -561,15 +561,15 @@
         "graph_has_direct_a": 1.0,
         "graph_has_direct_b": 1.0,
         "graph_has_mediator": 0.0,
-        "flux_pid_synergy": 0.20022876881466983,
-        "flux_pid_redundancy": 0.1445372976246036,
-        "flux_interaction_info": 0.1663149897602876,
-        "flux_delta_r2": 0.20117412747040642,
-        "flux_delta_r2_nonparam": 0.16404672843764545,
-        "flux_hsic_interaction": 0.3356351170097557,
-        "flux_dcor_interaction": 0.30207160530878013,
-        "flux_confounding_score": 0.05419725855750257,
-        "flux_cmi_stability": 0.5796150274120195
+        "flux_pid_synergy": 0.22070826813197492,
+        "flux_pid_redundancy": 0.2952377316366505,
+        "flux_interaction_info": 0.18359679356920175,
+        "flux_delta_r2": 0.19616771061805116,
+        "flux_delta_r2_nonparam": 0.2519360304922569,
+        "flux_hsic_interaction": 0.2758004762847806,
+        "flux_dcor_interaction": 0.24822042865630256,
+        "flux_confounding_score": 0.0968914293055261,
+        "flux_cmi_stability": 0.7831543150258597
       }
     },
     {
@@ -617,15 +617,15 @@
         "graph_has_direct_a": 1.0,
         "graph_has_direct_b": 1.0,
         "graph_has_mediator": 0.0,
-        "flux_pid_synergy": 0.49551472983300715,
-        "flux_pid_redundancy": 0.1445372976246036,
-        "flux_interaction_info": 0.46160095077862495,
-        "flux_delta_r2": 0.5473887654575027,
-        "flux_delta_r2_nonparam": 0.4395554057593234,
-        "flux_hsic_interaction": 0.7183445575199547,
-        "flux_dcor_interaction": 0.6465101017679593,
-        "flux_confounding_score": 0.03893614185634832,
-        "flux_cmi_stability": 0.5796150274120195
+        "flux_pid_synergy": 0.5415936032969436,
+        "flux_pid_redundancy": 0.2952377316366505,
+        "flux_interaction_info": 0.5044821287341704,
+        "flux_delta_r2": 0.5341575209191353,
+        "flux_delta_r2_nonparam": 0.6781120827646973,
+        "flux_hsic_interaction": 0.5959555196734149,
+        "flux_dcor_interaction": 0.5363599677060734,
+        "flux_confounding_score": 0.07506197864313746,
+        "flux_cmi_stability": 0.7831543150258597
       }
     },
     {
@@ -673,15 +673,15 @@
         "graph_has_direct_a": 1.0,
         "graph_has_direct_b": 1.0,
         "graph_has_mediator": 0.0,
-        "flux_pid_synergy": 0.20022876881466983,
-        "flux_pid_redundancy": 0.1445372976246036,
-        "flux_interaction_info": 0.1663149897602876,
-        "flux_delta_r2": 0.20117412747040642,
-        "flux_delta_r2_nonparam": 0.16404672843764545,
-        "flux_hsic_interaction": 0.3356351170097557,
-        "flux_dcor_interaction": 0.30207160530878013,
-        "flux_confounding_score": 0.05419725855750257,
-        "flux_cmi_stability": 0.5796150274120195
+        "flux_pid_synergy": 0.22070826813197492,
+        "flux_pid_redundancy": 0.2952377316366505,
+        "flux_interaction_info": 0.18359679356920175,
+        "flux_delta_r2": 0.19616771061805116,
+        "flux_delta_r2_nonparam": 0.2519360304922569,
+        "flux_hsic_interaction": 0.2758004762847806,
+        "flux_dcor_interaction": 0.24822042865630256,
+        "flux_confounding_score": 0.0968914293055261,
+        "flux_cmi_stability": 0.7831543150258597
       }
     },
     {
@@ -729,15 +729,15 @@
         "graph_has_direct_a": 1.0,
         "graph_has_direct_b": 1.0,
         "graph_has_mediator": 0.0,
-        "flux_pid_synergy": 0.007080069085134444,
-        "flux_pid_redundancy": 0.1445372976246036,
-        "flux_interaction_info": -0.026833709969247777,
-        "flux_delta_r2": 0.02890689356297326,
-        "flux_delta_r2_nonparam": 0.02573097444201624,
-        "flux_hsic_interaction": 0.05952026450310409,
-        "flux_dcor_interaction": 0.05356823805279368,
-        "flux_confounding_score": 0.062088933609233926,
-        "flux_cmi_stability": 0.5796150274120195
+        "flux_pid_synergy": 0.014247893846191224,
+        "flux_pid_redundancy": 0.2952377316366505,
+        "flux_interaction_info": -0.02286358071658194,
+        "flux_delta_r2": 0.027476488748014623,
+        "flux_delta_r2_nonparam": 0.05712001089009175,
+        "flux_hsic_interaction": 0.040481969726975646,
+        "flux_dcor_interaction": 0.03643377275427808,
+        "flux_confounding_score": 0.11463560529910904,
+        "flux_cmi_stability": 0.7831543150258597
       }
     }
   ]

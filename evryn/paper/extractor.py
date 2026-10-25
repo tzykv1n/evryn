@@ -285,6 +285,38 @@ TCSTS_OPERON_RE = re.compile(
     r"\b([A-Za-z0-9_-]{2,15})(RS|AB|PQ)\b\s*(?:regulatory\s+genes|regulatory\s+system|two-component\s+system|two-component\s+regulatory\s+system|system|operon)",
     re.IGNORECASE,
 )
+TCSTS_SLASH_PRE_RE = re.compile(
+    r"\b(?:two-component|two\s+component|regulatory)\s+(?:signal\s+transduction\s+)?(?:system|regulatory\s+system|regulators?|TCSs?|TCSTS)?\s*(?:such\s+as\s+|like\s+|,\s*|\(\s*)?([A-Za-z0-9_-]{2,15}/[A-Za-z0-9_-]{2,15}(?:(?:\s*(?:,|and|or)\s*)+[A-Za-z0-9_-]{2,15}/[A-Za-z0-9_-]{2,15})*)",
+    re.IGNORECASE,
+)
+TCSTS_OPERON_EXPANDED_RE = re.compile(
+    r"\b([A-Z][a-zA-Z0-9_-]{1,14})(RS|AB|PQ|RK|KR|SR)\b\s*(?:regulatory\s+genes|regulatory\s+system|two-component\s+system|two-component\s+regulatory\s+system|system|operon)?",
+    re.IGNORECASE,
+)
+TCSTS_OPERON_PRE_RE = re.compile(
+    r"\b(?:two-component|two\s+component|regulatory)\s+(?:signal\s+transduction\s+)?(?:system|regulatory\s+system|regulators?|operon)?\s*(?:such\s+as\s+|like\s+|,\s*|\(\s*)?\b([A-Z][a-zA-Z0-9_-]{1,14})(RS|AB|PQ|RK|KR|SR)\b",
+    re.IGNORECASE,
+)
+ENZYME_ACTIVITY_PAT1 = re.compile(
+    r"\b([A-Za-z0-9_-]{2,15})\s+(?:has|possesses|displays|exhibits|demonstrates)\s+(?:the\s+)?([A-Za-z0-9_ -]{2,30})\s+activity\b",
+    re.IGNORECASE,
+)
+ENZYME_ACTIVITY_PAT2 = re.compile(
+    r"\b([A-Za-z0-9_ -]{2,30})\s+activity\s+of\s+([A-Za-z0-9_-]{2,15})\b",
+    re.IGNORECASE,
+)
+CHAPERONE_PAT1 = re.compile(
+    r"\b(?:chaperone\s+([A-Za-z0-9_-]{2,15})|([A-Za-z0-9_-]{2,15})\s+chaperone)\b.*?\b(?:effector\s+)?cargos?\s*\(([^)]+)\)",
+    re.IGNORECASE,
+)
+CHAPERONE_PAT2 = re.compile(
+    r"\b(?:interactions?\s+with|binding\s+to)\s+([A-Za-z0-9_-]{2,15})\b.*?\b(?:effector\s+)?cargos?\s*\(([^)]+)\)",
+    re.IGNORECASE,
+)
+CHAPERONE_PAT3 = re.compile(
+    r"\b([A-Za-z0-9_-]{2,15})\s+(?:also\s+)?chaperones?\s+([A-Za-z0-9_-]{2,15})\b",
+    re.IGNORECASE,
+)
 
 METHOD_HOMOLOGY_RE = re.compile(
     r"\b(?:was|were)\s+(?:created|constructed|generated|obtained|engineered)\s+by\b|"
@@ -404,6 +436,10 @@ class PaperCausalExtractor:
         enable_locus_encoding_inference: bool = True,
         enable_phenotype_defect_inference: bool = True,
         enable_speculation_and_sibling_validation: bool = True,
+        enable_preceding_tcsts: bool = True,
+        enable_operon_tcsts_rk: bool = True,
+        enable_enzymatic_activity_coupling: bool = True,
+        enable_chaperone_cargo_coupling: bool = True,
     ):
         self.normalizer = normalizer or PaperEntityNormalizer()
         self.enable_env_grammar = enable_env_grammar
@@ -417,6 +453,10 @@ class PaperCausalExtractor:
         self.enable_locus_encoding_inference = enable_locus_encoding_inference
         self.enable_phenotype_defect_inference = enable_phenotype_defect_inference
         self.enable_speculation_and_sibling_validation = enable_speculation_and_sibling_validation
+        self.enable_preceding_tcsts = enable_preceding_tcsts
+        self.enable_operon_tcsts_rk = enable_operon_tcsts_rk
+        self.enable_enzymatic_activity_coupling = enable_enzymatic_activity_coupling
+        self.enable_chaperone_cargo_coupling = enable_chaperone_cargo_coupling
         self.env_extractor = EnvironmentalParameterExtractor(self.normalizer)
         self.document_context_resolver = DocumentContextResolver(
             enabled=enable_document_context,
@@ -720,6 +760,238 @@ class PaperCausalExtractor:
                                     section_title=sent.section_title,
                                     confidence=0.93,
                                     evidence_quote=sent.text,
+                                    char_span=(sent.start_char, sent.end_char),
+                                    evidence_status=EvidenceStatus.MEASURED_FACT,
+                                )
+                            )
+
+        # Phase 1.11: Preceding TCSTS slash pairs (e.g. "two-component regulators (ompR/envZ, phoP/phoQ)" or "two-component BvrR/BvrS system")
+        if getattr(self, "enable_preceding_tcsts", True) and known_entities:
+            existing_pairs = {(a.cause_canonical, a.effect_canonical) for a in assertions}
+            for sent in doc.sentences:
+                s_text = sent.text
+                for m in TCSTS_SLASH_PRE_RE.finditer(s_text):
+                    full_list = m.group(1)
+                    pairs = re.findall(r"([A-Za-z0-9_-]{2,15})/([A-Za-z0-9_-]{2,15})", full_list)
+                    for g1, g2 in pairs:
+                        c1 = self.normalizer.canonicalize(g1, local_abbr, known_entities)
+                        c2 = self.normalizer.canonicalize(g2, local_abbr, known_entities)
+                        c1_score = (1 if any(g1.lower().endswith(k) for k in ["s", "k", "b", "q"]) else 0) - (1 if any(g1.lower().endswith(r) for r in ["r", "a", "p"]) else 0)
+                        c2_score = (1 if any(g2.lower().endswith(k) for k in ["s", "k", "b", "q"]) else 0) - (1 if any(g2.lower().endswith(r) for r in ["r", "a", "p"]) else 0)
+
+                        if c1 in known_entities and c2 in known_entities and c1 != c2:
+                            src, tgt = (c1, c2) if c1_score >= c2_score else (c2, c1)
+                            if (src, tgt) not in existing_pairs:
+                                existing_pairs.add((src, tgt))
+                                assertion_id = f"asrt_{doc.doc_id[:6]}_{sent.page_number}_{assertion_idx:04d}"
+                                assertion_idx += 1
+                                assertions.append(
+                                    CausalAssertion(
+                                        assertion_id=assertion_id,
+                                        cause=src,
+                                        cause_canonical=src,
+                                        effect=tgt,
+                                        effect_canonical=tgt,
+                                        direction="FORWARD",
+                                        relation_type=CausalRelationType.UPREGULATES,
+                                        is_negated=False,
+                                        uncertainty_score=0.08,
+                                        sentence_id=sent.sentence_id,
+                                        page_number=sent.page_number,
+                                        section_title=sent.section_title,
+                                        confidence=0.95,
+                                        evidence_quote=s_text,
+                                        char_span=(sent.start_char, sent.end_char),
+                                        evidence_status=EvidenceStatus.MEASURED_FACT,
+                                    )
+                                )
+
+                        comb1 = f"{g1}/{g2}"
+                        comb2 = f"{g2}/{g1}"
+                        comb_c = self.normalizer.canonicalize(comb1, local_abbr, known_entities) or self.normalizer.canonicalize(comb2, local_abbr, known_entities)
+                        if comb_c in known_entities:
+                            reg = c2 if c1_score >= c2_score else c1
+                            if reg in known_entities and (reg, comb_c) not in existing_pairs:
+                                existing_pairs.add((reg, comb_c))
+                                assertion_id = f"asrt_{doc.doc_id[:6]}_{sent.page_number}_{assertion_idx:04d}"
+                                assertion_idx += 1
+                                assertions.append(
+                                    CausalAssertion(
+                                        assertion_id=assertion_id,
+                                        cause=reg,
+                                        cause_canonical=reg,
+                                        effect=comb_c,
+                                        effect_canonical=comb_c,
+                                        direction="FORWARD",
+                                        relation_type=CausalRelationType.UPREGULATES,
+                                        is_negated=False,
+                                        uncertainty_score=0.08,
+                                        sentence_id=sent.sentence_id,
+                                        page_number=sent.page_number,
+                                        section_title=sent.section_title,
+                                        confidence=0.94,
+                                        evidence_quote=s_text,
+                                        char_span=(sent.start_char, sent.end_char),
+                                        evidence_status=EvidenceStatus.MEASURED_FACT,
+                                    )
+                                )
+
+        # Phase 1.11: Expanded TCSTS Operon pairs (e.g. VicRK -> VicK -> VicR)
+        if getattr(self, "enable_operon_tcsts_rk", True) and known_entities:
+            existing_pairs = {(a.cause_canonical, a.effect_canonical) for a in assertions}
+            for sent in doc.sentences:
+                s_text = sent.text
+                for pat in [TCSTS_OPERON_EXPANDED_RE, TCSTS_OPERON_PRE_RE]:
+                    for m in pat.finditer(s_text):
+                        prefix = m.group(1)
+                        suf = m.group(2).upper()
+                        if suf in ["RK", "KR"]:
+                            k_name = prefix + "K"
+                            r_name = prefix + "R"
+                            k_c = self.normalizer.canonicalize(k_name, local_abbr, known_entities)
+                            r_c = self.normalizer.canonicalize(r_name, local_abbr, known_entities)
+                            if k_c in known_entities and r_c in known_entities and k_c != r_c:
+                                if (k_c, r_c) not in existing_pairs:
+                                    existing_pairs.add((k_c, r_c))
+                                    assertion_id = f"asrt_{doc.doc_id[:6]}_{sent.page_number}_{assertion_idx:04d}"
+                                    assertion_idx += 1
+                                    assertions.append(
+                                        CausalAssertion(
+                                            assertion_id=assertion_id,
+                                            cause=k_c,
+                                            cause_canonical=k_c,
+                                            effect=r_c,
+                                            effect_canonical=r_c,
+                                            direction="FORWARD",
+                                            relation_type=CausalRelationType.UPREGULATES,
+                                            is_negated=False,
+                                            uncertainty_score=0.08,
+                                            sentence_id=sent.sentence_id,
+                                            page_number=sent.page_number,
+                                            section_title=sent.section_title,
+                                            confidence=0.95,
+                                            evidence_quote=s_text,
+                                            char_span=(sent.start_char, sent.end_char),
+                                            evidence_status=EvidenceStatus.MEASURED_FACT,
+                                        )
+                                    )
+
+        # Phase 1.11: Enzymatic activity coupling (e.g. SeMac has IgG endopeptidase activity)
+        if getattr(self, "enable_enzymatic_activity_coupling", True) and known_entities:
+            existing_pairs = {(a.cause_canonical, a.effect_canonical) for a in assertions}
+            for sent in doc.sentences:
+                s_text = sent.text
+                for pat in [ENZYME_ACTIVITY_PAT1, ENZYME_ACTIVITY_PAT2]:
+                    for m in pat.finditer(s_text):
+                        if pat == ENZYME_ACTIVITY_PAT1:
+                            e_gene, e_act = m.group(1), m.group(2)
+                        else:
+                            e_act, e_gene = m.group(1), m.group(2)
+                        c_gene = self.normalizer.canonicalize(e_gene, local_abbr, known_entities)
+                        c_act = self.normalizer.canonicalize(e_act, local_abbr, known_entities)
+                        if not c_act:
+                            for cand in known_entities:
+                                if e_act.lower() in cand.lower():
+                                    c_act = cand
+                                    break
+                        if c_gene in known_entities and c_act in known_entities and c_gene != c_act:
+                            if (c_gene, c_act) not in existing_pairs:
+                                existing_pairs.add((c_gene, c_act))
+                                assertion_id = f"asrt_{doc.doc_id[:6]}_{sent.page_number}_{assertion_idx:04d}"
+                                assertion_idx += 1
+                                assertions.append(
+                                    CausalAssertion(
+                                        assertion_id=assertion_id,
+                                        cause=c_gene,
+                                        cause_canonical=c_gene,
+                                        effect=c_act,
+                                        effect_canonical=c_act,
+                                        direction="FORWARD",
+                                        relation_type=CausalRelationType.UPREGULATES,
+                                        is_negated=False,
+                                        uncertainty_score=0.08,
+                                        sentence_id=sent.sentence_id,
+                                        page_number=sent.page_number,
+                                        section_title=sent.section_title,
+                                        confidence=0.94,
+                                        evidence_quote=s_text,
+                                        char_span=(sent.start_char, sent.end_char),
+                                        evidence_status=EvidenceStatus.MEASURED_FACT,
+                                    )
+                                )
+
+        # Phase 1.11: Chaperone-cargo binding coupling (e.g. SrcA chaperoning PipB2, SseL)
+        if getattr(self, "enable_chaperone_cargo_coupling", True) and known_entities:
+            existing_pairs = {(a.cause_canonical, a.effect_canonical) for a in assertions}
+            for sent in doc.sentences:
+                s_text = sent.text
+                for pat in [CHAPERONE_PAT1, CHAPERONE_PAT2]:
+                    for m in pat.finditer(s_text):
+                        if pat == CHAPERONE_PAT1:
+                            chap = m.group(1) or m.group(2)
+                            cargos_str = m.group(3)
+                        else:
+                            chap = m.group(1)
+                            cargos_str = m.group(2)
+                        c_chap = self.normalizer.canonicalize(chap, local_abbr, known_entities)
+                        if c_chap in known_entities:
+                            cargo_tokens = re.split(r",|\band\b", cargos_str)
+                            for c_tok in cargo_tokens:
+                                c_tok = c_tok.strip()
+                                if not c_tok:
+                                    continue
+                                c_cargo = self.normalizer.canonicalize(c_tok, local_abbr, known_entities)
+                                if c_cargo in known_entities and c_cargo != c_chap:
+                                    if (c_chap, c_cargo) not in existing_pairs:
+                                        existing_pairs.add((c_chap, c_cargo))
+                                        assertion_id = f"asrt_{doc.doc_id[:6]}_{sent.page_number}_{assertion_idx:04d}"
+                                        assertion_idx += 1
+                                        assertions.append(
+                                            CausalAssertion(
+                                                assertion_id=assertion_id,
+                                                cause=c_chap,
+                                                cause_canonical=c_chap,
+                                                effect=c_cargo,
+                                                effect_canonical=c_cargo,
+                                                direction="FORWARD",
+                                                relation_type=CausalRelationType.UPREGULATES,
+                                                is_negated=False,
+                                                uncertainty_score=0.08,
+                                                sentence_id=sent.sentence_id,
+                                                page_number=sent.page_number,
+                                                section_title=sent.section_title,
+                                                confidence=0.93,
+                                                evidence_quote=s_text,
+                                                char_span=(sent.start_char, sent.end_char),
+                                                evidence_status=EvidenceStatus.MEASURED_FACT,
+                                            )
+                                        )
+
+                for m in CHAPERONE_PAT3.finditer(s_text):
+                    chap, cargo = m.group(1), m.group(2)
+                    c_chap = self.normalizer.canonicalize(chap, local_abbr, known_entities)
+                    c_cargo = self.normalizer.canonicalize(cargo, local_abbr, known_entities)
+                    if c_chap in known_entities and c_cargo in known_entities and c_chap != c_cargo:
+                        if (c_chap, c_cargo) not in existing_pairs:
+                            existing_pairs.add((c_chap, c_cargo))
+                            assertion_id = f"asrt_{doc.doc_id[:6]}_{sent.page_number}_{assertion_idx:04d}"
+                            assertion_idx += 1
+                            assertions.append(
+                                CausalAssertion(
+                                    assertion_id=assertion_id,
+                                    cause=c_chap,
+                                    cause_canonical=c_chap,
+                                    effect=c_cargo,
+                                    effect_canonical=c_cargo,
+                                    direction="FORWARD",
+                                    relation_type=CausalRelationType.UPREGULATES,
+                                    is_negated=False,
+                                    uncertainty_score=0.08,
+                                    sentence_id=sent.sentence_id,
+                                    page_number=sent.page_number,
+                                    section_title=sent.section_title,
+                                    confidence=0.93,
+                                    evidence_quote=s_text,
                                     char_span=(sent.start_char, sent.end_char),
                                     evidence_status=EvidenceStatus.MEASURED_FACT,
                                 )

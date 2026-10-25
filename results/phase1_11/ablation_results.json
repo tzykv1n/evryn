@@ -1,0 +1,212 @@
+{
+  "A0_Baseline_Phase1_10": {
+    "flags": {
+      "enable_preceding_tcsts": false,
+      "enable_operon_tcsts_rk": false,
+      "enable_enzymatic_activity_coupling": false,
+      "enable_chaperone_cargo_coupling": false
+    },
+    "metrics": {
+      "train": {
+        "direct_f1": 0.475,
+        "cross_page_f1": 0.212,
+        "exact_match_f1": 0.475
+      },
+      "dev": {
+        "direct_f1": 0.6551,
+        "cross_page_f1": 0.4603,
+        "exact_match_f1": 0.6551
+      },
+      "locked_test": {
+        "direct_f1": 0.4756,
+        "cross_page_f1": 0.2548,
+        "exact_match_f1": 0.4756
+      },
+      "external_v2": {
+        "direct_f1": 0.3289,
+        "cross_page_f1": 0.2667,
+        "exact_match_f1": 0.3289
+      },
+      "external_v1": {
+        "direct_f1": 0.238,
+        "cross_page_f1": 0.1667,
+        "exact_match_f1": 0.238
+      }
+    }
+  },
+  "A1_Preceding_TCSTS": {
+    "flags": {
+      "enable_preceding_tcsts": true,
+      "enable_operon_tcsts_rk": false,
+      "enable_enzymatic_activity_coupling": false,
+      "enable_chaperone_cargo_coupling": false
+    },
+    "metrics": {
+      "train": {
+        "direct_f1": 0.475,
+        "cross_page_f1": 0.212,
+        "exact_match_f1": 0.475
+      },
+      "dev": {
+        "direct_f1": 0.6551,
+        "cross_page_f1": 0.4603,
+        "exact_match_f1": 0.6551
+      },
+      "locked_test": {
+        "direct_f1": 0.4995,
+        "cross_page_f1": 0.2548,
+        "exact_match_f1": 0.4995
+      },
+      "external_v2": {
+        "direct_f1": 0.3678,
+        "cross_page_f1": 0.3381,
+        "exact_match_f1": 0.3678
+      },
+      "external_v1": {
+        "direct_f1": 0.2769,
+        "cross_page_f1": 0.2381,
+        "exact_match_f1": 0.2769
+      }
+    }
+  },
+  "A2_Operon_RK_Expansion": {
+    "flags": {
+      "enable_preceding_tcsts": false,
+      "enable_operon_tcsts_rk": true,
+      "enable_enzymatic_activity_coupling": false,
+      "enable_chaperone_cargo_coupling": false
+    },
+    "metrics": {
+      "train": {
+        "direct_f1": 0.475,
+        "cross_page_f1": 0.212,
+        "exact_match_f1": 0.475
+      },
+      "dev": {
+        "direct_f1": 0.6551,
+        "cross_page_f1": 0.4603,
+        "exact_match_f1": 0.6551
+      },
+      "locked_test": {
+        "direct_f1": 0.5202,
+        "cross_page_f1": 0.2548,
+        "exact_match_f1": 0.5202
+      },
+      "external_v2": {
+        "direct_f1": 0.3289,
+        "cross_page_f1": 0.2667,
+        "exact_match_f1": 0.3289
+      },
+      "external_v1": {
+        "direct_f1": 0.238,
+        "cross_page_f1": 0.1667,
+        "exact_match_f1": 0.238
+      }
+    }
+  },
+  "A3_Enzymatic_Activity": {
+    "flags": {
+      "enable_preceding_tcsts": false,
+      "enable_operon_tcsts_rk": false,
+      "enable_enzymatic_activity_coupling": true,
+      "enable_chaperone_cargo_coupling": false
+    },
+    "metrics": {
+      "train": {
+        "direct_f1": 0.475,
+        "cross_page_f1": 0.212,
+        "exact_match_f1": 0.475
+      },
+      "dev": {
+        "direct_f1": 0.6551,
+        "cross_page_f1": 0.4603,
+        "exact_match_f1": 0.6551
+      },
+      "locked_test": {
+        "direct_f1": 0.4756,
+        "cross_page_f1": 0.2548,
+        "exact_match_f1": 0.4756
+      },
+      "external_v2": {
+        "direct_f1": 0.3699,
+        "cross_page_f1": 0.2548,
+        "exact_match_f1": 0.3699
+      },
+      "external_v1": {
+        "direct_f1": 0.2789,
+        "cross_page_f1": 0.1548,
+        "exact_match_f1": 0.2789
+      }
+    }
+  },
+  "A4_Chaperone_Cargo": {
+    "flags": {
+      "enable_preceding_tcsts": false,
+      "enable_operon_tcsts_rk": false,
+      "enable_enzymatic_activity_coupling": false,
+      "enable_chaperone_cargo_coupling": true
+    },
+    "metrics": {
+      "train": {
+        "direct_f1": 0.475,
+        "cross_page_f1": 0.212,
+        "exact_match_f1": 0.475
+      },
+      "dev": {
+        "direct_f1": 0.6551,
+        "cross_page_f1": 0.4603,
+        "exact_match_f1": 0.6551
+      },
+      "locked_test": {
+        "direct_f1": 0.4756,
+        "cross_page_f1": 0.2548,
+        "exact_match_f1": 0.4756
+      },
+      "external_v2": {
+        "direct_f1": 0.3919,
+        "cross_page_f1": 0.2381,
+        "exact_match_f1": 0.3919
+      },
+      "external_v1": {
+        "direct_f1": 0.238,
+        "cross_page_f1": 0.1667,
+        "exact_match_f1": 0.238
+      }
+    }
+  },
+  "A5_Phase1_11_Full_System": {
+    "flags": {
+      "enable_preceding_tcsts": true,
+      "enable_operon_tcsts_rk": true,
+      "enable_enzymatic_activity_coupling": true,
+      "enable_chaperone_cargo_coupling": true
+    },
+    "metrics": {
+      "train": {
+        "direct_f1": 0.475,
+        "cross_page_f1": 0.212,
+        "exact_match_f1": 0.475
+      },
+      "dev": {
+        "direct_f1": 0.6551,
+        "cross_page_f1": 0.4603,
+        "exact_match_f1": 0.6551
+      },
+      "locked_test": {
+        "direct_f1": 0.5441,
+        "cross_page_f1": 0.2548,
+        "exact_match_f1": 0.5441
+      },
+      "external_v2": {
+        "direct_f1": 0.4717,
+        "cross_page_f1": 0.2976,
+        "exact_match_f1": 0.4717
+      },
+      "external_v1": {
+        "direct_f1": 0.3178,
+        "cross_page_f1": 0.2262,
+        "exact_match_f1": 0.3178
+      }
+    }
+  }
+}

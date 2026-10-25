@@ -1,0 +1,8 @@
+{
+  "experiment_id": "phase1_11_ablations",
+  "description": "Controlled ablation study of Phase 1.11 mechanisms across all 5 benchmark splits.",
+  "author": "EVRYN Phase 1.11 Generalization Workstream",
+  "timestamp": "2026-10-25T17:10:00Z",
+  "status": "COMPLETED",
+  "output_file": "/home/tk/projects/evryn/results/phase1_11/ablation_results.json"
+}
