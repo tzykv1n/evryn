@@ -192,7 +192,7 @@ class PaperSegmenter:
         clean_text = text
         token_map: Dict[str, str] = {}
         for idx, abbr in enumerate(PROTECTED_ABBREVIATIONS):
-            pattern = re.compile(re.escape(abbr), re.IGNORECASE)
+            pattern = re.compile(rf"\b{re.escape(abbr)}", re.IGNORECASE)
             matches = list(pattern.finditer(clean_text))
             for m in reversed(matches):
                 tok = f"__ABBR_{idx}_{m.start()}__"

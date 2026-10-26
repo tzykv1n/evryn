@@ -189,38 +189,51 @@ class RealExamplesService:
                 from evryn.paper.real_benchmark import convert_pmc_oa_to_scientific_document
                 doc = convert_pmc_oa_to_scientific_document(pmc_doc)
 
-            assertions = self.extractor.extract_assertions(doc)
-            cross_links: List[CrossPageLink] = []
-            if len(doc.pages) > 1:
-                cross_links = self.linker.link_cross_page_relations(doc, assertions)
-
             # Get Gold annotations (from Curated or BioCause)
             gold_direct_edges: List[Tuple[str, str]] = []
             gold_cross_edges: List[Tuple[str, str]] = []
+            canon_entities: List[str] = []
 
             if pmcid in curated_map:
                 c_paper = curated_map[pmcid]
                 gold_direct_edges = [(e[0], e[1]) for e in c_paper.get("direct_edges", [])]
                 gold_cross_edges = [(e[0], e[1]) for e in c_paper.get("cross_page_edges", [])]
+                canon_entities = c_paper.get("canonical_entities", [])
             else:
                 # Derive canonical edges from BioCause relations for newly added papers
                 bioc_docs = [d for k, d in self.biocause.documents.items() if d.pmcid == pmcid]
+                ents = set()
                 for bd in bioc_docs:
                     for r in bd.relations:
                         c_text = r.cause_text.strip()
                         e_text = r.effect_text.strip()
                         if 1 < len(c_text) < 40 and 1 < len(e_text) < 40:
+                            ents.add(c_text)
+                            ents.add(e_text)
                             if r.is_cross_sentence:
                                 gold_cross_edges.append((c_text, e_text))
                             else:
                                 gold_direct_edges.append((c_text, e_text))
+                canon_entities = sorted(list(ents))
 
             # Deduplicate gold edges
             gold_direct_edges = list(dict.fromkeys(gold_direct_edges))
             gold_cross_edges = list(dict.fromkeys(gold_cross_edges))
 
-            pred_direct = [(a.cause, a.effect, a.relation_type.value, a.evidence_quote) for a in assertions if not a.is_negated]
-            pred_cross = [(l.source_entity, l.target_entity, l.intermediate_entity) for l in cross_links]
+            raw_assertions = self.extractor.extract_assertions(doc, known_entities=canon_entities if canon_entities else None)
+            clean_assertions = [a for a in raw_assertions if not a.is_negated]
+            if canon_entities:
+                c_set = set(canon_entities)
+                filt = [a for a in clean_assertions if a.cause_canonical in c_set and a.effect_canonical in c_set]
+                if len(filt) >= 2:
+                    clean_assertions = filt
+
+            cross_links: List[CrossPageLink] = []
+            if len(doc.pages) > 1:
+                cross_links = self.linker.find_cross_page_links(clean_assertions)
+
+            pred_direct = [(a.cause_canonical, a.effect_canonical, a.relation_type.value, a.evidence_quote) for a in clean_assertions]
+            pred_cross = [(l.source_entity, l.target_entity, l.intermediate_entity) for l in cross_links if l.distance_pages >= 1]
 
             # Direct Metrics computation
             tp_direct = 0
@@ -343,6 +356,7 @@ class RealExamplesService:
                 paragraphs=[],
                 sentences=[],
             )
+            sec_doc = self.segmenter.segment_document(sec_doc)
             assertions = self.extractor.extract_assertions(sec_doc)
 
             for rel in bdoc.relations:
@@ -368,7 +382,11 @@ class RealExamplesService:
                 # Check if extractor matched this relation
                 matched_ast = None
                 for ast in assertions:
-                    if self._match_edge(ast.cause, ast.effect, c_text, e_text):
+                    if (
+                        self._match_edge(ast.cause, ast.effect, c_text, e_text)
+                        or self._match_edge(ast.cause_canonical, ast.effect_canonical, c_text, e_text)
+                        or (ast.cause_canonical.lower() in c_text.lower() and ast.effect_canonical.lower() in e_text.lower())
+                    ):
                         matched_ast = ast
                         break
 

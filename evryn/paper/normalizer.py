@@ -192,6 +192,13 @@ GLOBAL_SYNONYMS = {
     "short fimbria": "Short Fimbriae",
     "acidic ph": "Acid pH",
     "low ph": "Acid pH",
+    "mild acid": "Acid pH",
+    "mild acid ph": "Acid pH",
+    "acidic conditions": "Acid pH",
+    "acid stress": "Acid pH",
+    "ph 5.8": "Acid pH",
+    "external changes in ph": "Acid pH",
+    "changes in ph": "Acid pH",
     "89k": "89K",
     "89k pai": "89K",
     "89k pathogenicity island": "89K",
@@ -236,6 +243,9 @@ GLOBAL_SYNONYMS = {
     "pa3552-pa3559": "arn Operon",
     "antibiotic resistance": "Antibiotic Resistance",
     "polymyxin resistance": "Antibiotic Resistance",
+    "polymyxin b resistance": "Polymyxin B",
+    "resistance to polymyxin b": "Polymyxin B",
+    "resistant to polymyxin b": "Polymyxin B",
     "vick": "VicK",
     "vicr": "VicR",
     "bacterial growth": "Bacterial Growth",
@@ -428,6 +438,12 @@ class PaperEntityNormalizer:
                 # Temperature terms
                 if ke_low == "temperature" and key in ("temperature", "temperatures", "temperature shift", "temperature-shift", "low temperature", "high temperature", "ambient temperature", "21°c", "26°c", "28°c", "37°c"):
                     return ke
+                # Acid pH terms
+                if ke_low == "acid ph" and key in ("acid ph", "acidic ph", "low ph", "mild acid", "mild acid ph", "acidic conditions", "acid stress", "ph 5.8", "changes in ph", "external changes in ph"):
+                    return ke
+                # Polymyxin B terms
+                if ke_low == "polymyxin b" and key in ("polymyxin", "polymyxin b", "polymyxin resistance", "polymyxin b resistance", "resistance to polymyxin b", "resistant to polymyxin b"):
+                    return ke
                 # Diguanylate cyclase / phosphodiesterase signaling machinery -> di-GMP
                 if "di-gmp" in ke_low and key in ("hmst", "hmsp", "hmshfrs"):
                     return ke
@@ -513,6 +529,10 @@ class PaperEntityNormalizer:
                     known_vocab.update(["survival in blood", "survival in whole blood", "bacterial survival"])
                 if ke_l == "temperature":
                     known_vocab.update(["temperature shift", "temperatures", "low temperature", "high temperature", "ambient temperature", "21°c", "26°c", "28°c", "37°c"])
+                if ke_l == "acid ph":
+                    known_vocab.update(["mild acid", "mild acid ph", "acidic conditions", "acid stress", "ph 5.8", "external changes in ph", "changes in ph"])
+                if ke_l == "polymyxin b":
+                    known_vocab.update(["polymyxin", "polymyxin resistance", "polymyxin b resistance", "resistance to polymyxin b", "resistant to polymyxin b"])
 
         STOPWORDS = {
             "and", "or", "the", "in", "of", "to", "for", "with", "by", "on", "at",

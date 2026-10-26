@@ -269,8 +269,17 @@ COMPILED_DIRECT_CAUSATIVE_PATTERNS = [
         r"\b(?:causes?|caused|causing)\b",
         r"\b(?:leads?|led|leading)\s+to\b",
         r"\b(?:results?|resulted|resulting)\s+in\b",
+        r"\b(?:controls?|controlled|controlling)\b",
+        r"\b(?:regulates?|regulated|regulating)\b",
+        r"\b(?:modulates?|modulated|modulating)\b",
+        r"\b(?:drives?|driven|driving)\b",
     ]
 ]
+
+COMPILED_MUTATION_ABOLISHED = re.compile(
+    r"\b(?:substitution|mutation|deletion|disruption|loss|deficiency)\s+(?:of|in)\b.*?\b(?:decreased|abolished|reduced|diminished|attenuated|eliminated|prevented|impaired)\b",
+    re.IGNORECASE,
+)
 
 ACTIVE_MATRIX_CAUSATIVE_VERBS = re.compile(
     r"\b(?:causes?|caused|causing|leads?\s+to|led\s+to|leading\s+to|results?\s+in|resulted\s+in|resulting\s+in|"
@@ -355,7 +364,7 @@ LEADING_NOISE_RE = re.compile(
 )
 ARTICLES_RE = re.compile(r"^(?:the|a|an|this|these|those|our|their|its)\s+", re.IGNORECASE)
 TRAILING_ADVERBS_RE = re.compile(
-    r"\s+(?:independently|directly|rapidly|subsequently|completely|significantly|in\s+turn|did\s+not|does\s+not|do\s+not|failed\s+to|cannot|never|not)$",
+    r"\s+(?:independently|directly|rapidly|subsequently|completely|significantly|in\s+turn|did\s+not|does\s+not|do\s+not|failed\s+to|cannot|never|not|often|normally|typically|similarly|likely|possibly)$",
     re.IGNORECASE,
 )
 POSTFIX_STOPWORDS_RE = re.compile(
@@ -392,6 +401,7 @@ DISALLOWED_ENTITY_WORDS = {
     "mechanism", "mechanisms", "model", "models", "hypothesis", "hypotheses", "pathway", "pathways",
     "analysis", "analyses", "observation", "observations", "conditions", "condition", "author", "authors",
     "role", "roles", "effect", "effects", "response", "responses", "function", "functions",
+    "level", "levels", "gene", "genes", "protein", "proteins", "production", "synthesis", "expression", "transcription", "activation",
     # Discourse connectors & preambles
     "whether", "however", "moreover", "furthermore", "meanwhile", "consequently", "subsequently",
     "therefore", "thus", "instead", "whereas", "although", "while", "since", "because",
@@ -405,12 +415,24 @@ DISALLOWED_ENTITY_PATTERNS = [
     re.compile(r"\b(?:explained|supported|described|concluded)\s+by\s+(?:the\s+fact\s+that)?\b", re.IGNORECASE),
     re.compile(r"\b(?:by\s+the\s+fact\s+that|fact\s+that\s+the)\b", re.IGNORECASE),
     re.compile(r"\b(?:thus\s+far|so\s+far|to\s+date)\b", re.IGNORECASE),
+    re.compile(r"\b(?:results?|data|findings|evidence|studies|reports?)\s+(?:argue|suggest|show|indicate|demonstrate)\b", re.IGNORECASE),
 ]
+
+VERB_CLAUSE_RE = re.compile(
+    r"\b(?:encode|encodes|encoded|encoding|express|expressed|expresses|repress|repressed|represses|"
+    r"activate|activated|activates|promote|promoted|promotes|induce|induced|induces|"
+    r"inhibit|inhibited|inhibits|mediate|mediated|mediates|regulate|regulated|regulates|"
+    r"require|requires|required|requiring|determine|determined|determines)\b",
+    re.IGNORECASE,
+)
+CITATION_RE = re.compile(r"\b(?:et\s+al|\d{4})\b|^\(?\b(?:fig|figure|table|box|scheme)\b", re.IGNORECASE)
 
 def is_valid_entity_candidate(phrase: str) -> bool:
     if not phrase:
         return False
     phrase = phrase.strip()
+    if phrase.startswith("(") and not phrase.endswith(")"):
+        return False
     words = phrase.split()
     if len(words) < 1 or len(words) > 5:
         return False
@@ -418,6 +440,10 @@ def is_valid_entity_candidate(phrase: str) -> bool:
         return False
     low = phrase.lower()
     if low in DISALLOWED_ENTITY_WORDS:
+        return False
+    if VERB_CLAUSE_RE.search(low):
+        return False
+    if CITATION_RE.search(low):
         return False
     for pat in DISALLOWED_ENTITY_PATTERNS:
         if pat.search(low):
@@ -1176,6 +1202,26 @@ class PaperCausalExtractor:
         if COMPILED_GENETICS_MUTANT_DEFECT.search(between_text):
             return CausalRelationType.UPREGULATES, direction, 0.93
 
+        # Mutation/substitution abolished/decreased phenotype: e.g. "Substitution in PmrB abolished transcription of PmrA-activated genes"
+        # proves wild-type PmrB is required to activate PmrA
+        if COMPILED_MUTATION_ABOLISHED.search(between_text) or (
+            re.search(r"\b(?:substitution|mutation|deletion)\b", text[:max(s1, s2)], re.IGNORECASE)
+            and re.search(r"\b(?:decreased|abolished|reduced|diminished|attenuated)\b", between_text, re.IGNORECASE)
+        ):
+            return CausalRelationType.UPREGULATES, direction, 0.93
+
+        # Environmental / phenotypic resistance: e.g. "grown at pH 5.8 were ... more resistant to polymyxin B"
+        full_pair_span = text[min(s1, s2):max(e1, e2)]
+        if re.search(r"\b(?:is|was|were|are|became)?\s*(?:(?:[><~]?\s*\d+[\d\s,]*(?:-fold|fold|\s+fold)\s+)?(?:more\s+)?)?resistant\s+to\b", between_text, re.IGNORECASE) or (
+            re.search(r"\b(?:is|was|were|are|became)\s+(?:(?:[><~]?\s*\d+[\d\s,]*(?:-fold|fold|\s+fold)\s+)?(?:more\s+)?)?resistant\s+to\b", full_pair_span, re.IGNORECASE)
+        ):
+            return CausalRelationType.UPREGULATES, direction, 0.91
+
+        # Expression in condition: e.g. "PmrD was produced in cells grown at pH 5.8"
+        if re.search(r"\b(?:is|was|were|are)?\s*(?:produced|expressed|synthesized|induced|activated)\s+(?:in\s+cells\s+grown\s+)?(?:in|at|under)\b", between_text, re.IGNORECASE):
+            inv_dir = "BACKWARD" if direction == "FORWARD" else "FORWARD"
+            return CausalRelationType.UPREGULATES, inv_dir, 0.91
+
         # Anti-factor release: e.g. "Release of σE from its inner membrane anchored anti-sigma factor, RseA"
         if ANTI_FACTOR_RE.search(between_text):
             inv_dir = "BACKWARD" if direction == "FORWARD" else "FORWARD"
@@ -1215,6 +1261,11 @@ class PaperCausalExtractor:
                     continue
             m_pass = pat_re.search(between_text)
             if m_pass:
+                # If an active causative verb precedes this passive match (e.g. "promotes transcription of genes activated by"),
+                # the active matrix verb governs the clause direction
+                if m_act and m_act.start() < m_pass.start():
+                    continue
+
                 # If this passive match is within a subordinate modifier and an active causative verb is present, let active verb govern!
                 if m_sub and m_act and m_pass.start() >= m_sub.start() and m_pass.end() <= m_sub.end():
                     continue

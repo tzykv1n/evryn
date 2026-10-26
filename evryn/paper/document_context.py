@@ -30,6 +30,13 @@ DEMONSTRATIVE_CAUSAL_RE = re.compile(
     re.IGNORECASE,
 )
 
+DEMONSTRATIVE_REQUIREMENT_RE = re.compile(
+    r"^(?:(?:Here\s+)?we\s+(?:report|show|demonstrate|found)\s+that\s+)?(?:this|the)\s+"
+    r"(?:activation|induction|transcription|expression|response|resistance)\s+"
+    r"(?:requires|required|requiring|depends?\s+on|depended\s+on)\s+(?:both\s+)?",
+    re.IGNORECASE,
+)
+
 # Explicit causal discourse connectives
 DISCOURSE_CONNECTIVE_RE = re.compile(
     r"^(?:Consequently|Subsequently|As\s+a\s+result|Therefore|Thus|Hence|In\s+turn|Accordingly|Following\s+this|Thereby),?\s+",
@@ -167,6 +174,50 @@ class DocumentContextResolver:
 
                 if s_curr.section_title != s_next.section_title or s_curr.page_number != s_next.page_number:
                     continue
+
+                m_req = DEMONSTRATIVE_REQUIREMENT_RE.match(s_next.text.strip())
+                if m_req:
+                    next_ents = normalizer.detect_entities_in_sentence(s_next.text, local_abbr, known_entities)
+                    curr_ents = normalizer.detect_entities_in_sentence(s_curr.text, local_abbr, known_entities)
+                    curr_asrt = assertions_by_sent.get(s_curr.sentence_id, [])
+
+                    target_candidate = None
+                    if curr_asrt:
+                        target_candidate = (curr_asrt[-1].effect, curr_asrt[-1].effect_canonical)
+                    elif curr_ents:
+                        valid_c = [e for e in curr_ents if e[1] not in ENV_PARAMS]
+                        if valid_c:
+                            target_candidate = (valid_c[-1][0], valid_c[-1][1])
+
+                    if target_candidate:
+                        t_raw, t_canon = target_candidate
+                        causes = [e for e in next_ents if e[2] >= m_req.end() and e[1] != t_canon]
+                        for c_raw, c_canon, _, _ in causes:
+                            if self._is_valid_pair(c_canon, t_canon, existing_pairs):
+                                asrt = CausalAssertion(
+                                    assertion_id=f"asrt_ctx_{doc.doc_id[:6]}_{s_next.page_number}_{assertion_idx:04d}",
+                                    cause=c_raw,
+                                    cause_canonical=c_canon,
+                                    effect=t_raw,
+                                    effect_canonical=t_canon,
+                                    direction="FORWARD",
+                                    relation_type=CausalRelationType.UPREGULATES,
+                                    is_negated=False,
+                                    uncertainty_score=0.10,
+                                    sentence_id=s_next.sentence_id,
+                                    page_number=s_next.page_number,
+                                    section_title=s_next.section_title,
+                                    confidence=0.91,
+                                    evidence_quote=f"{s_curr.text.strip()} {s_next.text.strip()}",
+                                    char_span=(s_curr.start_char, s_next.end_char),
+                                    evidence_status=EvidenceStatus.MEASURED_FACT,
+                                    evidence_sentence_ids=[s_curr.sentence_id, s_next.sentence_id],
+                                    discourse_relation="demonstrative_requirement",
+                                    antecedent_quote=s_curr.text.strip(),
+                                )
+                                assertion_idx += 1
+                                resolved_assertions.append(asrt)
+                                existing_pairs.add((c_canon, t_canon))
 
                 m_ana = DEMONSTRATIVE_CAUSAL_RE.match(s_next.text.strip())
                 if not m_ana:
