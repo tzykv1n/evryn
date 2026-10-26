@@ -97,6 +97,168 @@ def architecture():
     save(fig, "fig1_system_architecture")
 
 
+# ---- Fig 3.1 ----------------------------------------------------------------
+def evidence_direction():
+    fig, ax = sheet(W, 3.4)
+
+    # 1. Top row: Cause Entity -> Effect Entity
+    ax.add_patch(P.Rectangle((0.05, 2.45), 1.85, 0.90, fc=PANEL, ec=TEAL, lw=1.3))
+    ax.text(0.14, 3.18, "Cause Entity (C)", fontsize=10.5, fontweight="bold", color=TEAL, va="center")
+    ax.text(0.14, 2.92, "Canonical: PmrB", fontsize=10, fontweight="bold", color=INK, va="center")
+    ax.text(0.14, 2.68, "Sensor kinase  •  p. 2", fontsize=9.2, color=MUTE, va="center")
+
+    ax.add_patch(P.Rectangle((4.40, 2.45), 1.85, 0.90, fc=PANEL, ec=TEAL, lw=1.3))
+    ax.text(4.49, 3.18, "Effect Entity (E)", fontsize=10.5, fontweight="bold", color=TEAL, va="center")
+    ax.text(4.49, 2.92, "Canonical: PmrA", fontsize=10, fontweight="bold", color=INK, va="center")
+    ax.text(4.49, 2.68, "Response reg.  •  p. 3", fontsize=9.2, color=MUTE, va="center")
+
+    ax.annotate("", xy=(4.32, 2.90), xytext=(1.98, 2.90),
+                arrowprops=dict(arrowstyle="-|>", color=TEAL, lw=1.8, shrinkA=0, shrinkB=0))
+    ax.text(3.15, 3.14, "DIRECT_CAUSE (+)", fontsize=10, fontweight="bold", color=TEAL, ha="center", va="center",
+            bbox=dict(boxstyle="square,pad=0.22", fc="white", ec=TEAL, lw=0.9))
+    ax.text(3.15, 2.68, "conf = 0.95  •  Forward  •  Results", fontsize=9.2, fontweight="bold", color=SLATE, ha="center", va="center")
+
+    # 2. Middle row: Evidence Sentence & Provenance
+    ax.add_patch(P.Rectangle((0.05, 1.48), 6.20, 0.85, fc="white", ec=BLUE, lw=1.3))
+    ax.add_patch(P.Rectangle((0.05, 2.05), 6.20, 0.28, fc=BAND, ec="none"))
+    ax.text(0.18, 2.19, "Evidence Sentence (S_causal)", fontsize=10, fontweight="bold", color=BLUE, va="center")
+    ax.text(6.12, 2.19, "100% PROVENANCE GROUNDED", fontsize=8.8, fontweight="bold", color=TEAL, ha="right", va="center")
+    ax.text(3.15, 1.88, "\"Acid pH activates PmrA/PmrB by promoting PmrB-mediated phosphorylation of PmrA.\"",
+            fontsize=9.8, fontstyle="italic", color=INK, ha="center", va="center")
+    ax.text(3.15, 1.63, "Doc: PMC1804205   •   Section: Results   •   Page: 2   •   Offsets: [1420–1512]",
+            fontsize=9.2, fontweight="bold", color=SLATE, ha="center", va="center")
+
+    for cx in (1.02, 3.15, 5.28):
+        ax.annotate("", xy=(cx, 1.30), xytext=(cx, 1.48),
+                    arrowprops=dict(arrowstyle="-|>", color=SLATE, lw=1.2, ls="--"))
+
+    # 3. Bottom row: Typology cards (3 cards)
+    cards = [
+        ("1. Direct Assertion", "Single sentence boundary", TEAL, [
+            "Co-occurs in single sentence",
+            "Trigger: activates, induces",
+            "Exact offsets [1420–1512], p. 2",
+            "Precision 0.90–0.98 on gold",
+        ]),
+        ("2. Context-Resolved", "Cross-sentence bridge", BLUE, [
+            "Aligned across [S_k, S_k+1] spans",
+            "Demonstrative anaphora resolution",
+            "Dual-sentence provenance binding",
+            "Acronym & synonym mapping",
+        ]),
+        ("3. Transitive Link", "Multi-page graph traversal", AMBER, [
+            "Path: A (p.2) \u2192 B \u2192 C (p.8)",
+            "Page \u0394p \u2265 1, hops \u2264 2",
+            "Pruned by domain invariants",
+            "Calibrated score compounding",
+        ]),
+    ]
+
+    cw = 1.96
+    gaps = [0.05, 2.17, 4.29]
+    for (ttl, sub, col, items), x in zip(cards, gaps):
+        ax.add_patch(P.Rectangle((x, 0.05), cw, 1.22, fc=PANEL, ec=col, lw=1.2))
+        ax.text(x + 0.10, 1.12, ttl, fontsize=9.8, fontweight="bold", color=col, va="center")
+        ax.text(x + 0.10, 0.94, sub, fontsize=8.4, color=SLATE, va="center")
+        for j, it in enumerate(items):
+            ax.text(x + 0.10, 0.73 - j * 0.20, f"\u2022 {it}", fontsize=8.8, color=INK, va="center")
+
+    save(fig, "fig3_evidence_direction")
+
+
+# ---- Fig 4.2 ----------------------------------------------------------------
+def extraction_workflow():
+    fig, ax = sheet(W, 3.4)
+
+    stages = [
+        ("STAGE 1", "Candidate Gen.", "Delivered", TEAL, [
+            "Bio-entity detection",
+            "Sentence bounds",
+            "Quality filtering",
+        ]),
+        ("STAGE 2", "Syntactic Parse", "Delivered", TEAL, [
+            "Dependency parsing",
+            "Causal verb cues",
+            "Negation quarantine",
+        ]),
+        ("STAGE 3", "Context Resolve", "Delivered", TEAL, [
+            "Anaphora resolution",
+            "Acronym expansion",
+            "Cross-sentence bridge",
+        ]),
+        ("STAGE 4", "Multi-Page Link", "0.5350 F1", BLUE, [
+            "Bounded \u2264 2 hops",
+            "Inter-page (\u0394p \u2265 1)",
+            "Distance decay",
+        ]),
+    ]
+
+    sw = 1.42
+    sgap = 0.18
+    sx0 = 0.05
+    sy = 1.70
+    sh = 1.62
+
+    for i, (stg, ttl, badge, col, items) in enumerate(stages):
+        x = sx0 + i * (sw + sgap)
+        ax.add_patch(P.Rectangle((x, sy), sw, sh, fc=PANEL, ec=col, lw=1.3))
+        ax.add_patch(P.Rectangle((x, sy + sh - 0.52), sw, 0.52, fc=BAND, ec="none"))
+        ax.text(x + sw / 2, sy + sh - 0.16, stg, fontsize=9.5, fontweight="bold", color=col, ha="center", va="center")
+        ax.text(x + sw / 2, sy + sh - 0.38, ttl, fontsize=10, fontweight="bold", color=INK, ha="center", va="center")
+
+        ax.text(x + sw / 2, sy + sh - 0.68, badge, fontsize=8.2, fontweight="bold", color=col, ha="center", va="center",
+                bbox=dict(boxstyle="square,pad=0.18", fc="white", ec=col, lw=0.7))
+
+        for j, it in enumerate(items):
+            ax.text(x + 0.10, sy + sh - 0.96 - j * 0.24, f"\u2022 {it}", fontsize=9.2, color=INK, va="center")
+
+        if i < 3:
+            ax.annotate("", xy=(x + sw + sgap - 0.01, sy + sh / 2), xytext=(x + sw + 0.01, sy + sh / 2),
+                        arrowprops=dict(arrowstyle="-|>", color=INK, lw=1.3, shrinkA=0, shrinkB=0))
+
+    # Connectors to bottom row
+    ax.annotate("", xy=(1.55, 1.44), xytext=(1.55, 1.70),
+                arrowprops=dict(arrowstyle="-|>", color=SLATE, lw=1.2, ls="--"))
+    ax.text(1.63, 1.57, "Syntax & Entities", fontsize=8.5, color=SLATE, va="center")
+
+    ax.annotate("", xy=(4.75, 1.44), xytext=(4.75, 1.70),
+                arrowprops=dict(arrowstyle="-|>", color=SLATE, lw=1.2, ls="--"))
+    ax.text(4.83, 1.57, "Transitive Paths", fontsize=8.5, color=SLATE, va="center")
+
+    # Bottom Row: 2 Verifier Panels
+    panels = [
+        ("Domain Invariants", "ACTIVE INVARIANTS", BLUE, 0.05, 3.00, [
+            "Terminal phenotypes cannot cause upstream genes",
+            "Extracellular pH / temp cannot be activated",
+            "Master regulator reverse feedback loops pruned",
+            "Homology and cloning mentions suppressed",
+        ]),
+        ("Calibrated Verification", "100% PROVENANCE", TEAL, 3.25, 3.00, [
+            "100% provenance: PMCID, page, offsets, quote",
+            "Platt posterior confidence calibration in [0, 1]",
+            "Calibrated selective prediction threshold (\u03c4 = 0.60)",
+            "Frozen SHA-256 ground-truth benchmark audit",
+        ]),
+    ]
+
+    py = 0.05
+    ph = 1.38
+    for pttl, pbadge, pcol, px, pw, pitems in panels:
+        ax.add_patch(P.Rectangle((px, py), pw, ph, fc="white", ec=pcol, lw=1.3))
+        ax.add_patch(P.Rectangle((px, py + ph - 0.30), pw, 0.30, fc=BAND, ec="none"))
+        ax.text(px + 0.12, py + ph - 0.15, pttl, fontsize=10, fontweight="bold", color=pcol, va="center")
+        ax.text(px + pw - 0.12, py + ph - 0.15, pbadge, fontsize=8.2, fontweight="bold", color=pcol, ha="right", va="center")
+        for j, it in enumerate(pitems):
+            ax.text(px + 0.12, py + ph - 0.48 - j * 0.24, f"\u2022 {it}", fontsize=8.9, color=INK, va="center")
+
+    # Connector between Invariants and Provenance
+    ax.annotate("", xy=(3.24, py + ph - 0.15), xytext=(3.06, py + ph - 0.15),
+                arrowprops=dict(arrowstyle="-|>", color=TEAL, lw=1.3, shrinkA=0, shrinkB=0))
+    ax.text(3.15, py + ph + 0.08, "Gated", fontsize=8.2, fontweight="bold", color=TEAL, ha="center")
+
+    save(fig, "fig2_extraction_workflow")
+
+
 # ---- Fig 5.1 ----------------------------------------------------------------
 def baselines():
     labels = ["A  Sentence", "B  Paragraph", "C  NPMI", "D  Dense", "EVRYN"]
@@ -185,7 +347,9 @@ def higher_order():
 
 if __name__ == "__main__":
     scope()
+    evidence_direction()
     architecture()
+    extraction_workflow()
     baselines()
     errors()
     continual()
