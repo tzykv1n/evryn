@@ -65,7 +65,7 @@
     \tiny\color{navy}\textbf{EVRYN}: Temporal Causal Knowledge (Phase 1)
   \end{beamercolorbox}%
   \begin{beamercolorbox}[wd=.24\paperwidth,ht=2.2ex,dp=0.8ex,rightskip=2.5ex,right]{page in head/foot}%
-    \tiny\color{navy}\textbf{Slide \insertframenumber{} / 40}
+    \tiny\color{navy}\textbf{Slide \insertframenumber{} / \inserttotalframenumber}
   \end{beamercolorbox}%
   }%
   \vskip0.6ex%
@@ -1252,33 +1252,121 @@
 % ==============================================================================
 \section{Chapter 12: References}
 
-% SLIDE 40: Primary References & Literature Benchmark Corpus
-\begin{frame}{Primary References \& Literature Benchmark Corpus}
-  \textbf{Takeaway}: Grounded upon established structural causal modeling, biomedical NLP, and PMC open access.
-  \vspace{0.12cm}
+% SLIDE 40: Scientific NLP & Document-Level Extraction
+\begin{frame}{References: Scientific NLP \& Document Relation Extraction}
+  \vspace{-0.08cm}
+  \textbf{Takeaway}: Foundation for cross-sentence entity linking, scientific transformers, and causal trigger annotations.
+  \vspace{0.05cm}
   \begin{center}
-    \tiny
-    \begin{tabularx}{\linewidth}{p{1.8cm}>{\raggedright\arraybackslash}X}
+    \fontsize{5.1pt}{6.3pt}\selectfont
+    \begin{tabularx}{\linewidth}{p{2.2cm}>{\raggedright\arraybackslash}X}
       \toprule
-      \textbf{\color{navy}Citation} & \textbf{\color{navy}Bibliographic Details \& Role in Research} \\
+      \textbf{\color{navy}Citation} & \textbf{\color{navy}Bibliographic Details \& Role in Phase 1 Research} \\
       \midrule
-      \textbf{Pearl (2009)} & \textit{Causality: Models, Reasoning, and Inference}. Cambridge University Press. Foundational theory for structural causal models and $do$-calculus. \\
-      \addlinespace[2pt]
-      \textbf{Spirtes et al. (2000)} & \textit{Causation, Prediction, and Search}. MIT Press. Formal basis for causal graph discovery and constraint-based orientation. \\
-      \addlinespace[2pt]
-      \textbf{Mih\u{a}il\u{a} et al. (2013)} & \textit{BioCause: Annotating and Analysing Causality in the Biomedical Domain}. BMC Bioinformatics, 14(1):2. Annotation schema for causal triggers in bacterial genetics. \\
-      \addlinespace[2pt]
-      \textbf{Perez \& Groisman (2007)} & \textit{Acid pH activation of the PmrA/PmrB two-component regulatory system}. Mol. Microbiol. Core development corpus paper (PMC1804205). \\
-      \addlinespace[2pt]
-      \textbf{Lim et al. (2007)} & \textit{Mlc regulation of Salmonella pathogenicity island I gene expression}. Nucleic Acids Res. Master regulator test paper (PMC1874608). \\
-      \addlinespace[2pt]
-      \textbf{Frigui et al. (2008)} & \textit{Control of M. tuberculosis ESAT-6 Secretion and T Cell Recognition by PhoP}. PLoS Pathog. Locked held-out test paper (PMC2242835). \\
+      \textbf{Beltagy et al. (2019)} & \textit{SciBERT: A Pretrained Language Model for Scientific Text}. arXiv:1903.10676. Domain-specific contextualized embeddings trained on 1.14M scientific articles; vocabulary baseline. \\
+      \addlinespace[1.5pt]
+      \textbf{Luan et al. (2018)} & \textit{Multi-Task Identification of Entities, Relations, and Coreference on Scientific Articles (SciERC)}. EMNLP. Gold standard for entity span and generic scientific relation benchmarking. \\
+      \addlinespace[1.5pt]
+      \textbf{Yao et al. (2019)} & \textit{DocRED: A Large-Scale Document-Level Relation Extraction Dataset}. ACL. Benchmark framework demonstrating that inter-sentence relation extraction requires multi-hop path reasoning. \\
+      \addlinespace[1.5pt]
+      \textbf{Xiao et al. (2024)} & \textit{Dual-Channel Reasoning Network for Document-Level Relation Extraction}. Findings of ACL. Dual-channel architectures separating entity-level interaction from inter-passage path reasoning. \\
+      \addlinespace[1.5pt]
+      \textbf{Hope et al. (2022)} & \textit{Extracting Mechanism-Based Causal Relations from Scientific Literature}. ACL. Schema for extracting multi-argument mechanistic causal relations across scientific discourse. \\
+      \addlinespace[1.5pt]
+      \textbf{Mih\u{a}il\u{a} et al. (2013)} & \textit{BioCause: Annotating and Analysing Causality in the Biomedical Domain}. BMC Bioinformatics, 14(1):2. Foundation for bacterial genetics causal triggers, directionality, and relation taxonomy. \\
       \bottomrule
     \end{tabularx}
   \end{center}
-  \vspace{0.10cm}
-  \card{Corpus Integrity}{navy}{
-    All 20 benchmark articles are under open-access Creative Commons licenses (CC-BY / CC-BY-NC) with frozen XML and PDF artifacts available in `data/real\_papers/`.
+  \vspace{0.04cm}
+  \card{NLP Architectural Invariant}{teal}{
+    \fontsize{5.2pt}{6.4pt}\selectfont EVRYN enforces exact token grounding with 100\% provenance back to source XML/PDF paragraph character offsets, eliminating hallucinated synthetic spans.
+  }
+\end{frame}
+
+% SLIDE 41: Causal Inference & Structural Causal Models
+\begin{frame}{References: Causal Inference, SCMs \& Structure Discovery}
+  \vspace{-0.08cm}
+  \textbf{Takeaway}: Mathematical formalisms for structural equations, d-separation, acyclicity, and nonlinear independence.
+  \vspace{0.05cm}
+  \begin{center}
+    \fontsize{5.1pt}{6.3pt}\selectfont
+    \begin{tabularx}{\linewidth}{p{2.2cm}>{\raggedright\arraybackslash}X}
+      \toprule
+      \textbf{\color{navy}Citation} & \textbf{\color{navy}Bibliographic Details \& Role in Phase 1 Research} \\
+      \midrule
+      \textbf{Pearl (2009)} & \textit{Causality: Models, Reasoning, and Inference} (2nd ed.). Cambridge University Press. Foundational theory of Structural Causal Models (SCMs), do-calculus, interventions, and counterfactuals. \\
+      \addlinespace[1.5pt]
+      \textbf{Spirtes et al. (2000)} & \textit{Causation, Prediction, and Search} (2nd ed.). MIT Press. Constraint-based structure discovery algorithms (PC/FCI), d-separation, and orientation invariants under causal sufficiency. \\
+      \addlinespace[1.5pt]
+      \textbf{Peters et al. (2017)} & \textit{Elements of Causal Inference: Foundations and Learning Algorithms}. MIT Press. Asymmetric independence criteria, functional causal models, and identifiability conditions. \\
+      \addlinespace[1.5pt]
+      \textbf{Zheng et al. (2018)} & \textit{DAGs with NO TEARS: Continuous Optimization for Structure Learning}. NeurIPS. Reformulated combinatorial DAG search into smooth equality-constrained continuous optimization $h(W)=0$. \\
+      \addlinespace[1.5pt]
+      \textbf{Gretton et al. (2005)} & \textit{Kernel methods for measuring independence with HSIC}. JMLR, 6:2075--2129. Hilbert-Schmidt Independence Criterion for non-parametric statistical dependence testing without discretization. \\
+      \addlinespace[1.5pt]
+      \textbf{Tank et al. (2021)} & \textit{Neural Granger Causality}. IEEE TPAMI, 44(8):4267--4279. Nonlinear autoregressive deep models enforcing structured sparsity for time-series mechanism discovery. \\
+      \bottomrule
+    \end{tabularx}
+  \end{center}
+  \vspace{0.04cm}
+  \card{Causal Grounding Principle}{navy}{
+    \fontsize{5.2pt}{6.4pt}\selectfont Every edge in EVRYN's causal graph is strictly typed (DIRECT, PROMOTES, INHIBITS, CONTROLS) with directional validation against explicit evidence sentences.
+  }
+\end{frame}
+
+% SLIDE 42: Continual Learning & Evaluation Calibration
+\begin{frame}{References: Continual Learning, Information \& Calibration}
+  \vspace{-0.08cm}
+  \textbf{Takeaway}: Theory for temporal knowledge adaptation, non-catastrophic forgetting, and calibrated prediction.
+  \vspace{0.05cm}
+  \begin{center}
+    \fontsize{5.1pt}{6.3pt}\selectfont
+    \begin{tabularx}{\linewidth}{p{2.2cm}>{\raggedright\arraybackslash}X}
+      \toprule
+      \textbf{\color{navy}Citation} & \textbf{\color{navy}Bibliographic Details \& Role in Phase 1 Research} \\
+      \midrule
+      \textbf{Seng et al. (2025)} & \textit{Causality in Flux: Continual Adaptation of Causal Knowledge via Evidence Matching}. ICML (PMLR 235). Architectural foundation for Phase 2: evidence-based continual SCM updates. \\
+      \addlinespace[1.5pt]
+      \textbf{Zenke et al. (2017)} & \textit{Continual Learning Through Synaptic Intelligence}. ICML, pp. 3987--3995. Path-integral surrogate regularizer preventing catastrophic forgetting across evolving biomedical literature. \\
+      \addlinespace[1.5pt]
+      \textbf{Williams \& Beer (2010)} & \textit{Nonnegative Decomposition of Multivariate Information}. arXiv:1004.2515. Partial Information Decomposition (PID) into unique, shared, and synergistic causal interactions. \\
+      \addlinespace[1.5pt]
+      \textbf{Guo et al. (2017)} & \textit{On Calibration of Modern Neural Networks}. ICML, pp. 1321--1330. Post-processing temperature scaling and Expected Calibration Error (ECE) metric for confidence reliability. \\
+      \addlinespace[1.5pt]
+      \textbf{Saklad et al. (2026)} & \textit{Can Large Language Models Infer Causal Relationships from Real-World Text? (ReCITE)}. ACL. Evaluation protocol isolating generative hallucination from verified causal reasoning. \\
+      \bottomrule
+    \end{tabularx}
+  \end{center}
+  \vspace{0.04cm}
+  \card{Continual SCM Trajectory}{teal}{
+    \fontsize{5.2pt}{6.4pt}\selectfont Provides the theoretical foundation for Phase 2: adapting graph topology across a 25-year literature corpus while measuring parameter drift without forgetting.
+  }
+\end{frame}
+
+% SLIDE 43: Benchmark Corpus: 20 PMC Articles
+\begin{frame}{References: 20-Paper Biomedical Benchmark Corpus}
+  \vspace{-0.08cm}
+  \textbf{Takeaway}: Multi-institutional benchmark under Open-Access Creative Commons licenses with zero leakage.
+  \vspace{0.05cm}
+  \begin{center}
+    \fontsize{4.9pt}{6.1pt}\selectfont
+    \begin{tabularx}{\linewidth}{p{2.0cm}p{3.0cm}>{\raggedright\arraybackslash}X}
+      \toprule
+      \textbf{\color{navy}Split (5 Papers Each)} & \textbf{\color{navy}Key Exemplars \& PMC IDs} & \textbf{\color{navy}Biological Mechanisms \& Evaluation Role} \\
+      \midrule
+      \textbf{Development Split} & Perez \& Groisman (PMC1804205), Lim et al. (PMC1874608), PMC1913099, PMC1974823, PMC2266911 & Salmonella acid pH PmrA/PmrB activation; Mlc regulation of SPI-1; rule calibration and cross-sentence trigger optimization. \\
+      \addlinespace[1.5pt]
+      \textbf{Locked Held-Out Test} & Frigui et al. (PMC2242835), PMC2358977, PMC2430206, PMC2565068, PMC2581603 & M. tuberculosis ESAT-6 secretion controlled by PhoP; strict out-of-sample generalizability; zero rule tuning permitted. \\
+      \addlinespace[1.5pt]
+      \textbf{Stress / Adversarial} & PMC2593050, PMC2639726, PMC2651894, PMC2682197, PMC2714965 & Complex multi-parent cascades, ambiguous passive hedges, and nested cross-page coreference chains. \\
+      \addlinespace[1.5pt]
+      \textbf{Blind Generalization} & PMC2774163, PMC2816692, PMC2829055, PMC2858072, PMC2885601 & Diverse microbial regulatory pathways, stress responses, and unobserved multi-author stylistic variations. \\
+      \bottomrule
+    \end{tabularx}
+  \end{center}
+  \vspace{0.04cm}
+  \card{Artifact Availability \& Reproducibility}{navy}{
+    \fontsize{5.2pt}{6.4pt}\selectfont All 20 PMC articles and 16 survey papers are archived with verified PDF magic bytes in \texttt{data/real\_papers/} and exported to the user's \texttt{Downloads/literature review/} directory.
   }
 \end{frame}
 
