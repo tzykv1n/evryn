@@ -478,11 +478,11 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % SLIDE 11: System Overview: End-to-End Pipeline
 \begin{frame}{System Overview: End-to-End Pipeline}
   \textbf{Takeaway}: Six-stage linear processing architecture from unstructured documents to interactive graphs.
-  \vspace{0.15cm}
-  \begin{center}
-    \includegraphics[width=0.98\textwidth]{figures/fig1_system_architecture.pdf}
-  \end{center}
-  \vspace{0.10cm}
+  \vspace{0.08cm}
+  {\centering
+    \includegraphics[width=0.88\textwidth,height=0.46\textheight,keepaspectratio]{figures/fig1_system_architecture.pdf}\par
+  }
+  \vspace{0.08cm}
   \card{Engineering Invariant}{navy}{
     Deterministic syntactic dependency parsing paired with Platt-calibrated verifiers guarantees 100\% reproducible outputs.
   }
@@ -551,13 +551,13 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % SLIDE 14: Architecture: Regularized Extraction Pipeline
 \begin{frame}{Architecture: Regularized Extraction Pipeline}
   \textbf{Takeaway}: Multi-stage syntactic extraction enforces biological invariants and Platt-calibrated scoring.
-  \vspace{0.15cm}
-  \begin{center}
-    \includegraphics[width=0.98\textwidth]{figures/fig2_extraction_workflow.pdf}
-  \end{center}
-  \vspace{0.10cm}
+  \vspace{0.06cm}
+  {\centering
+    \includegraphics[width=0.86\textwidth,height=0.48\textheight,keepaspectratio]{figures/fig2_extraction_workflow.pdf}\par
+  }
+  \vspace{0.06cm}
   \card{Transparent Architecture Reality}{navy}{
-    EVRYN employs regularized syntactic dependency parsing and Platt-calibrated MiniLM verifiers---strictly avoiding black-box LLM hallucinations.
+    EVRYN employs regularized syntactic dependency parsing and Platt-calibrated verifiers---strictly avoiding black-box LLM hallucinations.
   }
 \end{frame}
 
@@ -669,11 +669,11 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % SLIDE 18: Architecture: Provenance and Evidence Grounding
 \begin{frame}{Architecture: Provenance and Evidence Grounding}
   \textbf{Takeaway}: Dual-level evidence coordinates guarantee auditability for clinical and biological discovery.
-  \vspace{0.15cm}
-  \begin{center}
-    \includegraphics[width=0.98\textwidth]{figures/fig3_evidence_direction.pdf}
-  \end{center}
-  \vspace{0.10cm}
+  \vspace{0.06cm}
+  {\centering
+    \includegraphics[width=0.86\textwidth,height=0.48\textheight,keepaspectratio]{figures/fig3_evidence_direction.pdf}\par
+  }
+  \vspace{0.06cm}
   \card{Audit Guarantee}{navy}{
     Every single causal assertion stores sentence ID, section title, page number, and verbatim byte offsets.
   }
@@ -1065,11 +1065,11 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % SLIDE 32: Held-Out Evaluation: Generalization on Unseen Literature
 \begin{frame}{Held-Out Evaluation: Generalization on Unseen Literature}
   \textbf{Takeaway}: Robust transfer to novel bacterial genera without split degradation or tuning leakage.
-  \vspace{0.08cm}
-  \begin{center}
-    \includegraphics[width=0.88\textwidth]{figures/fig6_results_progression.pdf}
-  \end{center}
-  \vspace{0.04cm}
+  \vspace{0.05cm}
+  {\centering
+    \includegraphics[width=0.86\textwidth,height=0.46\textheight,keepaspectratio]{figures/fig6_results_progression.pdf}\par
+  }
+  \vspace{0.06cm}
   \card{Locked Split Discipline}{blue}{
     Locked Test (Direct: 0.5584, Cross: 0.2625) and External V2 (Direct: 0.4808, Cross: 0.3262) evaluated strictly once post-hoc.
   }
@@ -1078,11 +1078,11 @@ presentation_tex = r"""\documentclass[aspectratio=43,10pt]{beamer}
 % SLIDE 33: Diagnostic Error Analysis: Failure Mode Taxonomy
 \begin{frame}{Diagnostic Error Analysis: Failure Mode Taxonomy}
   \textbf{Takeaway}: Exhaustive error census decomposes remaining false negatives into actionable linguistic classes.
-  \vspace{0.08cm}
-  \begin{center}
-    \includegraphics[width=0.88\textwidth]{figures/fig5_error_analysis.pdf}
-  \end{center}
-  \vspace{0.04cm}
+  \vspace{0.05cm}
+  {\centering
+    \includegraphics[width=0.86\textwidth,height=0.46\textheight,keepaspectratio]{figures/fig5_error_analysis.pdf}\par
+  }
+  \vspace{0.06cm}
   \card{Error Audit Insights}{navy}{
     42.8\% of remaining misses are multi-paragraph discourse syntheses requiring multi-hop reasoning; entity abbreviation issues reduced to $<12\%$.
   }
