@@ -435,6 +435,94 @@ class SessionStore:
             cur_rem = conn.execute("SELECT COUNT(*) as cnt FROM sessions").fetchone()["cnt"]
             return {"removed_count": len(to_delete), "remaining_count": cur_rem, "deleted_ids": to_delete}
 
+    def clear_all_sessions(self, backup: bool = True) -> Dict[str, Any]:
+        """
+        Safely clears all application sessions from the authoritative session store.
+        Optionally creates a full recoverable JSON export and SQLite snapshot before deletion.
+        Preserves schema, PRAGMAs, and database integrity.
+        """
+        import shutil
+        now_str = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+        backup_dir = os.path.join(os.path.dirname(os.path.abspath(self.db_path)), "backups")
+        os.makedirs(backup_dir, exist_ok=True)
+
+        backup_json_path = None
+        backup_db_path = None
+
+        with self._get_connection() as conn:
+            cur = conn.execute("SELECT COUNT(*) as cnt FROM sessions")
+            total_sessions = cur.fetchone()["cnt"]
+
+            cur_nodes = conn.execute("SELECT COUNT(*) as cnt FROM nodes").fetchone()["cnt"]
+            cur_rels = conn.execute("SELECT COUNT(*) as cnt FROM relations").fetchone()["cnt"]
+
+        if backup and total_sessions > 0:
+            # 1. Export JSON representation
+            all_sessions_data = []
+            for s_info in self.list_sessions():
+                full_s = self.get_session(s_info["id"])
+                if full_s:
+                    all_sessions_data.append(full_s)
+
+            backup_json_path = os.path.join(backup_dir, f"sessions_backup_{now_str}.json")
+            try:
+                with open(backup_json_path, "w", encoding="utf-8") as f:
+                    json.dump(
+                        {
+                            "backup_timestamp": datetime.utcnow().isoformat(),
+                            "total_sessions": total_sessions,
+                            "total_nodes": cur_nodes,
+                            "total_relations": cur_rels,
+                            "sessions": all_sessions_data,
+                        },
+                        f,
+                        indent=2,
+                    )
+            except Exception:
+                backup_json_path = None
+
+            # 2. File-level database copy
+            if os.path.exists(self.db_path):
+                backup_db_path = os.path.join(backup_dir, f"evryn_sessions_{now_str}.db.bak")
+                try:
+                    shutil.copy2(self.db_path, backup_db_path)
+                except Exception:
+                    backup_db_path = None
+
+        # 3. Perform atomic clear with cascade
+        with self._get_connection() as conn:
+            conn.execute("DELETE FROM sessions")
+            try:
+                conn.execute("DELETE FROM sqlite_sequence WHERE name IN ('sessions', 'session_inputs', 'documents', 'nodes', 'relations', 'evidence')")
+            except Exception:
+                pass
+            conn.commit()
+
+        # Vacuum outside open transaction
+        try:
+            with sqlite3.connect(self.db_path) as raw_conn:
+                raw_conn.execute("VACUUM")
+        except Exception:
+            pass
+
+        with self._get_connection() as conn:
+            remaining = conn.execute("SELECT COUNT(*) as cnt FROM sessions").fetchone()["cnt"]
+            rem_nodes = conn.execute("SELECT COUNT(*) as cnt FROM nodes").fetchone()["cnt"]
+            rem_rels = conn.execute("SELECT COUNT(*) as cnt FROM relations").fetchone()["cnt"]
+
+        return {
+            "cleared": True,
+            "deleted_sessions_count": total_sessions,
+            "deleted_nodes_count": cur_nodes,
+            "deleted_relations_count": cur_rels,
+            "remaining_count": remaining,
+            "remaining_nodes": rem_nodes,
+            "remaining_relations": rem_rels,
+            "backup_json": backup_json_path,
+            "backup_db": backup_db_path,
+            "cleared_at": datetime.utcnow().isoformat(),
+        }
+
     def override_node_category(self, session_id: str, canonical_name: str, new_category: str) -> bool:
         now = datetime.utcnow().isoformat()
         with self._get_connection() as conn:

@@ -41,6 +41,11 @@ TCSTS_REVERSE_PAIRS = {
     ("csrr", "csrs"),
     ("covr", "covs"),
     ("ssrb", "slya"),
+    ("invf", "hila"),
+    ("espa", "phop"),
+    ("esx-1", "phop"),
+    ("esat-6", "phop"),
+    ("esat-6", "espa"),
 }
 
 

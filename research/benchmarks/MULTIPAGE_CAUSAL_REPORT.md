@@ -19,7 +19,7 @@ All baselines and the EVRYN engine were evaluated on identical full-text input d
 | **EVRYN (System C)** | Full Causal Graph + Calibrated Verifier | **0.8000** [0.8000, 0.8000] | **1.0000** [1.0000, 1.0000] | **1.0000** [1.0000, 1.0000] |
 
 **Provenance Completeness:** 100.0% of predicted edges retained verifiable page/section coordinates.
-**Total Benchmark Runtime:** 0.05 seconds.
+**Total Benchmark Runtime:** 0.07 seconds.
 
 ---
 

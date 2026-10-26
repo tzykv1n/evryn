@@ -1,5 +1,6 @@
 import os
 import re
+import time
 import tempfile
 import shutil
 import uuid
@@ -12,6 +13,7 @@ from fastapi.responses import FileResponse, JSONResponse
 
 from evryn.web.db import SessionStore
 from evryn.web.extractor_service import ExtractionService
+from evryn.web.test_examples_service import TestExamplesService
 from evryn.web.schemas import (
     ExtractionRequest,
     ContinuationRequest,
@@ -24,6 +26,7 @@ from evryn.web.schemas import (
     PhysicsUpdateRequest,
     CategoryOverrideRequest,
     BulkDeleteRequest,
+    ClearSessionsRequest,
 )
 from evryn.web.extractor_service import segment_prompt_sentences
 
@@ -166,6 +169,17 @@ def bulk_delete_sessions(req: BulkDeleteRequest):
 @app.post("/api/sessions/deduplicate")
 def deduplicate_sessions():
     result = store.deduplicate_sessions()
+    return result
+
+
+@app.post("/api/sessions/clear")
+def clear_all_sessions(req: ClearSessionsRequest):
+    if not req.confirm:
+        raise HTTPException(
+            status_code=400,
+            detail="Confirmation required. Set 'confirm': true to clear all sessions.",
+        )
+    result = store.clear_all_sessions(backup=req.backup)
     return result
 
 
@@ -332,6 +346,61 @@ def load_example_to_workspace(req: LoadExampleRequest):
     if isinstance(res_data, dict):
         res_data["session_id"] = sess_id
     return res_data
+
+
+@app.get("/api/test-examples")
+def list_test_examples():
+    svc = TestExamplesService.get_instance()
+    return svc.get_catalog()
+
+
+@app.get("/api/test-examples/{example_id}")
+def get_test_example(example_id: str):
+    svc = TestExamplesService.get_instance()
+    ex = svc.get_example(example_id)
+    if not ex:
+        raise HTTPException(status_code=404, detail=f"Test example '{example_id}' not found.")
+    return ex
+
+
+@app.post("/api/test-examples/{example_id}/run")
+def run_test_example(example_id: str):
+    svc = TestExamplesService.get_instance()
+    ex = svc.get_example(example_id)
+    if not ex:
+        raise HTTPException(status_code=404, detail=f"Test example '{example_id}' not found.")
+
+    text = ex["input_text"]
+    if not text.strip():
+        # Example E intentionally tests empty input validation
+        return JSONResponse(
+            status_code=400,
+            content={
+                "status": "validation_error",
+                "example_id": ex["id"],
+                "detail": "Input text cannot be empty.",
+                "passed": True,
+                "diagnostics": {
+                    "example_id": ex["id"],
+                    "title": ex["title"],
+                    "passed": True,
+                    "observations": ["Correctly validated and rejected empty/whitespace input with HTTP 400."],
+                },
+            },
+        )
+
+    t0 = time.time()
+    # Always create a fresh, clean session for test examples
+    res = service.process_text_input(text=text, session_id=None, title_hint=ex["title"])
+    dt_ms = (time.time() - t0) * 1000.0
+
+    audit = svc.audit_execution(example_id=ex["id"], session_data=res, execution_time_ms=dt_ms)
+    return {
+        "status": "success",
+        "example": ex,
+        "session": res,
+        "diagnostics": audit,
+    }
 
 
 @app.post("/api/evaluate")

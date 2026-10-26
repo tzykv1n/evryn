@@ -1,0 +1,466 @@
+{
+  "A0_Phase1_13_Baseline": {
+    "description": "Phase 1.13 baseline configuration (genus protection, initial TCSTS reverse pairs, min_confidence=0.65)",
+    "params": {
+      "enable_extra_reverse": false,
+      "min_confidence": 0.65
+    },
+    "runtime_seconds": 23.92,
+    "benchmark_v2": {
+      "train": {
+        "direct_f1_mean": 0.4958,
+        "direct_f1_ci": [
+          0.3667,
+          0.6625
+        ],
+        "cross_f1_mean": 0.2,
+        "cross_f1_ci": [
+          0.0,
+          0.4
+        ],
+        "structural_match_mean": 0.2537
+      },
+      "dev": {
+        "direct_f1_mean": 0.682,
+        "direct_f1_ci": [
+          0.5805,
+          0.7757
+        ],
+        "cross_f1_mean": 0.4904,
+        "cross_f1_ci": [
+          0.273,
+          0.7049
+        ],
+        "structural_match_mean": 0.4762
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5584,
+        "direct_f1_ci": [
+          0.3542,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2779,
+        "cross_f1_ci": [
+          0.1,
+          0.4308
+        ],
+        "structural_match_mean": 0.3071
+      },
+      "external": {
+        "direct_f1_mean": 0.4808,
+        "direct_f1_ci": [
+          0.3538,
+          0.6077
+        ],
+        "cross_f1_mean": 0.3262,
+        "cross_f1_ci": [
+          0.2857,
+          0.3714
+        ],
+        "structural_match_mean": 0.2696
+      }
+    },
+    "benchmark_v1": {
+      "train": {
+        "direct_f1_mean": 0.4958,
+        "direct_f1_ci": [
+          0.3667,
+          0.6625
+        ],
+        "cross_f1_mean": 0.2,
+        "cross_f1_ci": [
+          0.0,
+          0.4
+        ],
+        "structural_match_mean": 0.2537
+      },
+      "dev": {
+        "direct_f1_mean": 0.682,
+        "direct_f1_ci": [
+          0.5805,
+          0.7757
+        ],
+        "cross_f1_mean": 0.4904,
+        "cross_f1_ci": [
+          0.273,
+          0.7049
+        ],
+        "structural_match_mean": 0.4762
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5584,
+        "direct_f1_ci": [
+          0.3542,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2779,
+        "cross_f1_ci": [
+          0.1,
+          0.4308
+        ],
+        "structural_match_mean": 0.3071
+      },
+      "external": {
+        "direct_f1_mean": 0.3269,
+        "direct_f1_ci": [
+          0.1,
+          0.5269
+        ],
+        "cross_f1_mean": 0.2548,
+        "cross_f1_ci": [
+          0.0833,
+          0.3714
+        ],
+        "structural_match_mean": 0.1863
+      }
+    }
+  },
+  "A1_Master_Regulator_Gating": {
+    "description": "Phase 1.13 + Master regulator and substrate reverse gating (InvF->HilA, EspA/ESX-1->PhoP, ESAT-6->PhoP/EspA)",
+    "params": {
+      "enable_extra_reverse": true,
+      "min_confidence": 0.65
+    },
+    "runtime_seconds": 23.89,
+    "benchmark_v2": {
+      "train": {
+        "direct_f1_mean": 0.4958,
+        "direct_f1_ci": [
+          0.3667,
+          0.6625
+        ],
+        "cross_f1_mean": 0.2,
+        "cross_f1_ci": [
+          0.0,
+          0.4
+        ],
+        "structural_match_mean": 0.2537
+      },
+      "dev": {
+        "direct_f1_mean": 0.682,
+        "direct_f1_ci": [
+          0.5805,
+          0.7757
+        ],
+        "cross_f1_mean": 0.5192,
+        "cross_f1_ci": [
+          0.2938,
+          0.741
+        ],
+        "structural_match_mean": 0.4881
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5584,
+        "direct_f1_ci": [
+          0.3542,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2779,
+        "cross_f1_ci": [
+          0.1,
+          0.4308
+        ],
+        "structural_match_mean": 0.3071
+      },
+      "external": {
+        "direct_f1_mean": 0.4808,
+        "direct_f1_ci": [
+          0.3538,
+          0.6077
+        ],
+        "cross_f1_mean": 0.3262,
+        "cross_f1_ci": [
+          0.2857,
+          0.3714
+        ],
+        "structural_match_mean": 0.2696
+      }
+    },
+    "benchmark_v1": {
+      "train": {
+        "direct_f1_mean": 0.4958,
+        "direct_f1_ci": [
+          0.3667,
+          0.6625
+        ],
+        "cross_f1_mean": 0.2,
+        "cross_f1_ci": [
+          0.0,
+          0.4
+        ],
+        "structural_match_mean": 0.2537
+      },
+      "dev": {
+        "direct_f1_mean": 0.682,
+        "direct_f1_ci": [
+          0.5805,
+          0.7757
+        ],
+        "cross_f1_mean": 0.5192,
+        "cross_f1_ci": [
+          0.2938,
+          0.741
+        ],
+        "structural_match_mean": 0.4881
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5584,
+        "direct_f1_ci": [
+          0.3542,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2779,
+        "cross_f1_ci": [
+          0.1,
+          0.4308
+        ],
+        "structural_match_mean": 0.3071
+      },
+      "external": {
+        "direct_f1_mean": 0.3269,
+        "direct_f1_ci": [
+          0.1,
+          0.5269
+        ],
+        "cross_f1_mean": 0.2548,
+        "cross_f1_ci": [
+          0.0833,
+          0.3714
+        ],
+        "structural_match_mean": 0.1863
+      }
+    }
+  },
+  "A2_Calibrated_Confidence": {
+    "description": "Phase 1.13 + Linker confidence calibration (min_confidence=0.60 without master regulator gating)",
+    "params": {
+      "enable_extra_reverse": false,
+      "min_confidence": 0.6
+    },
+    "runtime_seconds": 23.95,
+    "benchmark_v2": {
+      "train": {
+        "direct_f1_mean": 0.4958,
+        "direct_f1_ci": [
+          0.3667,
+          0.6625
+        ],
+        "cross_f1_mean": 0.2,
+        "cross_f1_ci": [
+          0.0,
+          0.4
+        ],
+        "structural_match_mean": 0.251
+      },
+      "dev": {
+        "direct_f1_mean": 0.682,
+        "direct_f1_ci": [
+          0.5805,
+          0.7757
+        ],
+        "cross_f1_mean": 0.5064,
+        "cross_f1_ci": [
+          0.2786,
+          0.7298
+        ],
+        "structural_match_mean": 0.486
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5584,
+        "direct_f1_ci": [
+          0.3542,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2625,
+        "cross_f1_ci": [
+          0.1,
+          0.4
+        ],
+        "structural_match_mean": 0.2978
+      },
+      "external": {
+        "direct_f1_mean": 0.4808,
+        "direct_f1_ci": [
+          0.3538,
+          0.6077
+        ],
+        "cross_f1_mean": 0.3262,
+        "cross_f1_ci": [
+          0.2857,
+          0.3714
+        ],
+        "structural_match_mean": 0.2696
+      }
+    },
+    "benchmark_v1": {
+      "train": {
+        "direct_f1_mean": 0.4958,
+        "direct_f1_ci": [
+          0.3667,
+          0.6625
+        ],
+        "cross_f1_mean": 0.2,
+        "cross_f1_ci": [
+          0.0,
+          0.4
+        ],
+        "structural_match_mean": 0.251
+      },
+      "dev": {
+        "direct_f1_mean": 0.682,
+        "direct_f1_ci": [
+          0.5805,
+          0.7757
+        ],
+        "cross_f1_mean": 0.5064,
+        "cross_f1_ci": [
+          0.2786,
+          0.7298
+        ],
+        "structural_match_mean": 0.486
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5584,
+        "direct_f1_ci": [
+          0.3542,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2625,
+        "cross_f1_ci": [
+          0.1,
+          0.4
+        ],
+        "structural_match_mean": 0.2978
+      },
+      "external": {
+        "direct_f1_mean": 0.3269,
+        "direct_f1_ci": [
+          0.1,
+          0.5269
+        ],
+        "cross_f1_mean": 0.2548,
+        "cross_f1_ci": [
+          0.0833,
+          0.3714
+        ],
+        "structural_match_mean": 0.1863
+      }
+    }
+  },
+  "A3_Phase1_14_Production": {
+    "description": "Phase 1.14 Production configuration (Master regulator directional gating + calibrated min_confidence=0.60)",
+    "params": {
+      "enable_extra_reverse": true,
+      "min_confidence": 0.6
+    },
+    "runtime_seconds": 23.79,
+    "benchmark_v2": {
+      "train": {
+        "direct_f1_mean": 0.4958,
+        "direct_f1_ci": [
+          0.3667,
+          0.6625
+        ],
+        "cross_f1_mean": 0.2,
+        "cross_f1_ci": [
+          0.0,
+          0.4
+        ],
+        "structural_match_mean": 0.251
+      },
+      "dev": {
+        "direct_f1_mean": 0.682,
+        "direct_f1_ci": [
+          0.5805,
+          0.7757
+        ],
+        "cross_f1_mean": 0.535,
+        "cross_f1_ci": [
+          0.3037,
+          0.764
+        ],
+        "structural_match_mean": 0.4979
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5584,
+        "direct_f1_ci": [
+          0.3542,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2625,
+        "cross_f1_ci": [
+          0.1,
+          0.4
+        ],
+        "structural_match_mean": 0.2978
+      },
+      "external": {
+        "direct_f1_mean": 0.4808,
+        "direct_f1_ci": [
+          0.3538,
+          0.6077
+        ],
+        "cross_f1_mean": 0.3262,
+        "cross_f1_ci": [
+          0.2857,
+          0.3714
+        ],
+        "structural_match_mean": 0.2696
+      }
+    },
+    "benchmark_v1": {
+      "train": {
+        "direct_f1_mean": 0.4958,
+        "direct_f1_ci": [
+          0.3667,
+          0.6625
+        ],
+        "cross_f1_mean": 0.2,
+        "cross_f1_ci": [
+          0.0,
+          0.4
+        ],
+        "structural_match_mean": 0.251
+      },
+      "dev": {
+        "direct_f1_mean": 0.682,
+        "direct_f1_ci": [
+          0.5805,
+          0.7757
+        ],
+        "cross_f1_mean": 0.535,
+        "cross_f1_ci": [
+          0.3037,
+          0.764
+        ],
+        "structural_match_mean": 0.4979
+      },
+      "locked_test": {
+        "direct_f1_mean": 0.5584,
+        "direct_f1_ci": [
+          0.3542,
+          0.7279
+        ],
+        "cross_f1_mean": 0.2625,
+        "cross_f1_ci": [
+          0.1,
+          0.4
+        ],
+        "structural_match_mean": 0.2978
+      },
+      "external": {
+        "direct_f1_mean": 0.3269,
+        "direct_f1_ci": [
+          0.1,
+          0.5269
+        ],
+        "cross_f1_mean": 0.2548,
+        "cross_f1_ci": [
+          0.0833,
+          0.3714
+        ],
+        "structural_match_mean": 0.1863
+      }
+    }
+  }
+}

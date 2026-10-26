@@ -53,7 +53,17 @@ async function verify() {
   const hasToolbar = await page.$eval("#sidebar-session-actions", el => el !== null);
   console.log("   Sidebar session actions toolbar present:", hasToolbar);
 
-  const sessionItemsCount = await page.$$eval(".session-item", els => els.length);
+  let sessionItemsCount = await page.$$eval(".session-item", els => els.length);
+  if (sessionItemsCount === 0) {
+    console.log("   No sessions exist yet; creating a session for verification...");
+    await page.click("#toggle-sidebar-btn");
+    await page.waitForTimeout(200);
+    await page.click('.test-example-chip[data-example="example_a"]');
+    await page.waitForSelector(".graph-node", { timeout: 10000 });
+    await page.click("#open-sidebar-btn");
+    await page.waitForTimeout(400);
+    sessionItemsCount = await page.$$eval(".session-item", els => els.length);
+  }
   console.log(`   Session items rendered: ${sessionItemsCount}`);
   if (sessionItemsCount === 0) throw new Error("No session items rendered");
 

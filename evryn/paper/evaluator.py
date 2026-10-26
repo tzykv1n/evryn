@@ -60,7 +60,7 @@ class PaperBenchmarkEvaluator:
         os.makedirs(output_dir, exist_ok=True)
         self.normalizer = PaperEntityNormalizer()
         self.extractor = PaperCausalExtractor(self.normalizer)
-        self.linker = CrossPageLinker(min_page_distance=1, max_transitive_hops=2, min_confidence=0.65)
+        self.linker = CrossPageLinker(min_page_distance=1, max_transitive_hops=2, min_confidence=0.60)
         self.builder = PaperGraphBuilder(include_inferred_cross_page_edges=True)
         self.registry = get_model_registry()
         self.verifier = self.registry.get("calibrated-verifier")

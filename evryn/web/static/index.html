@@ -24,6 +24,7 @@
       <div class="session-action-buttons">
         <button id="session-dedup-btn" class="sidebar-action-btn" title="Deduplicate sessions">Dedup</button>
         <button id="session-bulk-delete-btn" class="sidebar-action-btn btn-danger" disabled title="Delete selected sessions">Delete (0)</button>
+        <button id="session-clear-all-btn" class="sidebar-action-btn btn-danger-outline" title="Clear all application sessions (with backup)">Clear All</button>
       </div>
     </div>
     <div class="sidebar-content">
@@ -46,6 +47,9 @@
   <!-- Main Workspace -->
   <main id="workspace" class="workspace">
     
+    <!-- Notification Toast / Validation Banner -->
+    <div id="app-notification" class="app-notification hidden" role="alert"></div>
+
     <!-- Central / Docked Input Shell (Primary Authoritative Specification) -->
     <section id="input-container" class="input-container centered">
       <div id="sentence-highlighter-bar" class="sentence-highlighter-bar hidden"></div>
@@ -59,13 +63,25 @@
           autofocus
         ></textarea>
         <button id="regenerate-btn" class="action-btn-primary hidden" title="Regenerate graph from specification (Ctrl+Enter)">REGENERATE</button>
+        <button id="reset-workspace-btn" class="action-btn-secondary hidden" title="Reset workspace and start new query">RESET</button>
         <button id="plus-btn" class="plus-btn" aria-label="Add documents or examples" title="Upload documents or load examples" aria-haspopup="menu" aria-expanded="false">+</button>
+      </div>
+
+      <!-- Quick Test Examples Selector Bar -->
+      <div id="test-examples-bar" class="test-examples-bar">
+        <span class="test-examples-label">TEST SUITE:</span>
+        <button class="test-example-chip" data-example="example_a" title="Example A: Direct causal relation (gene A -> protein B)">Direct (A)</button>
+        <button class="test-example-chip" data-example="example_b" title="Example B: Multi-hop causal chain (A -> B -> C)">Chain (B)</button>
+        <button class="test-example-chip" data-example="example_c" title="Example C: Negation assertion (did not reduce virulence)">Negation (C)</button>
+        <button class="test-example-chip" data-example="example_d" title="Example D: Context mismatch (organism X vs Y)">Invalid Path (D)</button>
+        <button class="test-example-chip" data-example="example_e" title="Example E: Malformed or empty input validation">Empty (E)</button>
       </div>
 
       <!-- Plus Popover Menu -->
       <div id="plus-menu" class="plus-menu hidden" role="menu">
         <button id="menu-upload-btn" class="menu-item" role="menuitem">Upload Documents (PDF, TXT, DOCX)</button>
         <button id="menu-continual-btn" class="menu-item" role="menuitem">Append Continual Knowledge (+)</button>
+        <button id="menu-test-cases-btn" class="menu-item" role="menuitem">🧪 Diagnostic Test Suite (Cases A–E)</button>
         <button id="menu-examples-btn" class="menu-item" role="menuitem">Browse Real-Paper Examples (Phase 2)</button>
         <button id="menu-eval-btn" class="menu-item" role="menuitem">Run Benchmark Verification</button>
       </div>
@@ -214,6 +230,20 @@
             </g>
           </svg>
 
+          <!-- Empty Extraction Diagnostic State -->
+          <div id="graph-empty-state" class="graph-empty-state hidden">
+            <div class="empty-state-card">
+              <div class="empty-state-badge">EXTRACTION DIAGNOSTIC</div>
+              <div class="empty-state-heading">No Causal Relations Extracted</div>
+              <div class="empty-state-text">
+                The input text did not yield causal assertions under current confidence and directional constraints.
+              </div>
+              <div class="empty-state-hint">
+                Try selecting a verified diagnostic test case from the toolbar above.
+              </div>
+            </div>
+          </div>
+
           <!-- Expandable / Collapsible Bottom-Right Graph Legend -->
           <div id="graph-legend" class="graph-legend expanded" aria-label="Graph legend">
             <div id="legend-header" class="legend-header">
@@ -310,6 +340,9 @@
         <div id="examples-view" class="examples-view hidden">
           <div class="examples-toolbar">
             <div class="examples-subnav" role="tablist">
+              <button id="subnav-testcases" class="subnav-tab" role="tab" aria-selected="false">
+                <span class="subnav-icon">🧪</span> TEST CASES (A–E) (<span id="testcases-count-badge">5</span>)
+              </button>
               <button id="subnav-pdf" class="subnav-tab active" role="tab" aria-selected="true">
                 <span class="subnav-icon">📄</span> PDF EXAMPLES (<span id="pdf-count-badge">20</span>)
               </button>
@@ -377,6 +410,16 @@
             </div>
             <div id="multipage-cards-list" class="multipage-cards-list">
               <!-- Dynamically populated from /api/examples/multipage -->
+            </div>
+          </div>
+
+          <!-- Sub-View 4: Test Cases Container (A-E) -->
+          <div id="subview-testcases-container" class="subview-container hidden">
+            <div class="testcases-intro-bar">
+              <span>Standardized system verification suite testing direct relations, multi-hop chains, negation assertions, context mismatch path validation, and input resilience.</span>
+            </div>
+            <div id="testcases-cards-list" class="testcases-cards-list">
+              <!-- Dynamically populated from /api/test-examples -->
             </div>
           </div>
         </div>

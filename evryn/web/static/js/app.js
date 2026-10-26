@@ -10,6 +10,9 @@
   // DOM Elements
   const queryInput = document.getElementById("query-input");
   const regenerateBtn = document.getElementById("regenerate-btn");
+  const resetWorkspaceBtn = document.getElementById("reset-workspace-btn");
+  const testExamplesBar = document.getElementById("test-examples-bar");
+  const appNotification = document.getElementById("app-notification");
   const sentenceHighlighterBar = document.getElementById("sentence-highlighter-bar");
   const plusBtn = document.getElementById("plus-btn");
   const plusMenu = document.getElementById("plus-menu");
@@ -29,6 +32,7 @@
   const viewTabTable = document.getElementById("view-tab-table");
   const viewTabExamples = document.getElementById("view-tab-examples");
   const graphViewport = document.getElementById("graph-viewport");
+  const graphEmptyState = document.getElementById("graph-empty-state");
   const copyableView = document.getElementById("copyable-view");
   const copyableText = document.getElementById("copyable-text");
   const copyGraphBtn = document.getElementById("copy-graph-btn");
@@ -37,14 +41,17 @@
   const examplesView = document.getElementById("examples-view");
 
   // Examples Tab Subviews & Controls
+  const subnavTestcases = document.getElementById("subnav-testcases");
   const subnavPdf = document.getElementById("subnav-pdf");
   const subnavText = document.getElementById("subnav-text");
   const subnavMultipage = document.getElementById("subnav-multipage");
+  const subviewTestcases = document.getElementById("subview-testcases-container");
   const subviewPdf = document.getElementById("subview-pdf-container");
   const subviewText = document.getElementById("subview-text-container");
   const subviewMultipage = document.getElementById("subview-multipage-container");
   const splitFilterSelect = document.getElementById("split-filter-select");
   const examplesSearchInput = document.getElementById("examples-search-input");
+  const testcasesCardsList = document.getElementById("testcases-cards-list");
   const pdfCardsGrid = document.getElementById("pdf-cards-grid");
   const textCardsList = document.getElementById("text-cards-list");
   const multipageCardsList = document.getElementById("multipage-cards-list");
@@ -100,8 +107,10 @@
   const sessionSelectAllCb = document.getElementById("session-select-all-cb");
   const sessionDedupBtn = document.getElementById("session-dedup-btn");
   const sessionBulkDeleteBtn = document.getElementById("session-bulk-delete-btn");
+  const sessionClearAllBtn = document.getElementById("session-clear-all-btn");
   const selectedSessionIds = new Set();
 
+  const menuTestCasesBtn = document.getElementById("menu-test-cases-btn");
   const menuExamplesBtn = document.getElementById("menu-examples-btn");
   const menuUploadBtn = document.getElementById("menu-upload-btn");
   const menuEvalBtn = document.getElementById("menu-eval-btn");
@@ -572,6 +581,15 @@
     });
   }
 
+  if (menuTestCasesBtn) {
+    menuTestCasesBtn.addEventListener("click", () => {
+      plusMenu.classList.add("hidden");
+      plusBtn.setAttribute("aria-expanded", "false");
+      switchView("examples");
+      switchExamplesSubnav("testcases");
+    });
+  }
+
   if (menuExamplesBtn) {
     menuExamplesBtn.addEventListener("click", () => {
       plusMenu.classList.add("hidden");
@@ -579,6 +597,18 @@
       switchView("examples");
     });
   }
+
+  if (resetWorkspaceBtn) {
+    resetWorkspaceBtn.addEventListener("click", () => resetWorkspace());
+  }
+
+  // Quick test example chips
+  document.querySelectorAll(".test-example-chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const exId = chip.dataset.example;
+      if (exId) loadAndRunTestCase(exId);
+    });
+  });
 
   menuEvalBtn.addEventListener("click", () => {
     plusMenu.classList.add("hidden");
@@ -633,7 +663,8 @@
 
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.detail || "Extraction failed");
+        showNotification(err.detail || "Extraction failed", "error", 5000);
+        return;
       }
 
       const data = await res.json();
@@ -641,7 +672,7 @@
       renderSession(data);
       refreshSessionList();
     } catch (err) {
-      alert("Error: " + err.message);
+      showNotification("Error: " + err.message, "error", 5000);
     } finally {
       hideProcessing();
     }
@@ -722,6 +753,7 @@
     inputContainer.classList.remove("centered");
     inputContainer.classList.add("docked");
     regenerateBtn.classList.remove("hidden");
+    if (resetWorkspaceBtn) resetWorkspaceBtn.classList.remove("hidden");
   }
 
   function undockInput() {
@@ -734,10 +766,126 @@
     sentenceHighlighterBar.innerHTML = "";
     sentenceHighlighterBar.classList.add("hidden");
     regenerateBtn.classList.add("hidden");
+    if (resetWorkspaceBtn) resetWorkspaceBtn.classList.add("hidden");
+    if (graphEmptyState) graphEmptyState.classList.add("hidden");
     window.EVRYN_BG.setDimmed(false);
     queryInput.value = "";
     autoResize(queryInput);
     queryInput.focus();
+  }
+
+  let notificationTimeout = null;
+  function showNotification(msg, type = "info", duration = 4000) {
+    if (!appNotification) return;
+    if (notificationTimeout) clearTimeout(notificationTimeout);
+    appNotification.textContent = msg;
+    appNotification.className = `app-notification ${type}`;
+    appNotification.classList.remove("hidden");
+    if (duration > 0) {
+      notificationTimeout = setTimeout(() => {
+        appNotification.classList.add("hidden");
+      }, duration);
+    }
+  }
+
+  function resetWorkspace() {
+    activeSessionId = null;
+    activeSessionData = null;
+    undockInput();
+    if (graphRenderer) graphRenderer.setData([], []);
+    if (graphEmptyState) graphEmptyState.classList.add("hidden");
+    if (tableBody) tableBody.innerHTML = "";
+    if (copyableText) copyableText.textContent = "";
+    if (graphStats) graphStats.textContent = "0 NODES | 0 CAUSAL RELATIONS";
+    document.querySelectorAll(".test-example-chip").forEach(c => c.classList.remove("active"));
+    showNotification("Workspace reset. Ready for new exploration.", "info", 2500);
+  }
+
+  async function clearAllSessionsPrompt() {
+    const ok = confirm("Are you sure you want to clear ALL application sessions?\n\nA recoverable JSON and SQLite snapshot will be automatically saved to ~/.evryn/backups/.");
+    if (!ok) return;
+
+    showProcessing("CLEARING ALL APPLICATION SESSIONS...");
+    try {
+      const res = await fetch("/api/sessions/clear", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ confirm: true, backup: true })
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.detail || "Failed to clear sessions");
+      }
+      const data = await res.json();
+      resetWorkspace();
+      await refreshSessionList();
+      showNotification(`Cleared ${data.deleted_sessions_count} sessions. Backup saved.`, "success", 4000);
+    } catch (err) {
+      showNotification("Error clearing sessions: " + err.message, "error", 4000);
+    } finally {
+      hideProcessing();
+    }
+  }
+
+  async function loadAndRunTestCase(exampleId) {
+    document.querySelectorAll(".test-example-chip").forEach(c => {
+      c.classList.toggle("active", c.dataset.example === exampleId);
+    });
+
+    activeSessionId = null;
+    activeSessionData = null;
+    closeInspector();
+
+    dockInput();
+    showProcessing(`RUNNING TEST CASE [${exampleId.toUpperCase()}] THROUGH CAUSAL PIPELINE...`);
+
+    try {
+      const res = await fetch(`/api/test-examples/${exampleId}/run`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        // E.g. Example E empty input validation
+        queryInput.value = data.example ? data.example.input_text : "   ";
+        autoResize(queryInput);
+        if (graphRenderer) graphRenderer.setData([], []);
+        if (graphStats) graphStats.textContent = "0 NODES | 0 CAUSAL RELATIONS";
+        if (graphEmptyState) {
+          graphEmptyState.classList.remove("hidden");
+          const heading = graphEmptyState.querySelector(".empty-state-heading");
+          const text = graphEmptyState.querySelector(".empty-state-text");
+          if (heading) heading.textContent = "Validation Succeeded: Rejected Malformed Input";
+          if (text) text.textContent = `Server correctly returned HTTP 400: "${data.detail || "Input text cannot be empty."}". UI remains responsive and free of stale state.`;
+        }
+        showNotification(`[TEST PASS] Rejected empty input: ${data.detail || "Validation Error"}`, "warning", 5000);
+        return;
+      }
+
+      if (data.example && data.example.input_text) {
+        queryInput.value = data.example.input_text;
+        autoResize(queryInput);
+      }
+
+      if (data.session) {
+        activeSessionId = data.session.id;
+        renderSession(data.session);
+        refreshSessionList();
+        switchView("graph");
+      }
+
+      if (data.diagnostics && data.diagnostics.observations) {
+        const obs = data.diagnostics.observations.join(" ");
+        const isPassed = data.diagnostics.passed;
+        showNotification(`[${data.example.title}] ${obs}`, isPassed ? "success" : "warning", 6000);
+      }
+    } catch (err) {
+      showNotification(`Test execution failed: ${err.message}`, "error", 5000);
+    } finally {
+      hideProcessing();
+    }
   }
 
   function showProcessing(msg) {
@@ -958,6 +1106,20 @@
 
     const nodes = data.nodes || [];
     const relations = data.relations || [];
+
+    if (nodes.length === 0) {
+      if (graphEmptyState) {
+        graphEmptyState.classList.remove("hidden");
+        const heading = graphEmptyState.querySelector(".empty-state-heading");
+        const text = graphEmptyState.querySelector(".empty-state-text");
+        if (heading) heading.textContent = "No Causal Relations Extracted";
+        if (text) text.textContent = "The provided specification yielded 0 extracted relations. Try testing an interactive case (Cases A–E) or expanding the text.";
+      }
+    } else {
+      if (graphEmptyState) {
+        graphEmptyState.classList.add("hidden");
+      }
+    }
 
     graphStats.textContent = `${nodes.length} NODES  |  ${relations.length} CAUSAL RELATIONS`;
 
@@ -1296,6 +1458,10 @@
     });
   }
 
+  if (sessionClearAllBtn) {
+    sessionClearAllBtn.addEventListener("click", clearAllSessionsPrompt);
+  }
+
   async function refreshSessionList() {
     try {
       const res = await fetch("/api/sessions");
@@ -1393,10 +1559,12 @@
 
   function switchExamplesSubnav(subnav) {
     activeExamplesSubnav = subnav;
+    if (subnavTestcases) subnavTestcases.classList.toggle("active", subnav === "testcases");
     if (subnavPdf) subnavPdf.classList.toggle("active", subnav === "pdf");
     if (subnavText) subnavText.classList.toggle("active", subnav === "text");
     if (subnavMultipage) subnavMultipage.classList.toggle("active", subnav === "multipage");
 
+    if (subviewTestcases) subviewTestcases.classList.toggle("hidden", subnav !== "testcases");
     if (subviewPdf) subviewPdf.classList.toggle("hidden", subnav !== "pdf");
     if (subviewText) subviewText.classList.toggle("hidden", subnav !== "text");
     if (subviewMultipage) subviewMultipage.classList.toggle("hidden", subnav !== "multipage");
@@ -1404,6 +1572,7 @@
     loadExamplesSection(subnav);
   }
 
+  if (subnavTestcases) subnavTestcases.addEventListener("click", () => switchExamplesSubnav("testcases"));
   if (subnavPdf) subnavPdf.addEventListener("click", () => switchExamplesSubnav("pdf"));
   if (subnavText) subnavText.addEventListener("click", () => switchExamplesSubnav("text"));
   if (subnavMultipage) subnavMultipage.addEventListener("click", () => switchExamplesSubnav("multipage"));
@@ -1414,6 +1583,34 @@
 
   if (examplesSearchInput) {
     examplesSearchInput.addEventListener("input", () => filterCurrentExamples());
+  }
+
+  function renderTestcasesCards(examples) {
+    if (!testcasesCardsList) return;
+    testcasesCardsList.innerHTML = "";
+    examples.forEach((ex) => {
+      const card = document.createElement("div");
+      card.className = "testcase-card";
+      card.innerHTML = `
+        <div class="testcase-card-header">
+          <span class="testcase-card-title">${escapeHtml(ex.title)}</span>
+          <span class="testcase-card-cat">${escapeHtml(ex.category)}</span>
+        </div>
+        <div class="testcase-passage">${escapeHtml(ex.input_text.trim() || "[EMPTY STRING / MALFORMED INPUT]")}</div>
+        <div class="testcase-meta-row">
+          <div><strong>TEST PURPOSE:</strong> ${escapeHtml(ex.description)}</div>
+          <div><strong>EXPECTED BEHAVIOR:</strong> ${escapeHtml(ex.expected_behavior)}</div>
+          <div><strong>SCIENTIFIC CONTEXT:</strong> ${escapeHtml(ex.scientific_context)}</div>
+        </div>
+        <div class="pdf-card-actions">
+          <button class="btn-card-action btn-card-primary" data-action="run-testcase">⚡ Run Test Case in Workspace</button>
+        </div>
+      `;
+      card.querySelector('[data-action="run-testcase"]').addEventListener("click", () => {
+        loadAndRunTestCase(ex.id);
+      });
+      testcasesCardsList.appendChild(card);
+    });
   }
 
   function safeExtractList(data, key) {
@@ -1446,7 +1643,13 @@
     const splitQuery = split !== "all" ? `?split=${split}` : "";
 
     try {
-      if (subnav === "pdf") {
+      if (subnav === "testcases") {
+        if (testcasesCardsList) testcasesCardsList.innerHTML = `<div class="loading-state">Loading diagnostic test suite...</div>`;
+        const res = await fetch("/api/test-examples");
+        if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+        const data = await res.json();
+        renderTestcasesCards(data.examples || []);
+      } else if (subnav === "pdf") {
         if (pdfCardsGrid) pdfCardsGrid.innerHTML = `<div class="loading-state">Loading authentic real-paper benchmarks...</div>`;
         const res = await fetch(`/api/examples/pdf${splitQuery}`);
         if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
@@ -1470,7 +1673,7 @@
       }
     } catch (err) {
       console.error("Failed to load examples section:", err);
-      const targetContainer = subnav === "pdf" ? pdfCardsGrid : (subnav === "text" ? textCardsList : multipageCardsList);
+      const targetContainer = subnav === "testcases" ? testcasesCardsList : (subnav === "pdf" ? pdfCardsGrid : (subnav === "text" ? textCardsList : multipageCardsList));
       renderLoadError(targetContainer, err.message, () => loadExamplesSection(subnav));
     }
   }
@@ -1623,6 +1826,7 @@
       `;
 
       card.querySelector('[data-action="load-text"]').addEventListener("click", () => {
+        activeSessionId = null;
         queryInput.value = t.passage_text;
         autoResize(queryInput);
         switchView("graph");
@@ -1819,7 +2023,7 @@
       refreshSessionList();
       switchView("graph");
     } catch (err) {
-      alert("Failed to load paper to workspace: " + err.message);
+      showNotification("Failed to load paper to workspace: " + err.message, "error", 5000);
     } finally {
       hideProcessing();
     }

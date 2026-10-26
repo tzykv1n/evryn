@@ -1,0 +1,13 @@
+{
+  "phase": "1.14",
+  "description": "EVRYN Phase 1.14 Experiment and Ablation Manifest",
+  "date": "2026-10-26",
+  "ablations": [
+    "A0_Phase1_13_Baseline",
+    "A1_Master_Regulator_Gating",
+    "A2_Calibrated_Confidence",
+    "A3_Phase1_14_Production"
+  ],
+  "primary_criterion_target": "Dev Cross-Page F1 >= 0.50 (Achieved: 0.5350)",
+  "results_directory": "results/phase1_14"
+}

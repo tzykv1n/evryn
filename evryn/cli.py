@@ -419,6 +419,41 @@ def cmd_app(args):
     uvicorn.run("evryn.web.server:app", host=host, port=port, log_level="info")
 
 
+def cmd_sessions(args):
+    import json
+    from evryn.web.db import SessionStore
+    store = SessionStore()
+
+    if getattr(args, "clear", False):
+        if not getattr(args, "confirm_clear_all_sessions", False):
+            console.print("[bold red]Error: Destructive action aborted.[/bold red]")
+            console.print("To clear all sessions, you MUST explicitly provide the flag: [bold white]--confirm-clear-all-sessions[/bold white]\n")
+            sys.exit(1)
+        backup = not getattr(args, "no_backup", False)
+        res = store.clear_all_sessions(backup=backup)
+        console.print(f"[bold green][✓] Cleared all EVRYN sessions ({res['deleted_sessions_count']} sessions removed).[/bold green]")
+        if res.get("backup_json"):
+            console.print(f"    Recoverable JSON backup saved to: [cyan]{res['backup_json']}[/cyan]")
+        if res.get("backup_db"):
+            console.print(f"    SQLite snapshot saved to: [cyan]{res['backup_db']}[/cyan]")
+        console.print(f"    Remaining sessions in store: [bold]{res['remaining_count']}[/bold]\n")
+        return
+
+    # Default: list sessions
+    sessions = store.list_sessions()
+    if getattr(args, "json", False):
+        print(json.dumps(sessions, indent=2))
+        return
+    headers = ["ID", "Title", "Created At", "Updated At", "Status"]
+    rows = [
+        [s["id"], s["title"][:45], s.get("created_at", "")[:19], s.get("updated_at", "")[:19], s.get("status", "active")]
+        for s in sessions
+    ]
+    print_table(headers, rows, title=f"Authoritative EVRYN Session Store ({len(sessions)} active sessions)")
+    console.print(f"Database location: [cyan]{store.db_path}[/cyan]\n")
+
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="evryn",
@@ -553,6 +588,14 @@ def build_parser() -> argparse.ArgumentParser:
     p_app.add_argument("--host", type=str, default="127.0.0.1", help="Host interface to bind")
     p_app.add_argument("--port", type=int, default=8000, help="Port to serve web application")
     p_app.set_defaults(func=cmd_app)
+
+    p_sess = subparsers.add_parser("sessions", help="Manage EVRYN persisted application sessions")
+    p_sess.add_argument("--list", action="store_true", help="List active application sessions (default)")
+    p_sess.add_argument("--clear", action="store_true", help="Clear all application sessions (requires --confirm-clear-all-sessions)")
+    p_sess.add_argument("--confirm-clear-all-sessions", action="store_true", help="Explicit confirmation flag for session clearing")
+    p_sess.add_argument("--no-backup", action="store_true", help="Skip pre-deletion JSON/SQLite backup")
+    p_sess.add_argument("--json", action="store_true", help="Output session list as JSON")
+    p_sess.set_defaults(func=cmd_sessions)
 
     return parser
 

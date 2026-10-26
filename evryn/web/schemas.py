@@ -177,3 +177,9 @@ class BatchUploadResponse(BaseModel):
     documents: List[DocumentCardResult] = []
     combined_graph: SessionResponse
     warnings: List[str] = []
+
+
+class ClearSessionsRequest(BaseModel):
+    confirm: bool = Field(False, description="Must be true to confirm clearing all sessions")
+    backup: bool = Field(True, description="Whether to create a full backup before clearing")
+

@@ -1,7 +1,7 @@
 {
   "phase": "EVRYN Phase 2 Real-Paper Causal Benchmark & Generalization Evaluation (V1)",
   "benchmark_version": "v1",
-  "timestamp": "2026-10-25T19:32:33Z",
+  "timestamp": "2026-10-25T20:38:29Z",
   "total_papers": 20,
   "split_counts": {
     "train": 4,
@@ -24,9 +24,9 @@
           0.0,
           0.4
         ],
-        "structural_match_mean": 0.2537,
+        "structural_match_mean": 0.251,
         "structural_match_ci": [
-          0.1325,
+          0.1269,
           0.4135
         ]
       },
@@ -41,11 +41,11 @@
         },
         "cross_page": {
           "tp": 4,
-          "fp": 17,
+          "fp": 19,
           "fn": 12,
-          "precision": 0.1905,
+          "precision": 0.1739,
           "recall": 0.25,
-          "f1": 0.2162
+          "f1": 0.2051
         }
       },
       "per_paper": [
@@ -78,7 +78,7 @@
           "gold_direct": 5,
           "gold_cross": 5,
           "pred_direct": 7,
-          "pred_cross": 3,
+          "pred_cross": 5,
           "tp_direct": 2,
           "fp_direct": 5,
           "fn_direct": 3,
@@ -86,12 +86,12 @@
           "direct_recall": 0.4,
           "direct_f1": 0.3333,
           "tp_cross": 0,
-          "fp_cross": 3,
+          "fp_cross": 5,
           "fn_cross": 5,
           "cross_precision": 0.0,
           "cross_recall": 0.0,
           "cross_f1": 0.0,
-          "structural_match": 0.1111
+          "structural_match": 0.1
         },
         {
           "pmcid": "PMC2714965",
@@ -148,15 +148,15 @@
           0.5805,
           0.7757
         ],
-        "cross_f1_mean": 0.4904,
+        "cross_f1_mean": 0.535,
         "cross_f1_ci": [
-          0.273,
-          0.7049
+          0.3037,
+          0.764
         ],
-        "structural_match_mean": 0.4762,
+        "structural_match_mean": 0.4979,
         "structural_match_ci": [
-          0.36,
-          0.5859
+          0.3781,
+          0.6163
         ]
       },
       "micro_metrics": {
@@ -169,12 +169,12 @@
           "f1": 0.6739
         },
         "cross_page": {
-          "tp": 20,
-          "fp": 12,
-          "fn": 15,
-          "precision": 0.625,
-          "recall": 0.5714,
-          "f1": 0.597
+          "tp": 22,
+          "fp": 10,
+          "fn": 13,
+          "precision": 0.6875,
+          "recall": 0.6286,
+          "f1": 0.6567
         }
       },
       "per_paper": [
@@ -185,7 +185,7 @@
           "gold_direct": 5,
           "gold_cross": 5,
           "pred_direct": 9,
-          "pred_cross": 8,
+          "pred_cross": 9,
           "tp_direct": 5,
           "fp_direct": 4,
           "fn_direct": 0,
@@ -193,12 +193,12 @@
           "direct_recall": 1.0,
           "direct_f1": 0.7143,
           "tp_cross": 5,
-          "fp_cross": 3,
+          "fp_cross": 4,
           "fn_cross": 0,
-          "cross_precision": 0.625,
+          "cross_precision": 0.5556,
           "cross_recall": 1.0,
-          "cross_f1": 0.7692,
-          "structural_match": 0.5882
+          "cross_f1": 0.7143,
+          "structural_match": 0.5556
         },
         {
           "pmcid": "PMC1874608",
@@ -207,20 +207,20 @@
           "gold_direct": 5,
           "gold_cross": 5,
           "pred_direct": 13,
-          "pred_cross": 7,
+          "pred_cross": 8,
           "tp_direct": 5,
           "fp_direct": 8,
           "fn_direct": 0,
           "direct_precision": 0.3846,
           "direct_recall": 1.0,
           "direct_f1": 0.5556,
-          "tp_cross": 3,
+          "tp_cross": 4,
           "fp_cross": 4,
-          "fn_cross": 2,
-          "cross_precision": 0.4286,
-          "cross_recall": 0.6,
-          "cross_f1": 0.5,
-          "structural_match": 0.3636
+          "fn_cross": 1,
+          "cross_precision": 0.5,
+          "cross_recall": 0.8,
+          "cross_f1": 0.6154,
+          "structural_match": 0.4091
         },
         {
           "pmcid": "PMC1913099",
@@ -251,20 +251,20 @@
           "gold_direct": 4,
           "gold_cross": 5,
           "pred_direct": 7,
-          "pred_cross": 4,
+          "pred_cross": 5,
           "tp_direct": 4,
           "fp_direct": 3,
           "fn_direct": 0,
           "direct_precision": 0.5714,
           "direct_recall": 1.0,
           "direct_f1": 0.7273,
-          "tp_cross": 4,
+          "tp_cross": 5,
           "fp_cross": 0,
-          "fn_cross": 1,
+          "fn_cross": 0,
           "cross_precision": 1.0,
-          "cross_recall": 0.8,
-          "cross_f1": 0.8889,
-          "structural_match": 0.6667
+          "cross_recall": 1.0,
+          "cross_f1": 1.0,
+          "structural_match": 0.75
         },
         {
           "pmcid": "PMC2242835",
@@ -273,7 +273,7 @@
           "gold_direct": 4,
           "gold_cross": 5,
           "pred_direct": 8,
-          "pred_cross": 8,
+          "pred_cross": 5,
           "tp_direct": 3,
           "fp_direct": 5,
           "fn_direct": 1,
@@ -281,12 +281,12 @@
           "direct_recall": 0.75,
           "direct_f1": 0.5,
           "tp_cross": 4,
-          "fp_cross": 4,
+          "fp_cross": 1,
           "fn_cross": 1,
-          "cross_precision": 0.5,
+          "cross_precision": 0.8,
           "cross_recall": 0.8,
-          "cross_f1": 0.6154,
-          "structural_match": 0.3889
+          "cross_f1": 0.8,
+          "structural_match": 0.4667
         },
         {
           "pmcid": "PMC2266911",
@@ -365,15 +365,15 @@
           0.3542,
           0.7279
         ],
-        "cross_f1_mean": 0.2779,
+        "cross_f1_mean": 0.2625,
         "cross_f1_ci": [
           0.1,
-          0.4308
+          0.4
         ],
-        "structural_match_mean": 0.3071,
+        "structural_match_mean": 0.2978,
         "structural_match_ci": [
           0.1833,
-          0.4048
+          0.3768
         ]
       },
       "micro_metrics": {
@@ -387,11 +387,11 @@
         },
         "cross_page": {
           "tp": 6,
-          "fp": 9,
+          "fp": 11,
           "fn": 14,
-          "precision": 0.4,
+          "precision": 0.3529,
           "recall": 0.3,
-          "f1": 0.3429
+          "f1": 0.3243
         }
       },
       "per_paper": [
@@ -402,7 +402,7 @@
           "gold_direct": 6,
           "gold_cross": 4,
           "pred_direct": 11,
-          "pred_cross": 9,
+          "pred_cross": 11,
           "tp_direct": 6,
           "fp_direct": 5,
           "fn_direct": 0,
@@ -410,12 +410,12 @@
           "direct_recall": 1.0,
           "direct_f1": 0.7059,
           "tp_cross": 3,
-          "fp_cross": 6,
+          "fp_cross": 8,
           "fn_cross": 1,
-          "cross_precision": 0.3333,
+          "cross_precision": 0.2727,
           "cross_recall": 0.75,
-          "cross_f1": 0.4615,
-          "structural_match": 0.4286
+          "cross_f1": 0.4,
+          "structural_match": 0.3913
         },
         {
           "pmcid": "PMC2581603",
@@ -516,11 +516,11 @@
         },
         "cross_page": {
           "tp": 3,
-          "fp": 17,
+          "fp": 19,
           "fn": 14,
-          "precision": 0.15,
+          "precision": 0.1364,
           "recall": 0.1765,
-          "f1": 0.1622
+          "f1": 0.1538
         }
       },
       "per_paper": [
@@ -531,7 +531,7 @@
           "gold_direct": 5,
           "gold_cross": 4,
           "pred_direct": 41,
-          "pred_cross": 15,
+          "pred_cross": 17,
           "tp_direct": 0,
           "fp_direct": 41,
           "fn_direct": 5,
@@ -539,7 +539,7 @@
           "direct_recall": 0.0,
           "direct_f1": 0.0,
           "tp_cross": 0,
-          "fp_cross": 15,
+          "fp_cross": 17,
           "fn_cross": 4,
           "cross_precision": 0.0,
           "cross_recall": 0.0,

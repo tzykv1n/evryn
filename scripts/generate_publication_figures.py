@@ -66,9 +66,9 @@ def save_fig(fig, base_name):
 # ==============================================================================
 def generate_fig0_research_scope():
     """Figure 1.1: Three-Phase Overarching Research Scope."""
-    fig, ax = plt.subplots(figsize=(14.8, 6.4), dpi=300)
-    ax.set_xlim(0, 148)
-    ax.set_ylim(0, 64)
+    fig, ax = plt.subplots(figsize=(15.6, 8.2), dpi=300)
+    ax.set_xlim(0, 156)
+    ax.set_ylim(0, 82)
     ax.axis("off")
 
     def draw_phase_column(x, y, w, h, phase_num, title, badge, bullets, border_col, badge_col, bg_col="#FFFFFF"):
@@ -81,28 +81,28 @@ def generate_fig0_research_scope():
         ax.add_patch(hbar)
 
         # Header text
-        ax.text(x + 2.5, y + h - 3.2, f"PHASE {phase_num}", ha="left", va="center",
+        ax.text(x + 2.5, y + h - 2.8, f"PHASE {phase_num}", ha="left", va="center",
                 fontsize=11.5, fontweight="bold", color=border_col, zorder=4)
-        ax.text(x + 2.5, y + h - 6.4, title, ha="left", va="center",
+        ax.text(x + 2.5, y + h - 6.0, title, ha="left", va="center",
                 fontsize=9.2, fontweight="bold", color="#0F172A", zorder=4)
 
         # Badge
-        ax.text(x + w - 2.5, y + h - 4.8, badge, ha="right", va="center",
-                fontsize=8.2, fontweight="bold", color=badge_col, zorder=4,
-                bbox=dict(boxstyle="square,pad=0.25", fc="white", ec=badge_col, lw=0.9))
+        ax.text(x + w - 2.5, y + h - 4.4, badge, ha="right", va="center",
+                fontsize=8.0, fontweight="bold", color=badge_col, zorder=4,
+                bbox=dict(boxstyle="square,pad=0.28", fc="white", ec=badge_col, lw=0.9))
 
         # Bullets
         ty = y + h - 12.0
         for b in bullets:
-            wrapped = textwrap.wrap(b, width=38)
+            wrapped = textwrap.wrap(b, width=40)
             ax.text(x + 3.0, ty, f"• {wrapped[0]}", ha="left", va="top",
-                    fontsize=8.7, color="#0F172A", fontweight="normal", zorder=4)
+                    fontsize=8.6, color="#0F172A", fontweight="normal", zorder=4)
             if len(wrapped) > 1:
-                ax.text(x + 5.2, ty - 3.3, f"{wrapped[1]}", ha="left", va="top",
-                        fontsize=8.5, color="#334155", zorder=4)
-            ty -= 6.4
+                ax.text(x + 5.5, ty - 2.9, f"{wrapped[1]}", ha="left", va="top",
+                        fontsize=8.4, color="#334155", zorder=4)
+            ty -= 6.8
 
-    # Three columns (x positions: 4, 52, 100; widths: 44 each)
+    # Three columns (x positions: 5, 55, 105; widths: 46 each)
     p1_bullets = [
         "Full-text PMC-OA JATS XML & PDF parsing with geometry",
         "Section discourse tagging & coordinate tracking",
@@ -113,8 +113,8 @@ def generate_fig0_research_scope():
         "100% Provenance contract (Doc, page, offsets, quotes)",
         "20-Paper authentic PMC benchmark validation"
     ]
-    draw_phase_column(4, 5, 44, 52, "1", "Multi-Page Causal Extraction",
-                      "DELIVERED (100%)", p1_bullets,
+    draw_phase_column(5, 4, 46, 70, "1", "Multi-Page Causal Extraction",
+                      "DELIVERED (Phase 1.14)", p1_bullets,
                       border_col="#0D9488", badge_col="#0D9488", bg_col="#F8FAFC")
 
     p2_bullets = [
@@ -127,7 +127,7 @@ def generate_fig0_research_scope():
         "Empirical evaluation on temporal SCM streams",
         "Cross-study consensus & refutation modeling"
     ]
-    draw_phase_column(52, 5, 44, 52, "2", "Corpus Transfer & Adaptation",
+    draw_phase_column(55, 4, 46, 70, "2", "Corpus Transfer & Adaptation",
                       "IN PROGRESS", p2_bullets,
                       border_col="#2563EB", badge_col="#2563EB", bg_col="#FFFFFF")
 
@@ -141,7 +141,7 @@ def generate_fig0_research_scope():
         "Comprehensive M.Tech defense monograph",
         "Reproducible open-source software release"
     ]
-    draw_phase_column(100, 5, 44, 52, "3", "Prospective Discovery Prediction",
+    draw_phase_column(105, 4, 46, 70, "3", "Prospective Discovery Prediction",
                       "PLANNED", p3_bullets,
                       border_col="#64748B", badge_col="#64748B", bg_col="#FFFFFF")
 
@@ -156,8 +156,8 @@ def generate_fig0_research_scope():
                 fontsize=8.0, fontweight="bold", color="#0F172A", zorder=6,
                 bbox=dict(boxstyle="square,pad=0.2", fc="white", ec="#CBD5E1", lw=0.8))
 
-    draw_phase_arrow(48, 52, 31, "Grounded\nGraphs")
-    draw_phase_arrow(96, 100, 31, "Longitudinal\nCorpus")
+    draw_phase_arrow(51, 55, 38, "Grounded\nGraphs")
+    draw_phase_arrow(101, 105, 38, "Longitudinal\nCorpus")
 
     ax.set_title("EVRYN Overarching Three-Phase Research Scope & Monograph Demarcation",
                  fontsize=13.5, fontweight="bold", pad=12)
@@ -238,27 +238,32 @@ def generate_fig1_system_architecture():
 # ==============================================================================
 def generate_fig2_extraction_workflow():
     """Figure 4.2: Multi-Stage Causal Extraction Workflow (Clean light academic layout)."""
-    fig, ax = plt.subplots(figsize=(15.2, 9.2), dpi=300)
-    ax.set_xlim(0, 152)
-    ax.set_ylim(0, 92)
+    fig, ax = plt.subplots(figsize=(15.6, 11.2), dpi=300)
+    ax.set_xlim(0, 156)
+    ax.set_ylim(0, 112)
     ax.axis("off")
 
-    def draw_stage_box(x, y, w, h, stage_num, title, badge, bullets, border_col="#94A3B8", badge_col="#0D9488"):
+    def draw_stage_box(x, y, w, h, stage_num, title, badge, bullets, border_col="#0D9488", badge_col="#0D9488"):
         rect = patches.Rectangle((x, y), w, h, facecolor="#FFFFFF", edgecolor=border_col, linewidth=1.3, zorder=2)
         ax.add_patch(rect)
-        hbar = patches.Rectangle((x, y + h - 6.5), w, 6.5, facecolor="#F1F5F9", edgecolor=border_col, linewidth=1.3, zorder=3)
+        hbar = patches.Rectangle((x, y + h - 9.0), w, 9.0, facecolor="#F1F5F9", edgecolor=border_col, linewidth=1.1, zorder=3)
         ax.add_patch(hbar)
 
-        ax.text(x + 2.0, y + h - 3.25, f"{stage_num}. {title}", ha="left", va="center",
-                fontsize=10.2, fontweight="bold", color="#0F172A", zorder=4)
-        ax.text(x + w - 2.0, y + h - 3.25, badge, ha="right", va="center",
+        # Top line of header
+        ax.text(x + 2.5, y + h - 3.2, f"STAGE {stage_num}", ha="left", va="center",
+                fontsize=10.2, fontweight="bold", color=border_col, zorder=4)
+        ax.text(x + w - 2.5, y + h - 3.2, badge, ha="right", va="center",
                 fontsize=7.8, fontweight="bold", color=badge_col, zorder=4,
                 bbox=dict(boxstyle="square,pad=0.2", fc="white", ec=badge_col, lw=0.8))
 
-        text_y = y + h - 10.0
+        # Second line of header: Title
+        ax.text(x + 2.5, y + h - 6.8, title, ha="left", va="center",
+                fontsize=9.0, fontweight="bold", color="#0F172A", zorder=4)
+
+        text_y = y + h - 13.0
         for b in bullets:
-            ax.text(x + 2.5, text_y, f"• {b}", ha="left", va="top", fontsize=8.6, color="#1E293B", zorder=4)
-            text_y -= 4.6
+            ax.text(x + 2.5, text_y, f"• {b}", ha="left", va="top", fontsize=8.4, color="#1E293B", zorder=4)
+            text_y -= 5.5
 
     def draw_arrow(x1, y1, x2, y2, label="", col="#0F172A"):
         ax.annotate(
@@ -268,92 +273,93 @@ def generate_fig2_extraction_workflow():
         )
         if label:
             ax.text((x1 + x2) / 2, (y1 + y2) / 2, label, ha="center", va="center",
-                    fontsize=8.2, fontweight="bold", color="#0F172A", zorder=6,
-                    bbox=dict(boxstyle="square,pad=0.25", fc="white", ec="#CBD5E1", lw=0.8))
+                    fontsize=8.0, fontweight="bold", color="#0F172A", zorder=6,
+                    bbox=dict(boxstyle="square,pad=0.22", fc="white", ec="#CBD5E1", lw=0.8))
 
-    # Upper Stages (y=53, h=27)
-    draw_stage_box(4, 53, 32, 27, "1", "Candidate Gen", "DELIVERED",
-                   ["Bio-Entity Extraction", "Local Intra-Sentence Pairs", "Paragraph & Section Bounds", "Pre-flight Quality Gating"],
+    # Upper Stages (y=66, h=38, w=34.5)
+    draw_stage_box(4, 66, 34.5, 38, "1", "Candidate Generation", "DELIVERED",
+                   ["Bio-Entity Span Detection", "Intra-Sentence Entity Pairs", "Paragraph & Section Bounds", "Pre-flight Quality Gating"],
                    border_col="#0D9488", badge_col="#0D9488")
 
-    draw_stage_box(40, 53, 32, 27, "2", "Syntactic Validation", "DELIVERED",
-                   ["Forward Causal Triggers", "Passive Inversion Rules", "Agent-Nominal Patterns", "Strict Negation Parsing"],
+    draw_stage_box(42.5, 66, 34.5, 38, "2", "Syntactic Validation", "DELIVERED",
+                   ["Forward Causal Triggers", "Passive Inversion Rules", "Agent-Nominal Patterns", "Strict Negation Quarantining"],
                    border_col="#0D9488", badge_col="#0D9488")
 
-    draw_stage_box(76, 53, 32, 27, "3", "Context Resolution", "DELIVERED",
-                   ["Demonstrative Anaphora", "Acronym Normalization", "Discourse Connectives", "Dual-Sentence Alignment"],
+    draw_stage_box(81, 66, 34.5, 38, "3", "Context Resolution", "DELIVERED",
+                   ["Demonstrative Anaphora", "Abbreviation Normalization", "Discourse Connectives", "Dual-Sentence Alignment"],
                    border_col="#0D9488", badge_col="#0D9488")
 
-    draw_stage_box(112, 53, 36, 27, "4", "Multi-Page Linking", "IN PROGRESS",
-                   ["Bounded Multi-Hop (<=2)", "Semantic Gating Gate", "Cross-Page Graph Closure", "Distance Decay (d >= 1)"],
-                   border_col="#D97706", badge_col="#D97706")
+    draw_stage_box(119.5, 66, 34.5, 38, "4", "Multi-Page Linking", "0.5350 F1",
+                   ["Bounded Multi-Hop (<= 2 hops)", "Domain-Invariant Pruning", "Reverse Regulator Gating", "Confidence Compounding"],
+                   border_col="#2563EB", badge_col="#2563EB")
 
     # Connectors between upper stages
-    draw_arrow(36, 66.5, 40, 66.5)
-    draw_arrow(72, 66.5, 76, 66.5)
-    draw_arrow(108, 66.5, 112, 66.5)
+    draw_arrow(38.5, 85, 42.5, 85)
+    draw_arrow(77.0, 85, 81.0, 85)
+    draw_arrow(115.5, 85, 119.5, 85)
 
-    # Lower Deck (y=6, h=34)
-    # Subsystem 1: Invariants
-    rect1 = patches.Rectangle((4, 6), 68, 34, facecolor="#F8FAFC", edgecolor="#2563EB", linewidth=1.3, zorder=2)
+    # Lower Deck: Panel 1 (Invariants)
+    rect1 = patches.Rectangle((4, 4), 72, 52, facecolor="#F8FAFC", edgecolor="#2563EB", linewidth=1.3, zorder=2)
     ax.add_patch(rect1)
-    hbar1 = patches.Rectangle((4, 33.5), 68, 6.5, facecolor="#F1F5F9", edgecolor="#2563EB", linewidth=1.3, zorder=3)
+    hbar1 = patches.Rectangle((4, 48), 72, 8.0, facecolor="#F1F5F9", edgecolor="#2563EB", linewidth=1.1, zorder=3)
     ax.add_patch(hbar1)
-    ax.text(6.0, 36.75, "Strict False-Positive Controls & Invariants", ha="left", va="center",
-            fontsize=10.5, fontweight="bold", color="#0F172A", zorder=4)
-    ax.text(70.0, 36.75, "ACTIVE INVARIANTS", ha="right", va="center",
-            fontsize=8.0, fontweight="bold", color="#2563EB", zorder=4,
+    ax.text(6.5, 52.0, "Strict False-Positive Controls & Domain Invariants", ha="left", va="center",
+            fontsize=10.0, fontweight="bold", color="#0F172A", zorder=4)
+    ax.text(73.5, 52.0, "ACTIVE INVARIANTS", ha="right", va="center",
+            fontsize=7.8, fontweight="bold", color="#2563EB", zorder=4,
             bbox=dict(boxstyle="square,pad=0.2", fc="white", ec="#2563EB", lw=0.8))
 
     bullets_inv = [
         "Terminal Phenotype Invariant: Virulence and survival cannot cause upstream regulatory genes",
-        "Environmental Parameter Invariant: Temperature and pH cannot be transcriptionally modulated",
-        "Homology & Method Gating: Non-causal method statements and homologue analogies suppressed",
-        "Relative Clause Boundary Barrier: Suppresses spurious cross-clause entity-trigger associations"
+        "Environmental Invariant: Extracellular conditions (pH, temp) cannot be transcriptionally activated",
+        "Homology & Method Gate: Non-causal cloning, homologue analogies, and methods suppressed",
+        "Relative Clause Barrier: Suppresses spurious cross-clause entity-trigger associations",
+        "Master Regulator Directionality: Restricts reverse feedback loops (InvF -> HilA, EspA -> PhoP)"
     ]
-    ty = 30.5
+    ty = 44.5
     for b in bullets_inv:
         wrapped = textwrap.wrap(b, width=54)
-        ax.text(6.5, ty, f"• {wrapped[0]}", ha="left", va="top", fontsize=8.4, color="#0F172A", zorder=4)
+        ax.text(6.5, ty, f"• {wrapped[0]}", ha="left", va="top", fontsize=8.3, color="#0F172A", zorder=4)
         if len(wrapped) > 1:
-            ax.text(8.8, ty - 3.4, f"{wrapped[1]}", ha="left", va="top", fontsize=8.4, color="#475569", zorder=4)
-        ty -= 6.4
+            ax.text(9.0, ty - 3.2, f"{wrapped[1]}", ha="left", va="top", fontsize=8.1, color="#475569", zorder=4)
+        ty -= 8.0
 
-    # Subsystem 2: Provenance & Verification
-    rect2 = patches.Rectangle((76, 6), 72, 34, facecolor="#F8FAFC", edgecolor="#0D9488", linewidth=1.3, zorder=2)
+    # Lower Deck: Panel 2 (Verification)
+    rect2 = patches.Rectangle((80, 4), 72, 52, facecolor="#F8FAFC", edgecolor="#0D9488", linewidth=1.3, zorder=2)
     ax.add_patch(rect2)
-    hbar2 = patches.Rectangle((76, 33.5), 72, 6.5, facecolor="#F1F5F9", edgecolor="#0D9488", linewidth=1.3, zorder=3)
+    hbar2 = patches.Rectangle((80, 48), 72, 8.0, facecolor="#F1F5F9", edgecolor="#0D9488", linewidth=1.1, zorder=3)
     ax.add_patch(hbar2)
-    ax.text(78.0, 36.75, "5. Provenance Grounding & Verification Engine", ha="left", va="center",
-            fontsize=10.5, fontweight="bold", color="#0F172A", zorder=4)
-    ax.text(146.0, 36.75, "VERIFIED (100%)", ha="right", va="center",
-            fontsize=8.0, fontweight="bold", color="#0D9488", zorder=4,
+    ax.text(82.5, 52.0, "5. Provenance Grounding & Verification Engine", ha="left", va="center",
+            fontsize=10.0, fontweight="bold", color="#0F172A", zorder=4)
+    ax.text(149.5, 52.0, "VERIFIED (100%)", ha="right", va="center",
+            fontsize=7.8, fontweight="bold", color="#0D9488", zorder=4,
             bbox=dict(boxstyle="square,pad=0.2", fc="white", ec="#0D9488", lw=0.8))
 
     bullets_ver = [
         "Dual-Sentence Evidence Tracking: Verbatim [S_causal, S_entity] bindings with zero hallucination",
         "Calibrated Confidence Metric: Empirical Platt-scaled posterior precision score in [0.0, 1.0]",
         "Full Text Auditability: Exact character indices [c_start, c_end] and physical page numbers",
-        "Strict Zero-Leakage Protocol: Benchmark isolation verified across all 20 PMC-OA papers"
+        "Selective Prediction Abstention: Rejection threshold tau = 0.45 for uncertain assertions",
+        "Cryptographic Integrity: Frozen SHA-256 ground-truth ledger across all 20 benchmark papers"
     ]
-    ty = 30.5
+    ty = 44.5
     for b in bullets_ver:
-        wrapped = textwrap.wrap(b, width=56)
-        ax.text(78.5, ty, f"• {wrapped[0]}", ha="left", va="top", fontsize=8.4, color="#0F172A", zorder=4)
+        wrapped = textwrap.wrap(b, width=54)
+        ax.text(82.5, ty, f"• {wrapped[0]}", ha="left", va="top", fontsize=8.3, color="#0F172A", zorder=4)
         if len(wrapped) > 1:
-            ax.text(80.8, ty - 3.4, f"{wrapped[1]}", ha="left", va="top", fontsize=8.4, color="#475569", zorder=4)
-        ty -= 6.4
+            ax.text(85.0, ty - 3.2, f"{wrapped[1]}", ha="left", va="top", fontsize=8.1, color="#475569", zorder=4)
+        ty -= 8.0
 
     # Vertical connectors between rows
-    draw_arrow(56, 53, 56, 40, "Direction Check")
-    draw_arrow(92, 53, 92, 40, "Dual Spans [Sc, Se]")
-    draw_arrow(130, 53, 130, 40, "Transitive Paths")
+    draw_arrow(59.75, 66, 59.75, 56, "Direction Check")
+    draw_arrow(98.25, 66, 98.25, 56, "Dual Spans [Sc, Se]")
+    draw_arrow(136.75, 66, 136.75, 56, "Transitive Paths")
 
     # Horizontal connector between invariants and verification
-    draw_arrow(72, 23.0, 76, 23.0, "Gated")
+    draw_arrow(76, 28, 80, 28, "Gated")
 
-    ax.set_title("EVRYN Relation Extraction Workflow & Modular Progress Architecture",
-                 fontsize=13.8, fontweight="bold", pad=12)
+    ax.set_title("EVRYN Multi-Stage Causal Extraction Workflow & Modular Verification Architecture",
+                 fontsize=13.5, fontweight="bold", pad=12)
     save_fig(fig, "fig2_extraction_workflow")
 
 
@@ -362,72 +368,115 @@ def generate_fig2_extraction_workflow():
 # ==============================================================================
 def generate_fig3_evidence_direction():
     """Figure 3.1: Evidence Grounding and Direction Diagram (Clean layout and high readability)."""
-    fig, ax = plt.subplots(figsize=(14.2, 6.6), dpi=300)
-    ax.set_xlim(0, 142)
-    ax.set_ylim(0, 66)
+    fig, ax = plt.subplots(figsize=(15.6, 9.6), dpi=300)
+    ax.set_xlim(0, 156)
+    ax.set_ylim(0, 96)
     ax.axis("off")
 
-    def draw_card(x, y, w, h, title, subtitle="", fill="#FFFFFF", edge="#94A3B8", lw=1.2, ls="-", top_accent=None):
-        rect = patches.Rectangle((x, y), w, h, facecolor=fill, edgecolor=edge, linewidth=lw, linestyle=ls, zorder=2)
+    def draw_entity_card(x, y, w, h, title, subtitle_lines, border_col="#0D9488"):
+        rect = patches.Rectangle((x, y), w, h, facecolor="#F8FAFC", edgecolor=border_col, linewidth=1.4, zorder=2)
         ax.add_patch(rect)
-        if top_accent:
-            bar = patches.Rectangle((x, y + h - 3.5), w, 3.5, facecolor=top_accent, edgecolor=edge, linewidth=lw, zorder=3)
-            ax.add_patch(bar)
-            title_y = y + h - 7.0
-        else:
-            title_y = y + h * 0.65
+        hbar = patches.Rectangle((x, y + h - 4.5), w, 4.5, facecolor=border_col, edgecolor=border_col, linewidth=1.0, zorder=3)
+        ax.add_patch(hbar)
+        ax.text(x + w / 2, y + h - 2.25, title, ha="center", va="center", fontsize=10.2, fontweight="bold", color="white", zorder=4)
 
-        if subtitle:
-            ax.text(x + w / 2, title_y, title, ha="center", va="center", fontsize=10.5, fontweight="bold", color="#0F172A", zorder=4)
-            ax.text(x + w / 2, y + (h * 0.28 if top_accent else h * 0.32), subtitle, ha="center", va="center", fontsize=8.8, color="#334155", zorder=4)
-        else:
-            ax.text(x + w / 2, y + h / 2, title, ha="center", va="center", fontsize=10.5, fontweight="bold", color="#0F172A", zorder=4)
+        ty = y + h - 7.5
+        for line in subtitle_lines:
+            ax.text(x + 2.5, ty, line, ha="left", va="top", fontsize=8.6, color="#1E293B", zorder=4)
+            ty -= 4.2
 
-    # Top: Cause and Effect with explicit directed relation
-    draw_card(6, 42, 34, 18, "Cause Entity (C)", "Canonical: PmrB\nMention: 'PmrB sensor kinase'\nPhysical Page: Page 2",
-              fill="#F8FAFC", edge="#0D9488", top_accent="#0D9488")
-    draw_card(102, 42, 34, 18, "Effect Entity (E)", "Canonical: PmrA\nMention: 'response regulator'\nPhysical Page: Page 3",
-              fill="#F8FAFC", edge="#0D9488", top_accent="#0D9488")
+    # Top Cause & Effect
+    draw_entity_card(5, 66, 38, 24, "Cause Entity (C)", [
+        "Canonical: PmrB",
+        "Mention: \"PmrB sensor kinase\"",
+        "Entity Type: Sensor Kinase / Protein",
+        "Section: Results | Page: 2"
+    ], border_col="#0D9488")
 
-    # Directed Causal Edge
+    draw_entity_card(113, 66, 38, 24, "Effect Entity (E)", [
+        "Canonical: PmrA",
+        "Mention: \"response regulator PmrA\"",
+        "Entity Type: Response Regulator / Protein",
+        "Section: Results | Page: 3"
+    ], border_col="#0D9488")
+
+    # Directed Causal Arrow
     ax.annotate(
-        "", xy=(102, 51), xytext=(40, 51),
-        arrowprops=dict(arrowstyle="-|>", color="#0F172A", lw=2.0),
+        "", xy=(113, 78), xytext=(43, 78),
+        arrowprops=dict(arrowstyle="-|>", color="#0F172A", lw=2.2),
         zorder=4
     )
-    ax.text(71, 53.0, "RELATION: DIRECT_CAUSE (+)", ha="center", va="bottom",
-            fontsize=10.5, fontweight="bold", color="#0D9488", zorder=5)
-    ax.text(71, 47.5, "Direction: FORWARD | Confidence: 0.95 | Polarity: POSITIVE", ha="center", va="top",
-            fontsize=9.0, fontweight="bold", color="#334155", zorder=5,
+    ax.text(78, 83.5, "RELATION: DIRECT_CAUSE (+)", ha="center", va="center",
+            fontsize=11.0, fontweight="bold", color="#0D9488", zorder=5,
+            bbox=dict(boxstyle="square,pad=0.3", fc="white", ec="#0D9488", lw=1.0))
+    ax.text(78, 72.0, "Direction: FORWARD   |   Confidence: 0.95   |   Polarity: POSITIVE", ha="center", va="center",
+            fontsize=8.8, fontweight="bold", color="#334155", zorder=5,
             bbox=dict(boxstyle="square,pad=0.25", fc="white", ec="#CBD5E1", lw=0.8))
 
-    # Middle: Verbatim Evidence Quote
-    quote_text = "\"Acid pH activates the PmrA/PmrB system by promoting PmrB-mediated phosphorylation of PmrA.\""
-    meta_text = "Doc ID: PMC1804205 | Section: RESULTS | Paragraph: 14 | Sentence ID: s42 | Offsets: [1420--1512] | Page: 2"
-    draw_card(6, 21, 130, 15, "Primary Evidence Sentence (S_causal)",
-              f"{quote_text}\n{meta_text}",
-              fill="#FFFFFF", edge="#2563EB", lw=1.3, top_accent="#2563EB")
+    # Middle: Evidence Box
+    rect_mid = patches.Rectangle((5, 37), 146, 23, facecolor="#FFFFFF", edgecolor="#2563EB", linewidth=1.4, zorder=2)
+    ax.add_patch(rect_mid)
+    hbar_mid = patches.Rectangle((5, 55.5), 146, 4.5, facecolor="#2563EB", edgecolor="#2563EB", linewidth=1.0, zorder=3)
+    ax.add_patch(hbar_mid)
+    ax.text(8.0, 57.75, "Primary Evidence Sentence & Verbatim Provenance Coordinates (S_causal)",
+            ha="left", va="center", fontsize=10.0, fontweight="bold", color="white", zorder=4)
+    ax.text(148.0, 57.75, "100% PROVENANCE VERIFIED",
+            ha="right", va="center", fontsize=8.0, fontweight="bold", color="white", zorder=4)
 
-    # Downward connectors from middle evidence box to bottom modes
-    for cx in [23, 71, 119]:
+    # Quote Callout
+    rect_q = patches.Rectangle((8, 44), 140, 9.5, facecolor="#F1F5F9", edgecolor="#94A3B8", linewidth=0.9, zorder=3)
+    ax.add_patch(rect_q)
+    ax.text(78, 48.75, "\"Acid pH activates the PmrA/PmrB system by promoting PmrB-mediated phosphorylation of PmrA.\"",
+            ha="center", va="center", fontsize=9.2, fontstyle="italic", color="#0F172A", zorder=4)
+
+    # Metadata bar
+    ax.text(78, 40.5, "Doc ID: PMC1804205  |  Section: RESULTS  |  Paragraph: 14  |  Sentence ID: s42  |  Offsets: [1420--1512]  |  Page: 2",
+            ha="center", va="center", fontsize=8.5, fontweight="bold", color="#475569", zorder=4)
+
+    # Downward Connectors
+    for cx, lbl in [(28, "Intra-Sentence Context"), (78, "Anaphoric Context Resolution"), (128, "Transitive Multi-Hop Linking")]:
         ax.annotate(
-            "", xy=(cx, 16), xytext=(cx, 21),
-            arrowprops=dict(arrowstyle="-|>", color="#64748B", lw=1.2, linestyle="--"),
+            "", xy=(cx, 26), xytext=(cx, 37),
+            arrowprops=dict(arrowstyle="-|>", color="#64748B", lw=1.3, linestyle="--"),
             zorder=3
         )
+        ax.text(cx, 31.5, lbl, ha="center", va="center", fontsize=7.8, fontweight="bold", color="#1E293B", zorder=5,
+                bbox=dict(boxstyle="square,pad=0.2", fc="white", ec="#CBD5E1", lw=0.7))
 
-    # Bottom: Contrast between Direct vs Context-Resolved vs Transitive
-    draw_card(6, 2, 40, 14, "Direct Intra-Sentence Assertion",
-              "• Both C & E co-occur in S_causal\n• Syntactic trigger: 'activation of'\n• High posterior precision (0.90--0.98)",
-              fill="#F8FAFC", edge="#0D9488", top_accent="#0D9488")
+    # Bottom Cards
+    def draw_typology_card(x, y, w, h, title, subtitle, bullets, border_col):
+        rect = patches.Rectangle((x, y), w, h, facecolor="#FFFFFF", edgecolor=border_col, linewidth=1.3, zorder=2)
+        ax.add_patch(rect)
+        hbar = patches.Rectangle((x, y + h - 5.5), w, 5.5, facecolor="#F8FAFC", edgecolor=border_col, linewidth=1.1, zorder=3)
+        ax.add_patch(hbar)
+        ax.text(x + 2.5, y + h - 2.8, title, ha="left", va="center", fontsize=9.2, fontweight="bold", color=border_col, zorder=4)
+        ax.text(x + w - 2.5, y + h - 2.8, subtitle, ha="right", va="center", fontsize=7.6, color="#64748B", zorder=4)
 
-    draw_card(51, 2, 40, 14, "Context-Resolved Candidate",
-              "• Inter-sentence link: S_k -> S_{k+1}\n• Demonstrative pronoun resolution\n• Dual Provenance Binding: [S_c, S_e]",
-              fill="#FFFFFF", edge="#2563EB", top_accent="#2563EB")
+        ty = y + h - 8.5
+        for b in bullets:
+            ax.text(x + 2.5, ty, f"• {b}", ha="left", va="top", fontsize=8.2, color="#1E293B", zorder=4)
+            ty -= 3.8
 
-    draw_card(96, 2, 40, 14, "Multi-Page Transitive Link",
-              "• Path traversal: A -> B (p.2) -> C (p.5)\n• Physical separation: Delta_p >= 1\n• Calibrated distance decay applied",
-              fill="#F8FAFC", edge="#D97706", top_accent="#D97706")
+    draw_typology_card(5, 4, 46, 22, "1. Direct Intra-Sentence Assertion", "Single Sentence", [
+        "Both C & E co-occur in S_causal boundary",
+        "Syntactic trigger: \"activation of\", \"induces\"",
+        "Complete coordinates: <p.2, Results, [1420-1512]>",
+        "High empirical precision (0.90--0.98 on gold)"
+    ], border_col="#0D9488")
+
+    draw_typology_card(55, 4, 46, 22, "2. Context-Resolved Candidate", "Cross-Sentence", [
+        "Inter-sentence alignment across [S_k, S_{k+1}]",
+        "Demonstrative pronoun & anaphora resolution",
+        "Dual Provenance Binding: [S_cause, S_effect]",
+        "Abbreviation expansion via domain normalizer"
+    ], border_col="#2563EB")
+
+    draw_typology_card(105, 4, 46, 22, "3. Multi-Page Transitive Link", "Multi-Page Graph", [
+        "Path traversal: A -> B (p.2) -> C (p.8)",
+        "Inter-page distance: Delta_p >= 1, hops <= 2",
+        "Pruned by domain invariants (TCSTS_REVERSE_PAIRS)",
+        "Distance decay: conf = prod(c_i) * lambda^d"
+    ], border_col="#D97706")
 
     ax.set_title("EVRYN Evidence Grounding Contract: Dual-Span Provenance & Causal Directionality",
                  fontsize=13.5, fontweight="bold", pad=12)
@@ -439,65 +488,131 @@ def generate_fig3_evidence_direction():
 # ==============================================================================
 def generate_fig4_evaluation_workflow():
     """Figure 5.1: Benchmark Partition and Zero-Leakage Evaluation Protocol."""
-    fig, ax = plt.subplots(figsize=(14.2, 6.8), dpi=300)
-    ax.set_xlim(0, 142)
-    ax.set_ylim(0, 68)
+    fig, ax = plt.subplots(figsize=(15.6, 10.2), dpi=300)
+    ax.set_xlim(0, 156)
+    ax.set_ylim(0, 102)
     ax.axis("off")
 
-    def draw_card(x, y, w, h, title, subtitle="", fill="#FFFFFF", edge="#94A3B8", lw=1.2, top_accent=None):
-        rect = patches.Rectangle((x, y), w, h, facecolor=fill, edgecolor=edge, linewidth=lw, zorder=2)
+    def draw_split_card(x, y, w, h, title, subtitle, papers, bullets, border_col):
+        rect = patches.Rectangle((x, y), w, h, facecolor="#FFFFFF", edgecolor=border_col, linewidth=1.3, zorder=2)
         ax.add_patch(rect)
-        if top_accent:
-            bar = patches.Rectangle((x, y + h - 5.5), w, 5.5, facecolor=top_accent, edgecolor=edge, linewidth=lw, zorder=3)
-            ax.add_patch(bar)
-            ax.text(x + w / 2, y + h - 2.8, title, ha="center", va="center", fontsize=9.8, fontweight="bold", color="white", zorder=4)
-        else:
-            ax.text(x + w / 2, y + h * 0.70, title, ha="center", va="center", fontsize=10.0, fontweight="bold", color="#0F172A", zorder=4)
+        hbar = patches.Rectangle((x, y + h - 5.5), w, 5.5, facecolor=border_col, edgecolor=border_col, linewidth=1.0, zorder=3)
+        ax.add_patch(hbar)
+        ax.text(x + w / 2, y + h - 2.8, title, ha="center", va="center", fontsize=9.2, fontweight="bold", color="white", zorder=4)
 
-        if subtitle:
-            ax.text(x + w / 2, y + (h * 0.36 if top_accent else h * 0.32), subtitle,
-                    ha="center", va="center", fontsize=8.6, color="#1E293B", zorder=4)
+        # Subtitle
+        ax.text(x + w / 2, y + h - 8.2, subtitle, ha="center", va="center", fontsize=7.8, fontweight="bold", color="#475569", zorder=4)
 
-    # Development & Tuning Zone (Left)
-    rect_dev = patches.Rectangle((3, 22), 62, 40, facecolor="#F8FAFC", edgecolor="#0D9488", linewidth=1.3, zorder=1)
+        # Papers box
+        p_box = patches.Rectangle((x + 1.5, y + h - 24.5), w - 3.0, 14.5, facecolor="#F8FAFC", edgecolor="#CBD5E1", linewidth=0.8, zorder=3)
+        ax.add_patch(p_box)
+        ax.text(x + 2.5, y + h - 11.5, "Papers / Identifiers:", ha="left", va="top", fontsize=7.4, fontweight="bold", color="#334155", zorder=4)
+        py = y + h - 14.2
+        for p in papers:
+            ax.text(x + 2.5, py, p, ha="left", va="top", fontsize=7.1, color="#0F172A", zorder=4)
+            py -= 2.6
+
+        # Bullets
+        by = y + h - 27.5
+        for b in bullets:
+            ax.text(x + 2.5, by, f"• {b}", ha="left", va="top", fontsize=7.7, color="#1E293B", zorder=4)
+            by -= 4.2
+
+    # Development & Tuning Zone
+    rect_dev = patches.Rectangle((4, 25), 66, 71, facecolor="#F8FAFC", edgecolor="#0D9488", linewidth=1.4, zorder=1)
     ax.add_patch(rect_dev)
-    ax.text(34, 58.5, "DEVELOPMENT & TUNING ZONE (Permitted Tuning)",
-            ha="center", va="center", fontsize=11.0, fontweight="bold", color="#0D9488", zorder=2)
+    ax.text(37, 92.5, "DEVELOPMENT & TUNING ZONE (Permitted Model Calibration)",
+            ha="center", va="center", fontsize=10.2, fontweight="bold", color="#0D9488", zorder=2)
 
-    draw_card(5, 25, 28, 29, "Train Split (4 Papers)",
-              "PMC2651894, PMC2682197\nPMC2714965, PMC2774163\n\n• Grammar Discovery\n• Regex Rule Formulation\n• Zero Test Access",
-              fill="white", edge="#0D9488", top_accent="#0D9488")
+    draw_split_card(6.5, 28, 29, 61, "Train Split (4 Papers)", "35 Gold Relations (19 Dir, 16 Cross)", [
+        "PMC2651894 (p. 5)  |  PMC2682197 (p. 12)",
+        "PMC2714965 (p. 12) |  PMC2774163 (p. 13)"
+    ], [
+        "Grammar & trigger discovery",
+        "Syntactic pattern mining",
+        "Rule & invariant calibration",
+        "Strictly isolated from test"
+    ], border_col="#0D9488")
 
-    draw_card(35, 25, 28, 29, "Dev Split (8 Papers)",
-              "PMC1804205, PMC1874608\nPMC1913099, PMC1974823\nPMC2242835, PMC2266911\nPMC2358977, PMC2430206\n\n• Error Diagnosis & Census\n• Hyperparameter Calibration",
-              fill="white", edge="#0D9488", top_accent="#0D9488")
+    draw_split_card(38.5, 28, 29, 61, "Dev Split (8 Papers)", "71 Gold Relations (36 Dir, 35 Cross)", [
+        "PMC1804205 (p. 7)  |  PMC1874608 (p. 12)",
+        "PMC1913099 (p. 16) |  PMC1974823 (p. 7)",
+        "PMC2242835 (p. 10) |  PMC2266911 (p. 12)",
+        "PMC2358977 (p. 12) |  PMC2430206 (p. 10)"
+    ], [
+        "Error census & FP diagnosis",
+        "Threshold tuning (tau = 0.60)",
+        "Criterion 5 verified (0.5350 F1)",
+        "TCSTS reverse-edge gating"
+    ], border_col="#0D9488")
 
-    # Double-line strict split isolation boundary
-    ax.plot([68.0, 68.0], [2, 63], color="#475569", linewidth=1.8, linestyle="--", zorder=5)
-    ax.plot([71.0, 71.0], [2, 63], color="#475569", linewidth=1.8, linestyle="--", zorder=5)
-    ax.text(69.5, 33, "STRICT ZERO-LEAKAGE RELEASE GATE\n(Code & Hyperparameters Frozen Prior to Confirmatory Evaluation)",
-            ha="center", va="center", rotation=90, fontsize=9.2, fontweight="bold", color="#0F172A",
-            bbox=dict(boxstyle="square,pad=0.4", fc="white", ec="#475569", lw=1.1), zorder=6)
+    # Strict Zero-Leakage Gate
+    rect_gate = patches.Rectangle((72, 25), 12, 71, facecolor="#F1F5F9", edgecolor="#475569", linewidth=1.5, hatch="//", zorder=2)
+    ax.add_patch(rect_gate)
+    ax.text(78, 92.5, "[GATE]", ha="center", va="center", fontsize=8.0, fontweight="bold", color="#0F172A", zorder=4,
+            bbox=dict(boxstyle="square,pad=0.2", fc="white", ec="#475569", lw=0.8))
 
-    # Confirmatory & Generalization Zone (Right)
-    rect_test = patches.Rectangle((74, 22), 65, 40, facecolor="#F1F5F9", edgecolor="#2563EB", linewidth=1.3, zorder=1)
+    gate_lines = [
+        "ZERO", "LEAKAGE", "RELEASE", "GATE",
+        "──────",
+        "Code & Rules", "Frozen Prior", "to Confirmatory", "Evaluation",
+        "──────",
+        "Zero Feedback", "Zero Leakage"
+    ]
+    gy = 86.0
+    for gl in gate_lines:
+        fw = "bold" if gl not in ["──────", "Frozen Prior", "to Confirmatory", "Evaluation"] else "normal"
+        col = "#0F172A" if fw == "bold" else "#475569"
+        ax.text(78, gy, gl, ha="center", va="center", fontsize=7.4, fontweight=fw, color=col, zorder=4)
+        gy -= 4.8
+
+    # Confirmatory Evaluation Zone
+    rect_test = patches.Rectangle((86, 25), 66, 71, facecolor="#F1F5F9", edgecolor="#2563EB", linewidth=1.4, zorder=1)
     ax.add_patch(rect_test)
-    ax.text(106.5, 58.5, "CONFIRMATORY EVALUATION ZONE (Strictly Blind)",
-            ha="center", va="center", fontsize=11.0, fontweight="bold", color="#2563EB", zorder=2)
+    ax.text(119, 92.5, "CONFIRMATORY EVALUATION ZONE (Strictly Held-Out & Blind)",
+            ha="center", va="center", fontsize=10.2, fontweight="bold", color="#2563EB", zorder=2)
 
-    draw_card(76, 25, 30, 29, "Locked Test (4 Papers)",
-              "PMC2565068, PMC2581603\nPMC2593050, PMC2639726\n\n• Confirmatory Evaluation\n• Frozen Model Checkpoint\n• In-Domain Generalization",
-              fill="white", edge="#2563EB", top_accent="#2563EB")
+    draw_split_card(88.5, 28, 29, 61, "Locked Test (4 Papers)", "41 Gold Relations (21 Dir, 20 Cross)", [
+        "PMC2565068 (p. 9)  |  PMC2581603 (p. 10)",
+        "PMC2593050 (p. 5)  |  PMC2639726 (p. 14)"
+    ], [
+        "Single post-hoc evaluation",
+        "Confirmatory generalization",
+        "Frozen model parameters",
+        "Zero hyperparameter tuning"
+    ], border_col="#2563EB")
 
-    draw_card(108, 25, 29, 29, "External Unseen (4 Papers)",
-              "PMC2816692, PMC2829055\nPMC2858072, PMC2885601\n\n• Unseen Biological Systems\n• V1/V2 Provenance Audit\n• Out-of-Domain Verification",
-              fill="white", edge="#4F46E5", top_accent="#4F46E5")
+    draw_split_card(120.5, 28, 29, 61, "External Unseen (4 Papers)", "36 Gold Relations (20 Dir, 16 Cross)", [
+        "PMC2816692 (p. 10) |  PMC2829055 (p. 9)",
+        "PMC2858072 (p. 8)  |  PMC2885601 (p. 6)"
+    ], [
+        "Unseen pathogen genetics",
+        "Authenticated V2 ground truth",
+        "Out-of-domain evaluation",
+        "Zero tuning feedback"
+    ], border_col="#4F46E5")
 
-    # Lower benchmark audit box
-    draw_card(3, 3, 136, 16, "Benchmark Integrity & Annotation Audit Gate",
-              "Benchmark V1 (Legacy Unaligned): Contained documented PMC2816692 Anthrax LF vs Salmonella SrcA title mismatch (54 False Positives)\n"
-              "Benchmark V2 (Authenticated Domain Ground Truth): 100% Provenance Coverage Verified Across All 20 Papers (15 False Positives)",
-              fill="#FFFFFF", edge="#94A3B8", lw=1.2)
+    # Bottom: Benchmark Ground-Truth Ledger
+    rect_bot = patches.Rectangle((4, 4), 148, 18, facecolor="#FFFFFF", edgecolor="#94A3B8", linewidth=1.3, zorder=2)
+    ax.add_patch(rect_bot)
+    hbar_bot = patches.Rectangle((4, 17.5), 148, 4.5, facecolor="#F8FAFC", edgecolor="#94A3B8", linewidth=1.0, zorder=3)
+    ax.add_patch(hbar_bot)
+    ax.text(78, 19.75, "Benchmark Ground-Truth Ledger & Annotation Audit Protocol (20 Papers, 183 Gold Causal Relations)",
+            ha="center", va="center", fontsize=9.2, fontweight="bold", color="#0F172A", zorder=4)
+
+    # Left Sub-panel: V1
+    rect_v1 = patches.Rectangle((6, 6), 69, 10, facecolor="#FEF2F2", edgecolor="#EF4444", linewidth=0.9, zorder=3)
+    ax.add_patch(rect_v1)
+    ax.text(7.5, 13.8, "Legacy Benchmark V1 (Unaligned Metadata):", ha="left", va="center", fontsize=7.6, fontweight="bold", color="#B91C1C", zorder=4)
+    ax.text(7.5, 10.8, "• PMC2816692: Title registered as Anthrax LF while XML described Salmonella SrcA", ha="left", va="center", fontsize=7.2, color="#7F1D1D", zorder=4)
+    ax.text(7.5, 8.0, "• Resulted in 54 False Positives on External split; Direct F1 = 0.3269, Cross F1 = 0.2548", ha="left", va="center", fontsize=7.2, color="#7F1D1D", zorder=4)
+
+    # Right Sub-panel: V2
+    rect_v2 = patches.Rectangle((79, 6), 71, 10, facecolor="#F0FDF4", edgecolor="#16A34A", linewidth=0.9, zorder=3)
+    ax.add_patch(rect_v2)
+    ax.text(80.5, 13.8, "Authenticated Benchmark V2 (Audited Ground Truth):", ha="left", va="center", fontsize=7.6, fontweight="bold", color="#15803D", zorder=4)
+    ax.text(80.5, 10.8, "• PMC2816692: Aligned to authentic SrcA/PipB2/SseL mechanisms (15 False Positives)", ha="left", va="center", fontsize=7.2, color="#14532D", zorder=4)
+    ax.text(80.5, 8.0, "• 183 Gold Relations (96 Direct, 87 Cross); Ext Direct F1 = 0.4808, Cross F1 = 0.3262", ha="left", va="center", fontsize=7.2, color="#14532D", zorder=4)
 
     ax.set_title("EVRYN 20-Paper Benchmark Partition and Strict Zero-Leakage Evaluation Protocol",
                  fontsize=13.5, fontweight="bold", pad=12)
@@ -513,16 +628,16 @@ def generate_fig6_results_progression():
 
     splits = ["Train\n(4 papers)", "Dev\n(8 papers)", "Locked\n(4 papers)", "Ext V1\n(4 papers)", "Ext V2\n(4 papers)"]
 
-    # Phase 1.13 Verified Metrics
+    # Phase 1.14 Verified Metrics
     direct_f1 = [0.4958, 0.6820, 0.5584, 0.3269, 0.4808]
     direct_err_low = [0.4958 - 0.3667, 0.6820 - 0.5805, 0.5584 - 0.3542, 0.3269 - 0.1000, 0.4808 - 0.3538]
     direct_err_high = [0.6625 - 0.4958, 0.7757 - 0.6820, 0.7279 - 0.5584, 0.5269 - 0.3269, 0.6077 - 0.4808]
 
-    cross_f1 = [0.2000, 0.4904, 0.2779, 0.2548, 0.3262]
-    cross_err_low = [0.2000 - 0.0000, 0.4904 - 0.2730, 0.2779 - 0.1000, 0.2548 - 0.0833, 0.3262 - 0.2857]
-    cross_err_high = [0.4000 - 0.2000, 0.7049 - 0.4904, 0.4308 - 0.2779, 0.3714 - 0.2548, 0.3714 - 0.3262]
+    cross_f1 = [0.2000, 0.5350, 0.2625, 0.2548, 0.3262]
+    cross_err_low = [0.2000 - 0.0000, 0.5350 - 0.3037, 0.2625 - 0.1000, 0.2548 - 0.0833, 0.3262 - 0.2857]
+    cross_err_high = [0.4000 - 0.2000, 0.7640 - 0.5350, 0.4000 - 0.2625, 0.3714 - 0.2548, 0.3714 - 0.3262]
 
-    match_ratio = [0.2537, 0.4762, 0.3071, 0.1863, 0.2696]
+    match_ratio = [0.2510, 0.4979, 0.2978, 0.1863, 0.2696]
 
     x = np.arange(len(splits))
     # Light restrained academic palette
