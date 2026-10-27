@@ -15,6 +15,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from evryn.web.db import SessionStore
 from evryn.web.extractor_service import ExtractionService
 from evryn.web.test_examples_service import TestExamplesService
+from evryn.web.gold_comparison_service import GoldComparisonService
 from evryn.web.schemas import (
     ExtractionRequest,
     ContinuationRequest,
@@ -476,6 +477,57 @@ def get_benchmark_results():
 def get_verified_examples():
     svc = TestExamplesService.get_instance()
     return svc.get_verified_catalog()
+
+
+class BenchmarkCompareRequest(BaseModel):
+    session_id: str
+    pmcid: Optional[str] = None
+    session_data: Optional[dict] = None
+
+
+class AdjudicateRequest(BaseModel):
+    session_id: str
+    relation_id: str
+    category: str
+    note: Optional[str] = ""
+
+
+@app.get("/api/examples/library")
+def get_example_library():
+    svc = TestExamplesService.get_instance()
+    return svc.get_full_library()
+
+
+@app.get("/api/examples/gold/{pmcid}")
+def get_gold_standard(pmcid: str):
+    gold_svc = GoldComparisonService.get_instance()
+    gt = gold_svc.get_ground_truth(pmcid)
+    if not gt:
+        raise HTTPException(status_code=404, detail=f"Gold standard annotations not found for {pmcid}")
+    return gt
+
+
+@app.post("/api/benchmark/compare")
+def compare_session_with_gold_standard(req: BenchmarkCompareRequest):
+    gold_svc = GoldComparisonService.get_instance()
+    sess_data = req.session_data
+    if not sess_data:
+        sess = store.get_session(req.session_id)
+        if not sess:
+            raise HTTPException(status_code=404, detail=f"Session {req.session_id} not found")
+        sess_data = sess
+    return gold_svc.compare_session_with_gold(req.session_id, sess_data, pmcid=req.pmcid)
+
+
+@app.post("/api/benchmark/adjudicate")
+def adjudicate_relation(req: AdjudicateRequest):
+    gold_svc = GoldComparisonService.get_instance()
+    return gold_svc.record_adjudication_override(
+        session_id=req.session_id,
+        relation_id=req.relation_id,
+        category=req.category,
+        note=req.note or "",
+    )
 
 
 # Mount static assets

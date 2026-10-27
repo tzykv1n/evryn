@@ -194,7 +194,7 @@ NEGATION_PATTERNS = [
 
 UNCERTAINTY_PATTERNS = [
     r"\b(?:may|might|could|potentially|possibly|presumably)\b",
-    r"\b(?:we\s+hypothesize|we\s+speculate|it\s+is\s+postulated)\b",
+    r"\b(?:we\s+hypothesize|we\s+hypothesized|we\s+speculate|we\s+speculated|we\s+postulated|it\s+is\s+postulated|it\s+was\s+postulated|it\s+was\s+hypothesized)\b",
     r"\b(?:suggests?\s+that|indicates?\s+a\s+potential)\b",
     r"\b(?:remains?\s+unclear|remains?\s+elusive|to\s+be\s+determined)\b",
     r"\b(?:we\s+tested\s+the\s+possibility\s+of|to\s+test\s+whether|to\s+investigate\s+whether|to\s+determine\s+if)\b",
@@ -1200,6 +1200,19 @@ class PaperCausalExtractor:
         if ENCODED_WITHIN_LOCUS_RE.search(between_text):
             return None
 
+        # Reject speculative modal hedges (e.g. "could be due to", "might be caused by")
+        if re.search(r"\b(?:could|might|may)\s+be\s+(?:due\s+to|caused\s+by|attributed\s+to|a\s+result\s+of)\b", between_text, re.IGNORECASE):
+            return None
+
+        # Reject candidates inside a past-tense exploratory hypothesis clause
+        if re.search(r"\b(?:we\s+(?:hypothesized|postulated|speculated|reasoned)|it\s+was\s+(?:hypothesized|postulated|speculated))\s+that\b", text[:max(s1, s2)], re.IGNORECASE):
+            if re.search(r"\b(?:could|might|may|would)\s+(?:induce|cause|lead|activate|inhibit|mediate|promote)\b", text[min(s1, s2):], re.IGNORECASE):
+                return None
+
+        # Reject prenominal hyphenated compound participles bridging to an unrelated adverbial clause
+        if re.match(r"^-(?:regulated|activated|induced|repressed|dependent|mediated|associated|controlled|responsive)\s+(?:genes?|transcription|expression|promoters?|operons?|proteins?|loci|locus)\b", between_text, re.IGNORECASE):
+            return None
+
         # Check for means clauses: e.g. "represses hilA by inhibiting HilD" -> HilD (cause) represses hilA (effect)
         m_means = BY_MEANS_RE.search(between_text)
         if m_means:
@@ -1216,6 +1229,10 @@ class PaperCausalExtractor:
 
         if COMPILED_GENETICS_MUTANT_UP.search(between_text):
             inv_dir = "BACKWARD" if direction == "FORWARD" else "FORWARD"
+            # Environmental conditions or growth media (e.g. "promoted in media of mild acid pH")
+            # indicate inductive activation by the environmental condition rather than derepression by mutant loss
+            if re.search(r"\b(?:media\s+of|the\s+presence\s+of|response\s+to|conditions?\s+of|under\s+mild|at\s+pH)\b", between_text, re.IGNORECASE):
+                return CausalRelationType.UPREGULATES, inv_dir, 0.93
             return CausalRelationType.DOWNREGULATES, inv_dir, 0.93
 
         # Mutant defect pattern: e.g. "cheB1 mutant ... showed a defect in chemotaxis"

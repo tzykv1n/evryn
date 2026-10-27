@@ -98,28 +98,26 @@
         </div>
       </div>
 
-      <!-- Plus Popover Menu (On-Demand Actions & Verified Examples) -->
+      <!-- Plus Popover Menu (On-Demand Actions & Recent Examples) -->
       <div id="plus-menu" class="plus-menu hidden" role="menu">
         <div class="plus-menu-section">
-          <button id="menu-upload-btn" class="menu-item" role="menuitem">Upload Documents (PDF, TXT, DOCX)</button>
-          <button id="menu-continual-btn" class="menu-item" role="menuitem">Append Continual Knowledge (+)</button>
-          <button id="menu-eval-btn" class="menu-item" role="menuitem">View Benchmark Evaluation Dashboard</button>
+          <button id="menu-browse-examples-btn" class="menu-item menu-item-primary" role="menuitem">
+            <span class="menu-item-icon">📂</span> Browse All Examples (Library)
+          </button>
+          <button id="menu-upload-btn" class="menu-item" role="menuitem">
+            <span class="menu-item-icon">⬆</span> Upload Documents (PDF, TXT, DOCX)
+          </button>
+          <button id="menu-continual-btn" class="menu-item" role="menuitem">
+            <span class="menu-item-icon">＋</span> Append Continual Knowledge (+)
+          </button>
+          <button id="menu-eval-btn" class="menu-item" role="menuitem">
+            <span class="menu-item-icon">📊</span> View Benchmark Dashboard
+          </button>
         </div>
-        <div class="plus-menu-header">DIAGNOSTIC TEST CASES</div>
-        <div class="plus-menu-section">
-          <button class="menu-item menu-example-item" data-example="example_a" role="menuitem">Case A: Direct Causal Relation (Gene A → Protein B)</button>
-          <button class="menu-item menu-example-item" data-example="example_b" role="menuitem">Case B: Multi-Transition Cascade (A → B → C)</button>
-          <button class="menu-item menu-example-item" data-example="example_c" role="menuitem">Case C: Negation &amp; Refutation (Gene A did not reduce)</button>
-          <button class="menu-item menu-example-item" data-example="example_d" role="menuitem">Case D: Context Invariants (Organism X vs Y)</button>
-          <button class="menu-item menu-example-item" data-example="example_e" role="menuitem">Case E: Input Resilience (Empty Boundary)</button>
-        </div>
-        <div class="plus-menu-header">VERIFIED LITERATURE EXAMPLES</div>
-        <div class="plus-menu-section">
-          <button class="menu-item menu-example-item" data-example="pmc1804205" role="menuitem">PMC1804205: Acid pH activation of PmrA/PmrB</button>
-          <button class="menu-item menu-example-item" data-example="pmc1874608" role="menuitem">PMC1874608: Mlc regulation of pathogenicity</button>
-          <button class="menu-item menu-example-item" data-example="pmc1974823" role="menuitem">PMC1974823: P. gingivalis short fimbriae regulation</button>
-          <button class="menu-item menu-example-item" data-example="pmc2242835" role="menuitem">PMC2242835: Control of M. tuberculosis ESAT-6 secretion</button>
-          <button class="menu-item menu-example-item" data-example="pmc2430206" role="menuitem">PMC2430206: GraRS regulatory system &amp; LL-37 resistance</button>
+        <div class="plus-menu-header">RECENTLY USED EXAMPLES</div>
+        <div id="plus-menu-recents" class="plus-menu-section">
+          <!-- Dynamically populated from localStorage with last 3-5 used examples -->
+          <div class="menu-empty-hint">No recent examples yet.</div>
         </div>
       </div>
 
@@ -152,12 +150,13 @@
         <div class="graph-toolbar">
           <div class="toolbar-left">
             <span id="graph-stats" class="graph-stats">0 NODES &nbsp;|&nbsp; 0 RELATIONS</span>
-            <!-- Synchronized 4-View Tabs -->
+            <!-- Synchronized 5-View Tabs -->
             <div class="view-tabs" role="tablist">
               <button id="view-tab-graph" class="view-tab active" role="tab" aria-selected="true" title="Interactive Physics Graph">GRAPH</button>
               <button id="view-tab-table" class="view-tab" role="tab" aria-selected="false" title="Structured Table View">TABLE</button>
               <button id="view-tab-copyable" class="view-tab" role="tab" aria-selected="false" title="Copyable Plain-Text Graph">COPYABLE</button>
               <button id="view-tab-benchmark" class="view-tab" role="tab" aria-selected="false" title="Phase 2.3 Benchmark Evaluation Dashboard">BENCHMARK</button>
+              <button id="view-tab-gold" class="view-tab" role="tab" aria-selected="false" title="Gold Standard Comparison & Adjudication">GOLD COMPARISON</button>
             </div>
           </div>
 
@@ -452,6 +451,111 @@
             </table>
           </div>
         </div>
+
+        <!-- View 5: Gold Standard Comparison & Reviewer Adjudication View -->
+        <div id="gold-comparison-view" class="gold-comparison-view hidden">
+          <div class="benchmark-toolbar">
+            <div class="benchmark-header-left">
+              <span class="benchmark-title" id="gold-comp-title">GOLD STANDARD EVALUATION &amp; ADJUDICATION</span>
+              <span class="benchmark-subtitle" id="gold-comp-subtitle">Evaluating extracted causal relations against frozen reference standards</span>
+            </div>
+            <div class="benchmark-header-right">
+              <span id="gold-provenance-tag" class="benchmark-section-tag">PMCID: NONE</span>
+              <button id="gold-comp-reload-btn" class="text-btn" title="Re-evaluate with gold standard">↺ RE-EVALUATE</button>
+            </div>
+          </div>
+
+          <!-- Empty / Unavailable State (When session document has no reference gold) -->
+          <div id="gold-comp-unavailable" class="gold-comp-unavailable hidden">
+            <div class="gold-unavailable-box">
+              <div class="gold-unavailable-icon">📋</div>
+              <div class="gold-unavailable-title">NO BENCHMARK GOLD STANDARD FOR CURRENT DOCUMENT</div>
+              <div class="gold-unavailable-desc" id="gold-unavailable-msg">
+                Gold comparison evaluates predictions against frozen reference annotations. Available for benchmark papers (e.g. PMC1804205, PMC1874608, PMC1974823). Load an example from the library to inspect reference comparisons.
+              </div>
+              <button id="gold-load-sample-btn" class="action-btn-primary" style="margin-top:14px;">Browse Benchmark Library</button>
+            </div>
+          </div>
+
+          <!-- Gold Available Active View -->
+          <div id="gold-comp-content" class="gold-comp-content">
+            <!-- Summary KPI Metric Cards Bar -->
+            <div class="benchmark-cards-row" id="gold-kpi-row">
+              <div class="metric-card">
+                <span class="metric-num" id="gold-kpi-precision">0.00%</span>
+                <span class="metric-lbl">OFFICIAL PRECISION</span>
+                <span class="metric-sub" id="gold-kpi-precision-sub">TP / (TP + FP)</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-num" id="gold-kpi-recall">0.00%</span>
+                <span class="metric-lbl">OFFICIAL RECALL</span>
+                <span class="metric-sub" id="gold-kpi-recall-sub">TP / (TP + FN)</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-num" id="gold-kpi-f1">0.0000</span>
+                <span class="metric-lbl">OFFICIAL F1</span>
+                <span class="metric-sub">Harmonic Mean</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-num" id="gold-kpi-matched">0</span>
+                <span class="metric-lbl">MATCHED TP</span>
+                <span class="metric-sub" id="gold-kpi-matched-sub">Direct &bull; Cross</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-num" id="gold-kpi-unmatched">0</span>
+                <span class="metric-lbl">UNMATCHED FP</span>
+                <span class="metric-sub">Candidates for Review</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-num" id="gold-kpi-missed">0</span>
+                <span class="metric-lbl">MISSED GOLD FN</span>
+                <span class="metric-sub">Omitted Gold Edges</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-num" id="gold-kpi-exploratory">0.00%</span>
+                <span class="metric-lbl">EXPLORATORY PREC.</span>
+                <span class="metric-sub">Crediting Omissions</span>
+              </div>
+            </div>
+
+            <!-- Adjudication Category Breakdown Bar -->
+            <div class="adjudication-bar-wrapper">
+              <div class="adjudication-bar-header">
+                <span class="filter-label">ADJUDICATION AUDIT BREAKDOWN:</span>
+                <span class="benchmark-section-tag" id="adj-breakdown-counts">0 Verified • 0 Omission • 0 False Positive</span>
+              </div>
+            </div>
+
+            <!-- 6 Filter Tabs -->
+            <div class="gold-filter-tabs" role="tablist">
+              <button class="status-chip active" data-gold-tab="all" id="tab-gold-all">All Relations (<span id="cnt-gold-all">0</span>)</button>
+              <button class="status-chip" data-gold-tab="matched" id="tab-gold-matched">Matched TP (<span id="cnt-gold-matched">0</span>)</button>
+              <button class="status-chip" data-gold-tab="unmatched" id="tab-gold-unmatched">Unmatched FP (<span id="cnt-gold-unmatched">0</span>)</button>
+              <button class="status-chip" data-gold-tab="missed" id="tab-gold-missed">Missed Gold FN (<span id="cnt-gold-missed">0</span>)</button>
+              <button class="status-chip" data-gold-tab="gold_only" id="tab-gold-gold_only">Reference Gold (<span id="cnt-gold-gold_only">0</span>)</button>
+              <button class="status-chip" data-gold-tab="extracted_only" id="tab-gold-extracted_only">Extracted Only (<span id="cnt-gold-extracted_only">0</span>)</button>
+            </div>
+
+            <!-- Comparison Table & Reviewer Controls -->
+            <div class="benchmark-table-wrapper" style="margin-top: 10px;">
+              <table class="benchmark-table gold-comparison-table">
+                <thead>
+                  <tr>
+                    <th style="width: 22%;">Causal Relation</th>
+                    <th style="width: 12%;">Type / Scope</th>
+                    <th style="width: 14%;">Evaluation Status</th>
+                    <th style="width: 20%;">Adjudication Category</th>
+                    <th style="width: 22%;">Evidence &amp; Analysis</th>
+                    <th style="width: 10%;">Reviewer Override</th>
+                  </tr>
+                </thead>
+                <tbody id="gold-comparison-tbody">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
 
     </section>
@@ -521,6 +625,35 @@
         </div>
         <div class="modal-footer">
           <button id="load-paper-workspace-btn" class="action-btn-primary">Load Paper into Workspace</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Example Library Modal (Phase 2.5) -->
+    <div id="example-library-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Example Library">
+      <div class="modal-content modal-large">
+        <div class="modal-header">
+          <div class="modal-header-meta">
+            <span class="modal-title">EXAMPLE LIBRARY &amp; BENCHMARK REPOSITORY</span>
+            <span class="benchmark-section-tag" id="library-count-tag">25 EXAMPLES</span>
+          </div>
+          <button id="close-example-library-btn" class="icon-btn" aria-label="Close modal">×</button>
+        </div>
+        <div class="modal-body modal-tabs-body">
+          <div class="library-toolbar">
+            <input type="text" id="library-search-input" class="search-input" placeholder="Search by title, PMCID, gene, condition, or split...">
+            <div class="library-filter-chips" id="library-filter-chips">
+              <button class="status-chip active" data-filter="all">All (25)</button>
+              <button class="status-chip" data-filter="diagnostic">Diagnostic Suite (5)</button>
+              <button class="status-chip" data-filter="dev">Dev Split (8)</button>
+              <button class="status-chip" data-filter="locked_test">Locked Test (4)</button>
+              <button class="status-chip" data-filter="external">External (4)</button>
+              <button class="status-chip" data-filter="gold">Gold Available (12)</button>
+            </div>
+          </div>
+          <div id="library-cards-container" class="library-cards-container">
+            <!-- Dynamically populated with example cards -->
+          </div>
         </div>
       </div>
     </div>

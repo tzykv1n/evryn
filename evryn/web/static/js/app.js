@@ -32,6 +32,7 @@
   const viewTabTable = document.getElementById("view-tab-table");
   const viewTabExamples = document.getElementById("view-tab-examples");
   const viewTabBenchmark = document.getElementById("view-tab-benchmark");
+  const viewTabGold = document.getElementById("view-tab-gold");
   const graphViewport = document.getElementById("graph-viewport");
   const graphEmptyState = document.getElementById("graph-empty-state");
   const copyableView = document.getElementById("copyable-view");
@@ -41,6 +42,34 @@
   const tableBody = document.getElementById("table-body");
   const examplesView = document.getElementById("examples-view");
   const benchmarkView = document.getElementById("benchmark-view");
+  const goldComparisonView = document.getElementById("gold-comparison-view");
+  const goldCompTitle = document.getElementById("gold-comp-title");
+  const goldCompSubtitle = document.getElementById("gold-comp-subtitle");
+  const goldProvenanceTag = document.getElementById("gold-provenance-tag");
+  const goldCompReloadBtn = document.getElementById("gold-comp-reload-btn");
+  const goldCompUnavailable = document.getElementById("gold-comp-unavailable");
+  const goldCompContent = document.getElementById("gold-comp-content");
+  const goldLoadSampleBtn = document.getElementById("gold-load-sample-btn");
+  const goldComparisonTbody = document.getElementById("gold-comparison-tbody");
+  const goldKpiPrecision = document.getElementById("gold-kpi-precision");
+  const goldKpiRecall = document.getElementById("gold-kpi-recall");
+  const goldKpiF1 = document.getElementById("gold-kpi-f1");
+  const goldKpiMatched = document.getElementById("gold-kpi-matched");
+  const goldKpiUnmatched = document.getElementById("gold-kpi-unmatched");
+  const goldKpiMissed = document.getElementById("gold-kpi-missed");
+  const goldKpiExploratory = document.getElementById("gold-kpi-exploratory");
+  const adjBreakdownCounts = document.getElementById("adj-breakdown-counts");
+
+  // Example Library Modal Elements
+  const menuBrowseExamplesBtn = document.getElementById("menu-browse-examples-btn");
+  const exampleLibraryModal = document.getElementById("example-library-modal");
+  const closeExampleLibraryBtn = document.getElementById("close-example-library-btn");
+  const librarySearchInput = document.getElementById("library-search-input");
+  const libraryFilterChips = document.getElementById("library-filter-chips");
+  const libraryCardsContainer = document.getElementById("library-cards-container");
+  const libraryCountTag = document.getElementById("library-count-tag");
+  const plusMenuRecents = document.getElementById("plus-menu-recents");
+
   const benchmarkSplitSelect = document.getElementById("benchmark-split-select");
   const benchmarkReloadBtn = document.getElementById("benchmark-reload-btn");
   const benchmarkCardsRow = document.getElementById("benchmark-cards-row");
@@ -146,31 +175,39 @@
   document.getElementById("graph-zoom-in").addEventListener("click", () => graphRenderer.zoomIn());
   document.getElementById("graph-zoom-out").addEventListener("click", () => graphRenderer.zoomOut());
 
-  // 4-View Tab Switcher
+  // 5-View Tab Switcher
   function switchView(tabName) {
     if (viewTabGraph) viewTabGraph.classList.toggle("active", tabName === "graph");
     if (viewTabCopyable) viewTabCopyable.classList.toggle("active", tabName === "copyable");
     if (viewTabTable) viewTabTable.classList.toggle("active", tabName === "table");
     if (viewTabExamples) viewTabExamples.classList.toggle("active", tabName === "examples");
     if (viewTabBenchmark) viewTabBenchmark.classList.toggle("active", tabName === "benchmark");
+    if (viewTabGold) viewTabGold.classList.toggle("active", tabName === "gold");
 
     if (viewTabGraph) viewTabGraph.setAttribute("aria-selected", tabName === "graph");
     if (viewTabCopyable) viewTabCopyable.setAttribute("aria-selected", tabName === "copyable");
     if (viewTabTable) viewTabTable.setAttribute("aria-selected", tabName === "table");
     if (viewTabExamples) viewTabExamples.setAttribute("aria-selected", tabName === "examples");
     if (viewTabBenchmark) viewTabBenchmark.setAttribute("aria-selected", tabName === "benchmark");
+    if (viewTabGold) viewTabGold.setAttribute("aria-selected", tabName === "gold");
 
     if (graphViewport) graphViewport.classList.toggle("hidden", tabName !== "graph");
     if (copyableView) copyableView.classList.toggle("hidden", tabName !== "copyable");
     if (tableView) tableView.classList.toggle("hidden", tabName !== "table");
     if (examplesView) examplesView.classList.toggle("hidden", tabName !== "examples");
     if (benchmarkView) benchmarkView.classList.toggle("hidden", tabName !== "benchmark");
+    if (goldComparisonView) goldComparisonView.classList.toggle("hidden", tabName !== "gold");
 
     if (tabName === "benchmark") {
       inputContainer.classList.add("hidden");
       if (graphRenderer) graphRenderer.pause();
       resultsView.classList.remove("hidden");
       loadBenchmarkData();
+    } else if (tabName === "gold") {
+      inputContainer.classList.add("hidden");
+      if (graphRenderer) graphRenderer.pause();
+      resultsView.classList.remove("hidden");
+      loadGoldComparisonData();
     } else {
       inputContainer.classList.remove("hidden");
       if (!activeSessionData) {
@@ -201,6 +238,7 @@
   viewTabTable.addEventListener("click", () => switchView("table"));
   if (viewTabExamples) viewTabExamples.addEventListener("click", () => switchView("examples"));
   if (viewTabBenchmark) viewTabBenchmark.addEventListener("click", () => switchView("benchmark"));
+  if (viewTabGold) viewTabGold.addEventListener("click", () => switchView("gold"));
 
   // 1-Click Copy Graph Button
   copyGraphBtn.addEventListener("click", () => {
@@ -566,6 +604,9 @@
     e.preventDefault();
     e.stopPropagation();
     const isHidden = plusMenu.classList.contains("hidden");
+    if (isHidden) {
+      renderRecentExamples();
+    }
     plusMenu.classList.toggle("hidden", !isHidden);
     plusBtn.setAttribute("aria-expanded", isHidden ? "true" : "false");
   });
@@ -594,6 +635,41 @@
     fileInput.click();
   });
 
+  if (menuBrowseExamplesBtn) {
+    menuBrowseExamplesBtn.addEventListener("click", () => {
+      openExampleLibrary();
+    });
+  }
+
+  if (closeExampleLibraryBtn) {
+    closeExampleLibraryBtn.addEventListener("click", () => {
+      closeExampleLibrary();
+    });
+  }
+
+  if (exampleLibraryModal) {
+    exampleLibraryModal.addEventListener("click", (e) => {
+      if (e.target === exampleLibraryModal) closeExampleLibrary();
+    });
+  }
+
+  if (librarySearchInput) {
+    librarySearchInput.addEventListener("input", () => {
+      renderExampleLibraryCards();
+    });
+  }
+
+  if (libraryFilterChips) {
+    libraryFilterChips.querySelectorAll(".status-chip").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        libraryFilterChips.querySelectorAll(".status-chip").forEach((c) => c.classList.remove("active"));
+        chip.classList.add("active");
+        currentLibraryFilter = chip.dataset.filter || "all";
+        renderExampleLibraryCards();
+      });
+    });
+  }
+
   if (menuContinualBtn) {
     menuContinualBtn.addEventListener("click", () => {
       plusMenu.classList.add("hidden");
@@ -612,13 +688,25 @@
     });
   }
 
-  // Example items inside + popover menu
-  document.querySelectorAll(".menu-example-item").forEach((item) => {
-    item.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const exId = item.dataset.example;
-      if (exId) selectExample(exId);
+  if (goldCompReloadBtn) {
+    goldCompReloadBtn.addEventListener("click", () => {
+      loadGoldComparisonData();
+    });
+  }
+
+  if (goldLoadSampleBtn) {
+    goldLoadSampleBtn.addEventListener("click", () => {
+      openExampleLibrary();
+    });
+  }
+
+  // Gold Filter Tabs
+  document.querySelectorAll("[data-gold-tab]").forEach((tabBtn) => {
+    tabBtn.addEventListener("click", () => {
+      document.querySelectorAll("[data-gold-tab]").forEach((b) => b.classList.remove("active"));
+      tabBtn.classList.add("active");
+      activeGoldTab = tabBtn.dataset.goldTab;
+      renderGoldTableRows();
     });
   });
 
@@ -922,12 +1010,280 @@
     }
   };
 
+  const RECENTS_KEY = "evryn_recent_examples";
+  const MAX_RECENTS = 5;
+
+  function getRecentExamples() {
+    try {
+      const raw = localStorage.getItem(RECENTS_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function recordRecentExample(ex) {
+    if (!ex || (!ex.id && !ex.code)) return;
+    try {
+      const exId = (ex.id || ex.code).toLowerCase();
+      let recents = getRecentExamples();
+      recents = recents.filter((r) => r.id !== exId);
+      recents.unshift({
+        id: exId,
+        title: ex.title || ex.code || exId,
+        category: ex.category || "Benchmark",
+        timestamp: Date.now(),
+      });
+      if (recents.length > MAX_RECENTS) {
+        recents = recents.slice(0, MAX_RECENTS);
+      }
+      localStorage.setItem(RECENTS_KEY, JSON.stringify(recents));
+      renderRecentExamples();
+    } catch (e) {
+      console.warn("Could not save recent example:", e);
+    }
+  }
+
+  const DEFAULT_STARTER_RECENTS = [
+    { id: "example_a", title: "Case A: Direct Causal Relation", category: "Diagnostic Suite" },
+    { id: "example_b", title: "Case B: Multi-Transition Cascade", category: "Diagnostic Suite" },
+    { id: "example_c", title: "Case C: Negation & Directionality", category: "Diagnostic Suite" },
+  ];
+
+  function renderRecentExamples() {
+    const container = document.getElementById("plus-menu-recents");
+    if (!container) return;
+    let recents = getRecentExamples();
+    const existingIds = new Set(recents.map(r => r.id));
+    for (const starter of DEFAULT_STARTER_RECENTS) {
+      if (recents.length >= 3) break;
+      if (!existingIds.has(starter.id)) {
+        recents.push({ ...starter, timestamp: Date.now() });
+        existingIds.add(starter.id);
+      }
+    }
+    container.innerHTML = "";
+    recents.forEach((r) => {
+      const btn = document.createElement("button");
+      btn.className = "menu-recent-item menu-example-item";
+      btn.role = "menuitem";
+      btn.dataset.example = r.id;
+      const timeStr = r.timestamp ? new Date(r.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "Default";
+      btn.innerHTML = `
+        <span class="menu-recent-title">${escapeHtml(r.title)}</span>
+        <span class="menu-recent-meta">${escapeHtml(r.category)} • ${timeStr}</span>
+      `;
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (plusMenu) {
+          plusMenu.classList.add("hidden");
+          plusBtn.setAttribute("aria-expanded", "false");
+        }
+        loadExampleById(r.id);
+      });
+      container.appendChild(btn);
+    });
+  }
+
+  let fullLibraryCatalog = [];
+  let currentLibraryFilter = "all";
+
+  async function openExampleLibrary() {
+    if (plusMenu) {
+      plusMenu.classList.add("hidden");
+      plusBtn.setAttribute("aria-expanded", "false");
+    }
+    if (exampleLibraryModal) exampleLibraryModal.classList.remove("hidden");
+    if (fullLibraryCatalog.length === 0) {
+      showProcessing("LOADING EXAMPLE LIBRARY...");
+      try {
+        const res = await fetch("/api/examples/library");
+        if (res.ok) {
+          const data = await res.json();
+          const diagnostic = (data.diagnostic_suite || []).map((d) => ({
+            ...d,
+            type: "diagnostic",
+            split: "diagnostic",
+            gold_available: false,
+          }));
+          const papers = (data.benchmark_papers || []).map((p) => ({
+            ...p,
+            type: "benchmark",
+          }));
+          fullLibraryCatalog = [...diagnostic, ...papers];
+        }
+      } catch (e) {
+        console.warn("Could not load library from server:", e);
+      } finally {
+        hideProcessing();
+      }
+    }
+    renderExampleLibraryCards();
+    if (librarySearchInput) {
+      librarySearchInput.value = "";
+      librarySearchInput.focus();
+    }
+  }
+
+  function closeExampleLibrary() {
+    if (exampleLibraryModal) exampleLibraryModal.classList.add("hidden");
+  }
+
+  function renderExampleLibraryCards() {
+    if (!libraryCardsContainer) return;
+    const query = (librarySearchInput ? librarySearchInput.value : "").trim().toLowerCase();
+
+    let filtered = fullLibraryCatalog.filter((item) => {
+      if (currentLibraryFilter === "diagnostic" && item.type !== "diagnostic") return false;
+      if (currentLibraryFilter === "dev" && item.split !== "dev") return false;
+      if (currentLibraryFilter === "locked_test" && item.split !== "locked_test") return false;
+      if (currentLibraryFilter === "external" && item.split !== "external") return false;
+      if (currentLibraryFilter === "gold" && !item.gold_available) return false;
+
+      if (query) {
+        const textToSearch = `${item.title} ${item.code || ""} ${item.journal || ""} ${item.description || ""} ${(item.authors || []).join(" ")}`.toLowerCase();
+        if (!textToSearch.includes(query)) return false;
+      }
+      return true;
+    });
+
+    if (libraryCountTag) {
+      libraryCountTag.textContent = `${filtered.length} OF ${fullLibraryCatalog.length} EXAMPLES`;
+    }
+
+    if (filtered.length === 0) {
+      libraryCardsContainer.innerHTML = '<div class="menu-empty-hint" style="grid-column: 1 / -1; padding: 30px; text-align: center;">No matching examples or benchmark papers found.</div>';
+      return;
+    }
+
+    libraryCardsContainer.innerHTML = "";
+    filtered.forEach((item) => {
+      const card = document.createElement("div");
+      card.className = "library-card";
+
+      const badgeSplit = item.split ? `<span class="badge-split">${item.split.toUpperCase()}</span>` : "";
+      const badgeGold = item.gold_available ? '<span class="badge-gold-match" title="Frozen Ground Truth Annotations Available">GOLD STANDARD</span>' : "";
+
+      card.innerHTML = `
+        <div class="library-card-header">
+          <div class="library-card-title">${escapeHtml(item.title)}</div>
+          <div class="library-card-badges">
+            ${badgeSplit}
+            ${badgeGold}
+          </div>
+        </div>
+        <div class="library-card-meta">${escapeHtml(item.code || "")} • ${escapeHtml(item.journal || item.category || "")}</div>
+        <div class="library-card-desc">${escapeHtml(item.description || "")}</div>
+        <div class="library-card-actions">
+          <button class="btn-card-action" data-action="load">LOAD INTO WORKSPACE</button>
+          ${item.code && item.code.toUpperCase().startsWith("PMC") ? `<button class="btn-card-action-secondary" data-action="preview">VIEW PAPER PDF</button>` : ""}
+          ${item.gold_available ? `<button class="btn-card-action-secondary" data-action="gold">VIEW GOLD STANDARD</button>` : ""}
+        </div>
+      `;
+
+      card.querySelector('[data-action="load"]').addEventListener("click", () => {
+        closeExampleLibrary();
+        loadExampleById(item.id || item.code);
+      });
+
+      const previewBtn = card.querySelector('[data-action="preview"]');
+      if (previewBtn) {
+        previewBtn.addEventListener("click", () => {
+          closeExampleLibrary();
+          openPaperModal(item.code, "pdf");
+        });
+      }
+
+      const goldBtn = card.querySelector('[data-action="gold"]');
+      if (goldBtn) {
+        goldBtn.addEventListener("click", () => {
+          closeExampleLibrary();
+          loadExampleById(item.id || item.code);
+          setTimeout(() => switchView("gold"), 250);
+        });
+      }
+
+      libraryCardsContainer.appendChild(card);
+    });
+  }
+
+  async function loadExampleById(exampleId) {
+    if (VERIFIED_EXAMPLES[exampleId]) {
+      const ex = VERIFIED_EXAMPLES[exampleId];
+      recordRecentExample(ex);
+      selectExample(exampleId);
+      return;
+    }
+
+    showProcessing(`LOADING ${exampleId.toUpperCase()}...`);
+    try {
+      const isBenchmark = exampleId.toLowerCase().startsWith("pmc");
+      if (isBenchmark) {
+        const pmcid = exampleId.toUpperCase();
+        const res = await fetch(`/api/examples/paper/${pmcid}`);
+        if (!res.ok) throw new Error(`Paper ${pmcid} not found`);
+        const pdata = await res.json();
+
+        let fullText = pdata.title + "\n\n";
+        if (pdata.sections) {
+          pdata.sections.forEach((s) => {
+            if (s.title && s.title.toLowerCase().includes("abstract")) {
+              fullText += s.paragraphs.join("\n\n") + "\n\n";
+            }
+          });
+          if (fullText.length < 200 && pdata.sections.length > 0) {
+            fullText += pdata.sections.slice(0, 2).map((s) => s.paragraphs.join("\n\n")).join("\n\n");
+          }
+        }
+
+        queryInput.value = fullText.trim();
+        autoResize(queryInput);
+        dockInput();
+        activeSessionId = null;
+        activeSessionData = null;
+        currentLoadedPmcid = pmcid;
+        closeInspector();
+
+        recordRecentExample({
+          id: exampleId.toLowerCase(),
+          title: pdata.title,
+          category: `Benchmark (${pdata.split || "dev"}`.toUpperCase() + ")",
+        });
+
+        resultsView.classList.remove("hidden");
+        switchView("graph");
+        showNotification(`Loaded ${pmcid} text into editor. Click RUN EXTRACTION to evaluate.`, "info", 3500);
+      } else {
+        const res = await fetch(`/api/test-examples/${exampleId}`);
+        if (!res.ok) throw new Error("Example not found");
+        const tdata = await res.json();
+        queryInput.value = tdata.input_text;
+        autoResize(queryInput);
+        dockInput();
+        activeSessionId = null;
+        activeSessionData = null;
+        closeInspector();
+        recordRecentExample(tdata);
+        resultsView.classList.remove("hidden");
+        switchView("graph");
+        showNotification(`Loaded "${tdata.title}". Click RUN EXTRACTION to extract.`, "info", 3000);
+      }
+    } catch (err) {
+      showNotification("Failed to load example: " + err.message, "error", 4000);
+    } finally {
+      hideProcessing();
+    }
+  }
+
   function selectExample(exampleId) {
     const ex = VERIFIED_EXAMPLES[exampleId];
     if (!ex) return;
 
+    recordRecentExample(ex);
     activeSessionId = null;
     activeSessionData = null;
+    currentLoadedPmcid = exampleId.toLowerCase().startsWith("pmc") ? exampleId.toUpperCase() : null;
     closeInspector();
 
     queryInput.value = ex.input_text;
@@ -942,7 +1298,6 @@
       plusBtn.setAttribute("aria-expanded", "false");
     }
 
-    // Reveal results view and ensure graph tab is active without overlay obstruction
     resultsView.classList.remove("hidden");
     switchView("graph");
 
@@ -1461,6 +1816,227 @@
       }
       benchmarkPerpaperTbody.innerHTML = perPaperHtml;
     }
+  }
+
+  // ==========================================================================
+  // Phase 2.5: Gold Standard Comparison & Adjudication View
+  // ==========================================================================
+  let activeGoldReport = null;
+  let activeGoldTab = "all";
+  let currentLoadedPmcid = null;
+
+  async function loadGoldComparisonData() {
+    if (!activeSessionId && !activeSessionData) {
+      if (goldCompUnavailable) goldCompUnavailable.classList.remove("hidden");
+      if (goldCompContent) goldCompContent.classList.add("hidden");
+      return;
+    }
+
+    try {
+      showProcessing("COMPARING WITH GOLD STANDARD...");
+      const detectedPmcid = currentLoadedPmcid || (activeSessionData && activeSessionData.title && activeSessionData.title.match(/PMC\d+/i) ? activeSessionData.title.match(/PMC\d+/i)[0].toUpperCase() : null);
+      const res = await fetch("/api/benchmark/compare", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          session_id: activeSessionId || "temp_session",
+          pmcid: detectedPmcid,
+          session_data: activeSessionData || null,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Could not evaluate comparison");
+      const data = await res.json();
+      activeGoldReport = data;
+      renderGoldComparisonView(data);
+    } catch (e) {
+      showNotification("Gold comparison error: " + e.message, "error", 4000);
+    } finally {
+      hideProcessing();
+    }
+  }
+
+  function renderGoldComparisonView(report) {
+    if (!report || !report.gold_available) {
+      if (goldCompUnavailable) goldCompUnavailable.classList.remove("hidden");
+      if (goldCompContent) goldCompContent.classList.add("hidden");
+      if (goldProvenanceTag) goldProvenanceTag.textContent = "NO GOLD AVAILABLE";
+      if (goldUnavailableMsg && report && report.message) {
+        goldUnavailableMsg.textContent = report.message;
+      }
+      return;
+    }
+
+    if (goldCompUnavailable) goldCompUnavailable.classList.add("hidden");
+    if (goldCompContent) goldCompContent.classList.remove("hidden");
+
+    if (goldProvenanceTag) goldProvenanceTag.textContent = `PMCID: ${report.pmcid} (${report.annotation_source || "Frozen Standard"})`;
+    if (goldCompSubtitle) goldCompSubtitle.textContent = `Benchmark Reference: ${report.paper_title || report.pmcid}`;
+
+    const m = report.official_metrics || {};
+    if (goldKpiPrecision) goldKpiPrecision.textContent = `${((m.precision || 0) * 100).toFixed(1)}%`;
+    if (goldKpiRecall) goldKpiRecall.textContent = `${((m.recall || 0) * 100).toFixed(1)}%`;
+    if (goldKpiF1) goldKpiF1.textContent = (m.f1 || 0).toFixed(4);
+
+    const counts = report.counts || {};
+    if (goldKpiMatched) goldKpiMatched.textContent = counts.tp || 0;
+    if (goldKpiUnmatched) goldKpiUnmatched.textContent = counts.fp || 0;
+    if (goldKpiMissed) goldKpiMissed.textContent = counts.fn || 0;
+
+    const adj = report.adjudicated_analysis || {};
+    if (goldKpiExploratory) goldKpiExploratory.textContent = `${((adj.exploratory_precision_with_omissions || m.precision || 0) * 100).toFixed(1)}%`;
+
+    const summary = adj.summary || {};
+    if (adjBreakdownCounts) {
+      adjBreakdownCounts.textContent = `${summary.gold_match || 0} Matched • ${summary.likely_annotation_omission || 0} Likely Omissions • ${summary.genuine_false_positive || 0} False Positives • ${summary.unsupported_inference || 0} Unsupported Jumps`;
+    }
+
+    const matchedList = report.matched_relations || [];
+    const unmatchedList = report.unmatched_predictions || [];
+    const missedList = report.missed_gold || [];
+    const totalRelations = matchedList.length + unmatchedList.length + missedList.length;
+
+    const cntAll = document.getElementById("cnt-gold-all");
+    const cntMatched = document.getElementById("cnt-gold-matched");
+    const cntUnmatched = document.getElementById("cnt-gold-unmatched");
+    const cntMissed = document.getElementById("cnt-gold-missed");
+    const cntGoldOnly = document.getElementById("cnt-gold-gold_only");
+    const cntExtractedOnly = document.getElementById("cnt-gold-extracted_only");
+
+    if (cntAll) cntAll.textContent = totalRelations;
+    if (cntMatched) cntMatched.textContent = matchedList.length;
+    if (cntUnmatched) cntUnmatched.textContent = unmatchedList.length;
+    if (cntMissed) cntMissed.textContent = missedList.length;
+    if (cntGoldOnly) cntGoldOnly.textContent = matchedList.length + missedList.length;
+    if (cntExtractedOnly) cntExtractedOnly.textContent = matchedList.length + unmatchedList.length;
+
+    renderGoldTableRows();
+  }
+
+  function renderGoldTableRows() {
+    if (!activeGoldReport || !goldComparisonTbody) return;
+    const matchedList = activeGoldReport.matched_relations || [];
+    const unmatchedList = activeGoldReport.unmatched_predictions || [];
+    const missedList = activeGoldReport.missed_gold || [];
+
+    let rowsToDisplay = [];
+
+    if (activeGoldTab === "all") {
+      rowsToDisplay = [
+        ...matchedList.map((r) => ({ ...r, row_type: "matched" })),
+        ...unmatchedList.map((r) => ({ ...r, row_type: "unmatched" })),
+        ...missedList.map((r) => ({ ...r, row_type: "missed" })),
+      ];
+    } else if (activeGoldTab === "matched") {
+      rowsToDisplay = matchedList.map((r) => ({ ...r, row_type: "matched" }));
+    } else if (activeGoldTab === "unmatched") {
+      rowsToDisplay = unmatchedList.map((r) => ({ ...r, row_type: "unmatched" }));
+    } else if (activeGoldTab === "missed") {
+      rowsToDisplay = missedList.map((r) => ({ ...r, row_type: "missed" }));
+    } else if (activeGoldTab === "gold_only") {
+      rowsToDisplay = [
+        ...matchedList.map((r) => ({ ...r, row_type: "matched" })),
+        ...missedList.map((r) => ({ ...r, row_type: "missed" })),
+      ];
+    } else if (activeGoldTab === "extracted_only") {
+      rowsToDisplay = [
+        ...matchedList.map((r) => ({ ...r, row_type: "matched" })),
+        ...unmatchedList.map((r) => ({ ...r, row_type: "unmatched" })),
+      ];
+    }
+
+    if (rowsToDisplay.length === 0) {
+      goldComparisonTbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 24px; color: #64748b;">No relations matching this filter.</td></tr>';
+      return;
+    }
+
+    goldComparisonTbody.innerHTML = "";
+    rowsToDisplay.forEach((item) => {
+      const tr = document.createElement("tr");
+
+      let statusBadge = "";
+      let catBadge = "";
+      let overrideSelect = "";
+
+      if (item.row_type === "matched") {
+        statusBadge = '<span class="badge-status badge-verified">MATCHED TP</span>';
+        catBadge = '<span class="badge-gold-match">Gold match</span>';
+        overrideSelect = '<span style="color:#64748b; font-size:11px;">Verified</span>';
+      } else if (item.row_type === "unmatched") {
+        statusBadge = '<span class="badge-status badge-conflict">UNMATCHED FP</span>';
+        const cat = item.adjudication_category || "Ambiguous";
+        if (cat === "Likely annotation omission") catBadge = '<span class="badge-omission">Likely omission</span>';
+        else if (cat === "Genuine false positive") catBadge = '<span class="badge-fp">False positive</span>';
+        else if (cat === "Unsupported inference") catBadge = '<span class="badge-unsupported">Unsupported jump</span>';
+        else if (cat === "Duplicate or normalization issue") catBadge = '<span class="badge-duplicate">Normalization</span>';
+        else catBadge = '<span class="badge-ambiguous">Ambiguous</span>';
+
+        const reviewedFlag = item.is_reviewed ? '<br><span class="badge-reviewed-indicator">REVIEWED</span>' : "";
+
+        overrideSelect = `
+          <select class="adj-override-select" data-rel-id="${escapeHtml(item.relation_id)}">
+            <option value="" disabled ${!item.is_reviewed ? "selected" : ""}>Classify...</option>
+            <option value="Likely annotation omission" ${cat === "Likely annotation omission" ? "selected" : ""}>Likely omission</option>
+            <option value="Genuine false positive" ${cat === "Genuine false positive" ? "selected" : ""}>False positive</option>
+            <option value="Unsupported inference" ${cat === "Unsupported inference" ? "selected" : ""}>Unsupported jump</option>
+            <option value="Duplicate or normalization issue" ${cat === "Duplicate or normalization issue" ? "selected" : ""}>Normalization</option>
+            <option value="Ambiguous" ${cat === "Ambiguous" ? "selected" : ""}>Ambiguous</option>
+          </select>
+          ${reviewedFlag}
+        `;
+      } else if (item.row_type === "missed") {
+        statusBadge = '<span class="badge-status" style="background:#fee2e2; color:#991b1b; border:1px solid #f87171;">MISSED FN</span>';
+        catBadge = '<span class="badge-status badge-omitted">Reference Standard</span>';
+        overrideSelect = '<span style="color:#64748b; font-size:11px;">Gold Reference</span>';
+      }
+
+      const relationText = `<strong>${escapeHtml(item.cause)}</strong> &rarr; <strong>${escapeHtml(item.effect)}</strong>`;
+      const scopeText = item.is_transitive || item.gold_type === "cross_page"
+        ? '<span class="edge-badge-inferred" style="margin:0;">CROSS-PAGE</span>'
+        : '<span class="edge-badge-direct" style="margin:0;">DIRECT</span>';
+
+      const quoteSnippet = item.evidence_quote
+        ? `<div style="font-size:11px; color:#334155; margin-bottom:4px; font-style:italic;">"${escapeHtml(item.evidence_quote.slice(0, 150))}${item.evidence_quote.length > 150 ? "..." : ""}"</div>`
+        : "";
+      const expSnippet = item.adjudication_explanation
+        ? `<div style="font-size:10px; color:#64748b;">${escapeHtml(item.adjudication_explanation)}</div>`
+        : "";
+
+      tr.innerHTML = `
+        <td>${relationText}</td>
+        <td>${scopeText}</td>
+        <td>${statusBadge}</td>
+        <td>${catBadge}</td>
+        <td>${quoteSnippet}${expSnippet}</td>
+        <td>${overrideSelect}</td>
+      `;
+
+      const sel = tr.querySelector(".adj-override-select");
+      if (sel) {
+        sel.addEventListener("change", async (e) => {
+          const newCat = e.target.value;
+          const relId = e.target.dataset.relId;
+          try {
+            await fetch("/api/benchmark/adjudicate", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                session_id: activeSessionId || "temp_session",
+                relation_id: relId,
+                category: newCat,
+                note: "User manual classification override",
+              }),
+            });
+            showNotification(`Updated adjudication to: ${newCat}`, "success", 2000);
+            loadGoldComparisonData();
+          } catch (err) {
+            showNotification("Failed to update classification: " + err.message, "error", 4000);
+          }
+        });
+      }
+
+      goldComparisonTbody.appendChild(tr);
+    });
   }
 
   // Selection Callbacks
@@ -2363,4 +2939,5 @@
 
   // Initial load
   refreshSessionList();
+  renderRecentExamples();
 })();

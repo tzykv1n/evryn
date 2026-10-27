@@ -5,7 +5,13 @@ multi-hop chains, negation assertions, context mismatch path validation, and inp
 """
 
 from typing import List, Dict, Any, Optional
+import os
+import json
 import time
+
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+REAL_PAPERS_DIR = os.path.join(REPO_ROOT, "data", "real_papers")
+SPLIT_MANIFEST_PATH = os.path.join(REAL_PAPERS_DIR, "split_manifest.json")
 
 
 TEST_EXAMPLES: List[Dict[str, Any]] = [
@@ -187,10 +193,64 @@ class TestExamplesService:
             "literature_benchmarks": VERIFIED_LITERATURE_EXAMPLES,
         }
 
+    def get_full_library(self) -> Dict[str, Any]:
+        """Provides the complete catalog of diagnostic cases and real benchmark papers."""
+        benchmark_papers = []
+        if os.path.exists(SPLIT_MANIFEST_PATH):
+            try:
+                with open(SPLIT_MANIFEST_PATH, "r", encoding="utf-8") as f:
+                    manifest = json.load(f)
+                for p in manifest.get("papers", []):
+                    pmcid = p["pmcid"]
+                    gt_path = os.path.join(REAL_PAPERS_DIR, f"{pmcid}_ground_truth.json")
+                    gold_available = os.path.exists(gt_path)
+                    benchmark_papers.append({
+                        "id": pmcid.lower(),
+                        "code": pmcid,
+                        "title": p.get("title", f"Benchmark Paper {pmcid}"),
+                        "split": p.get("split", "dev"),
+                        "category": f"Benchmark ({p.get('split', 'dev').upper()})",
+                        "journal": p.get("journal", "PubMed Central"),
+                        "authors": p.get("authors", []),
+                        "page_count": p.get("page_count", 1),
+                        "gold_available": gold_available,
+                        "gold_relations_count": p.get("gold_relations_count", 0),
+                        "description": f"{p.get('journal', 'PMC')} • Split: {p.get('split', 'dev').upper()} • {p.get('gold_relations_count', 0)} gold relations • {p.get('page_count', 1)} pages",
+                        "pdf_available": os.path.exists(os.path.join(REAL_PAPERS_DIR, "pdf", f"{pmcid}.pdf")),
+                    })
+            except Exception:
+                pass
+
+        return {
+            "status": "success",
+            "version": "2.5.0",
+            "total_items": len(TEST_EXAMPLES) + len(benchmark_papers),
+            "diagnostic_suite": TEST_EXAMPLES,
+            "benchmark_papers": benchmark_papers,
+        }
+
     def get_example(self, example_id: str) -> Optional[Dict[str, Any]]:
         for ex in TEST_EXAMPLES + VERIFIED_LITERATURE_EXAMPLES:
             if ex["id"] == example_id or ex["code"].lower() == example_id.lower():
                 return ex
+        # Check benchmark papers
+        if os.path.exists(SPLIT_MANIFEST_PATH):
+            try:
+                with open(SPLIT_MANIFEST_PATH, "r", encoding="utf-8") as f:
+                    manifest = json.load(f)
+                for p in manifest.get("papers", []):
+                    if p["pmcid"].lower() == example_id.lower():
+                        return {
+                            "id": p["pmcid"].lower(),
+                            "code": p["pmcid"],
+                            "title": p.get("title", ""),
+                            "category": f"Benchmark ({p.get('split', 'dev').upper()})",
+                            "source": f"{p['pmcid']} • {p.get('journal', 'PMC')}",
+                            "description": f"{p.get('journal', '')} article with {p.get('gold_relations_count', 0)} annotated relations across {p.get('page_count', 1)} pages.",
+                            "input_text": "",  # Loaded on demand via /api/examples/paper/{pmcid}
+                        }
+            except Exception:
+                pass
         return None
 
     def audit_execution(
