@@ -49,6 +49,23 @@ def test_scierc_schema_preservation():
         assert rel_type in ds.VALID_RELATION_TYPES or rel_type == "COREF"
 
 
+def test_semeval2010_adapter():
+    from evryn.datasets.semeval2010 import SemEval2010Dataset
+    ds = SemEval2010Dataset()
+    assert len(ds.train_samples) == 8000
+    assert len(ds.test_samples) == 2717
+    causal_test = ds.get_causal_test_samples()
+    assert len(causal_test) == 328
+
+    # Test evaluation method with a mock prediction
+    sample = causal_test[0]
+    preds = {sample.sample_id: (sample.cause_entity, sample.effect_entity)}
+    metrics = ds.evaluate_causal_predictions(preds)
+    assert metrics["true_positives"] == 1
+    assert metrics["false_positives"] == 0
+    assert metrics["precision"] == 1.0
+
+
 def test_pmc_oa_xml_ingestion_and_offsets():
     ingester = PMCOAIngester()
     xml_path = os.path.join(ingester.cache_dir, "PMC1804205.xml")

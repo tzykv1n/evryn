@@ -543,6 +543,45 @@ def get_controlled_ablations():
     return diag_svc.run_controlled_ablations()
 
 
+@app.get("/api/phase3/results")
+def get_phase3_results():
+    res_path = os.path.join(REPO_ROOT, "experiments", "phase3_chains", "machine_readable_results.json")
+    if os.path.exists(res_path):
+        with open(res_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    raise HTTPException(status_code=404, detail="Phase 3 results not found.")
+
+
+@app.get("/api/phase3/chains/{pmcid}")
+def get_phase3_paper_chains(pmcid: str):
+    res_path = os.path.join(REPO_ROOT, "experiments", "phase3_chains", "machine_readable_results.json")
+    if os.path.exists(res_path):
+        with open(res_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        splits = data.get("full_evaluation", {}).get("splits", {})
+        for s_name, s_data in splits.items():
+            for p in s_data.get("paper_details", []):
+                if p["pmcid"].upper() == pmcid.upper():
+                    return {
+                        "pmcid": pmcid,
+                        "split": s_name,
+                        "paper_metrics": p,
+                        "chain_length_recovery": s_data.get("chain_length_recovery", {}),
+                        "composition_class_distribution": s_data.get("composition_class_distribution", {}),
+                    }
+    raise HTTPException(status_code=404, detail=f"Phase 3 data for {pmcid} not found.")
+
+
+@app.get("/api/phase3/cross-paper-links")
+def get_phase3_cross_paper_links():
+    res_path = os.path.join(REPO_ROOT, "experiments", "phase3_chains", "machine_readable_results.json")
+    if os.path.exists(res_path):
+        with open(res_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data.get("full_evaluation", {}).get("cross_paper_linking", [])
+    raise HTTPException(status_code=404, detail="Cross-paper links not found.")
+
+
 # Mount static assets
 if os.path.exists(STATIC_DIR):
     @app.middleware("http")

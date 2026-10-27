@@ -34,6 +34,7 @@
   const viewTabBenchmark = document.getElementById("view-tab-benchmark");
   const viewTabGold = document.getElementById("view-tab-gold");
   const viewTabDiagnostics = document.getElementById("view-tab-diagnostics");
+  const viewTabChains = document.getElementById("view-tab-chains");
   const viewDiagnosticsBtn = document.getElementById("view-diagnostics-btn");
   const graphViewport = document.getElementById("graph-viewport");
   const graphEmptyState = document.getElementById("graph-empty-state");
@@ -46,6 +47,7 @@
   const benchmarkView = document.getElementById("benchmark-view");
   const goldComparisonView = document.getElementById("gold-comparison-view");
   const diagnosticsView = document.getElementById("diagnostics-view");
+  const chainsView = document.getElementById("chains-view");
   const goldCompTitle = document.getElementById("gold-comp-title");
   const goldCompSubtitle = document.getElementById("gold-comp-subtitle");
   const goldProvenanceTag = document.getElementById("gold-provenance-tag");
@@ -504,6 +506,7 @@
     if (viewTabBenchmark) viewTabBenchmark.classList.toggle("active", tabName === "benchmark");
     if (viewTabGold) viewTabGold.classList.toggle("active", tabName === "gold");
     if (viewTabDiagnostics) viewTabDiagnostics.classList.toggle("active", tabName === "diagnostics");
+    if (viewTabChains) viewTabChains.classList.toggle("active", tabName === "chains");
 
     if (viewTabGraph) viewTabGraph.setAttribute("aria-selected", tabName === "graph");
     if (viewTabCopyable) viewTabCopyable.setAttribute("aria-selected", tabName === "copyable");
@@ -512,6 +515,7 @@
     if (viewTabBenchmark) viewTabBenchmark.setAttribute("aria-selected", tabName === "benchmark");
     if (viewTabGold) viewTabGold.setAttribute("aria-selected", tabName === "gold");
     if (viewTabDiagnostics) viewTabDiagnostics.setAttribute("aria-selected", tabName === "diagnostics");
+    if (viewTabChains) viewTabChains.setAttribute("aria-selected", tabName === "chains");
 
     if (graphViewport) graphViewport.classList.toggle("hidden", tabName !== "graph");
     if (copyableView) copyableView.classList.toggle("hidden", tabName !== "copyable");
@@ -520,6 +524,7 @@
     if (benchmarkView) benchmarkView.classList.toggle("hidden", tabName !== "benchmark");
     if (goldComparisonView) goldComparisonView.classList.toggle("hidden", tabName !== "gold");
     if (diagnosticsView) diagnosticsView.classList.toggle("hidden", tabName !== "diagnostics");
+    if (chainsView) chainsView.classList.toggle("hidden", tabName !== "chains");
 
     if (tabName === "benchmark") {
       inputContainer.classList.add("hidden");
@@ -536,6 +541,11 @@
       if (graphRenderer) graphRenderer.pause();
       resultsView.classList.remove("hidden");
       loadDiagnosticsData();
+    } else if (tabName === "chains") {
+      inputContainer.classList.add("hidden");
+      if (graphRenderer) graphRenderer.pause();
+      resultsView.classList.remove("hidden");
+      loadChainsData();
     } else {
       inputContainer.classList.remove("hidden");
       if (!activeSessionData) {
@@ -569,6 +579,7 @@
   if (viewTabGold) viewTabGold.addEventListener("click", () => switchView("gold"));
   if (viewTabDiagnostics) viewTabDiagnostics.addEventListener("click", () => switchView("diagnostics"));
   if (viewDiagnosticsBtn) viewDiagnosticsBtn.addEventListener("click", () => switchView("diagnostics"));
+  if (viewTabChains) viewTabChains.addEventListener("click", () => switchView("chains"));
 
   // 1-Click Copy Graph Button
   copyGraphBtn.addEventListener("click", () => {
@@ -3476,6 +3487,122 @@
         </tr>
       `;
     }).join("");
+  }
+
+  async function loadChainsData() {
+    const cpTbody = document.getElementById("cross-paper-tbody");
+    const ablTbody = document.getElementById("phase3-ablation-tbody");
+    if (cpTbody) {
+      cpTbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: #64748b; padding: 18px; font-family: var(--font-mono);">LOADING VERIFIED CROSS-PAPER BRIDGES...</td></tr>`;
+    }
+    if (ablTbody) {
+      ablTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #64748b; padding: 18px; font-family: var(--font-mono);">LOADING 8-WAY ABLATION MATRIX...</td></tr>`;
+    }
+
+    try {
+      const [resResults, resBridges] = await Promise.all([
+        fetch("/api/phase3/results"),
+        fetch("/api/phase3/cross-paper-links")
+      ]);
+
+      if (resResults.ok) {
+        const data = await resResults.json();
+        renderPhase3Results(data);
+      }
+      if (resBridges.ok) {
+        const bridgesData = await resBridges.json();
+        renderCrossPaperBridges(bridgesData);
+      }
+    } catch (err) {
+      console.error("Error loading Phase 3 data:", err);
+      if (cpTbody) cpTbody.innerHTML = `<tr><td colspan="6" style="color: #dc2626; padding: 12px;">Failed to load Phase 3 data: ${escapeHtml(err.message)}</td></tr>`;
+    }
+  }
+
+  const chainsReloadBtn = document.getElementById("chains-reload-btn");
+  if (chainsReloadBtn) {
+    chainsReloadBtn.addEventListener("click", () => loadChainsData());
+  }
+
+  function renderCrossPaperBridges(bridgesList) {
+    const cpTbody = document.getElementById("cross-paper-tbody");
+    if (!cpTbody) return;
+
+    let allBridges = [];
+    bridgesList.forEach(item => {
+      (item.bridges || []).forEach(b => {
+        allBridges.push({ ...b, pair_desc: item.description });
+      });
+    });
+
+    if (allBridges.length === 0) {
+      cpTbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: #64748b; padding: 16px;">No cross-paper bridges discovered yet.</td></tr>`;
+      return;
+    }
+
+    cpTbody.innerHTML = allBridges.map(b => `
+      <tr>
+        <td>
+          <strong>${escapeHtml(b.source_entity)}</strong>
+          <div style="font-size: 10px; color: #64748b;">${escapeHtml(b.source_doc_id)} (p. ${b.page_doc1})</div>
+        </td>
+        <td>
+          <span class="status-chip active" style="font-size: 11px;">${escapeHtml(b.pivot_entity)}</span>
+          <div style="font-size: 9px; color: #64748b; margin-top: 3px;">${escapeHtml(b.pair_desc)}</div>
+        </td>
+        <td>
+          <strong>${escapeHtml(b.target_entity)}</strong>
+          <div style="font-size: 10px; color: #64748b;">${escapeHtml(b.target_doc_id)} (p. ${b.page_doc2})</div>
+        </td>
+        <td>
+          <span style="display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: 600; background: ${b.mechanism_compatibility === 'COMPATIBLE' ? '#ecfdf5; color: #047857;' : '#fef2f2; color: #b91c1c;'}">
+            ${escapeHtml(b.mechanism_compatibility)}
+          </span>
+        </td>
+        <td>
+          <strong style="font-family: var(--font-mono); font-size: 12px;">${b.confidence.toFixed(4)}</strong>
+        </td>
+        <td style="font-size: 11px;">
+          <div style="margin-bottom: 4px;"><strong>Doc 1:</strong> "${escapeHtml((b.evidence_doc1 || '').slice(0, 75))}..."</div>
+          <div><strong>Doc 2:</strong> "${escapeHtml((b.evidence_doc2 || '').slice(0, 75))}..."</div>
+        </td>
+      </tr>
+    `).join("");
+  }
+
+  function renderPhase3Results(data) {
+    const ablTbody = document.getElementById("phase3-ablation-tbody");
+    if (ablTbody && data.ablation_matrix) {
+      ablTbody.innerHTML = data.ablation_matrix.map(row => {
+        const isFull = row.configuration.includes("Full");
+        const isBase = row.configuration.includes("Baseline");
+        const cls = isFull ? "ablation-row-phase3" : (isBase ? "ablation-row-baseline" : "");
+        const s = row.scores || {};
+        return `
+          <tr class="${cls}">
+            <td>
+              <strong>${escapeHtml(row.configuration)}</strong>
+            </td>
+            <td>
+              <div>${s.dev?.direct_f1?.toFixed(4) || "-"} / ${s.dev?.cross_f1?.toFixed(4) || "-"}</div>
+              <div style="font-size: 9px; color: #64748b;">FJ: ${s.dev?.false_jumps ?? "-"}</div>
+            </td>
+            <td>
+              <div>${s.train?.direct_f1?.toFixed(4) || "-"} / ${s.train?.cross_f1?.toFixed(4) || "-"}</div>
+              <div style="font-size: 9px; color: #64748b;">FJ: ${s.train?.false_jumps ?? "-"}</div>
+            </td>
+            <td>
+              <div>${s.locked_test?.direct_f1?.toFixed(4) || "-"} / ${s.locked_test?.cross_f1?.toFixed(4) || "-"}</div>
+              <div style="font-size: 9px; color: #64748b;">FJ: ${s.locked_test?.false_jumps ?? "-"}</div>
+            </td>
+            <td>
+              <div>${s.external?.direct_f1?.toFixed(4) || "-"} / ${s.external?.cross_f1?.toFixed(4) || "-"}</div>
+              <div style="font-size: 9px; color: #64748b;">FJ: ${s.external?.false_jumps ?? "-"}</div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
   }
 
   function escapeHtml(str) {

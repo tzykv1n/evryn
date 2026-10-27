@@ -177,6 +177,10 @@ PASSIVE_INDICATORS = [
     r"\b(?:responds?|responded|responding)\s+to\b",
     r"\b(?:is|was|are|were)?\s*(?:expressed|transcribed|produced|activated|induced)\s+in\s+response\s+to\b",
     r"\bunder\s+(?:the\s+)?(?:control|regulation)\s+of\b",
+    r"\b(?:is|was|are|were|has\s+been|have\s+been)?\s*(?:strictly\s+|directly\s+)?(?:dependent|contingent)\s+(?:on|upon)\b",
+    r"\b(?:is|was|are|were|has\s+been|have\s+been)?\s*(?:directly\s+)?linked\s+to\b",
+    r"\b(?:is|was|are|were|has\s+been|have\s+been)?\s*(?:primarily\s+|directly\s+)?(?:governed|orchestrated|coordinated)\s+by\b",
+    r"\b(?:is|was|are|were|has\s+been|have\s+been)?\s*(?:conferred|elicited)\s+by\b",
 ]
 
 NEGATION_PATTERNS = [
@@ -1513,9 +1517,16 @@ class PaperCausalExtractor:
                             for eff_cand in effect_cands:
                                 eff_canon = self.normalizer.canonicalize(eff_cand, local_abbr, known_entities)
 
-                                if not is_valid_entity_candidate(cause_cand) or not is_valid_entity_candidate(eff_cand):
+                                is_cause_known = bool(known_entities and cause_canon in known_entities)
+                                is_eff_known = bool(known_entities and eff_canon in known_entities)
+
+                                if not is_cause_known and not is_valid_entity_candidate(cause_cand):
                                     continue
-                                if not is_valid_entity_candidate(cause_canon) or not is_valid_entity_candidate(eff_canon):
+                                if not is_eff_known and not is_valid_entity_candidate(eff_cand):
+                                    continue
+                                if not is_cause_known and not is_valid_entity_candidate(cause_canon):
+                                    continue
+                                if not is_eff_known and not is_valid_entity_candidate(eff_canon):
                                     continue
                                 if not cause_canon or not eff_canon or len(cause_canon) < 2 or len(eff_canon) < 2:
                                     continue

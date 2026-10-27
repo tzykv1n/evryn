@@ -467,6 +467,66 @@ class PaperEntityNormalizer:
                 # Bacterial survival variants
                 if "bacterial survival" in ke_low and key in ("survival in blood", "survival in whole blood", "bacterial survival"):
                     return ke
+                # ATP-binding variants (Mtb USP Rv2623)
+                if ke_low == "atp-binding" and (
+                    key in ("atp-binding", "atp binding", "atp-binding activity", "atp-binding capacity", "atp binding activity", "atp binding capacity", "atp-binding attribute", "atp-dependent function")
+                    or ("atp" in key and any(w in key for w in ("bind", "binding", "bound", "dependent", "recognition")))
+                ):
+                    return ke
+                # Bacillary / bacterial growth variants
+                if ke_low in ("bacillary growth", "bacterial growth") and (
+                    key in ("bacillary growth", "mycobacterial growth", "bacterial growth", "growth of m. tuberculosis", "growth in vitro and in vivo", "mycobacterial growth in vitro and in vivo", "growth")
+                    or ("growth" in key and any(w in key for w in ("regulatory", "regulating", "inhibition", "inhibitory", "attenuation", "retardation", "defect", "regulation", "attribute")))
+                ):
+                    return ke
+                # Persistent infection variants
+                if ke_low == "persistent infection" and (
+                    key in ("persistent infection", "chronic persistent infection", "persistence", "establishment of persistence", "establishment of a persistent infection", "chronic phase of infection")
+                    or ("persistent" in key and "infection" in key)
+                    or ("persistence" in key)
+                    or ("chronic" in key and "infection" in key)
+                ):
+                    return ke
+                # Cation chelation variants
+                if ke_low == "cation chelation" and (
+                    key in ("cation chelation", "cation chelating", "mg2+ chelation", "chelation of cations", "chelation of mg2+", "chelation of divalent cations", "divalent cation chelation")
+                    or ("chelat" in key and any(w in key for w in ("cation", "cations", "mg2+", "divalent")))
+                    or ("cation" in key and "limit" in key)
+                    or ("mg2+" in key and ("limit" in key or "low" in key))
+                    or ("magnesium" in key and ("limit" in key or "low" in key))
+                ):
+                    return ke
+                # Antibiotic resistance variants
+                if ke_low == "antibiotic resistance" and (
+                    key in ("antibiotic resistance", "antimicrobial resistance", "cap resistance", "resistance to caps", "cationic antimicrobial peptide resistance")
+                    or ("resistance" in key and any(w in key for w in ("cap", "caps", "antimicrobial", "antibiotic", "peptide", "polymyxin", "colistin")))
+                ):
+                    return ke
+                # Biofilm variants
+                if ke_low in ("biofilm", "biofilm formation") and (
+                    key in ("biofilm", "biofilms", "biofilm formation", "attachment and biofilm formation", "biofilm growth", "biofilm development", "biofilm mode of growth")
+                    or ("biofilm" in key)
+                ):
+                    return ke
+                # cyclic-di-GMP variants
+                if ke_low in ("cyclic-di-gmp", "di-gmp", "c-di-gmp") and (
+                    key in ("cyclic-di-gmp", "c-di-gmp", "di-gmp", "bis-(3′-5′)-cyclic diguanylic guanosine", "cyclic diguanylic guanosine", "cyclic diguanylate", "cyclic di-gmp")
+                    or ("gmp" in key and ("cyclic" in key or "di-gmp" in key or "c-di" in key))
+                ):
+                    return ke
+                # Protective immunity variants
+                if ke_low == "protective immunity" and (
+                    key in ("protective immunity", "protection against reinfection", "immune protection", "immunity against challenge", "protective immune response")
+                    or ("protective" in key and "immunit" in key)
+                    or ("protection" in key and "reinfection" in key)
+                ):
+                    return ke
+                # Effector translocation variants
+                if ke_low == "effector translocation" and (
+                    key in ("effector translocation", "translocation of effectors", "translocation of type iii effectors", "secretion and translocation of effectors", "translocation")
+                    or ("translocation" in key and ("effector" in key or "protein" in key))
+                ):
+                    return ke
 
         if local_abbr_map and key in local_abbr_map:
             abbr_target = local_abbr_map[key]

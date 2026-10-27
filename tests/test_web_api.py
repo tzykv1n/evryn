@@ -318,4 +318,38 @@ def test_phase2_3_benchmark_endpoints(client):
     assert ev_data["metrics"]["direct_f1"] >= 0.65
 
 
+def test_phase3_api_endpoints(client):
+    """Verify Phase 3 causal chains and cross-paper API endpoints."""
+    # 1. /api/phase3/results
+    res = client.get("/api/phase3/results")
+    assert res.status_code == 200
+    data = res.json()
+    assert "ablation_matrix" in data
+    assert len(data["ablation_matrix"]) == 8
+    assert "full_evaluation" in data
+    assert "splits" in data["full_evaluation"]
+    assert "dev" in data["full_evaluation"]["splits"]
+    assert "train" in data["full_evaluation"]["splits"]
+    assert "locked_test" in data["full_evaluation"]["splits"]
+    assert "external" in data["full_evaluation"]["splits"]
+
+    # 2. /api/phase3/chains/PMC1804205
+    chains_res = client.get("/api/phase3/chains/PMC1804205")
+    assert chains_res.status_code == 200
+    p_data = chains_res.json()
+    assert p_data["pmcid"] == "PMC1804205"
+    assert "chain_length_recovery" in p_data
+    assert "composition_class_distribution" in p_data
+
+    # 3. /api/phase3/cross-paper-links
+    links_res = client.get("/api/phase3/cross-paper-links")
+    assert links_res.status_code == 200
+    bridges = links_res.json()
+    assert isinstance(bridges, list)
+    assert len(bridges) >= 1
+    pair1 = bridges[0]
+    assert "paper_pair" in pair1
+    assert "bridges_discovered_count" in pair1
+
+
 

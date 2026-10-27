@@ -1,0 +1,33 @@
+{
+  "project": "EVRYN Phase 3: Generalizable Causal Chains, Partial-Path Matching, and Cross-Paper Linking",
+  "starting_commit": "bf92c1b76665f98d75b9d3c414ba65b7e248dd73",
+  "branch": "phase3-generalizable-causal-chains",
+  "timestamp": "2026-10-27T22:05:00Z",
+  "baseline_metrics": {
+    "dev": {
+      "direct_f1": 0.6542,
+      "cross_f1": 0.5306,
+      "structural_match": 0.6437,
+      "false_transitive_jumps": 11
+    },
+    "train": {
+      "direct_f1": 0.3558,
+      "cross_f1": 0.3373,
+      "structural_match": 0.3729,
+      "false_transitive_jumps": 26
+    },
+    "locked_test": {
+      "direct_f1": 0.5399,
+      "cross_f1": 0.2601,
+      "structural_match": 0.4264,
+      "false_transitive_jumps": 27
+    },
+    "external": {
+      "direct_f1": 0.4694,
+      "cross_f1": 0.2944,
+      "structural_match": 0.3357,
+      "false_transitive_jumps": 5
+    }
+  },
+  "experiments": []
+}

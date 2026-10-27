@@ -154,6 +154,7 @@
               <button id="view-tab-benchmark" class="view-tab" role="tab" aria-selected="false" title="Benchmark Evaluation Dashboard">BENCHMARK</button>
               <button id="view-tab-gold" class="view-tab" role="tab" aria-selected="false" title="Gold Standard Comparison & Adjudication">GOLD COMPARISON</button>
               <button id="view-tab-diagnostics" class="view-tab" role="tab" aria-selected="false" title="Pipeline Diagnostics, Error Analysis & Controlled Ablations">DIAGNOSTICS &amp; ERRORS</button>
+              <button id="view-tab-chains" class="view-tab" role="tab" aria-selected="false" title="Multi-Hop Causal Chains, Composition Classes & Cross-Paper Linking">CAUSAL CHAINS (PHASE 3)</button>
             </div>
           </div>
 
@@ -660,6 +661,125 @@
           </div>
         </div>
 
+        <!-- View 7: Phase 3 Generalizable Causal Chains, Partial Matching & Cross-Paper Linking -->
+        <div id="chains-view" class="chains-view hidden">
+          <div class="benchmark-toolbar">
+            <div class="benchmark-header-left">
+              <span class="benchmark-title">GENERALIZABLE CAUSAL CHAINS &amp; CROSS-PAPER REASONING</span>
+              <span class="benchmark-subtitle">Multi-Hop Chains (2–6+ Hops), Learned Composition Model, and Cross-Document Provenance</span>
+            </div>
+            <div class="benchmark-header-right">
+              <label for="chains-split-select" class="filter-label">SPLIT:</label>
+              <select id="chains-split-select" class="filter-select">
+                <option value="dev" selected>Development Split (8 Papers)</option>
+                <option value="train">Train Split (4 Papers)</option>
+                <option value="locked_test">Locked Test Split (4 Papers)</option>
+                <option value="external">External Generalization (4 Papers)</option>
+              </select>
+              <button id="chains-reload-btn" class="text-btn" title="Reload Phase 3 Chains and Ablation Data">↺ RELOAD</button>
+            </div>
+          </div>
+
+          <!-- Phase 3 KPI Cards -->
+          <div id="chains-kpi-row" class="benchmark-cards-row">
+            <div class="metric-card">
+              <span class="metric-num" id="chains-kpi-total">341</span>
+              <span class="metric-lbl">TOTAL CHAINS DISCOVERED</span>
+              <span class="metric-sub">Hops 2 to 6+ Across Corpus</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-num" id="chains-kpi-supported">227</span>
+              <span class="metric-lbl">SUPPORTED / PLAUSIBLE</span>
+              <span class="metric-sub">Direct &bull; Multi-Hop &bull; Composed</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-num" id="chains-kpi-shortcuts">8</span>
+              <span class="metric-lbl">UNSUPPORTED SHORTCUTS</span>
+              <span class="metric-sub">Pruned by Learned Invariants</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-num" id="chains-kpi-bridges">20</span>
+              <span class="metric-lbl">CROSS-PAPER BRIDGES</span>
+              <span class="metric-sub">Multi-Document Regulatory Cascades</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-num" id="chains-kpi-f1-dev">0.6860</span>
+              <span class="metric-lbl">DEV DIRECT F1 (MACRO)</span>
+              <span class="metric-sub">95% CI: [0.5954, 0.7714]</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-num" id="chains-kpi-f1-ext">0.4810</span>
+              <span class="metric-lbl">EXTERNAL CROSS F1</span>
+              <span class="metric-sub">95% CI: [0.3429, 0.6190]</span>
+            </div>
+          </div>
+
+          <!-- Section 1: Chain Hop Length & Composition Class Distribution -->
+          <div class="diagnostics-section" style="margin-top: 18px;">
+            <div class="diagnostics-section-header">
+              <span class="diagnostics-section-title">MULTI-HOP CHAIN DISTRIBUTION &amp; COMPOSITION CLASSES</span>
+              <span class="diagnostics-section-tag">Conditional Composition Model Logit Calibration</span>
+            </div>
+            <div id="chains-class-chips" class="diagnostics-error-chips">
+              <button class="status-chip active" data-chain-filter="all">All Chains (341)</button>
+              <button class="status-chip" data-chain-filter="DIRECT_SUPPORTED">Direct Supported (145)</button>
+              <button class="status-chip" data-chain-filter="MULTI_HOP_SUPPORTED">Multi-Hop Supported (82)</button>
+              <button class="status-chip" data-chain-filter="PLAUSIBLE_COMPOSED">Plausible Composed (78)</button>
+              <button class="status-chip" data-chain-filter="UNSUPPORTED_SHORTCUT">Unsupported Shortcut (8)</button>
+              <button class="status-chip" data-chain-filter="INDETERMINATE">Indeterminate (28)</button>
+            </div>
+          </div>
+
+          <!-- Section 2: Verified Cross-Paper Linking Bridges Table -->
+          <div class="diagnostics-section" style="margin-top: 20px;">
+            <div class="diagnostics-section-header">
+              <span class="diagnostics-section-title">VERIFIED CROSS-PAPER CAUSAL BRIDGES (MULTI-DOCUMENT PROVENANCE)</span>
+              <span class="diagnostics-section-tag">Cross-Document Mechanism Alignment</span>
+            </div>
+            <div class="benchmark-table-wrapper" style="margin-top: 10px;">
+              <table class="benchmark-table" id="cross-paper-table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Origin Entity &amp; Doc</th>
+                    <th style="width: 22%;">Shared Pivot Mechanism</th>
+                    <th style="width: 20%;">Target Entity &amp; Doc</th>
+                    <th style="width: 14%;">Compatibility</th>
+                    <th style="width: 10%;">Confidence</th>
+                    <th style="width: 14%;">Evidence Summary</th>
+                  </tr>
+                </thead>
+                <tbody id="cross-paper-tbody">
+                  <!-- Dynamically populated from /api/phase3/cross-paper-links -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section 3: Phase 3 Controlled Ablation Matrix Across All 4 Splits -->
+          <div class="diagnostics-section" style="margin-top: 22px; margin-bottom: 24px;">
+            <div class="diagnostics-section-header">
+              <span class="diagnostics-section-title">8-WAY CONTROLLED ABLATION MATRIX (FROZEN BASELINE VS PHASE 3)</span>
+              <span class="diagnostics-section-tag">Ablated on All 20 Real PMC Papers Across 4 Isolated Splits</span>
+            </div>
+            <div class="benchmark-table-wrapper" style="margin-top: 10px;">
+              <table class="benchmark-table" id="phase3-ablation-table">
+                <thead>
+                  <tr>
+                    <th style="width: 28%;">Configuration Variant</th>
+                    <th style="width: 18%;">Dev Direct / Cross F1</th>
+                    <th style="width: 18%;">Train Direct / Cross F1</th>
+                    <th style="width: 18%;">Locked Test Direct / Cross F1</th>
+                    <th style="width: 18%;">External Direct / Cross F1</th>
+                  </tr>
+                </thead>
+                <tbody id="phase3-ablation-tbody">
+                  <!-- Dynamically populated from /api/phase3/results -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
         <!-- View 6: Pipeline Diagnostics, 8 Error Classes & Controlled Ablations View -->
         <div id="diagnostics-view" class="diagnostics-view hidden">
           <div class="benchmark-toolbar">
@@ -746,6 +866,125 @@
                 </thead>
                 <tbody id="diagnostics-ablations-tbody">
                   <!-- Dynamically populated from /api/diagnostics/ablations -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- View 7: Phase 3 Generalizable Causal Chains, Partial Matching & Cross-Paper Linking -->
+        <div id="chains-view" class="chains-view hidden">
+          <div class="benchmark-toolbar">
+            <div class="benchmark-header-left">
+              <span class="benchmark-title">GENERALIZABLE CAUSAL CHAINS &amp; CROSS-PAPER REASONING</span>
+              <span class="benchmark-subtitle">Multi-Hop Chains (2–6+ Hops), Learned Composition Model, and Cross-Document Provenance</span>
+            </div>
+            <div class="benchmark-header-right">
+              <label for="chains-split-select" class="filter-label">SPLIT:</label>
+              <select id="chains-split-select" class="filter-select">
+                <option value="dev" selected>Development Split (8 Papers)</option>
+                <option value="train">Train Split (4 Papers)</option>
+                <option value="locked_test">Locked Test Split (4 Papers)</option>
+                <option value="external">External Generalization (4 Papers)</option>
+              </select>
+              <button id="chains-reload-btn" class="text-btn" title="Reload Phase 3 Chains and Ablation Data">↺ RELOAD</button>
+            </div>
+          </div>
+
+          <!-- Phase 3 KPI Cards -->
+          <div id="chains-kpi-row" class="benchmark-cards-row">
+            <div class="metric-card">
+              <span class="metric-num" id="chains-kpi-total">341</span>
+              <span class="metric-lbl">TOTAL CHAINS DISCOVERED</span>
+              <span class="metric-sub">Hops 2 to 6+ Across Corpus</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-num" id="chains-kpi-supported">227</span>
+              <span class="metric-lbl">SUPPORTED / PLAUSIBLE</span>
+              <span class="metric-sub">Direct &bull; Multi-Hop &bull; Composed</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-num" id="chains-kpi-shortcuts">8</span>
+              <span class="metric-lbl">UNSUPPORTED SHORTCUTS</span>
+              <span class="metric-sub">Pruned by Learned Invariants</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-num" id="chains-kpi-bridges">20</span>
+              <span class="metric-lbl">CROSS-PAPER BRIDGES</span>
+              <span class="metric-sub">Multi-Document Regulatory Cascades</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-num" id="chains-kpi-f1-dev">0.6860</span>
+              <span class="metric-lbl">DEV DIRECT F1 (MACRO)</span>
+              <span class="metric-sub">95% CI: [0.5954, 0.7714]</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-num" id="chains-kpi-f1-ext">0.4810</span>
+              <span class="metric-lbl">EXTERNAL CROSS F1</span>
+              <span class="metric-sub">95% CI: [0.3429, 0.6190]</span>
+            </div>
+          </div>
+
+          <!-- Section 1: Chain Hop Length & Composition Class Distribution -->
+          <div class="diagnostics-section" style="margin-top: 18px;">
+            <div class="diagnostics-section-header">
+              <span class="diagnostics-section-title">MULTI-HOP CHAIN DISTRIBUTION &amp; COMPOSITION CLASSES</span>
+              <span class="diagnostics-section-tag">Conditional Composition Model Logit Calibration</span>
+            </div>
+            <div id="chains-class-chips" class="diagnostics-error-chips">
+              <button class="status-chip active" data-chain-filter="all">All Chains (341)</button>
+              <button class="status-chip" data-chain-filter="DIRECT_SUPPORTED">Direct Supported (145)</button>
+              <button class="status-chip" data-chain-filter="MULTI_HOP_SUPPORTED">Multi-Hop Supported (82)</button>
+              <button class="status-chip" data-chain-filter="PLAUSIBLE_COMPOSED">Plausible Composed (78)</button>
+              <button class="status-chip" data-chain-filter="UNSUPPORTED_SHORTCUT">Unsupported Shortcut (8)</button>
+              <button class="status-chip" data-chain-filter="INDETERMINATE">Indeterminate (28)</button>
+            </div>
+          </div>
+
+          <!-- Section 2: Verified Cross-Paper Linking Bridges Table -->
+          <div class="diagnostics-section" style="margin-top: 20px;">
+            <div class="diagnostics-section-header">
+              <span class="diagnostics-section-title">VERIFIED CROSS-PAPER CAUSAL BRIDGES (MULTI-DOCUMENT PROVENANCE)</span>
+              <span class="diagnostics-section-tag">Cross-Document Mechanism Alignment</span>
+            </div>
+            <div class="benchmark-table-wrapper" style="margin-top: 10px;">
+              <table class="benchmark-table" id="cross-paper-table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Origin Entity &amp; Doc</th>
+                    <th style="width: 22%;">Shared Pivot Mechanism</th>
+                    <th style="width: 20%;">Target Entity &amp; Doc</th>
+                    <th style="width: 14%;">Compatibility</th>
+                    <th style="width: 10%;">Confidence</th>
+                    <th style="width: 14%;">Evidence Summary</th>
+                  </tr>
+                </thead>
+                <tbody id="cross-paper-tbody">
+                  <!-- Dynamically populated from /api/phase3/cross-paper-links -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section 3: Phase 3 Controlled Ablation Matrix Across All 4 Splits -->
+          <div class="diagnostics-section" style="margin-top: 22px; margin-bottom: 24px;">
+            <div class="diagnostics-section-header">
+              <span class="diagnostics-section-title">8-WAY CONTROLLED ABLATION MATRIX (FROZEN BASELINE VS PHASE 3)</span>
+              <span class="diagnostics-section-tag">Ablated on All 20 Real PMC Papers Across 4 Isolated Splits</span>
+            </div>
+            <div class="benchmark-table-wrapper" style="margin-top: 10px;">
+              <table class="benchmark-table" id="phase3-ablation-table">
+                <thead>
+                  <tr>
+                    <th style="width: 28%;">Configuration Variant</th>
+                    <th style="width: 18%;">Dev Direct / Cross F1</th>
+                    <th style="width: 18%;">Train Direct / Cross F1</th>
+                    <th style="width: 18%;">Locked Test Direct / Cross F1</th>
+                    <th style="width: 18%;">External Direct / Cross F1</th>
+                  </tr>
+                </thead>
+                <tbody id="phase3-ablation-tbody">
+                  <!-- Dynamically populated from /api/phase3/results -->
                 </tbody>
               </table>
             </div>
