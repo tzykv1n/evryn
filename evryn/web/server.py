@@ -454,13 +454,28 @@ def run_evaluation():
     }
 
 
+_BENCHMARK_CACHE = None
+_BENCHMARK_CACHE_MTIME = 0.0
+
+
 @app.get("/api/benchmark/results")
 def get_benchmark_results():
+    global _BENCHMARK_CACHE, _BENCHMARK_CACHE_MTIME
     res_path = os.path.join(REPO_ROOT, "results", "phase2_3", "phase2_3_benchmark_results.json")
     if os.path.exists(res_path):
-        with open(res_path, "r", encoding="utf-8") as f:
-            return json.load(f)
+        mtime = os.path.getmtime(res_path)
+        if _BENCHMARK_CACHE is None or mtime > _BENCHMARK_CACHE_MTIME:
+            with open(res_path, "r", encoding="utf-8") as f:
+                _BENCHMARK_CACHE = json.load(f)
+            _BENCHMARK_CACHE_MTIME = mtime
+        return _BENCHMARK_CACHE
     raise HTTPException(status_code=404, detail="Phase 2.3 benchmark results not found")
+
+
+@app.get("/api/examples/verified")
+def get_verified_examples():
+    svc = TestExamplesService.get_instance()
+    return svc.get_verified_catalog()
 
 
 # Mount static assets

@@ -48,7 +48,11 @@
   const benchmarkPerpaperTbody = document.getElementById("benchmark-perpaper-tbody");
   const drilldownEngineChips = document.getElementById("drilldown-engine-chips");
 
-  // Examples Tab Subviews & Controls
+  // Unified Examples Controls
+  const exampleDropdown = document.getElementById("example-dropdown");
+  const loadExampleBtn = document.getElementById("load-example-btn");
+
+  // Legacy subnav hooks (gracefully optional)
   const subnavTestcases = document.getElementById("subnav-testcases");
   const subnavPdf = document.getElementById("subnav-pdf");
   const subnavText = document.getElementById("subnav-text");
@@ -142,51 +146,51 @@
   document.getElementById("graph-zoom-in").addEventListener("click", () => graphRenderer.zoomIn());
   document.getElementById("graph-zoom-out").addEventListener("click", () => graphRenderer.zoomOut());
 
-  // 5-View Tab Switcher
+  // 4-View Tab Switcher
   function switchView(tabName) {
-    viewTabGraph.classList.toggle("active", tabName === "graph");
-    viewTabCopyable.classList.toggle("active", tabName === "copyable");
-    viewTabTable.classList.toggle("active", tabName === "table");
+    if (viewTabGraph) viewTabGraph.classList.toggle("active", tabName === "graph");
+    if (viewTabCopyable) viewTabCopyable.classList.toggle("active", tabName === "copyable");
+    if (viewTabTable) viewTabTable.classList.toggle("active", tabName === "table");
     if (viewTabExamples) viewTabExamples.classList.toggle("active", tabName === "examples");
     if (viewTabBenchmark) viewTabBenchmark.classList.toggle("active", tabName === "benchmark");
 
-    viewTabGraph.setAttribute("aria-selected", tabName === "graph");
-    viewTabCopyable.setAttribute("aria-selected", tabName === "copyable");
-    viewTabTable.setAttribute("aria-selected", tabName === "table");
+    if (viewTabGraph) viewTabGraph.setAttribute("aria-selected", tabName === "graph");
+    if (viewTabCopyable) viewTabCopyable.setAttribute("aria-selected", tabName === "copyable");
+    if (viewTabTable) viewTabTable.setAttribute("aria-selected", tabName === "table");
     if (viewTabExamples) viewTabExamples.setAttribute("aria-selected", tabName === "examples");
     if (viewTabBenchmark) viewTabBenchmark.setAttribute("aria-selected", tabName === "benchmark");
 
-    graphViewport.classList.toggle("hidden", tabName !== "graph");
-    copyableView.classList.toggle("hidden", tabName !== "copyable");
-    tableView.classList.toggle("hidden", tabName !== "table");
+    if (graphViewport) graphViewport.classList.toggle("hidden", tabName !== "graph");
+    if (copyableView) copyableView.classList.toggle("hidden", tabName !== "copyable");
+    if (tableView) tableView.classList.toggle("hidden", tabName !== "table");
     if (examplesView) examplesView.classList.toggle("hidden", tabName !== "examples");
     if (benchmarkView) benchmarkView.classList.toggle("hidden", tabName !== "benchmark");
 
-    if (tabName === "examples") {
+    if (tabName === "benchmark") {
       inputContainer.classList.add("hidden");
-      graphRenderer.pause();
-      resultsView.classList.remove("hidden");
-      switchExamplesSubnav(activeExamplesSubnav || "pdf");
-    } else if (tabName === "benchmark") {
-      inputContainer.classList.add("hidden");
-      graphRenderer.pause();
+      if (graphRenderer) graphRenderer.pause();
       resultsView.classList.remove("hidden");
       loadBenchmarkData();
     } else {
       inputContainer.classList.remove("hidden");
       if (!activeSessionData) {
-        resultsView.classList.add("hidden");
-        undockInput();
+        if (tabName === "graph") {
+          resultsView.classList.remove("hidden");
+        } else {
+          resultsView.classList.add("hidden");
+        }
       } else {
         dockInput();
         if (tabName === "copyable") {
           copyableText.textContent = generateCopyableGraphText(activeSessionData);
-          graphRenderer.pause();
+          if (graphRenderer) graphRenderer.pause();
         } else if (tabName === "table") {
-          graphRenderer.pause();
+          if (graphRenderer) graphRenderer.pause();
         } else if (tabName === "graph") {
-          graphRenderer.resume();
-          graphRenderer.fitToView();
+          if (graphRenderer) {
+            graphRenderer.resume();
+            graphRenderer.fitToView();
+          }
         }
       }
     }
@@ -619,11 +623,25 @@
     resetWorkspaceBtn.addEventListener("click", () => resetWorkspace());
   }
 
-  // Quick test example chips
+  // Unified Example Selector & Quick Chips
+  if (loadExampleBtn && exampleDropdown) {
+    loadExampleBtn.addEventListener("click", () => {
+      const val = exampleDropdown.value;
+      if (val) selectExample(val);
+    });
+  }
+
+  if (exampleDropdown) {
+    exampleDropdown.addEventListener("change", () => {
+      const val = exampleDropdown.value;
+      if (val) selectExample(val);
+    });
+  }
+
   document.querySelectorAll(".test-example-chip").forEach((chip) => {
     chip.addEventListener("click", () => {
       const exId = chip.dataset.example;
-      if (exId) loadAndRunTestCase(exId);
+      if (exId) selectExample(exId);
     });
   });
 
@@ -844,6 +862,126 @@
     } finally {
       hideProcessing();
     }
+  }
+
+  const VERIFIED_EXAMPLES = {
+    example_a: {
+      id: "example_a",
+      title: "Example A — Direct Causal Relation",
+      category: "Diagnostic Test Suite",
+      source: "Diagnostic Test Suite",
+      input_text: "The deletion of gene A reduced expression of protein B.",
+      expected: "Direct downregulation relation (gene A -> protein B) with negative polarity."
+    },
+    example_b: {
+      id: "example_b",
+      title: "Example B — Multi-Transition Causal Chain",
+      category: "Diagnostic Test Suite",
+      source: "Diagnostic Test Suite",
+      input_text: "Activation of gene A increased expression of protein B.\nExpression of protein B activated pathway C.",
+      expected: "Extracts direct cascade edges (gene A -> protein B, protein B -> pathway C) without ungrounded shortcuts."
+    },
+    example_c: {
+      id: "example_c",
+      title: "Example C — Negation and Directionality",
+      category: "Diagnostic Test Suite",
+      source: "Diagnostic Test Suite",
+      input_text: "Deletion of gene A did not reduce virulence.",
+      expected: "Refutation / negation assertion detected; suppresses false positive virulence reduction."
+    },
+    example_d: {
+      id: "example_d",
+      title: "Example D — Invalid Transitive Path (Context Mismatch)",
+      category: "Diagnostic Test Suite",
+      source: "Diagnostic Test Suite",
+      input_text: "Treatment A increased marker B in organism X.\nMarker B was associated with outcome C in organism Y.",
+      expected: "Organism context boundary enforced; cross-organism transitive leaps blocked."
+    },
+    example_e: {
+      id: "example_e",
+      title: "Example E — Malformed or Empty Input",
+      category: "Diagnostic Test Suite",
+      source: "Diagnostic Test Suite",
+      input_text: "   ",
+      expected: "Rejects empty input gracefully with descriptive validation error."
+    },
+    pmc1804205: {
+      id: "pmc1804205",
+      title: "Acid pH activation of PmrA/PmrB system",
+      category: "Verified Literature Benchmark",
+      source: "PMC1804205 • Mol Microbiol 2007",
+      input_text: "Growth in mild acid (pH 5.8) promotes transcription of genes activated by the response regulator PmrA. This activation requires both PmrA's cognate sensor kinase PmrB and PmrA's post-translational activator PmrD. Activation of PmrA mediates resistance to the antibiotic polymyxin B.",
+      expected: "PmrB and PmrD mediated PmrA activation and polymyxin B resistance."
+    },
+    pmc1874608: {
+      id: "pmc1874608",
+      title: "Mlc regulation of Salmonella pathogenicity",
+      category: "Verified Literature Benchmark",
+      source: "PMC1874608 • J Bacteriol 2007",
+      input_text: "Glucose represses hilA and invF transcription through the glucose-specific phosphotransferase system. Overexpression of the global regulator Mlc represses hilA expression and decreases Salmonella invasion of epithelial cells.",
+      expected: "Inhibitory transcriptional repression of hilA by Glucose and Mlc."
+    },
+    pmc1974823: {
+      id: "pmc1974823",
+      title: "P. gingivalis short fimbriae regulation",
+      category: "Verified Literature Benchmark",
+      source: "PMC1974823 • J Bacteriol 2007",
+      input_text: "FimA expression promotes bacterial adhesion, whereas Mfa1 is required for microcolony development. FimS sensor kinase phosphorylates FimR to activate fimA transcription, promoting biofilm formation.",
+      expected: "FimS/FimR phosphorylation activating fimbriae and biofilm development."
+    },
+    pmc2242835: {
+      id: "pmc2242835",
+      title: "Control of M. tuberculosis ESAT-6 secretion",
+      category: "Verified Literature Benchmark",
+      source: "PMC2242835 • Mol Microbiol 2008",
+      input_text: "The PhoP response regulator directly activates espA transcription. EspA is required for ESX-1 dependent secretion of ESAT-6, and ESAT-6 secretion stimulates T-cell recognition.",
+      expected: "PhoP activation of espA, ESX-1 dependent secretion, and T-cell recognition."
+    },
+    pmc2430206: {
+      id: "pmc2430206",
+      title: "GraRS regulatory system & LL-37 resistance",
+      category: "Verified Literature Benchmark",
+      source: "PMC2430206 • J Bacteriol 2008",
+      input_text: "The GraRS two-component system directly activates transcription of the dltABCD operon and mprF. GraRS activation promotes resistance to human antimicrobial peptide LL-37 and increases S. aureus virulence.",
+      expected: "GraRS direct activation of dltABCD/mprF and LL-37 resistance."
+    }
+  };
+
+  function selectExample(exampleId) {
+    const ex = VERIFIED_EXAMPLES[exampleId];
+    if (!ex) return;
+
+    activeSessionId = null;
+    activeSessionData = null;
+    closeInspector();
+
+    queryInput.value = ex.input_text;
+    autoResize(queryInput);
+
+    dockInput();
+    regenerateBtn.classList.remove("hidden");
+    regenerateBtn.textContent = "RUN EXTRACTION";
+
+    if (exampleDropdown) exampleDropdown.value = exampleId;
+    document.querySelectorAll(".test-example-chip").forEach(c => {
+      c.classList.toggle("active", c.dataset.example === exampleId);
+    });
+
+    if (graphEmptyState) {
+      graphEmptyState.classList.remove("hidden");
+      const badge = graphEmptyState.querySelector(".empty-state-badge");
+      const heading = graphEmptyState.querySelector(".empty-state-heading");
+      const text = graphEmptyState.querySelector(".empty-state-text");
+      const hint = graphEmptyState.querySelector(".empty-state-hint");
+      if (badge) badge.textContent = "EXAMPLE LOADED";
+      if (heading) heading.textContent = `Source text loaded for ${ex.title}`;
+      if (text) text.textContent = `Inspect or edit the source text above. Click RUN EXTRACTION to extract grounded causal relations using the selected engine.`;
+      if (hint) hint.textContent = `Expected behavior: ${ex.expected}`;
+    }
+    resultsView.classList.remove("hidden");
+    switchView("graph");
+
+    showNotification(`Loaded "${ex.title}". Ready for extraction.`, "info", 3500);
   }
 
   async function loadAndRunTestCase(exampleId) {

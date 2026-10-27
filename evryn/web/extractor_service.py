@@ -2,6 +2,8 @@ import os
 import re
 import math
 import uuid
+import copy
+import hashlib
 from typing import List, Dict, Any, Optional, Tuple
 
 from evryn.paper.types import (
@@ -335,12 +337,19 @@ class ExtractionService:
         self.linker = CrossPageLinker(min_page_distance=1, max_transitive_hops=2, min_confidence=0.65)
         self.builder = PaperGraphBuilder(include_inferred_cross_page_edges=True)
         self.parser = DocumentParser()
+        self._extractor_cache: Dict[Tuple[str, Optional[str]], Any] = {}
+        self._extraction_cache: Dict[str, Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[Dict[str, Any]]]] = {}
 
     def _get_extractor_backend(self, system_mode: str = "nlp_baseline", model_name: Optional[str] = None):
         if not system_mode or system_mode in ("nlp_baseline", "system_a"):
             return self.extractor
-        from evryn.nlp.llm.factory import get_extraction_backend
-        return get_extraction_backend(system_mode=system_mode, model_name=model_name, normalizer=self.normalizer)
+        cache_key = (system_mode, model_name)
+        if cache_key not in self._extractor_cache:
+            from evryn.nlp.llm.factory import get_extraction_backend
+            self._extractor_cache[cache_key] = get_extraction_backend(
+                system_mode=system_mode, model_name=model_name, normalizer=self.normalizer
+            )
+        return self._extractor_cache[cache_key]
 
     def process_text_input(
         self,
@@ -375,20 +384,46 @@ class ExtractionService:
         model_name: Optional[str] = None,
     ) -> Dict[str, Any]:
         sentences = segment_prompt_sentences(text)
-        doc = self.parser.parse_raw_text(text, filename="Specification")
-        extractor = self._get_extractor_backend(system_mode=system_mode, model_name=model_name)
-        assertions = extractor.extract_assertions(doc)
-        cross_links: List[CrossPageLink] = []
-        if len(doc.pages) > 1:
-            cross_links = self.linker.link_cross_page_relations(doc, assertions)
+        cache_key = hashlib.sha256(f"{system_mode}:{model_name}:{text.strip()}".encode("utf-8")).hexdigest()
 
-        graph = self.builder.build_graph(doc.doc_id, doc.metadata.title, assertions, cross_links)
-        nodes, relations, evidence = self._format_graph_data(
-            graph, filename="Specification", doc_id=doc.doc_id, sentences=sentences, extraction_method=system_mode
-        )
+        if cache_key in self._extraction_cache:
+            nodes_tmpl, rels_tmpl, ev_tmpl = self._extraction_cache[cache_key]
+            nodes = copy.deepcopy(nodes_tmpl)
+            relations = copy.deepcopy(rels_tmpl)
+            evidence = copy.deepcopy(ev_tmpl)
 
-        # Initialize layout positions if needed
-        self._initialize_radial_layout(nodes)
+            # Re-generate unique IDs to satisfy SQLite primary key uniqueness across sessions
+            rel_id_map = {}
+            for n in nodes:
+                n["id"] = f"n_{uuid.uuid4().hex[:8]}"
+            for r in relations:
+                old_id = r.get("id")
+                new_id = f"rel_{uuid.uuid4().hex[:8]}"
+                if old_id:
+                    rel_id_map[old_id] = new_id
+                r["id"] = new_id
+                if "evidence" in r and isinstance(r["evidence"], list):
+                    for nested_ev in r["evidence"]:
+                        nested_ev["relation_id"] = new_id
+            for ev in evidence:
+                ev["id"] = f"ev_{uuid.uuid4().hex[:8]}"
+                if ev.get("relation_id") in rel_id_map:
+                    ev["relation_id"] = rel_id_map[ev["relation_id"]]
+        else:
+            doc = self.parser.parse_raw_text(text, filename="Specification")
+            extractor = self._get_extractor_backend(system_mode=system_mode, model_name=model_name)
+            assertions = extractor.extract_assertions(doc)
+            cross_links: List[CrossPageLink] = []
+            if len(doc.pages) > 1:
+                cross_links = self.linker.link_cross_page_relations(doc, assertions)
+
+            graph = self.builder.build_graph(doc.doc_id, doc.metadata.title, assertions, cross_links)
+            nodes, relations, evidence = self._format_graph_data(
+                graph, filename="Specification", doc_id=doc.doc_id, sentences=sentences, extraction_method=system_mode
+            )
+            # Initialize layout positions if needed
+            self._initialize_radial_layout(nodes)
+            self._extraction_cache[cache_key] = (copy.deepcopy(nodes), copy.deepcopy(relations), copy.deepcopy(evidence))
 
         updated_session = self.store.replace_session_graph(
             session_id=session_id,

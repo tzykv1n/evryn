@@ -2184,6 +2184,139 @@ body.inspector-open .graph-legend {
   border-color: #ef4444;
 }
 
+/* Application Header */
+.app-header {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 16px auto;
+  text-align: center;
+}
+
+.app-title {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.app-subtitle {
+  font-weight: 400;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.app-tagline {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: #64748b;
+  margin: 4px 0 0 0;
+}
+
+/* Unified Examples Bar */
+.unified-examples-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.examples-select-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.examples-bar-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: #475569;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.examples-dropdown {
+  flex: 1;
+  height: 32px;
+  padding: 0 10px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: #1e293b;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.examples-dropdown:focus {
+  border-color: #0d9488;
+  box-shadow: 0 0 0 1px #0d9488;
+}
+
+.primary-compact-btn {
+  height: 32px;
+  padding: 0 14px;
+  background: #0d9488;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.primary-compact-btn:hover {
+  background: #0f766e;
+}
+
+.examples-chips-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.chips-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.chips-sep {
+  color: #cbd5e1;
+  font-size: 11px;
+  margin: 0 2px;
+}
+
+.chip-lit {
+  border-color: #99f6e4;
+  color: #0f766e;
+  background: #f0fdfa;
+}
+
+.chip-lit:hover {
+  background: #ccfbf1;
+  border-color: #0d9488;
+}
+
 .test-examples-bar {
   display: flex;
   align-items: center;

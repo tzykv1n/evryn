@@ -107,6 +107,60 @@ TEST_EXAMPLES: List[Dict[str, Any]] = [
 ]
 
 
+VERIFIED_LITERATURE_EXAMPLES: List[Dict[str, Any]] = [
+    {
+        "id": "pmc1804205",
+        "code": "PMC1804205",
+        "title": "Acid pH activation of PmrA/PmrB system",
+        "category": "Verified Literature Benchmark",
+        "source": "PMC1804205 • Mol Microbiol 2007",
+        "input_text": "Growth in mild acid (pH 5.8) promotes transcription of genes activated by the response regulator PmrA. This activation requires both PmrA's cognate sensor kinase PmrB and PmrA's post-translational activator PmrD. Activation of PmrA mediates resistance to the antibiotic polymyxin B.",
+        "description": "Authentic Salmonella enterica acid-activation cascade verifying PmrB and PmrD mediated PmrA induction and polymyxin B resistance.",
+        "expected_behavior": "Extracts UPREGULATES relations (Acid pH -> PmrA, PmrB -> PmrA, PmrD -> PmrA) and MEDIATES relation (PmrA -> Polymyxin B).",
+    },
+    {
+        "id": "pmc1874608",
+        "code": "PMC1874608",
+        "title": "Mlc regulation of Salmonella pathogenicity",
+        "category": "Verified Literature Benchmark",
+        "source": "PMC1874608 • J Bacteriol 2007",
+        "input_text": "Glucose represses hilA and invF transcription through the glucose-specific phosphotransferase system. Overexpression of the global regulator Mlc represses hilA expression and decreases Salmonella invasion of epithelial cells.",
+        "description": "Salmonella pathogenicity island-1 regulation via Mlc-mediated transcriptional repression.",
+        "expected_behavior": "Extracts DOWNREGULATES relations (Glucose -> HilA, Mlc -> HilA) with inhibitory edge styling.",
+    },
+    {
+        "id": "pmc1974823",
+        "code": "PMC1974823",
+        "title": "P. gingivalis short fimbriae regulation",
+        "category": "Verified Literature Benchmark",
+        "source": "PMC1974823 • J Bacteriol 2007",
+        "input_text": "FimA expression promotes bacterial adhesion, whereas Mfa1 is required for microcolony development. FimS sensor kinase phosphorylates FimR to activate fimA transcription, promoting biofilm formation.",
+        "description": "Two-component signaling and fimbrial expression in Porphyromonas gingivalis.",
+        "expected_behavior": "Extracts FimA -> Bacterial Adhesion, Mfa1 -> Microcolony Development, FimS -> FimR, FimR -> Biofilm Formation.",
+    },
+    {
+        "id": "pmc2242835",
+        "code": "PMC2242835",
+        "title": "Control of M. tuberculosis ESAT-6 secretion",
+        "category": "Verified Literature Benchmark",
+        "source": "PMC2242835 • Mol Microbiol 2008",
+        "input_text": "The PhoP response regulator directly activates espA transcription. EspA is required for ESX-1 dependent secretion of ESAT-6, and ESAT-6 secretion stimulates T-cell recognition.",
+        "description": "Mycobacterium tuberculosis ESX-1 secretion system and virulence factor activation.",
+        "expected_behavior": "Extracts PhoP -> EspA, EspA -> ESX-1, EspA -> ESAT-6, and ESAT-6 -> T Cell Recognition.",
+    },
+    {
+        "id": "pmc2430206",
+        "code": "PMC2430206",
+        "title": "GraRS regulatory system & LL-37 resistance",
+        "category": "Verified Literature Benchmark",
+        "source": "PMC2430206 • J Bacteriol 2008",
+        "input_text": "The GraRS two-component system directly activates transcription of the dltABCD operon and mprF. GraRS activation promotes resistance to human antimicrobial peptide LL-37 and increases S. aureus virulence.",
+        "description": "Staphylococcus aureus antimicrobial peptide resistance cascade.",
+        "expected_behavior": "Extracts GraRS -> mprF, GraRS -> LL-37, GraRS -> Virulence, and LL-37 -> Virulence.",
+    },
+]
+
+
 class TestExamplesService:
     _instance: Optional["TestExamplesService"] = None
 
@@ -124,8 +178,17 @@ class TestExamplesService:
             "examples": TEST_EXAMPLES,
         }
 
+    def get_verified_catalog(self) -> Dict[str, Any]:
+        return {
+            "status": "success",
+            "version": "1.0.0",
+            "total": len(TEST_EXAMPLES) + len(VERIFIED_LITERATURE_EXAMPLES),
+            "diagnostic_test_suite": TEST_EXAMPLES,
+            "literature_benchmarks": VERIFIED_LITERATURE_EXAMPLES,
+        }
+
     def get_example(self, example_id: str) -> Optional[Dict[str, Any]]:
-        for ex in TEST_EXAMPLES:
+        for ex in TEST_EXAMPLES + VERIFIED_LITERATURE_EXAMPLES:
             if ex["id"] == example_id or ex["code"].lower() == example_id.lower():
                 return ex
         return None
@@ -197,5 +260,9 @@ class TestExamplesService:
                 diagnostics["observations"].append(
                     "Context boundaries preserved: no cross-organism invalid transitive path asserted."
                 )
+        else:
+            diagnostics["observations"].append(
+                f"Successfully extracted {len(relations)} grounded relations from verified benchmark literature example."
+            )
 
         return diagnostics
