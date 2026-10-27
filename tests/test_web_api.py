@@ -294,3 +294,28 @@ def test_extract_with_system_modes(client):
     assert rel["validation_status"] == "ACCEPTED"
 
 
+def test_phase2_3_benchmark_endpoints(client):
+    """Verify Phase 2.3 benchmark evaluation endpoints."""
+    # 1. /api/benchmark/results
+    b_res = client.get("/api/benchmark/results")
+    assert b_res.status_code == 200
+    data = b_res.json()
+    assert "splits_evaluated" in data
+    assert "dev" in data["splits_evaluated"]
+    assert "locked_test" in data["splits_evaluated"]
+    assert "external" in data["splits_evaluated"]
+    assert "results" in data
+    assert "nlp_baseline" in data["results"]["dev"]
+
+    # 2. /api/evaluate
+    ev_res = client.post("/api/evaluate")
+    assert ev_res.status_code == 200
+    ev_data = ev_res.json()
+    assert ev_data["status"] == "completed"
+    assert ev_data["phase"] == "Phase 2.3"
+    assert "direct_precision" in ev_data["metrics"]
+    assert ev_data["metrics"]["direct_precision"] >= 0.50
+    assert ev_data["metrics"]["direct_f1"] >= 0.65
+
+
+

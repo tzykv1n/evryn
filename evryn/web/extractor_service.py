@@ -302,9 +302,11 @@ def compute_edge_polarity_and_style(
 
     # Explicitly inhibitory or preventive predicates represent an opposing / inhibitory relation
     if rel_upper in ["DOWNREGULATES", "INHIBITS", "PREVENTS", "SUPPRESSES", "REDUCES", "BLOCKS"]:
+        col = "#8b5cf6" if is_transitive else "#dc2626"
+        sty = "dashed" if is_transitive else "solid"
         if return_full:
-            return "negative", "#dc2626", "dashed" if is_transitive else "solid", is_suppressed, assertion_status, "opposing"
-        return "negative", "#dc2626", "dashed" if is_transitive else "solid"
+            return "negative", col, sty, is_suppressed, assertion_status, "opposing"
+        return "negative", col, sty
 
     # For causal influence or activating relations (DIRECT_CAUSE, UPREGULATES, etc.):
     c_sign = -1 if cause_state in ["Decrease", "Inhibited", "Reduced", "Down", "Loss"] else 1
@@ -312,13 +314,17 @@ def compute_edge_polarity_and_style(
     net_sign = c_sign * e_sign
 
     if net_sign < 0:
+        col = "#8b5cf6" if is_transitive else "#dc2626"
+        sty = "dashed" if is_transitive else "solid"
         if return_full:
-            return "negative", "#dc2626", "dashed" if is_transitive else "solid", is_suppressed, assertion_status, "opposing"
-        return "negative", "#dc2626", "dashed" if is_transitive else "solid"
+            return "negative", col, sty, is_suppressed, assertion_status, "opposing"
+        return "negative", col, sty
     else:
+        col = "#8b5cf6" if is_transitive else "#0d9488"
+        sty = "dashed" if is_transitive else "solid"
         if return_full:
-            return "positive", "#0f172a", "dashed" if is_transitive else "solid", is_suppressed, assertion_status, "reinforcing"
-        return "positive", "#0f172a", "dashed" if is_transitive else "solid"
+            return "positive", col, sty, is_suppressed, assertion_status, "reinforcing"
+        return "positive", col, sty
 
 
 class ExtractionService:

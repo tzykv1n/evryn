@@ -31,6 +31,7 @@
   const viewTabCopyable = document.getElementById("view-tab-copyable");
   const viewTabTable = document.getElementById("view-tab-table");
   const viewTabExamples = document.getElementById("view-tab-examples");
+  const viewTabBenchmark = document.getElementById("view-tab-benchmark");
   const graphViewport = document.getElementById("graph-viewport");
   const graphEmptyState = document.getElementById("graph-empty-state");
   const copyableView = document.getElementById("copyable-view");
@@ -39,6 +40,13 @@
   const tableView = document.getElementById("table-view");
   const tableBody = document.getElementById("table-body");
   const examplesView = document.getElementById("examples-view");
+  const benchmarkView = document.getElementById("benchmark-view");
+  const benchmarkSplitSelect = document.getElementById("benchmark-split-select");
+  const benchmarkReloadBtn = document.getElementById("benchmark-reload-btn");
+  const benchmarkCardsRow = document.getElementById("benchmark-cards-row");
+  const benchmarkSummaryTbody = document.getElementById("benchmark-summary-tbody");
+  const benchmarkPerpaperTbody = document.getElementById("benchmark-perpaper-tbody");
+  const drilldownEngineChips = document.getElementById("drilldown-engine-chips");
 
   // Examples Tab Subviews & Controls
   const subnavTestcases = document.getElementById("subnav-testcases");
@@ -134,28 +142,36 @@
   document.getElementById("graph-zoom-in").addEventListener("click", () => graphRenderer.zoomIn());
   document.getElementById("graph-zoom-out").addEventListener("click", () => graphRenderer.zoomOut());
 
-  // 3-View Tab Switcher
+  // 5-View Tab Switcher
   function switchView(tabName) {
     viewTabGraph.classList.toggle("active", tabName === "graph");
     viewTabCopyable.classList.toggle("active", tabName === "copyable");
     viewTabTable.classList.toggle("active", tabName === "table");
     if (viewTabExamples) viewTabExamples.classList.toggle("active", tabName === "examples");
+    if (viewTabBenchmark) viewTabBenchmark.classList.toggle("active", tabName === "benchmark");
 
     viewTabGraph.setAttribute("aria-selected", tabName === "graph");
     viewTabCopyable.setAttribute("aria-selected", tabName === "copyable");
     viewTabTable.setAttribute("aria-selected", tabName === "table");
     if (viewTabExamples) viewTabExamples.setAttribute("aria-selected", tabName === "examples");
+    if (viewTabBenchmark) viewTabBenchmark.setAttribute("aria-selected", tabName === "benchmark");
 
     graphViewport.classList.toggle("hidden", tabName !== "graph");
     copyableView.classList.toggle("hidden", tabName !== "copyable");
     tableView.classList.toggle("hidden", tabName !== "table");
     if (examplesView) examplesView.classList.toggle("hidden", tabName !== "examples");
+    if (benchmarkView) benchmarkView.classList.toggle("hidden", tabName !== "benchmark");
 
     if (tabName === "examples") {
       inputContainer.classList.add("hidden");
       graphRenderer.pause();
       resultsView.classList.remove("hidden");
       switchExamplesSubnav(activeExamplesSubnav || "pdf");
+    } else if (tabName === "benchmark") {
+      inputContainer.classList.add("hidden");
+      graphRenderer.pause();
+      resultsView.classList.remove("hidden");
+      loadBenchmarkData();
     } else {
       inputContainer.classList.remove("hidden");
       if (!activeSessionData) {
@@ -180,6 +196,7 @@
   viewTabCopyable.addEventListener("click", () => switchView("copyable"));
   viewTabTable.addEventListener("click", () => switchView("table"));
   if (viewTabExamples) viewTabExamples.addEventListener("click", () => switchView("examples"));
+  if (viewTabBenchmark) viewTabBenchmark.addEventListener("click", () => switchView("benchmark"));
 
   // 1-Click Copy Graph Button
   copyGraphBtn.addEventListener("click", () => {
@@ -1192,6 +1209,157 @@
     };
   }
 
+  // Phase 2.3 Engine Selection Sync
+  document.querySelectorAll(".engine-toggle-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".engine-toggle-btn").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      const radio = btn.querySelector('input[type="radio"]');
+      if (radio) {
+        radio.checked = true;
+      }
+    });
+  });
+
+  // Phase 2.3 Benchmark Evaluation Logic
+  let cachedBenchmarkResults = null;
+  let activeDrilldownEngine = "nlp_baseline";
+
+  if (benchmarkSplitSelect) {
+    benchmarkSplitSelect.addEventListener("change", () => renderBenchmarkView());
+  }
+  if (benchmarkReloadBtn) {
+    benchmarkReloadBtn.addEventListener("click", () => {
+      cachedBenchmarkResults = null;
+      loadBenchmarkData();
+    });
+  }
+  if (drilldownEngineChips) {
+    drilldownEngineChips.querySelectorAll(".status-chip").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        drilldownEngineChips.querySelectorAll(".status-chip").forEach((c) => c.classList.remove("active"));
+        chip.classList.add("active");
+        activeDrilldownEngine = chip.dataset.drilldownSys || "nlp_baseline";
+        renderBenchmarkView();
+      });
+    });
+  }
+
+  async function loadBenchmarkData() {
+    if (!cachedBenchmarkResults) {
+      try {
+        const res = await fetch("/api/benchmark/results");
+        if (res.ok) {
+          cachedBenchmarkResults = await res.json();
+        }
+      } catch (err) {
+        console.error("Failed to load benchmark results:", err);
+      }
+    }
+    renderBenchmarkView();
+  }
+
+  function renderBenchmarkView() {
+    if (!cachedBenchmarkResults || !cachedBenchmarkResults.results) return;
+    const splitKey = benchmarkSplitSelect?.value || "dev";
+    const splitData = cachedBenchmarkResults.results[splitKey];
+    if (!splitData) return;
+
+    const nlpData = splitData["nlp_baseline"] || {};
+    const nlpMacro = nlpData.macro_metrics || {};
+    const nlpMicroD = (nlpData.micro_metrics && nlpData.micro_metrics.direct) || {};
+    const nlpMicroC = (nlpData.micro_metrics && nlpData.micro_metrics.cross_page) || {};
+
+    if (benchmarkCardsRow) {
+      benchmarkCardsRow.innerHTML = `
+        <div class="benchmark-kpi-card">
+          <div class="benchmark-kpi-label">Direct Macro F1</div>
+          <div class="benchmark-kpi-value">${(nlpMacro.direct_f1_mean || 0).toFixed(4)}</div>
+          <div class="benchmark-kpi-sub">95% CI: [${(nlpMacro.direct_f1_ci?.[0] || 0).toFixed(4)}, ${(nlpMacro.direct_f1_ci?.[1] || 0).toFixed(4)}]</div>
+        </div>
+        <div class="benchmark-kpi-card">
+          <div class="benchmark-kpi-label">Direct Micro P / R / F1</div>
+          <div class="benchmark-kpi-value">${(nlpMicroD.f1 || 0).toFixed(3)}</div>
+          <div class="benchmark-kpi-sub">P: ${(nlpMicroD.precision || 0).toFixed(3)} &bull; R: ${(nlpMicroD.recall || 0).toFixed(3)} (TP=${nlpMicroD.tp || 0}, FP=${nlpMicroD.fp || 0})</div>
+        </div>
+        <div class="benchmark-kpi-card">
+          <div class="benchmark-kpi-label">Cross-Page Macro F1</div>
+          <div class="benchmark-kpi-value">${(nlpMacro.cross_f1_mean || 0).toFixed(4)}</div>
+          <div class="benchmark-kpi-sub">95% CI: [${(nlpMacro.cross_f1_ci?.[0] || 0).toFixed(4)}, ${(nlpMacro.cross_f1_ci?.[1] || 0).toFixed(4)}]</div>
+        </div>
+        <div class="benchmark-kpi-card">
+          <div class="benchmark-kpi-label">False Transitive Jumps</div>
+          <div class="benchmark-kpi-value" style="color:${(nlpData.micro_metrics?.total_false_transitive_jumps || 0) <= 11 ? '#0d9488' : '#e11d48'};">
+            ${nlpData.micro_metrics?.total_false_transitive_jumps || 0}
+          </div>
+          <div class="benchmark-kpi-sub">Spurious Cross-Page Leap Count</div>
+        </div>
+        <div class="benchmark-kpi-card">
+          <div class="benchmark-kpi-label">Directional Accuracy</div>
+          <div class="benchmark-kpi-value" style="color:#0d9488;">${((nlpMacro.direction_accuracy_mean || 1.0) * 100).toFixed(1)}%</div>
+          <div class="benchmark-kpi-sub">Biological Invariant Alignment</div>
+        </div>
+      `;
+    }
+
+    const systemsList = [
+      { key: "nlp_baseline", label: "System A (Repaired NLP Baseline)" },
+      { key: "llm_only", label: "System B (LLM Only Candidate)" },
+      { key: "hybrid", label: "System C (Hybrid Validated)" },
+    ];
+
+    if (benchmarkSummaryTbody) {
+      let summaryHtml = "";
+      for (const sys of systemsList) {
+        const sData = splitData[sys.key];
+        if (!sData) continue;
+        const m = sData.macro_metrics || {};
+        const md = sData.micro_metrics?.direct || {};
+        const mc = sData.micro_metrics?.cross_page || {};
+        const isTop = sys.key === "nlp_baseline";
+        summaryHtml += `
+          <tr class="${isTop ? 'highlight-row' : ''}">
+            <td><strong>${sys.label}</strong> ${isTop ? '<span class="badge-top-sys">PRODUCTION</span>' : ''}</td>
+            <td><strong>${(m.direct_f1_mean || 0).toFixed(4)}</strong> <span style="font-size:10px; color:#64748b;">[${(m.direct_f1_ci?.[0]||0).toFixed(4)}, ${(m.direct_f1_ci?.[1]||0).toFixed(4)}]</span></td>
+            <td>${(md.precision || 0).toFixed(3)} / ${(md.recall || 0).toFixed(3)} / <strong>${(md.f1 || 0).toFixed(3)}</strong></td>
+            <td><strong>${(m.cross_f1_mean || 0).toFixed(4)}</strong> <span style="font-size:10px; color:#64748b;">[${(m.cross_f1_ci?.[0]||0).toFixed(4)}, ${(m.cross_f1_ci?.[1]||0).toFixed(4)}]</span></td>
+            <td>${(mc.precision || 0).toFixed(3)} / ${(mc.recall || 0).toFixed(3)} / <strong>${(mc.f1 || 0).toFixed(3)}</strong></td>
+            <td>${((m.direction_accuracy_mean || 0) * 100).toFixed(1)}%</td>
+            <td>${sData.micro_metrics?.total_false_transitive_jumps || 0}</td>
+            <td>${(m.structural_match_mean || 0).toFixed(4)}</td>
+            <td>${(sData.total_runtime_seconds || 0).toFixed(2)}s</td>
+          </tr>
+        `;
+      }
+      benchmarkSummaryTbody.innerHTML = summaryHtml;
+    }
+
+    if (benchmarkPerpaperTbody) {
+      const activeSysData = splitData[activeDrilldownEngine] || {};
+      const perPaper = activeSysData.per_paper || [];
+      let perPaperHtml = "";
+      for (const p of perPaper) {
+        perPaperHtml += `
+          <tr>
+            <td><code style="font-weight:700;">${p.pmcid}</code></td>
+            <td title="${p.title}">${p.title ? p.title.substring(0, 36) + '...' : ''}</td>
+            <td>${p.gold_direct}</td>
+            <td>${p.pred_direct}</td>
+            <td>${p.tp_direct} / ${p.fp_direct} / ${p.fn_direct}</td>
+            <td><strong style="color:${p.f1_direct >= 0.6 ? '#0d9488' : '#334155'};">${p.f1_direct.toFixed(4)}</strong></td>
+            <td>${p.gold_cross}</td>
+            <td>${p.pred_cross}</td>
+            <td>${p.tp_cross} / ${p.fp_cross} / ${p.fn_cross}</td>
+            <td><strong style="color:${p.f1_cross >= 0.6 ? '#0d9488' : '#334155'};">${p.f1_cross.toFixed(4)}</strong></td>
+            <td>${p.false_transitive_jumps}</td>
+            <td>${p.runtime_seconds.toFixed(2)}s</td>
+          </tr>
+        `;
+      }
+      benchmarkPerpaperTbody.innerHTML = perPaperHtml;
+    }
+  }
+
   // Selection Callbacks
   function onSelectRelation(rel) {
     selectedRelation = rel;
@@ -1228,21 +1396,44 @@
       }
     }
 
-    const polarityColor = rel.effect_polarity === "negative" ? "#dc2626" : (rel.effect_polarity === "association" ? "#64748b" : "#0f172a");
-    const polarityLabel = rel.effect_polarity === "negative"
-      ? "NEGATIVE EFFECT (causes reduction / inverse)"
-      : (rel.effect_polarity === "association" ? "ASSOCIATION (non-directional correlation)" : "POSITIVE EFFECT (causes induction / direct)");
+    const isTransitive = Boolean(rel.is_transitive);
+    let hopsHtml = "";
+    if (isTransitive && rel.constituent_edges && rel.constituent_edges.length > 0) {
+      hopsHtml = `
+        <div style="font-weight:700; font-size:11px; font-family:var(--font-mono); margin:12px 0 6px 0; color:#8b5cf6;">
+          CONSTITUENT REASONING HOPS (${rel.constituent_edges.length}):
+        </div>
+      `;
+      for (const hop of rel.constituent_edges) {
+        hopsHtml += `
+          <div class="constituent-hop-card">
+            <div style="font-weight:700; font-family:var(--font-mono); font-size:10px; color:#64748b; margin-bottom:2px;">
+              HOP ${hop.hop}: ${hop.source} &rarr; ${hop.target} (Page ${hop.page_number}, ${hop.section_title})
+            </div>
+            <div style="font-style:italic; color:#1e293b; margin-bottom:2px;">“${hop.evidence_quote}”</div>
+            <div style="font-family:var(--font-mono); font-size:9.5px; color:#64748b;">Confidence: ${(hop.confidence * 100).toFixed(0)}%</div>
+          </div>
+        `;
+      }
+    }
+
+    const polarityColor = isTransitive ? "#8b5cf6" : (rel.effect_polarity === "negative" ? "#dc2626" : (rel.effect_polarity === "association" ? "#64748b" : "#0d9488"));
+    const polarityLabel = isTransitive
+      ? `INFERRED CROSS-PAGE PATH (${rel.linking_mechanism || "Transitive"})`
+      : (rel.effect_polarity === "negative"
+        ? "NEGATIVE EFFECT (causes reduction / inverse)"
+        : (rel.effect_polarity === "association" ? "ASSOCIATION (non-directional correlation)" : "DIRECT EMPIRICAL EVIDENCE"));
 
     inspectorBody.innerHTML = `
       <div style="margin-bottom:16px;">
-        <div style="display:inline-block; font-size:10px; font-weight:700; font-family:var(--font-mono); color:${polarityColor}; padding:2px 6px; border:1px solid ${polarityColor}; border-radius:3px; margin-bottom:8px;">
+        <div class="${isTransitive ? 'edge-badge-inferred' : 'edge-badge-direct'}">
           ${polarityLabel}
         </div>
         <div style="font-size:16px; font-weight:700;">
           ${rel.cause_name}${rel.source_state ? ` <span style="font-size:12px; font-weight:500; color:#555;">[State: ${rel.source_state}]</span>` : ""}
         </div>
         <div style="font-family:var(--font-mono); font-size:11px; margin:4px 0; color:#444;">
-          ${rel.is_negated ? "[REFUTED / NEGATED] " : ""}${rel.relation_type} &bull; ${rel.is_transitive ? "TRANSITIVE" : "DIRECT"}
+          ${rel.is_negated ? "[REFUTED / NEGATED] " : ""}${rel.relation_type} &bull; ${isTransitive ? "INFERRED CROSS-PAGE" : "DIRECT LOCAL"}
         </div>
         <div style="font-size:16px; font-weight:700;">
           &darr; ${rel.effect_name}${rel.target_state ? ` <span style="font-size:12px; font-weight:500; color:#555;">[State: ${rel.target_state}]</span>` : ""}
@@ -1253,6 +1444,7 @@
         ${rel.is_suppressed ? "<br/><span style='color:#64748b; font-weight:600;'>[SUPPRESSED FROM GRAPH: Negated claim]</span>" : ""}
         ${rel.has_contradiction ? "<br/><span style='color:#dc2626; font-weight:700;'>[CONTRADICTORY EVIDENCE DETECTED]</span>" : ""}
       </div>
+      ${hopsHtml}
       <hr style="border:none; border-top:1px solid #e2e8f0; margin:12px 0;" />
       <div style="font-weight:700; font-size:11px; font-family:var(--font-mono); margin-bottom:8px;">GROUNDED EVIDENCE (${evList.length}):</div>
       ${evHtml}

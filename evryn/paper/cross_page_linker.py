@@ -92,6 +92,9 @@ class CrossPageLinker:
                     assertion_id=a.assertion_id,
                     confidence=a.confidence,
                     section=a.section_title,
+                    evidence_quote=a.evidence_quote,
+                    cause_raw=a.cause,
+                    effect_raw=a.effect,
                 )
             else:
                 if a.confidence > g.edges[src, tgt]["confidence"]:
@@ -99,6 +102,9 @@ class CrossPageLinker:
                     g.edges[src, tgt]["assertion_id"] = a.assertion_id
                     g.edges[src, tgt]["page"] = a.page_number
                     g.edges[src, tgt]["section"] = a.section_title
+                    g.edges[src, tgt]["evidence_quote"] = a.evidence_quote
+                    g.edges[src, tgt]["cause_raw"] = a.cause
+                    g.edges[src, tgt]["effect_raw"] = a.effect
 
         nodes = list(g.nodes())
         for i in range(len(nodes)):
@@ -151,6 +157,20 @@ class CrossPageLinker:
 
                     inter_str = " -> ".join(path[1:-1])
 
+                    constituent_edges = []
+                    for k in range(len(path) - 1):
+                        edge_data = g.edges[path[k], path[k + 1]]
+                        constituent_edges.append({
+                            "hop": k + 1,
+                            "source": path[k],
+                            "target": path[k + 1],
+                            "assertion_id": edge_data["assertion_id"],
+                            "page_number": edge_data["page"],
+                            "section_title": edge_data["section"],
+                            "evidence_quote": edge_data.get("evidence_quote", ""),
+                            "confidence": edge_data["confidence"],
+                        })
+
                     link_id = f"cplink_trans_{link_idx:04d}"
                     link_idx += 1
 
@@ -169,6 +189,9 @@ class CrossPageLinker:
                         linking_mechanism="transitive_chain",
                         confidence=path_conf,
                         provenance_chain=asrt_chain,
+                        constituent_edges=constituent_edges,
+                        inference_rule="transitive_path_composition",
+                        validation_status="validated",
                     )
                     pair_key = (u, v)
                     existing = best_links.get(pair_key)
@@ -196,6 +219,28 @@ class CrossPageLinker:
                     link_id = f"cplink_ground_{link_idx:04d}"
                     link_idx += 1
 
+                    constituent_edges = [
+                        {
+                            "hop": 1,
+                            "source": a1.cause_canonical,
+                            "target": a1.effect_canonical,
+                            "assertion_id": a1.assertion_id,
+                            "page_number": a1.page_number,
+                            "section_title": a1.section_title,
+                            "evidence_quote": a1.evidence_quote,
+                            "confidence": a1.confidence,
+                        },
+                        {
+                            "hop": 2,
+                            "source": a2.cause_canonical,
+                            "target": a2.effect_canonical,
+                            "assertion_id": a2.assertion_id,
+                            "page_number": a2.page_number,
+                            "section_title": a2.section_title,
+                            "evidence_quote": a2.evidence_quote,
+                            "confidence": a2.confidence,
+                        },
+                    ]
                     links.append(
                         CrossPageLink(
                             link_id=link_id,
@@ -212,6 +257,9 @@ class CrossPageLinker:
                             linking_mechanism=mechanism,
                             confidence=conf,
                             provenance_chain=[a1.assertion_id, a2.assertion_id],
+                            constituent_edges=constituent_edges,
+                            inference_rule="cross_section_grounding" if is_claim_grounding else "multi_page_corroboration",
+                            validation_status="validated",
                         )
                     )
 

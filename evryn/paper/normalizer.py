@@ -549,6 +549,9 @@ class PaperEntityNormalizer:
                 pattern = re.compile(rf"\b{re.escape(term)}\b", re.IGNORECASE)
             for m in pattern.finditer(sentence):
                 raw = m.group(0)
+                # Ignore recombinant strain construct suffixes (e.g. H37Ra::phoP)
+                if m.start() >= 2 and sentence[m.start() - 2 : m.start()] == "::":
+                    continue
                 canon = self.canonicalize(raw, local_abbr_map, known_entities)
                 mentions.append((raw, canon, m.start(), m.end()))
 

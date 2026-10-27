@@ -217,6 +217,10 @@ class CrossPageLink:
     linking_mechanism: str
     confidence: float
     provenance_chain: List[str] = field(default_factory=list)
+    constituent_edges: List[Dict[str, Any]] = field(default_factory=list)
+    inference_rule: str = ""
+    validation_status: str = "validated"
+    rejection_reason: Optional[str] = None
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)

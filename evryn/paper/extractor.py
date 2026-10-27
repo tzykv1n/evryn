@@ -387,6 +387,16 @@ COORDINATING_BOUNDARY_RE = re.compile(
     re.IGNORECASE,
 )
 
+INTENT_PREAMBLE_RE = re.compile(
+    r"^\s*(?:To\s+(?:identify|determine|investigate|evaluate|test|examine|assess|explore|clarify|confirm)\b|In\s+order\s+to\s+(?:identify|determine|investigate|evaluate|test|examine)\b)",
+    re.IGNORECASE,
+)
+
+EVIDENTIAL_BOUNDARY_RE = re.compile(
+    r",\s*which\s+(?:suggests?|indicates?|demonstrates?|shows?|implies?)\s+that\b",
+    re.IGNORECASE,
+)
+
 BY_MEANS_RE = re.compile(
     r"^\s*(?:expression|transcription|activity|levels?|genes?|production)?(?:\s+\w+){0,3}\s*,?\s*by\s+(?:inhibiting|repressing|suppressing|activating|inducing|stimulating|blocking|modulating|binding|reducing)\b",
     re.IGNORECASE,
@@ -1175,6 +1185,16 @@ class PaperCausalExtractor:
         # Reject relations crossing coordinating boundaries without a causative bridge
         if COORDINATING_BOUNDARY_RE.search(between_text):
             return None
+
+        # Reject relations crossing an evidential reporting boundary
+        if EVIDENTIAL_BOUNDARY_RE.search(between_text):
+            return None
+
+        # Reject candidates whose spans fall entirely within an introductory intent preamble
+        if INTENT_PREAMBLE_RE.search(text):
+            c_idx = text.find(",")
+            if c_idx != -1 and max(e1, e2) <= c_idx:
+                return None
 
         # Reject genomic locus encoding as causal edge
         if ENCODED_WITHIN_LOCUS_RE.search(between_text):

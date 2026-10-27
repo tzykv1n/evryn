@@ -77,21 +77,26 @@
         <button class="test-example-chip" data-example="example_e" title="Example E: Malformed or empty input validation">Empty (E)</button>
       </div>
 
-      <!-- Phase 2.2 Extraction Engine Mode Selector -->
-      <div id="extraction-engine-bar" class="extraction-engine-bar" style="display:flex;align-items:center;gap:12px;margin-top:6px;font-size:11px;color:var(--text-muted, #64748b);">
-        <span class="test-examples-label" style="font-weight:600;letter-spacing:0.05em;">ENGINE:</span>
-        <label class="engine-radio-label" title="System A: Rule-based dependency parser and trigger grammar" style="display:flex;align-items:center;gap:4px;cursor:pointer;">
-          <input type="radio" name="extraction_engine" value="nlp_baseline" checked style="cursor:pointer;">
-          <span>System A (NLP Baseline)</span>
-        </label>
-        <label class="engine-radio-label" title="System B: LLM candidate proposition without strict validation" style="display:flex;align-items:center;gap:4px;cursor:pointer;">
-          <input type="radio" name="extraction_engine" value="llm_only" style="cursor:pointer;">
-          <span>System B (LLM Only)</span>
-        </label>
-        <label class="engine-radio-label" title="System C: Hybrid LLM + 9-stage deterministic validation" style="display:flex;align-items:center;gap:4px;cursor:pointer;">
-          <input type="radio" name="extraction_engine" value="hybrid" style="cursor:pointer;">
-          <span style="font-weight:600;color:var(--primary, #0d9488);">System C (Hybrid LLM + Validation)</span>
-        </label>
+      <!-- Phase 2.3 Extraction Engine Mode Selector -->
+      <div id="extraction-engine-bar" class="extraction-engine-bar">
+        <span class="engine-bar-label">EXTRACTION ENGINE:</span>
+        <div class="engine-toggle-group" role="radiogroup" aria-label="Extraction Engine Selection">
+          <label class="engine-toggle-btn active" id="engine-btn-nlp" title="System A: Phase 2.3 Repaired Rule-Based NLP Pipeline with clause awareness and 100% provenance">
+            <input type="radio" name="extraction_engine" value="nlp_baseline" checked>
+            <span class="engine-badge">System A</span>
+            <span class="engine-title">Repaired NLP Baseline</span>
+          </label>
+          <label class="engine-toggle-btn" id="engine-btn-llm" title="System B: LLM candidate proposition without strict validation">
+            <input type="radio" name="extraction_engine" value="llm_only">
+            <span class="engine-badge">System B</span>
+            <span class="engine-title">LLM Only</span>
+          </label>
+          <label class="engine-toggle-btn" id="engine-btn-hybrid" title="System C: Hybrid LLM + 9-stage deterministic validation">
+            <input type="radio" name="extraction_engine" value="hybrid">
+            <span class="engine-badge">System C</span>
+            <span class="engine-title">Hybrid (LLM + Validation)</span>
+          </label>
+        </div>
       </div>
 
       <!-- Plus Popover Menu -->
@@ -132,12 +137,13 @@
         <div class="graph-toolbar">
           <div class="toolbar-left">
             <span id="graph-stats" class="graph-stats">0 NODES &nbsp;|&nbsp; 0 RELATIONS</span>
-            <!-- Synchronized 4-View Tabs -->
+            <!-- Synchronized 5-View Tabs -->
             <div class="view-tabs" role="tablist">
               <button id="view-tab-graph" class="view-tab active" role="tab" aria-selected="true" title="Interactive Physics Graph">GRAPH</button>
               <button id="view-tab-copyable" class="view-tab" role="tab" aria-selected="false" title="Copyable Plain-Text Graph">COPYABLE</button>
               <button id="view-tab-table" class="view-tab" role="tab" aria-selected="false" title="Structured Table View">TABLE</button>
               <button id="view-tab-examples" class="view-tab" role="tab" aria-selected="false" title="Real-Paper Evaluation Examples">EXAMPLES</button>
+              <button id="view-tab-benchmark" class="view-tab" role="tab" aria-selected="false" title="Phase 2.3 Benchmark Evaluation Dashboard">BENCHMARK</button>
             </div>
           </div>
 
@@ -438,6 +444,90 @@
             <div id="testcases-cards-list" class="testcases-cards-list">
               <!-- Dynamically populated from /api/test-examples -->
             </div>
+          </div>
+        </div>
+
+        <!-- View 5: Dedicated Phase 2.3 Empirical Benchmark Tab -->
+        <div id="benchmark-view" class="benchmark-view hidden">
+          <div class="benchmark-toolbar">
+            <div class="benchmark-header-left">
+              <span class="benchmark-title">PHASE 2.3 EMPIRICAL BENCHMARK DASHBOARD</span>
+              <span class="benchmark-subtitle">Three-Way Comparative Evaluation Across Real Biomedical Splits</span>
+            </div>
+            <div class="benchmark-header-right">
+              <label for="benchmark-split-select" class="filter-label">SPLIT:</label>
+              <select id="benchmark-split-select" class="filter-select">
+                <option value="dev" selected>Development Split (8 Papers)</option>
+                <option value="locked_test">Locked Held-Out Test (4 Papers)</option>
+                <option value="external">External Generalization (4 Papers)</option>
+              </select>
+              <button id="benchmark-reload-btn" class="text-btn" title="Reload Evaluation Metrics">↺ RELOAD</button>
+            </div>
+          </div>
+
+          <!-- Benchmark Summary KPI Cards Row -->
+          <div id="benchmark-cards-row" class="benchmark-cards-row">
+            <!-- Dynamically populated KPI metric cards -->
+          </div>
+
+          <!-- System Comparison Table -->
+          <div class="benchmark-table-wrapper">
+            <div class="benchmark-section-header">
+              <span class="benchmark-section-title">SYSTEM EXTRACTION &amp; REASONING COMPARISON</span>
+              <span class="benchmark-section-tag">Prompt: v2.2.0 &bull; Calibration: Phase 2.3</span>
+            </div>
+            <table class="benchmark-table" id="benchmark-summary-table">
+              <thead>
+                <tr>
+                  <th>Extraction Engine</th>
+                  <th>Direct F1 (Macro 95% CI)</th>
+                  <th>Direct P / R / F1 (Micro)</th>
+                  <th>Cross-Page F1 (Macro 95% CI)</th>
+                  <th>Cross-Page P / R / F1 (Micro)</th>
+                  <th>Direction Accuracy</th>
+                  <th>False Trans. Jumps</th>
+                  <th>Exact Struct Match</th>
+                  <th>Runtime</th>
+                </tr>
+              </thead>
+              <tbody id="benchmark-summary-tbody">
+                <!-- Dynamically populated from /api/benchmark/results -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Per-Paper Drill-Down Section -->
+          <div class="benchmark-table-wrapper" style="margin-top:20px;">
+            <div class="benchmark-section-header">
+              <span class="benchmark-section-title">PER-PAPER DRILL-DOWN (GROUNDED VALIDATION)</span>
+              <div class="drilldown-chips" id="drilldown-engine-chips">
+                <span class="filter-label">ENGINE:</span>
+                <button class="status-chip active" data-drilldown-sys="nlp_baseline">System A (NLP Baseline)</button>
+                <button class="status-chip" data-drilldown-sys="llm_only">System B (LLM Only)</button>
+                <button class="status-chip" data-drilldown-sys="hybrid">System C (Hybrid Validated)</button>
+              </div>
+            </div>
+            <table class="benchmark-table" id="benchmark-perpaper-table">
+              <thead>
+                <tr>
+                  <th>PMCID</th>
+                  <th>Paper Title</th>
+                  <th>Direct Gold</th>
+                  <th>Direct Pred</th>
+                  <th>Direct TP / FP / FN</th>
+                  <th>Direct F1</th>
+                  <th>Cross Gold</th>
+                  <th>Cross Pred</th>
+                  <th>Cross TP / FP / FN</th>
+                  <th>Cross F1</th>
+                  <th>False Jumps</th>
+                  <th>Runtime</th>
+                </tr>
+              </thead>
+              <tbody id="benchmark-perpaper-tbody">
+                <!-- Dynamically populated per-paper -->
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
