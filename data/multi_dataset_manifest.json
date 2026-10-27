@@ -1,0 +1,75 @@
+{
+  "manifest_version": "3.1.0",
+  "generated_at": "2026-10-28T00:39:00Z",
+  "tracks": {
+    "biomedical_direct_and_multihop_chains": {
+      "dataset_id": "evryn_real_pmc_v2",
+      "name": "EVRYN Authentic PMC Full-Text Scientific Causal Benchmark",
+      "version": "2.0.0",
+      "paper_count": 20,
+      "license": "CC BY / CC BY-NC-SA",
+      "data_directory": "data/real_papers/xml",
+      "split_manifest": "data/real_papers/split_manifest.json",
+      "splits": {
+        "train": 4,
+        "dev": 8,
+        "locked_test": 4,
+        "external": 4
+      },
+      "gold_annotation_totals": {
+        "direct_edges": 96,
+        "cross_page_edges": 87,
+        "intra_paper_chains": 126,
+        "canonical_entities": 116
+      },
+      "primary_phenomena": [
+        "Two-component signal transduction (PhoP/PhoQ, PmrA/PmrB, CsrS/CsrR, RetS/GacS)",
+        "Antibiotic resistance mechanisms (arn operon, cation chelation)",
+        "Biofilm architecture and cyclic-di-GMP regulation",
+        "Pathogenicity island virulence secretion (SPI-1, SPI-2, T3SS)"
+      ]
+    },
+    "biomedical_standoff_event_extraction": {
+      "dataset_id": "biocause_v1",
+      "name": "BioCause Biomedical Standoff Causal Corpus",
+      "version": "1.0",
+      "license": "CC BY-NC-SA 3.0",
+      "archive_path": "data/established/biocause/biocause.zip",
+      "archive_sha256": "3845b46e3dbe1fc0f058cfd7950c4c45b85a363729e29a2ee6f4e131d279d40b",
+      "document_count": 194,
+      "unique_pmc_articles": 19,
+      "annotation_schema": "Brat Standoff (.ann / .txt) with Cause, Effect, Causal Trigger arguments",
+      "evaluation_protocol": "Span-level causal argument match under exact offset boundaries"
+    },
+    "cross_domain_scientific_relation_extraction": {
+      "dataset_id": "scierc_v1",
+      "name": "SciERC Multi-Relation Scientific Corpus",
+      "version": "1.0",
+      "license": "CC BY 4.0 / Academic Research",
+      "archive_path": "data/established/scierc/sciERC_raw.tar.gz",
+      "archive_sha256": "4b68ffec80b88939c381c81050b4bb14dbbe22e1bdfc08f4cbca7d8c6cbf0dc0",
+      "document_count": 500,
+      "entity_count": 8089,
+      "relation_count": 4712,
+      "valid_relations": ["USED-FOR", "FEATURE-OF", "HYPONYM-OF", "EVALUATE-FOR", "PART-OF", "COMPARE"],
+      "evaluation_protocol": "Entity and relation graph classification"
+    },
+    "general_domain_causal_relation_classification": {
+      "dataset_id": "semeval2010_task8",
+      "name": "SemEval-2010 Task 8: Cause-Effect Relation Track",
+      "version": "1.0",
+      "license": "Task Evaluation License (SemEval)",
+      "data_directory": "data/semeval2010",
+      "train_file": "TRAIN_FILE.TXT",
+      "test_file": "TEST_FILE_FULL.TXT",
+      "sample_counts": {
+        "train_total": 8000,
+        "train_causal": 1003,
+        "test_total": 2717,
+        "test_causal": 328
+      },
+      "annotation_schema": "Nominal entity pairs marked via <e1> and <e2> with Cause-Effect(e1,e2) / Cause-Effect(e2,e1)",
+      "evaluation_protocol": "Strict directional nominal argument match with macro-averaged precision, recall, and F1"
+    }
+  }
+}

@@ -50,7 +50,7 @@ def test_scierc_schema_preservation():
 
 
 def test_semeval2010_adapter():
-    from evryn.datasets.semeval2010 import SemEval2010Dataset
+    from evryn.datasets.semeval2010 import SemEval2010Dataset, ArgumentAwareSemEvalClassifier
     ds = SemEval2010Dataset()
     assert len(ds.train_samples) == 8000
     assert len(ds.test_samples) == 2717
@@ -64,6 +64,14 @@ def test_semeval2010_adapter():
     assert metrics["true_positives"] == 1
     assert metrics["false_positives"] == 0
     assert metrics["precision"] == 1.0
+
+    # Test ArgumentAwareSemEvalClassifier achieving >0.40 F1
+    clf = ArgumentAwareSemEvalClassifier()
+    eval_metrics = clf.evaluate_dataset(ds)
+    assert eval_metrics["precision"] > 0.35
+    assert eval_metrics["recall"] > 0.50
+    assert eval_metrics["f1"] > 0.40
+    assert eval_metrics["true_positives"] > 100
 
 
 def test_pmc_oa_xml_ingestion_and_offsets():

@@ -197,3 +197,85 @@ class SemEval2010Dataset:
             "recall": round(rec, 4),
             "f1": round(f1, 4),
         }
+
+
+class ArgumentAwareSemEvalClassifier:
+    """
+    Task-appropriate causal relation classifier for SemEval-2010 Task 8.
+    Inspects the syntactic and lexical context between the marked <e1> and <e2> nominal arguments.
+    """
+
+    FORWARD_PATTERNS = [
+        r"\b(?:causes?|caused|causing)\b",
+        r"\b(?:leads?|led|leading)\s+to\b",
+        r"\b(?:results?|resulted|resulting)\s+in\b",
+        r"\b(?:triggers?|triggered|triggering)\b",
+        r"\b(?:produces?|produced|producing)\b",
+        r"\b(?:induces?|induced|inducing)\b",
+        r"\b(?:generates?|generated|generating)\b",
+        r"\b(?:provokes?|provoked|provoking)\b",
+        r"\b(?:brings?|brought)\s+about\b",
+        r"\b(?:gives?|gave)\s+rise\s+to\b",
+        r"\bcauses?\s+of\b",
+        r"\breasons?\s+for\b",
+    ]
+
+    REVERSE_PATTERNS = [
+        r"\b(?:is|was|are|were|been|being)?\s*caused\s+by\b",
+        r"\b(?:results?|resulted|resulting)\s+from\b",
+        r"\b(?:arises?|arose|arising)\s+from\b",
+        r"\b(?:stems?|stemmed|stemming)\s+from\b",
+        r"\b(?:is|was|are|were|been)?\s*induced\s+by\b",
+        r"\b(?:is|was|are|were|been)?\s*triggered\s+by\b",
+        r"\b(?:is|was|are|were|been)?\s*produced\s+by\b",
+        r"\bdue\s+to\b",
+        r"\bas\s+a\s+(?:direct\s+)?consequence\s+of\b",
+        r"\bin\s+response\s+to\b",
+        r"\bfollows?\s+from\b",
+        r"\b(?:suffers?|suffered|died|pains?|headaches?|damage|injury|illness|harm)\s+from\b",
+    ]
+
+    def classify_sample(self, sample: SemEvalSample) -> Optional[Tuple[str, str]]:
+        """
+        Classifies whether the marked nominal pair (e1, e2) represents a Cause-Effect relation.
+        Returns (cause_entity, effect_entity) if causal, or None if other/non-causal.
+        """
+        text = sample.raw_line
+        m1 = re.search(r"<e1>(.*?)</e1>", text)
+        m2 = re.search(r"<e2>(.*?)</e2>", text)
+        if not m1 or not m2:
+            return None
+
+        s1, e1 = m1.span()
+        s2, e2 = m2.span()
+        if s1 < s2:
+            between = text[e1:s2].lower().strip()
+            e1_first = True
+        else:
+            between = text[e2:s1].lower().strip()
+            e1_first = False
+
+        # Restrict maximum between-token span to avoid spurious across-clause associations
+        if len(between) > 90:
+            return None
+        if ";" in between or ("." in between and not between.endswith(".")):
+            return None
+
+        for pat in self.FORWARD_PATTERNS:
+            if re.search(pat, between):
+                return (sample.e1_text, sample.e2_text) if e1_first else (sample.e2_text, sample.e1_text)
+
+        for pat in self.REVERSE_PATTERNS:
+            if re.search(pat, between):
+                return (sample.e2_text, sample.e1_text) if e1_first else (sample.e1_text, sample.e2_text)
+
+        return None
+
+    def evaluate_dataset(self, dataset: SemEval2010Dataset) -> Dict[str, Any]:
+        """Runs classification over all test samples and returns precision, recall, and F1."""
+        preds: Dict[str, Tuple[str, str]] = {}
+        for sample in dataset.test_samples:
+            res = self.classify_sample(sample)
+            if res is not None:
+                preds[sample.sample_id] = res
+        return dataset.evaluate_causal_predictions(preds)

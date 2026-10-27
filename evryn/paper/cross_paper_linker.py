@@ -1,10 +1,19 @@
 """
-EVRYN Cross-Paper Causal Linking Engine (Iteration 6).
-Discovers and verifies evidence-backed causal bridges connecting mechanisms
-established in different scientific papers or distant sections.
+EVRYN Cross-Paper Causal Linking Engine (Phase 3.1).
+Discovers, categorizes, and audits evidence-backed causal bridges connecting
+mechanisms established across different scientific papers.
+
+Classifies all cross-document outputs into 6 defensible categories:
+1. SAME_ENTITY_ALIGNMENT (Direct identity alignment across publications)
+2. COMPLEMENTARY_EVIDENCE (Complementary experimental findings for same relation)
+3. SUPPORTED_CHAIN_SPAN (Evidence-backed chain spanning across documents)
+4. PLAUSIBLE_HYPOTHESIS (Cross-species/orthologous signaling hypothesis)
+5. UNSUPPORTED_CONTRADICTORY (Rejected: polarity conflict or reverse effector)
+6. INDETERMINATE (Insufficient evidence or uncertain provenance)
 """
 
 from dataclasses import dataclass, field
+from enum import Enum
 from typing import List, Dict, Any, Optional, Tuple, Set
 
 from evryn.paper.chain_types import (
@@ -13,6 +22,39 @@ from evryn.paper.chain_types import (
     CausalEdgeKind,
 )
 from evryn.paper.normalizer import PaperEntityNormalizer
+
+
+class CrossDocumentLinkCategory(str, Enum):
+    SAME_ENTITY_ALIGNMENT = "SAME_ENTITY_ALIGNMENT"
+    COMPLEMENTARY_EVIDENCE = "COMPLEMENTARY_EVIDENCE"
+    SUPPORTED_CHAIN_SPAN = "SUPPORTED_CHAIN_SPAN"
+    PLAUSIBLE_HYPOTHESIS = "PLAUSIBLE_HYPOTHESIS"
+    UNSUPPORTED_CONTRADICTORY = "UNSUPPORTED_CONTRADICTORY"
+    INDETERMINATE = "INDETERMINATE"
+
+
+DOC_SPECIES_MAP = {
+    "PMC1804205": "Salmonella enterica",
+    "PMC1874608": "Salmonella enterica",
+    "PMC1913099": "Streptococcus pneumoniae",
+    "PMC1974823": "Porphyromonas gingivalis",
+    "PMC2242835": "Mycobacterium tuberculosis",
+    "PMC2266911": "Photorhabdus luminescens",
+    "PMC2358977": "Streptococcus suis",
+    "PMC2430206": "Staphylococcus aureus",
+    "PMC2565068": "Streptococcus pyogenes",
+    "PMC2581603": "Pseudomonas aeruginosa",
+    "PMC2593050": "Streptococcus pneumoniae",
+    "PMC2639726": "Salmonella enterica",
+    "PMC2651894": "Salmonella enterica",
+    "PMC2682197": "Mycobacterium tuberculosis",
+    "PMC2714965": "Caenorhabditis elegans",
+    "PMC2774163": "Pseudomonas aeruginosa",
+    "PMC2816692": "Salmonella enterica",
+    "PMC2829055": "Yersinia pestis",
+    "PMC2858072": "Brucella abortus",
+    "PMC2885601": "Streptococcus equi",
+}
 
 
 @dataclass
@@ -29,6 +71,10 @@ class CrossDocumentCausalLink:
     evidence_doc2: str
     page_doc1: int
     page_doc2: int
+    link_category: CrossDocumentLinkCategory = CrossDocumentLinkCategory.SUPPORTED_CHAIN_SPAN
+    dual_independent_support: bool = True
+    organism_doc1: str = ""
+    organism_doc2: str = ""
     mechanism_compatibility: str = "COMPATIBLE"
     is_speculative: bool = False
 
@@ -46,6 +92,10 @@ class CrossDocumentCausalLink:
             "evidence_doc2": self.evidence_doc2,
             "page_doc1": self.page_doc1,
             "page_doc2": self.page_doc2,
+            "link_category": self.link_category.value,
+            "dual_independent_support": self.dual_independent_support,
+            "organism_doc1": self.organism_doc1,
+            "organism_doc2": self.organism_doc2,
             "mechanism_compatibility": self.mechanism_compatibility,
             "is_speculative": self.is_speculative,
         }
@@ -79,9 +129,16 @@ class CrossPaperLinker:
         doc_id_1: str,
         doc_id_2: str,
     ) -> List[CrossDocumentCausalLink]:
-        """Discovers verified cross-document causal bridges where Doc 1 establishes A -> Pivot and Doc 2 establishes Pivot -> B."""
+        """
+        Discovers, categorizes, and verifies evidence-backed cross-document causal bridges
+        where Doc 1 establishes A -> Pivot and Doc 2 establishes Pivot -> B.
+        """
         links: List[CrossDocumentCausalLink] = []
         seen_pairs: Set[Tuple[str, str, str]] = set()
+
+        org1 = DOC_SPECIES_MAP.get(doc_id_1, "Unknown organism")
+        org2 = DOC_SPECIES_MAP.get(doc_id_2, "Unknown organism")
+        is_same_species = (org1 == org2 and org1 != "Unknown organism")
 
         for c1 in chains_doc1:
             for e1 in c1.edges:
@@ -96,21 +153,45 @@ class CrossPaperLinker:
                             src_entity = e1.source
                             tgt_entity = e2.target
 
-                            if self._norm(src_entity) == self._norm(tgt_entity):
+                            src_norm = self._norm(src_entity)
+                            tgt_norm = self._norm(tgt_entity)
+
+                            if src_norm == tgt_norm:
                                 continue  # Avoid trivial loop
 
                             pivot_label = pivot_candidate if (e2_src_norm == pivot_norm) else f"{pivot_candidate} -> {e2.source}"
-                            pair_key = (self._norm(src_entity), self._norm(pivot_label), self._norm(tgt_entity))
+                            pair_key = (src_norm, self._norm(pivot_label), tgt_norm)
                             if pair_key in seen_pairs:
                                 continue
                             seen_pairs.add(pair_key)
 
                             # Polarity & compatibility check
-                            is_incompatible = (e1.polarity == "NEGATIVE" and e2.polarity == "POSITIVE" and "represses" in e1.evidence_text.lower())
+                            is_incompatible = (
+                                e1.polarity == "NEGATIVE" and e2.polarity == "POSITIVE" and "represses" in e1.evidence_text.lower()
+                            )
                             compat = "INCOMPATIBLE_POLARITY" if is_incompatible else "COMPATIBLE"
 
-                            # Calibrated cross-document confidence: geometric decay
-                            composite_conf = e1.confidence * e2.confidence * 0.82
+                            # 6-category classification
+                            if is_incompatible:
+                                category = CrossDocumentLinkCategory.UNSUPPORTED_CONTRADICTORY
+                            elif src_norm == self._norm(e2.source) and tgt_norm == self._norm(e1.target):
+                                category = CrossDocumentLinkCategory.COMPLEMENTARY_EVIDENCE
+                            elif is_same_species:
+                                category = CrossDocumentLinkCategory.SUPPORTED_CHAIN_SPAN
+                            else:
+                                # Different organisms (e.g. Salmonella PMC1804205 vs Pseudomonas PMC2581603)
+                                category = CrossDocumentLinkCategory.PLAUSIBLE_HYPOTHESIS
+
+                            # Calibrated confidence: geometric decay
+                            base_conf = e1.confidence * e2.confidence
+                            if category == CrossDocumentLinkCategory.PLAUSIBLE_HYPOTHESIS:
+                                composite_conf = base_conf * 0.75  # Cross-species penalty
+                            elif category == CrossDocumentLinkCategory.SUPPORTED_CHAIN_SPAN:
+                                composite_conf = base_conf * 0.88
+                            elif category == CrossDocumentLinkCategory.COMPLEMENTARY_EVIDENCE:
+                                composite_conf = base_conf * 0.92
+                            else:
+                                composite_conf = base_conf * 0.20
 
                             link = CrossDocumentCausalLink(
                                 source_entity=src_entity,
@@ -125,6 +206,10 @@ class CrossPaperLinker:
                                 evidence_doc2=e2.evidence_text,
                                 page_doc1=e1.page_number,
                                 page_doc2=e2.page_number,
+                                link_category=category,
+                                dual_independent_support=bool(e1.evidence_text and e2.evidence_text),
+                                organism_doc1=org1,
+                                organism_doc2=org2,
                                 mechanism_compatibility=compat,
                                 is_speculative=e1.is_hypothetical or e2.is_hypothetical,
                             )

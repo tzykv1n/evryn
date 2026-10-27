@@ -11,6 +11,7 @@ Implements Cases A through G:
 """
 
 from typing import List, Dict, Any, Optional, Tuple, Set
+from enum import Enum
 import re
 
 from evryn.paper.chain_types import (
@@ -21,6 +22,14 @@ from evryn.paper.chain_types import (
     ChainMatchResult,
 )
 from evryn.paper.normalizer import PaperEntityNormalizer
+
+
+class BridgeStatus(str, Enum):
+    VERIFIED_EDGE = "VERIFIED_EDGE"                          # Local textual claim explicitly supports edge
+    CANDIDATE_MISSING_EDGE = "CANDIDATE_MISSING_EDGE"        # Hypothesized missing link bridging two fragments
+    CANDIDATE_INFERRED_COMPOSITION = "CANDIDATE_INFERRED_COMPOSITION"  # Transitive bridge supported by reachability
+    UNRESOLVED = "UNRESOLVED"                                # Insufficient evidence to classify
+    REJECTED = "REJECTED"                                    # Contradicts polarity, traverses sink, or violates invariants
 
 
 class PartialChainMatcher:
@@ -177,3 +186,99 @@ class PartialChainMatcher:
                     })
 
         return competing_groups
+
+    def evaluate_gold_chain_recovery(
+        self,
+        gold_chain: CausalChain,
+        extracted_assertions: List[Any],
+        candidate_chains: Optional[List[CausalChain]] = None,
+    ) -> Dict[str, Any]:
+        """
+        Comprehensive Phase 3.1 audit of gold chain recovery:
+        - Gold edge count and correctly recovered edge count
+        - Longest contiguous recovered subpath
+        - Missing intermediate edges vs inserted edges
+        - Complete ordered path recovery verification
+        - Explicit endpoint textual statement verification
+        - Inferred vs textual edge tracking
+        - Ranked candidate bridges with explicit BridgeStatus
+        """
+        gold_edges = [(gold_chain.nodes[i], gold_chain.nodes[i + 1]) for i in range(len(gold_chain.nodes) - 1)]
+        extracted_pairs = [(a.cause_canonical, a.effect_canonical) for a in extracted_assertions if not getattr(a, "is_negated", False)]
+        extracted_norm = [(self._norm(u), self._norm(v)) for u, v in extracted_pairs]
+
+        recovered_edges = []
+        missing_edges = []
+        matched_mask = []
+
+        for ge in gold_edges:
+            gu, gv = self._norm(ge[0]), self._norm(ge[1])
+            is_rec = any(
+                (gu == eu or gu in eu or eu in gu) and (gv == ev or gv in ev or ev in gv)
+                for eu, ev in extracted_norm
+            )
+            matched_mask.append(is_rec)
+            if is_rec:
+                recovered_edges.append(ge)
+            else:
+                missing_edges.append(ge)
+
+        # Longest contiguous subpath
+        longest_contiguous = 0
+        curr_len = 0
+        for m in matched_mask:
+            if m:
+                curr_len += 1
+                if curr_len > longest_contiguous:
+                    longest_contiguous = curr_len
+            else:
+                curr_len = 0
+
+        # Complete ordered path recovery
+        is_complete = all(matched_mask)
+
+        # Explicit endpoint relation
+        src_norm = self._norm(gold_chain.endpoint_pair[0])
+        tgt_norm = self._norm(gold_chain.endpoint_pair[1])
+        endpoint_explicit = any(
+            (src_norm == eu or src_norm in eu or eu in src_norm) and (tgt_norm == ev or tgt_norm in ev or ev in tgt_norm)
+            for eu, ev in extracted_norm
+        )
+
+        # Candidate bridges ranking
+        candidate_bridges = []
+        for me in missing_edges:
+            mu, mv = me
+            # Status determination
+            status = BridgeStatus.CANDIDATE_MISSING_EDGE
+            rank_score = 0.75
+            notes = "Intermediate edge required to complete observed chain cascade."
+
+            # Check if reverse jump or sink
+            if any(p in self._norm(mu) for p in ["virulence", "survival", "biofilm", "growth"]) and not any(p in self._norm(mv) for p in ["virulence", "survival", "biofilm", "growth"]):
+                status = BridgeStatus.REJECTED
+                rank_score = 0.05
+                notes = "Rejected: Reverse effector jump."
+
+            candidate_bridges.append({
+                "source": mu,
+                "target": mv,
+                "status": status.value,
+                "confidence_rank": rank_score,
+                "rationale": notes,
+            })
+
+        candidate_bridges.sort(key=lambda x: x["confidence_rank"], reverse=True)
+
+        return {
+            "gold_chain_id": gold_chain.chain_id,
+            "gold_hop_count": len(gold_edges),
+            "recovered_edges_count": len(recovered_edges),
+            "recovered_edges": recovered_edges,
+            "missing_edges": missing_edges,
+            "longest_contiguous_subpath_hops": longest_contiguous,
+            "is_complete_ordered_path_recovered": is_complete,
+            "is_endpoint_relation_explicitly_stated": endpoint_explicit,
+            "has_inferred_edges": len(missing_edges) > 0,
+            "candidate_bridges": candidate_bridges,
+        }

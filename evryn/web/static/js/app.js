@@ -3571,6 +3571,58 @@
   }
 
   function renderPhase3Results(data) {
+    if (!data) return;
+
+    // Dynamically update KPI cards from canonical data
+    const full = data.full_evaluation || {};
+    const splits = full.splits || {};
+
+    let totalChains = 0;
+    let directSupported = 0;
+    let multiHopSupported = 0;
+    let plausibleComposed = 0;
+    let unsupportedShortcuts = 0;
+    let indeterminate = 0;
+
+    Object.values(splits).forEach(s => {
+      const dist = s.composition_class_distribution || {};
+      directSupported += (dist.DIRECT_SUPPORTED || 0);
+      multiHopSupported += (dist.MULTI_HOP_SUPPORTED || 0);
+      plausibleComposed += (dist.PLAUSIBLE_COMPOSED || 0);
+      unsupportedShortcuts += (dist.UNSUPPORTED_SHORTCUT || 0);
+      indeterminate += (dist.INDETERMINATE || 0);
+    });
+    totalChains = directSupported + multiHopSupported + plausibleComposed + unsupportedShortcuts + indeterminate;
+
+    const kpiTotal = document.getElementById("chains-kpi-total");
+    if (kpiTotal && totalChains > 0) kpiTotal.textContent = totalChains;
+
+    const kpiSupported = document.getElementById("chains-kpi-supported");
+    if (kpiSupported && totalChains > 0) kpiSupported.textContent = (directSupported + multiHopSupported + plausibleComposed);
+
+    const kpiShortcuts = document.getElementById("chains-kpi-shortcuts");
+    if (kpiShortcuts && totalChains > 0) kpiShortcuts.textContent = unsupportedShortcuts;
+
+    const devSplit = splits.dev || {};
+    const kpiDev = document.getElementById("chains-kpi-f1-dev");
+    if (kpiDev && devSplit.direct_f1_mean !== undefined) {
+      kpiDev.textContent = devSplit.direct_f1_mean.toFixed(4);
+    }
+
+    const extSplit = splits.external || {};
+    const kpiExt = document.getElementById("chains-kpi-f1-ext");
+    if (kpiExt && extSplit.cross_f1_mean !== undefined) {
+      kpiExt.textContent = extSplit.cross_f1_mean.toFixed(4);
+    }
+
+    // Dynamic Cross-Paper Bridges KPI
+    const crossPairs = full.cross_paper_linking || [];
+    const totalBridges = crossPairs.reduce((acc, p) => acc + (p.bridges_discovered_count || 0), 0);
+    const kpiBridges = document.getElementById("chains-kpi-bridges");
+    if (kpiBridges && totalBridges > 0) {
+      kpiBridges.textContent = totalBridges;
+    }
+
     const ablTbody = document.getElementById("phase3-ablation-tbody");
     if (ablTbody && data.ablation_matrix) {
       ablTbody.innerHTML = data.ablation_matrix.map(row => {

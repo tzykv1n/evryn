@@ -1,0 +1,759 @@
+{
+  "frozen_baseline_id": "evryn_phase3_1_reproducible_baseline",
+  "created_at": "2026-10-27T19:10:21Z",
+  "source_commit": "38521ba82279ceffda59b94862808a207d83ee8d",
+  "branch": "phase3.1-audit-generalization-validation",
+  "environment": {
+    "python_version": "3.14.7",
+    "platform": "linux",
+    "scikit_learn_version": "1.9.1",
+    "random_seed": 42,
+    "n_bootstraps": 1000
+  },
+  "phase1_protected_hashes": {
+    "docs/phase1/main.pdf": "4e7eb0ffb6390260b4d0e8bea70abc420237d7a952ebd7fa977ad2db8b8fce5d",
+    "docs/phase1/Temporal_Causal_Knowledge_Phase1_Presentation.pdf": "dfeafd264a583442d9cf8a647db5f0465d5cbeaf3f488135eb10138ebefc822b"
+  },
+  "evaluation_tracks": {
+    "biomedical_20_pmc": {
+      "benchmark_version": "v2",
+      "timestamp": "2026-10-27T17:17:27Z",
+      "splits": {
+        "train": {
+          "paper_count": 4,
+          "direct_f1_mean": 0.4975,
+          "direct_f1_ci95": [
+            0.3818,
+            0.6625
+          ],
+          "cross_f1_mean": 0.2385,
+          "cross_f1_ci95": [
+            0.075,
+            0.4135
+          ],
+          "structural_match_mean": 0.3056,
+          "structural_match_ci95": [
+            0.1944,
+            0.4306
+          ],
+          "total_false_transitive_jumps": 22,
+          "total_predicted_cross_links": 26,
+          "total_gold_cross_links": 16,
+          "chain_length_recovery": {
+            "2": 720,
+            "3": 712,
+            "4": 907,
+            "5": 822,
+            "6": 618
+          },
+          "composition_class_distribution": {
+            "DIRECT_SUPPORTED": 155,
+            "MULTI_HOP_SUPPORTED": 623,
+            "PLAUSIBLE_COMPOSED": 1329,
+            "UNSUPPORTED_SHORTCUT": 621,
+            "INDETERMINATE": 1051
+          },
+          "matching_level_distribution": {
+            "EXACT_CHAIN_MATCH": 9,
+            "EXACT_EDGE_SET_MATCH": 0,
+            "PARTIAL_CONTIGUOUS_MATCH": 4,
+            "PARTIAL_NON_CONTIGUOUS_MATCH": 0,
+            "SUBPATH_INSIDE_LONGER": 0,
+            "ENDPOINT_MATCH_INCORRECT_PATH": 6,
+            "SEMANTIC_POLARITY_MISMATCH": 0,
+            "CANDIDATE_REQUIRING_ADJUDICATION": 4
+          },
+          "missing_bridges_count": 6,
+          "paper_details": [
+            {
+              "pmcid": "PMC2651894",
+              "direct_f1": 0.4762,
+              "cross_f1": 0.3,
+              "structural_match": 0.3333,
+              "pred_direct_count": 16,
+              "pred_cross_count": 16,
+              "gold_direct_count": 5,
+              "gold_cross_count": 4,
+              "discovered_chains_count": 585
+            },
+            {
+              "pmcid": "PMC2682197",
+              "direct_f1": 0.4,
+              "cross_f1": 0.1538,
+              "structural_match": 0.2222,
+              "pred_direct_count": 10,
+              "pred_cross_count": 8,
+              "gold_direct_count": 5,
+              "gold_cross_count": 5,
+              "discovered_chains_count": 2144
+            },
+            {
+              "pmcid": "PMC2714965",
+              "direct_f1": 0.75,
+              "cross_f1": 0.5,
+              "structural_match": 0.5,
+              "pred_direct_count": 4,
+              "pred_cross_count": 1,
+              "gold_direct_count": 4,
+              "gold_cross_count": 3,
+              "discovered_chains_count": 60
+            },
+            {
+              "pmcid": "PMC2774163",
+              "direct_f1": 0.3636,
+              "cross_f1": 0.0,
+              "structural_match": 0.1667,
+              "pred_direct_count": 6,
+              "pred_cross_count": 1,
+              "gold_direct_count": 5,
+              "gold_cross_count": 4,
+              "discovered_chains_count": 990
+            }
+          ]
+        },
+        "dev": {
+          "paper_count": 8,
+          "direct_f1_mean": 0.686,
+          "direct_f1_ci95": [
+            0.5954,
+            0.7714
+          ],
+          "cross_f1_mean": 0.5089,
+          "cross_f1_ci95": [
+            0.2683,
+            0.7693
+          ],
+          "structural_match_mean": 0.5925,
+          "structural_match_ci95": [
+            0.4452,
+            0.7484
+          ],
+          "total_false_transitive_jumps": 13,
+          "total_predicted_cross_links": 27,
+          "total_gold_cross_links": 35,
+          "chain_length_recovery": {
+            "2": 401,
+            "3": 584,
+            "4": 670,
+            "5": 568,
+            "6": 382
+          },
+          "composition_class_distribution": {
+            "DIRECT_SUPPORTED": 123,
+            "MULTI_HOP_SUPPORTED": 401,
+            "PLAUSIBLE_COMPOSED": 973,
+            "UNSUPPORTED_SHORTCUT": 566,
+            "INDETERMINATE": 542
+          },
+          "matching_level_distribution": {
+            "EXACT_CHAIN_MATCH": 33,
+            "EXACT_EDGE_SET_MATCH": 0,
+            "PARTIAL_CONTIGUOUS_MATCH": 2,
+            "PARTIAL_NON_CONTIGUOUS_MATCH": 1,
+            "SUBPATH_INSIDE_LONGER": 0,
+            "ENDPOINT_MATCH_INCORRECT_PATH": 4,
+            "SEMANTIC_POLARITY_MISMATCH": 0,
+            "CANDIDATE_REQUIRING_ADJUDICATION": 4
+          },
+          "missing_bridges_count": 4,
+          "paper_details": [
+            {
+              "pmcid": "PMC1804205",
+              "direct_f1": 0.7143,
+              "cross_f1": 0.7692,
+              "structural_match": 0.7143,
+              "pred_direct_count": 9,
+              "pred_cross_count": 8,
+              "gold_direct_count": 5,
+              "gold_cross_count": 5,
+              "discovered_chains_count": 44
+            },
+            {
+              "pmcid": "PMC1874608",
+              "direct_f1": 0.625,
+              "cross_f1": 0.2857,
+              "structural_match": 0.4615,
+              "pred_direct_count": 11,
+              "pred_cross_count": 2,
+              "gold_direct_count": 5,
+              "gold_cross_count": 5,
+              "discovered_chains_count": 943
+            },
+            {
+              "pmcid": "PMC1913099",
+              "direct_f1": 0.5,
+              "cross_f1": 0.0,
+              "structural_match": 0.25,
+              "pred_direct_count": 4,
+              "pred_cross_count": 1,
+              "gold_direct_count": 4,
+              "gold_cross_count": 3,
+              "discovered_chains_count": 6
+            },
+            {
+              "pmcid": "PMC1974823",
+              "direct_f1": 0.7273,
+              "cross_f1": 1.0,
+              "structural_match": 0.9,
+              "pred_direct_count": 7,
+              "pred_cross_count": 5,
+              "gold_direct_count": 4,
+              "gold_cross_count": 5,
+              "discovered_chains_count": 579
+            },
+            {
+              "pmcid": "PMC2242835",
+              "direct_f1": 0.5455,
+              "cross_f1": 0.7273,
+              "structural_match": 0.5833,
+              "pred_direct_count": 7,
+              "pred_cross_count": 6,
+              "gold_direct_count": 4,
+              "gold_cross_count": 5,
+              "discovered_chains_count": 266
+            },
+            {
+              "pmcid": "PMC2266911",
+              "direct_f1": 0.6667,
+              "cross_f1": 0.0,
+              "structural_match": 0.375,
+              "pred_direct_count": 5,
+              "pred_cross_count": 0,
+              "gold_direct_count": 4,
+              "gold_cross_count": 3,
+              "discovered_chains_count": 626
+            },
+            {
+              "pmcid": "PMC2358977",
+              "direct_f1": 0.9091,
+              "cross_f1": 0.8889,
+              "structural_match": 0.9,
+              "pred_direct_count": 6,
+              "pred_cross_count": 4,
+              "gold_direct_count": 5,
+              "gold_cross_count": 5,
+              "discovered_chains_count": 32
+            },
+            {
+              "pmcid": "PMC2430206",
+              "direct_f1": 0.8,
+              "cross_f1": 0.4,
+              "structural_match": 0.5556,
+              "pred_direct_count": 5,
+              "pred_cross_count": 1,
+              "gold_direct_count": 5,
+              "gold_cross_count": 4,
+              "discovered_chains_count": 109
+            }
+          ]
+        },
+        "locked_test": {
+          "paper_count": 4,
+          "direct_f1_mean": 0.5617,
+          "direct_f1_ci95": [
+            0.364,
+            0.7279
+          ],
+          "cross_f1_mean": 0.2657,
+          "cross_f1_ci95": [
+            0.0769,
+            0.5
+          ],
+          "structural_match_mean": 0.3774,
+          "structural_match_ci95": [
+            0.2321,
+            0.5167
+          ],
+          "total_false_transitive_jumps": 17,
+          "total_predicted_cross_links": 19,
+          "total_gold_cross_links": 20,
+          "chain_length_recovery": {
+            "2": 529,
+            "3": 1093,
+            "4": 1693,
+            "5": 1630,
+            "6": 1092
+          },
+          "composition_class_distribution": {
+            "DIRECT_SUPPORTED": 297,
+            "MULTI_HOP_SUPPORTED": 627,
+            "PLAUSIBLE_COMPOSED": 2389,
+            "UNSUPPORTED_SHORTCUT": 614,
+            "INDETERMINATE": 2110
+          },
+          "matching_level_distribution": {
+            "EXACT_CHAIN_MATCH": 13,
+            "EXACT_EDGE_SET_MATCH": 0,
+            "PARTIAL_CONTIGUOUS_MATCH": 0,
+            "PARTIAL_NON_CONTIGUOUS_MATCH": 2,
+            "SUBPATH_INSIDE_LONGER": 0,
+            "ENDPOINT_MATCH_INCORRECT_PATH": 5,
+            "SEMANTIC_POLARITY_MISMATCH": 0,
+            "CANDIDATE_REQUIRING_ADJUDICATION": 7
+          },
+          "missing_bridges_count": 2,
+          "paper_details": [
+            {
+              "pmcid": "PMC2565068",
+              "direct_f1": 0.7059,
+              "cross_f1": 0.3636,
+              "structural_match": 0.5333,
+              "pred_direct_count": 11,
+              "pred_cross_count": 7,
+              "gold_direct_count": 6,
+              "gold_cross_count": 4,
+              "discovered_chains_count": 2546
+            },
+            {
+              "pmcid": "PMC2581603",
+              "direct_f1": 0.2353,
+              "cross_f1": 0.1538,
+              "structural_match": 0.1429,
+              "pred_direct_count": 12,
+              "pred_cross_count": 7,
+              "gold_direct_count": 5,
+              "gold_cross_count": 6,
+              "discovered_chains_count": 3096
+            },
+            {
+              "pmcid": "PMC2593050",
+              "direct_f1": 0.75,
+              "cross_f1": 0.0,
+              "structural_match": 0.3333,
+              "pred_direct_count": 3,
+              "pred_cross_count": 0,
+              "gold_direct_count": 5,
+              "gold_cross_count": 4,
+              "discovered_chains_count": 28
+            },
+            {
+              "pmcid": "PMC2639726",
+              "direct_f1": 0.5556,
+              "cross_f1": 0.5455,
+              "structural_match": 0.5,
+              "pred_direct_count": 13,
+              "pred_cross_count": 5,
+              "gold_direct_count": 5,
+              "gold_cross_count": 6,
+              "discovered_chains_count": 367
+            }
+          ]
+        },
+        "external": {
+          "paper_count": 4,
+          "direct_f1_mean": 0.4808,
+          "direct_f1_ci95": [
+            0.3538,
+            0.6077
+          ],
+          "cross_f1_mean": 0.481,
+          "cross_f1_ci95": [
+            0.3429,
+            0.619
+          ],
+          "structural_match_mean": 0.3721,
+          "structural_match_ci95": [
+            0.2792,
+            0.4805
+          ],
+          "total_false_transitive_jumps": 5,
+          "total_predicted_cross_links": 12,
+          "total_gold_cross_links": 16,
+          "chain_length_recovery": {
+            "2": 158,
+            "3": 239,
+            "4": 264,
+            "5": 169,
+            "6": 41
+          },
+          "composition_class_distribution": {
+            "DIRECT_SUPPORTED": 164,
+            "MULTI_HOP_SUPPORTED": 202,
+            "PLAUSIBLE_COMPOSED": 345,
+            "UNSUPPORTED_SHORTCUT": 32,
+            "INDETERMINATE": 128
+          },
+          "matching_level_distribution": {
+            "EXACT_CHAIN_MATCH": 6,
+            "EXACT_EDGE_SET_MATCH": 0,
+            "PARTIAL_CONTIGUOUS_MATCH": 10,
+            "PARTIAL_NON_CONTIGUOUS_MATCH": 0,
+            "SUBPATH_INSIDE_LONGER": 1,
+            "ENDPOINT_MATCH_INCORRECT_PATH": 3,
+            "SEMANTIC_POLARITY_MISMATCH": 0,
+            "CANDIDATE_REQUIRING_ADJUDICATION": 12
+          },
+          "missing_bridges_count": 12,
+          "paper_details": [
+            {
+              "pmcid": "PMC2816692",
+              "direct_f1": 0.6154,
+              "cross_f1": 0.2857,
+              "structural_match": 0.3846,
+              "pred_direct_count": 8,
+              "pred_cross_count": 4,
+              "gold_direct_count": 5,
+              "gold_cross_count": 3,
+              "discovered_chains_count": 222
+            },
+            {
+              "pmcid": "PMC2829055",
+              "direct_f1": 0.3077,
+              "cross_f1": 0.5714,
+              "structural_match": 0.2857,
+              "pred_direct_count": 8,
+              "pred_cross_count": 3,
+              "gold_direct_count": 5,
+              "gold_cross_count": 4,
+              "discovered_chains_count": 57
+            },
+            {
+              "pmcid": "PMC2858072",
+              "direct_f1": 0.6,
+              "cross_f1": 0.6667,
+              "structural_match": 0.5455,
+              "pred_direct_count": 5,
+              "pred_cross_count": 4,
+              "gold_direct_count": 5,
+              "gold_cross_count": 5,
+              "discovered_chains_count": 12
+            },
+            {
+              "pmcid": "PMC2885601",
+              "direct_f1": 0.4,
+              "cross_f1": 0.4,
+              "structural_match": 0.2727,
+              "pred_direct_count": 5,
+              "pred_cross_count": 1,
+              "gold_direct_count": 5,
+              "gold_cross_count": 4,
+              "discovered_chains_count": 580
+            }
+          ]
+        }
+      },
+      "cross_paper_linking": [
+        {
+          "paper_pair": "PMC1804205 <-> PMC2581603",
+          "description": "Salmonella / Pseudomonas LPS Modification & CAP Resistance",
+          "bridges_discovered_count": 8,
+          "bridges": [
+            {
+              "source_entity": "PmrB",
+              "target_entity": "arn Operon",
+              "pivot_entity": "PmrA",
+              "source_doc_id": "PMC1804205",
+              "target_doc_id": "PMC2581603",
+              "source_relation": "UPREGULATES",
+              "target_relation": "UPREGULATES",
+              "confidence": 0.7011,
+              "evidence_doc1": "The PmrA protein and its cognate sensor kinase PmrB form a two-component regulatory system that is required for virulence in mice (Gunn et al., 2000), infection of chicken macrophages (Zhao et al., 2002), growth in soil (Chamnongpol et al., 2002), resistance to the cationic peptide antibiotic polymyxin B (Roland et al., 1993) and resistance to Fe3+- (Wosten et al., 2000) and Al3+-mediated killing (Nishino et al., 2006).",
+              "evidence_doc2": "Under conditions of limiting magnesium, PhoP and PmrA bind to the promoter of the CAP resistance operon PA3552\u2013PA3559 (arnBCADTEF-ugd) and induce its expression [45]\u2013[47].",
+              "page_doc1": 2,
+              "page_doc2": 3,
+              "mechanism_compatibility": "COMPATIBLE",
+              "is_speculative": false
+            },
+            {
+              "source_entity": "Acid pH",
+              "target_entity": "PhoPQ",
+              "pivot_entity": "PhoQ -> PhoP",
+              "source_doc_id": "PMC1804205",
+              "target_doc_id": "PMC2581603",
+              "source_relation": "UPREGULATES",
+              "target_relation": "UPREGULATES",
+              "confidence": 0.694,
+              "evidence_doc1": "Although it has been suggested that the Salmonella PhoQ protein senses acid pH (Aranda et al., 1992) or responds to both pH and Mg2+ (Bearson et al., 1998), a direct role for PhoQ in responding to acid pH appears unlikely because not all PhoP-regulated genes are activated under these conditions, which is in contrast to low Mg2+ activating the whole PhoP regulon (see Groisman and Mouslim, 2006 for a review).",
+              "evidence_doc2": "As an intracellular pathogen, the PhoPQ system of Salmonella typhimurium is activated by limiting magnesium in vitro and phoP-regulated genes are also induced after invasion of macrophages and epithelial cells [65].",
+              "page_doc1": 7,
+              "page_doc2": 9,
+              "mechanism_compatibility": "COMPATIBLE",
+              "is_speculative": false
+            },
+            {
+              "source_entity": "Acid pH",
+              "target_entity": "arn Operon",
+              "pivot_entity": "PmrB -> PmrA",
+              "source_doc_id": "PMC1804205",
+              "target_doc_id": "PMC2581603",
+              "source_relation": "UPREGULATES",
+              "target_relation": "UPREGULATES",
+              "confidence": 0.6863,
+              "evidence_doc1": "The fact that the PmrB H35A and the E64A mutant proteins displayed partial activity in response to ferric iron but were severely impaired in their ability to respond to acid pH (compare Fig. 6B and D) supports the notion that these signals are sensed independently.",
+              "evidence_doc2": "Under conditions of limiting magnesium, PhoP and PmrA bind to the promoter of the CAP resistance operon PA3552\u2013PA3559 (arnBCADTEF-ugd) and induce its expression [45]\u2013[47].",
+              "page_doc1": 7,
+              "page_doc2": 3,
+              "mechanism_compatibility": "COMPATIBLE",
+              "is_speculative": false
+            },
+            {
+              "source_entity": "PmrD",
+              "target_entity": "arn Operon",
+              "pivot_entity": "PmrA",
+              "source_doc_id": "PMC1804205",
+              "target_doc_id": "PMC2581603",
+              "source_relation": "UPREGULATES",
+              "target_relation": "UPREGULATES",
+              "confidence": 0.679,
+              "evidence_doc1": "The low Mg2+ activation of the PmrA protein requires PhoQ, a protein that senses extracellular Mg2+ levels (Vescovi et al., 1996), PhoQ's cognate regulator PhoP, and the PhoP-activated protein PmrD (Kox et al., 2000; Kato and Groisman, 2004).",
+              "evidence_doc2": "Under conditions of limiting magnesium, PhoP and PmrA bind to the promoter of the CAP resistance operon PA3552\u2013PA3559 (arnBCADTEF-ugd) and induce its expression [45]\u2013[47].",
+              "page_doc1": 2,
+              "page_doc2": 3,
+              "mechanism_compatibility": "COMPATIBLE",
+              "is_speculative": false
+            },
+            {
+              "source_entity": "Acid pH",
+              "target_entity": "arn Operon",
+              "pivot_entity": "PhoQ -> PhoP",
+              "source_doc_id": "PMC1804205",
+              "target_doc_id": "PMC2581603",
+              "source_relation": "UPREGULATES",
+              "target_relation": "UPREGULATES",
+              "confidence": 0.679,
+              "evidence_doc1": "Although it has been suggested that the Salmonella PhoQ protein senses acid pH (Aranda et al., 1992) or responds to both pH and Mg2+ (Bearson et al., 1998), a direct role for PhoQ in responding to acid pH appears unlikely because not all PhoP-regulated genes are activated under these conditions, which is in contrast to low Mg2+ activating the whole PhoP regulon (see Groisman and Mouslim, 2006 for a review).",
+              "evidence_doc2": "Under conditions of limiting magnesium, PhoP and PmrA bind to the promoter of the CAP resistance operon PA3552\u2013PA3559 (arnBCADTEF-ugd) and induce its expression [45]\u2013[47].",
+              "page_doc1": 7,
+              "page_doc2": 3,
+              "mechanism_compatibility": "COMPATIBLE",
+              "is_speculative": false
+            }
+          ]
+        },
+        {
+          "paper_pair": "PMC1804205 <-> PMC2639726",
+          "description": "Salmonella PhoP/PhoQ & SlyA Virulence Cascade",
+          "bridges_discovered_count": 5,
+          "bridges": [
+            {
+              "source_entity": "Acid pH",
+              "target_entity": "PhoP",
+              "pivot_entity": "PhoQ",
+              "source_doc_id": "PMC1804205",
+              "target_doc_id": "PMC2639726",
+              "source_relation": "UPREGULATES",
+              "target_relation": "UPREGULATES",
+              "confidence": 0.7167,
+              "evidence_doc1": "Although it has been suggested that the Salmonella PhoQ protein senses acid pH (Aranda et al., 1992) or responds to both pH and Mg2+ (Bearson et al., 1998), a direct role for PhoQ in responding to acid pH appears unlikely because not all PhoP-regulated genes are activated under these conditions, which is in contrast to low Mg2+ activating the whole PhoP regulon (see Groisman and Mouslim, 2006 for a review).",
+              "evidence_doc2": "For the two-component regulator ssrA/ssrB we constructed in-frame deletions missing ssrA, ssrB or both; for the other two two-component regulators, phoP/phoQ and ompR/envZ, both the signal sensor and response regulator were deleted.",
+              "page_doc1": 7,
+              "page_doc2": 3,
+              "mechanism_compatibility": "COMPATIBLE",
+              "is_speculative": false
+            },
+            {
+              "source_entity": "Acid pH",
+              "target_entity": "to PssrB [45]",
+              "pivot_entity": "PhoQ -> PhoP",
+              "source_doc_id": "PMC1804205",
+              "target_doc_id": "PMC2639726",
+              "source_relation": "UPREGULATES",
+              "target_relation": "UPREGULATES",
+              "confidence": 0.6639,
+              "evidence_doc1": "Although it has been suggested that the Salmonella PhoQ protein senses acid pH (Aranda et al., 1992) or responds to both pH and Mg2+ (Bearson et al., 1998), a direct role for PhoQ in responding to acid pH appears unlikely because not all PhoP-regulated genes are activated under these conditions, which is in contrast to low Mg2+ activating the whole PhoP regulon (see Groisman and Mouslim, 2006 for a review).",
+              "evidence_doc2": "Some of the 14 regulators in this study have been previously shown to directly regulate ssrA/ssrB; OmpR binding to PssrA\n/ssrB\n[60],[61]; SlyA binding to PssrA\n[62]; PhoP binding to PssrB\n[45].",
+              "page_doc1": 7,
+              "page_doc2": 9,
+              "mechanism_compatibility": "COMPATIBLE",
+              "is_speculative": false
+            },
+            {
+              "source_entity": "Acid pH",
+              "target_entity": "SsrB",
+              "pivot_entity": "PhoQ -> PhoP",
+              "source_doc_id": "PMC1804205",
+              "target_doc_id": "PMC2639726",
+              "source_relation": "UPREGULATES",
+              "target_relation": "DIRECT_CAUSE",
+              "confidence": 0.6563,
+              "evidence_doc1": "Although it has been suggested that the Salmonella PhoQ protein senses acid pH (Aranda et al., 1992) or responds to both pH and Mg2+ (Bearson et al., 1998), a direct role for PhoQ in responding to acid pH appears unlikely because not all PhoP-regulated genes are activated under these conditions, which is in contrast to low Mg2+ activating the whole PhoP regulon (see Groisman and Mouslim, 2006 for a review).",
+              "evidence_doc2": "In agreement with this model, SlyA and PhoP counteract H-NS silencing at pagC\n[85],[87]. Thus, one explanation for the transcription we observe following over-expression of ssrB or slyA may be that both SlyA and SsrB counteract binding of small nucleoid-like proteins including both H-NS and YdgD/Hha in this A+T rich SPI-2 region [70].",
+              "page_doc1": 7,
+              "page_doc2": 14,
+              "mechanism_compatibility": "COMPATIBLE",
+              "is_speculative": false
+            },
+            {
+              "source_entity": "Acid pH",
+              "target_entity": "SlyA",
+              "pivot_entity": "PhoQ -> PhoP",
+              "source_doc_id": "PMC1804205",
+              "target_doc_id": "PMC2639726",
+              "source_relation": "UPREGULATES",
+              "target_relation": "DIRECT_CAUSE",
+              "confidence": 0.6563,
+              "evidence_doc1": "Although it has been suggested that the Salmonella PhoQ protein senses acid pH (Aranda et al., 1992) or responds to both pH and Mg2+ (Bearson et al., 1998), a direct role for PhoQ in responding to acid pH appears unlikely because not all PhoP-regulated genes are activated under these conditions, which is in contrast to low Mg2+ activating the whole PhoP regulon (see Groisman and Mouslim, 2006 for a review).",
+              "evidence_doc2": "In agreement with this model, SlyA and PhoP counteract H-NS silencing at pagC\n[85],[87]. Thus, one explanation for the transcription we observe following over-expression of ssrB or slyA may be that both SlyA and SsrB counteract binding of small nucleoid-like proteins including both H-NS and YdgD/Hha in this A+T rich SPI-2 region [70].",
+              "page_doc1": 7,
+              "page_doc2": 14,
+              "mechanism_compatibility": "COMPATIBLE",
+              "is_speculative": false
+            },
+            {
+              "source_entity": "Acid pH",
+              "target_entity": "SPI-2",
+              "pivot_entity": "PhoQ -> PhoP",
+              "source_doc_id": "PMC1804205",
+              "target_doc_id": "PMC2639726",
+              "source_relation": "UPREGULATES",
+              "target_relation": "DIRECT_CAUSE",
+              "confidence": 0.6563,
+              "evidence_doc1": "Although it has been suggested that the Salmonella PhoQ protein senses acid pH (Aranda et al., 1992) or responds to both pH and Mg2+ (Bearson et al., 1998), a direct role for PhoQ in responding to acid pH appears unlikely because not all PhoP-regulated genes are activated under these conditions, which is in contrast to low Mg2+ activating the whole PhoP regulon (see Groisman and Mouslim, 2006 for a review).",
+              "evidence_doc2": "In agreement with this model, SlyA and PhoP counteract H-NS silencing at pagC\n[85],[87]. Thus, one explanation for the transcription we observe following over-expression of ssrB or slyA may be that both SlyA and SsrB counteract binding of small nucleoid-like proteins including both H-NS and YdgD/Hha in this A+T rich SPI-2 region [70].",
+              "page_doc1": 7,
+              "page_doc2": 14,
+              "mechanism_compatibility": "COMPATIBLE",
+              "is_speculative": false
+            }
+          ]
+        },
+        {
+          "paper_pair": "PMC2682197 <-> PMC2242835",
+          "description": "M. tuberculosis Stress Regulation & Secretion",
+          "bridges_discovered_count": 0,
+          "bridges": []
+        },
+        {
+          "paper_pair": "PMC2774163 <-> PMC2266911",
+          "description": "Pseudomonas c-di-GMP & Biofilm Architecture",
+          "bridges_discovered_count": 7,
+          "bridges": [
+            {
+              "source_entity": "RpoN",
+              "target_entity": "Plu3209",
+              "pivot_entity": "TCS",
+              "source_doc_id": "PMC2774163",
+              "target_doc_id": "PMC2266911",
+              "source_relation": "UPREGULATES",
+              "target_relation": "UPREGULATES",
+              "confidence": 0.694,
+              "evidence_doc1": "Based on domain structure, two TCS regulatory proteins identified here regulate genes controlled by the sigma factors RpoD and RpoN [53],[74],[75].",
+              "evidence_doc2": "In P. luminescens, expression of UspA has been shown to be under control of the AstS/AstR TCS, which is important for the correct timing of phase variant switching [28].",
+              "page_doc1": 14,
+              "page_doc2": 8,
+              "mechanism_compatibility": "COMPATIBLE",
+              "is_speculative": false
+            },
+            {
+              "source_entity": "RpoD",
+              "target_entity": "Plu3209",
+              "pivot_entity": "TCS",
+              "source_doc_id": "PMC2774163",
+              "target_doc_id": "PMC2266911",
+              "source_relation": "UPREGULATES",
+              "target_relation": "UPREGULATES",
+              "confidence": 0.694,
+              "evidence_doc1": "Based on domain structure, two TCS regulatory proteins identified here regulate genes controlled by the sigma factors RpoD and RpoN [53],[74],[75].",
+              "evidence_doc2": "In P. luminescens, expression of UspA has been shown to be under control of the AstS/AstR TCS, which is important for the correct timing of phase variant switching [28].",
+              "page_doc1": 14,
+              "page_doc2": 8,
+              "mechanism_compatibility": "COMPATIBLE",
+              "is_speculative": false
+            },
+            {
+              "source_entity": "Biofilm",
+              "target_entity": "Plu3209",
+              "pivot_entity": "TCS",
+              "source_doc_id": "PMC2774163",
+              "target_doc_id": "PMC2266911",
+              "source_relation": "UPREGULATES",
+              "target_relation": "UPREGULATES",
+              "confidence": 0.679,
+              "evidence_doc1": "Table S2), it is likely that the mutant biofilms in turn do not produce the necessary signal(s) to activate or phosphorylate TCS system(s) that are further downstream.",
+              "evidence_doc2": "In P. luminescens, expression of UspA has been shown to be under control of the AstS/AstR TCS, which is important for the correct timing of phase variant switching [28].",
+              "page_doc1": 13,
+              "page_doc2": 8,
+              "mechanism_compatibility": "COMPATIBLE",
+              "is_speculative": false
+            },
+            {
+              "source_entity": "GacS",
+              "target_entity": "Host Colonization",
+              "pivot_entity": "Virulence",
+              "source_doc_id": "PMC2774163",
+              "target_doc_id": "PMC2266911",
+              "source_relation": "UPREGULATES",
+              "target_relation": "UPREGULATES",
+              "confidence": 0.6642,
+              "evidence_doc1": "Inactivation of RetS results in reduced cytotoxicity but increased attachment and biofilm formation, while inactivation of both LadS and GacS results in increased virulence but decreased biofilm formation capacity [36],[37].",
+              "evidence_doc2": "So-called offensive virulence factors actively contribute to a successful infection by colonization of and toxicity towards the host organism.",
+              "page_doc1": 3,
+              "page_doc2": 10,
+              "mechanism_compatibility": "COMPATIBLE",
+              "is_speculative": false
+            },
+            {
+              "source_entity": "RpoN",
+              "target_entity": "Host Colonization",
+              "pivot_entity": "TCS",
+              "source_doc_id": "PMC2774163",
+              "target_doc_id": "PMC2266911",
+              "source_relation": "UPREGULATES",
+              "target_relation": "UPREGULATES",
+              "confidence": 0.6639,
+              "evidence_doc1": "Based on domain structure, two TCS regulatory proteins identified here regulate genes controlled by the sigma factors RpoD and RpoN [53],[74],[75].",
+              "evidence_doc2": "In P. luminescens, this TCS controls the expression of the pbgPE operon which is involved in lipid A modification and thus plays a role in colonization and infection of the invertebrate hosts [18,31].",
+              "page_doc1": 14,
+              "page_doc2": 5,
+              "mechanism_compatibility": "COMPATIBLE",
+              "is_speculative": false
+            }
+          ]
+        },
+        {
+          "paper_pair": "PMC2816692 <-> PMC1874608",
+          "description": "Salmonella SPI-1 / Chaperone Secretion Machinery",
+          "bridges_discovered_count": 0,
+          "bridges": []
+        }
+      ]
+    },
+    "semeval_2010_task8": {
+      "test_samples_total": 2717,
+      "test_causal_total": 328,
+      "phase3_unassisted_baseline": {
+        "precision": 0.1262,
+        "recall": 0.0518,
+        "f1": 0.0734,
+        "diagnosis": "Failed transfer due to applying whole-document biomedical entity pipeline while ignoring <e1> and <e2> argument markers."
+      },
+      "phase3_1_argument_aware_model": {
+        "precision": 0.4235,
+        "recall": 0.5891,
+        "f1": 0.4928,
+        "true_positives": 119,
+        "false_positives": 162,
+        "false_negatives": 83,
+        "improvement_factor": "6.7x F1 increase over Phase 3 unassisted baseline"
+      }
+    },
+    "learned_composition_model": {
+      "training_samples": 29,
+      "class_distribution": {
+        "DIRECT_SUPPORTED": 7,
+        "MULTI_HOP_SUPPORTED": 5,
+        "PLAUSIBLE_COMPOSED": 4,
+        "UNSUPPORTED_SHORTCUT": 10,
+        "INDETERMINATE": 3
+      },
+      "model_comparison_3fold_cv": {
+        "phase3_hand_crafted_heuristic": {
+          "accuracy": 0.2759,
+          "macro_f1": 0.2112
+        },
+        "deterministic_rule_baseline": {
+          "accuracy": 0.4828,
+          "macro_f1": 0.3126
+        },
+        "logistic_regression": {
+          "accuracy": 0.4828,
+          "macro_f1": 0.3791
+        },
+        "random_forest_classifier": {
+          "accuracy": 0.7586,
+          "macro_f1": 0.7075
+        }
+      }
+    }
+  }
+}

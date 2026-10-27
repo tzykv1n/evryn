@@ -307,3 +307,64 @@ def test_cross_paper_linking_engine():
     assert top_link.source_doc_id == "PMC1804205"
     assert top_link.target_doc_id == "PMC2581603"
     assert top_link.mechanism_compatibility == "COMPATIBLE"
+    assert top_link.organism_doc1 == "Salmonella enterica"
+    assert top_link.organism_doc2 == "Pseudomonas aeruginosa"
+    assert top_link.link_category == "PLAUSIBLE_HYPOTHESIS"
+    assert top_link.dual_independent_support is True
+
+
+def test_learned_composition_model_and_dataset():
+    from evryn.paper.learned_composition_model import (
+        LeakageResistantCompositionDataset,
+        LearnedCompositionClassifier,
+    )
+
+    X, y, labels = LeakageResistantCompositionDataset.generate_training_data()
+    assert len(y) >= 25
+    assert X.shape[1] == 12
+
+    clf = LearnedCompositionClassifier("random_forest")
+    clf.fit(X, y)
+    assert clf.is_fitted is True
+
+    # Test prediction on direct chain
+    e1 = ChainEdge("Rv2623", "ATP-Binding", "UPREGULATES", CausalEdgeKind.DIRECT_LOCAL, "POSITIVE", 0.95, "", 1)
+    ch_direct = CausalChain("ch_d", ["Rv2623", "ATP-Binding"], [e1], 0.95, ["doc"])
+    c_cls, conf, expl = clf.predict_class(ch_direct)
+    assert c_cls in (CompositionClass.DIRECT_SUPPORTED, CompositionClass.MULTI_HOP_SUPPORTED)
+
+    # Test rejection of sink traversal hard negative
+    e_s1 = ChainEdge("RetS", "Biofilm", "UPREGULATES", CausalEdgeKind.DIRECT_LOCAL, "POSITIVE", 0.85, "", 1)
+    e_s2 = ChainEdge("Biofilm", "GacS", "UPREGULATES", CausalEdgeKind.DIRECT_LOCAL, "POSITIVE", 0.80, "", 2)
+    ch_sink = CausalChain("ch_sink", ["RetS", "Biofilm", "GacS"], [e_s1, e_s2], 0.80, ["doc"])
+    c_cls_sink, conf_sink, _ = clf.predict_class(ch_sink)
+    assert c_cls_sink == CompositionClass.UNSUPPORTED_SHORTCUT
+
+
+def test_partial_chain_recovery_and_bridge_ranking():
+    from evryn.paper.partial_chain_matcher import BridgeStatus
+    from types import SimpleNamespace
+
+    matcher = PartialChainMatcher()
+    edges = [
+        ChainEdge("A", "B", "UPREGULATES", CausalEdgeKind.DIRECT_LOCAL, "POSITIVE", 0.9, "", 1),
+        ChainEdge("B", "C", "UPREGULATES", CausalEdgeKind.DIRECT_LOCAL, "POSITIVE", 0.9, "", 1),
+        ChainEdge("C", "D", "UPREGULATES", CausalEdgeKind.DIRECT_LOCAL, "POSITIVE", 0.9, "", 1),
+    ]
+    gold = CausalChain("gold_4", ["A", "B", "C", "D"], edges, 0.9, ["doc"])
+
+    # Simulate extraction where B->C is missing
+    extracted = [
+        SimpleNamespace(cause_canonical="A", effect_canonical="B", is_negated=False),
+        SimpleNamespace(cause_canonical="C", effect_canonical="D", is_negated=False),
+    ]
+
+    recovery = matcher.evaluate_gold_chain_recovery(gold, extracted)
+    assert recovery["gold_hop_count"] == 3
+    assert recovery["recovered_edges_count"] == 2
+    assert recovery["missing_edges"] == [("B", "C")]
+    assert recovery["longest_contiguous_subpath_hops"] == 1
+    assert recovery["is_complete_ordered_path_recovered"] is False
+    assert len(recovery["candidate_bridges"]) == 1
+    assert recovery["candidate_bridges"][0]["status"] == BridgeStatus.CANDIDATE_MISSING_EDGE.value
+
