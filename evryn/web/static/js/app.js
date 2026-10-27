@@ -602,54 +602,29 @@
     });
   }
 
-  if (menuTestCasesBtn) {
-    menuTestCasesBtn.addEventListener("click", () => {
+  if (menuEvalBtn) {
+    menuEvalBtn.addEventListener("click", () => {
       plusMenu.classList.add("hidden");
       plusBtn.setAttribute("aria-expanded", "false");
-      switchView("examples");
-      switchExamplesSubnav("testcases");
+      resultsView.classList.remove("hidden");
+      switchView("benchmark");
+      runBenchmarkVerification();
     });
   }
 
-  if (menuExamplesBtn) {
-    menuExamplesBtn.addEventListener("click", () => {
-      plusMenu.classList.add("hidden");
-      plusBtn.setAttribute("aria-expanded", "false");
-      switchView("examples");
-    });
-  }
-
-  if (resetWorkspaceBtn) {
-    resetWorkspaceBtn.addEventListener("click", () => resetWorkspace());
-  }
-
-  // Unified Example Selector & Quick Chips
-  if (loadExampleBtn && exampleDropdown) {
-    loadExampleBtn.addEventListener("click", () => {
-      const val = exampleDropdown.value;
-      if (val) selectExample(val);
-    });
-  }
-
-  if (exampleDropdown) {
-    exampleDropdown.addEventListener("change", () => {
-      const val = exampleDropdown.value;
-      if (val) selectExample(val);
-    });
-  }
-
-  document.querySelectorAll(".test-example-chip").forEach((chip) => {
-    chip.addEventListener("click", () => {
-      const exId = chip.dataset.example;
+  // Example items inside + popover menu
+  document.querySelectorAll(".menu-example-item").forEach((item) => {
+    item.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const exId = item.dataset.example;
       if (exId) selectExample(exId);
     });
   });
 
-  menuEvalBtn.addEventListener("click", () => {
-    plusMenu.classList.add("hidden");
-    plusBtn.setAttribute("aria-expanded", "false");
-    runBenchmarkVerification();
-  });
+  if (resetWorkspaceBtn) {
+    resetWorkspaceBtn.addEventListener("click", () => resetWorkspace());
+  }
 
   // File Upload Handlers
   fileInput.addEventListener("change", (e) => {
@@ -962,26 +937,16 @@
     regenerateBtn.classList.remove("hidden");
     regenerateBtn.textContent = "RUN EXTRACTION";
 
-    if (exampleDropdown) exampleDropdown.value = exampleId;
-    document.querySelectorAll(".test-example-chip").forEach(c => {
-      c.classList.toggle("active", c.dataset.example === exampleId);
-    });
-
-    if (graphEmptyState) {
-      graphEmptyState.classList.remove("hidden");
-      const badge = graphEmptyState.querySelector(".empty-state-badge");
-      const heading = graphEmptyState.querySelector(".empty-state-heading");
-      const text = graphEmptyState.querySelector(".empty-state-text");
-      const hint = graphEmptyState.querySelector(".empty-state-hint");
-      if (badge) badge.textContent = "EXAMPLE LOADED";
-      if (heading) heading.textContent = `Source text loaded for ${ex.title}`;
-      if (text) text.textContent = `Inspect or edit the source text above. Click RUN EXTRACTION to extract grounded causal relations using the selected engine.`;
-      if (hint) hint.textContent = `Expected behavior: ${ex.expected}`;
+    if (plusMenu) {
+      plusMenu.classList.add("hidden");
+      plusBtn.setAttribute("aria-expanded", "false");
     }
+
+    // Reveal results view and ensure graph tab is active without overlay obstruction
     resultsView.classList.remove("hidden");
     switchView("graph");
 
-    showNotification(`Loaded "${ex.title}". Ready for extraction.`, "info", 3500);
+    showNotification(`Loaded "${ex.title}". Click RUN EXTRACTION to extract.`, "info", 3000);
   }
 
   async function loadAndRunTestCase(exampleId) {

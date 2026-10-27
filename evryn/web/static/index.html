@@ -50,8 +50,7 @@
     <!-- Top Application Header -->
     <header class="app-header">
       <div class="header-brand">
-        <h1 class="app-title">EVRYN <span class="app-subtitle">Causal Intelligence Workspace</span></h1>
-        <p class="app-tagline">Evidence-grounded causal discovery, relation extraction, and cross-page reasoning across biomedical literature</p>
+        <h1 class="app-title">EVRYN <span class="app-subtitle">Causal Intelligence</span></h1>
       </div>
     </header>
 
@@ -61,43 +60,6 @@
     <!-- Central / Docked Input Shell (Primary Authoritative Specification) -->
     <section id="input-container" class="input-container centered">
       <div id="sentence-highlighter-bar" class="sentence-highlighter-bar hidden"></div>
-
-      <!-- Unified Examples Selector Bar -->
-      <div id="unified-examples-bar" class="unified-examples-bar">
-        <div class="examples-select-row">
-          <label for="example-dropdown" class="examples-bar-label">EXAMPLES:</label>
-          <select id="example-dropdown" class="examples-dropdown" aria-label="Select a verified example">
-            <option value="" selected disabled>— Select a verified diagnostic example —</option>
-            <optgroup label="Diagnostic Test Suite">
-              <option value="example_a">Direct Causal Relation (Gene A → Protein B)</option>
-              <option value="example_b">Multi-Transition Cascade (A → B → C)</option>
-              <option value="example_c">Negation &amp; Refutation (Gene A did not reduce)</option>
-              <option value="example_d">Context Invariants (Organism X vs Y)</option>
-              <option value="example_e">Input Resilience (Malformed / Empty Boundary)</option>
-            </optgroup>
-            <optgroup label="Verified Literature Benchmarks">
-              <option value="pmc1804205">Acid pH activation of PmrA/PmrB (Salmonella enterica • Mol Microbiol)</option>
-              <option value="pmc1874608">Mlc regulation of Salmonella pathogenicity (Salmonella enterica • J Bacteriol)</option>
-              <option value="pmc1974823">P. gingivalis short fimbriae regulation (P. gingivalis • J Bacteriol)</option>
-              <option value="pmc2242835">Control of M. tuberculosis ESAT-6 secretion (M. tuberculosis • Mol Microbiol)</option>
-              <option value="pmc2430206">GraRS regulatory system &amp; LL-37 resistance (S. aureus • J Bacteriol)</option>
-            </optgroup>
-          </select>
-          <button id="load-example-btn" class="toolbar-btn primary-compact-btn" title="Load selected example text into workspace">LOAD EXAMPLE</button>
-        </div>
-
-        <div class="examples-chips-row">
-          <span class="chips-label">Quick:</span>
-          <button class="test-example-chip" data-example="example_a" title="Example A: Direct causal relation (gene A -> protein B)">Direct (A)</button>
-          <button class="test-example-chip" data-example="example_b" title="Example B: Multi-hop causal chain (A -> B -> C)">Chain (B)</button>
-          <button class="test-example-chip" data-example="example_c" title="Example C: Negation assertion (did not reduce virulence)">Negation (C)</button>
-          <button class="test-example-chip" data-example="example_d" title="Example D: Context mismatch (organism X vs Y)">Context (D)</button>
-          <button class="test-example-chip" data-example="example_e" title="Example E: Empty boundary validation">Empty (E)</button>
-          <span class="chips-sep">|</span>
-          <button class="test-example-chip chip-lit" data-example="pmc1804205" title="PMC1804205: PmrA/PmrB acid activation">PmrA/PmrB</button>
-          <button class="test-example-chip chip-lit" data-example="pmc2242835" title="PMC2242835: M. tuberculosis PhoP-ESAT-6">PhoP/ESAT-6</button>
-        </div>
-      </div>
 
       <!-- Main Query Input Wrapper -->
       <div class="input-wrapper">
@@ -111,17 +73,17 @@
         ></textarea>
         <button id="regenerate-btn" class="action-btn-primary" title="Extract causal relations from specification (Ctrl+Enter)">RUN EXTRACTION</button>
         <button id="reset-workspace-btn" class="action-btn-secondary hidden" title="Reset workspace and start new query">RESET</button>
-        <button id="plus-btn" class="plus-btn" aria-label="Add documents or examples" title="Upload documents or continual knowledge" aria-haspopup="menu" aria-expanded="false">+</button>
+        <button id="plus-btn" class="plus-btn" aria-label="Add documents or examples" title="Upload documents or select examples" aria-haspopup="menu" aria-expanded="false">+</button>
       </div>
 
       <!-- Phase 2.3 Extraction Engine Mode Selector -->
       <div id="extraction-engine-bar" class="extraction-engine-bar">
-        <span class="engine-bar-label">EXTRACTION ENGINE:</span>
+        <span class="engine-bar-label">ENGINE:</span>
         <div class="engine-toggle-group" role="radiogroup" aria-label="Extraction Engine Selection">
-          <label class="engine-toggle-btn active" id="engine-btn-nlp" title="System A: Phase 2.3 Repaired Rule-Based NLP Pipeline with clause awareness and 100% provenance">
+          <label class="engine-toggle-btn active" id="engine-btn-nlp" title="System A: Repaired Rule-Based NLP Pipeline with clause awareness and 100% provenance">
             <input type="radio" name="extraction_engine" value="nlp_baseline" checked>
             <span class="engine-badge">System A</span>
-            <span class="engine-title">Repaired NLP Baseline</span>
+            <span class="engine-title">NLP Baseline</span>
           </label>
           <label class="engine-toggle-btn" id="engine-btn-llm" title="System B: LLM candidate proposition without strict validation">
             <input type="radio" name="extraction_engine" value="llm_only">
@@ -131,16 +93,34 @@
           <label class="engine-toggle-btn" id="engine-btn-hybrid" title="System C: Hybrid LLM + 9-stage deterministic validation">
             <input type="radio" name="extraction_engine" value="hybrid">
             <span class="engine-badge">System C</span>
-            <span class="engine-title">Hybrid (LLM + Validation)</span>
+            <span class="engine-title">Hybrid</span>
           </label>
         </div>
       </div>
 
-      <!-- Plus Popover Menu -->
+      <!-- Plus Popover Menu (On-Demand Actions & Verified Examples) -->
       <div id="plus-menu" class="plus-menu hidden" role="menu">
-        <button id="menu-upload-btn" class="menu-item" role="menuitem">Upload Documents (PDF, TXT, DOCX)</button>
-        <button id="menu-continual-btn" class="menu-item" role="menuitem">Append Continual Knowledge (+)</button>
-        <button id="menu-eval-btn" class="menu-item" role="menuitem">View Benchmark Evaluation Dashboard</button>
+        <div class="plus-menu-section">
+          <button id="menu-upload-btn" class="menu-item" role="menuitem">Upload Documents (PDF, TXT, DOCX)</button>
+          <button id="menu-continual-btn" class="menu-item" role="menuitem">Append Continual Knowledge (+)</button>
+          <button id="menu-eval-btn" class="menu-item" role="menuitem">View Benchmark Evaluation Dashboard</button>
+        </div>
+        <div class="plus-menu-header">DIAGNOSTIC TEST CASES</div>
+        <div class="plus-menu-section">
+          <button class="menu-item menu-example-item" data-example="example_a" role="menuitem">Case A: Direct Causal Relation (Gene A → Protein B)</button>
+          <button class="menu-item menu-example-item" data-example="example_b" role="menuitem">Case B: Multi-Transition Cascade (A → B → C)</button>
+          <button class="menu-item menu-example-item" data-example="example_c" role="menuitem">Case C: Negation &amp; Refutation (Gene A did not reduce)</button>
+          <button class="menu-item menu-example-item" data-example="example_d" role="menuitem">Case D: Context Invariants (Organism X vs Y)</button>
+          <button class="menu-item menu-example-item" data-example="example_e" role="menuitem">Case E: Input Resilience (Empty Boundary)</button>
+        </div>
+        <div class="plus-menu-header">VERIFIED LITERATURE EXAMPLES</div>
+        <div class="plus-menu-section">
+          <button class="menu-item menu-example-item" data-example="pmc1804205" role="menuitem">PMC1804205: Acid pH activation of PmrA/PmrB</button>
+          <button class="menu-item menu-example-item" data-example="pmc1874608" role="menuitem">PMC1874608: Mlc regulation of pathogenicity</button>
+          <button class="menu-item menu-example-item" data-example="pmc1974823" role="menuitem">PMC1974823: P. gingivalis short fimbriae regulation</button>
+          <button class="menu-item menu-example-item" data-example="pmc2242835" role="menuitem">PMC2242835: Control of M. tuberculosis ESAT-6 secretion</button>
+          <button class="menu-item menu-example-item" data-example="pmc2430206" role="menuitem">PMC2430206: GraRS regulatory system &amp; LL-37 resistance</button>
+        </div>
       </div>
 
       <!-- Hidden File Input -->
@@ -290,33 +270,29 @@
           <!-- Empty / Clean Extraction State -->
           <div id="graph-empty-state" class="graph-empty-state hidden">
             <div class="empty-state-card">
-              <div class="empty-state-badge">CAUSAL EXTRACTION WORKSPACE</div>
-              <div class="empty-state-heading">Select a verified example or enter scientific text above to extract grounded causal relations.</div>
+              <div class="empty-state-heading">Select an example or enter scientific text to extract grounded causal relations.</div>
               <div class="empty-state-text">
-                EVRYN extracts directional, evidence-grounded causal assertions with clause boundary awareness and 100% provenance coordinates.
-              </div>
-              <div class="empty-state-hint">
-                Choose an example from the dropdown above or enter custom biomedical hypothesis text.
+                EVRYN extracts directional causal assertions with evidence quotes, section coordinates, and edge polarity.
               </div>
             </div>
           </div>
 
-          <!-- Expandable / Collapsible Bottom-Right Graph Legend -->
-          <div id="graph-legend" class="graph-legend expanded" aria-label="Graph legend">
+          <!-- Expandable / Collapsible Bottom-Right Graph Legend (Collapsed by default) -->
+          <div id="graph-legend" class="graph-legend collapsed" aria-label="Graph legend">
             <div id="legend-header" class="legend-header">
-              <span class="legend-header-title">GRAPH LEGEND</span>
-              <button id="toggle-legend-btn" class="legend-toggle-btn" title="Toggle legend details" aria-label="Toggle legend">▼</button>
+              <span class="legend-header-title">LEGEND</span>
+              <button id="toggle-legend-btn" class="legend-toggle-btn" title="Toggle legend details" aria-label="Toggle legend">▲</button>
             </div>
 
             <!-- Collapsed summary preview -->
-            <div id="legend-collapsed-summary" class="legend-collapsed-summary hidden">
+            <div id="legend-collapsed-summary" class="legend-collapsed-summary">
               <span class="summary-pill"><span class="pip pip-pos"></span> Pos</span>
               <span class="summary-pill"><span class="pip pip-neg"></span> Neg</span>
               <span class="summary-pill"><span class="pip pip-assoc"></span> Assoc</span>
             </div>
 
             <!-- Expanded full legend body -->
-            <div id="legend-expanded-body" class="legend-expanded-body">
+            <div id="legend-expanded-body" class="legend-expanded-body hidden">
               <div class="legend-section">
                 <div class="legend-title">CAUSAL POLARITY &amp; EDGE TYPE</div>
                 <div class="legend-row">
