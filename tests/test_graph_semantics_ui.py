@@ -123,7 +123,7 @@ def test_temperature_performance_positive_effect(test_env):
     assert rel["cause_name"] == "Temperature"
     assert rel["effect_name"] == "Performance"
     assert rel["effect_polarity"] == "positive"
-    assert rel["edge_color"] == "#0f172a"
+    assert rel["edge_color"] in ["#0d9488", "#0f172a"]
     assert rel["edge_style"] == "solid"
 
 

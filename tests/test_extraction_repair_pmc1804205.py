@@ -207,7 +207,10 @@ def test_end_to_end_pmc1804205_metrics():
     from evryn.paper.segmentation import PaperSegmenter
 
     ingestion = PaperIngestion()
-    doc = ingestion.ingest_pdf("data/real_papers/pdf/PMC1804205.pdf")
+    import os
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    pdf_path = os.path.join(repo_root, "data", "real_papers", "pdf", "PMC1804205.pdf")
+    doc = ingestion.ingest_pdf(pdf_path)
     segmenter = PaperSegmenter()
     doc = segmenter.segment_document(doc)
 
