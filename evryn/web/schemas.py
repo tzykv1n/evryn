@@ -5,6 +5,8 @@ from pydantic import BaseModel, Field
 class ExtractionRequest(BaseModel):
     text: str = Field(..., min_length=1, description="Raw text for causal extraction")
     session_id: Optional[str] = Field(None, description="Optional existing session ID to extend")
+    system_mode: Optional[str] = Field("nlp_baseline", description="Extraction backend: 'nlp_baseline' (System A), 'llm_only' (System B), or 'hybrid' (System C)")
+    model_name: Optional[str] = Field(None, description="Optional LLM model identifier")
 
 
 class ContinuationRequest(BaseModel):
@@ -74,6 +76,9 @@ class RelationModel(BaseModel):
     tension_level: int = 1
     evidence_sentence_ids: List[str] = []
     evidence: List[EvidenceModel] = []
+    extraction_method: Optional[str] = "nlp_baseline"
+    validation_status: Optional[str] = "ACCEPTED"
+    rejection_reasons: List[str] = []
     created_at: Optional[str] = None
 
 

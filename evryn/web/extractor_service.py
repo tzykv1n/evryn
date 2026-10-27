@@ -330,8 +330,19 @@ class ExtractionService:
         self.builder = PaperGraphBuilder(include_inferred_cross_page_edges=True)
         self.parser = DocumentParser()
 
+    def _get_extractor_backend(self, system_mode: str = "nlp_baseline", model_name: Optional[str] = None):
+        if not system_mode or system_mode in ("nlp_baseline", "system_a"):
+            return self.extractor
+        from evryn.nlp.llm.factory import get_extraction_backend
+        return get_extraction_backend(system_mode=system_mode, model_name=model_name, normalizer=self.normalizer)
+
     def process_text_input(
-        self, text: str, session_id: Optional[str] = None, title_hint: Optional[str] = None
+        self,
+        text: str,
+        session_id: Optional[str] = None,
+        title_hint: Optional[str] = None,
+        system_mode: str = "nlp_baseline",
+        model_name: Optional[str] = None,
     ) -> Dict[str, Any]:
         doc = self.parser.parse_raw_text(text, filename="Specification")
         if not session_id:
@@ -340,24 +351,34 @@ class ExtractionService:
             s = self.store.create_session(title=title)
             session_id = s["id"]
             self.store.add_input(session_id, input_type="text", content=text)
-            return self.replace_graph_from_prompt(text, session_id, title_hint=title_hint)
+            return self.replace_graph_from_prompt(
+                text, session_id, title_hint=title_hint, system_mode=system_mode, model_name=model_name
+            )
 
         self.store.add_input(session_id, input_type="text", content=text)
-        return self._extract_and_accumulate(doc, session_id, filename="Query Input", title_hint=title_hint)
+        return self._extract_and_accumulate(
+            doc, session_id, filename="Query Input", title_hint=title_hint, system_mode=system_mode, model_name=model_name
+        )
 
     def replace_graph_from_prompt(
-        self, text: str, session_id: str, title_hint: Optional[str] = None
+        self,
+        text: str,
+        session_id: str,
+        title_hint: Optional[str] = None,
+        system_mode: str = "nlp_baseline",
+        model_name: Optional[str] = None,
     ) -> Dict[str, Any]:
         sentences = segment_prompt_sentences(text)
         doc = self.parser.parse_raw_text(text, filename="Specification")
-        assertions = self.extractor.extract_assertions(doc)
+        extractor = self._get_extractor_backend(system_mode=system_mode, model_name=model_name)
+        assertions = extractor.extract_assertions(doc)
         cross_links: List[CrossPageLink] = []
         if len(doc.pages) > 1:
             cross_links = self.linker.link_cross_page_relations(doc, assertions)
 
         graph = self.builder.build_graph(doc.doc_id, doc.metadata.title, assertions, cross_links)
         nodes, relations, evidence = self._format_graph_data(
-            graph, filename="Specification", doc_id=doc.doc_id, sentences=sentences
+            graph, filename="Specification", doc_id=doc.doc_id, sentences=sentences, extraction_method=system_mode
         )
 
         # Initialize layout positions if needed
@@ -495,15 +516,18 @@ class ExtractionService:
         filename: str,
         doc_id: Optional[str] = None,
         title_hint: Optional[str] = None,
+        system_mode: str = "nlp_baseline",
+        model_name: Optional[str] = None,
     ) -> Dict[str, Any]:
-        assertions = self.extractor.extract_assertions(doc)
+        extractor = self._get_extractor_backend(system_mode=system_mode, model_name=model_name)
+        assertions = extractor.extract_assertions(doc)
         cross_links: List[CrossPageLink] = []
         if len(doc.pages) > 1:
             cross_links = self.linker.link_cross_page_relations(doc, assertions)
 
         graph = self.builder.build_graph(doc.doc_id, doc.metadata.title, assertions, cross_links)
         nodes, relations, evidence = self._format_graph_data(
-            graph, filename=filename, doc_id=doc_id or doc.doc_id
+            graph, filename=filename, doc_id=doc_id or doc.doc_id, extraction_method=system_mode
         )
 
         # Layout initialization for any new nodes
@@ -524,6 +548,7 @@ class ExtractionService:
         filename: str,
         doc_id: str,
         sentences: Optional[List[Dict[str, Any]]] = None,
+        extraction_method: str = "nlp_baseline",
     ) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[Dict[str, Any]]]:
         node_map: Dict[str, Dict[str, Any]] = {}
         relations: List[Dict[str, Any]] = []
@@ -666,6 +691,8 @@ class ExtractionService:
                 "target_state": tgt_state,
                 "target_delta": tgt_delta,
                 "evidence_sentence_ids": rel_sentence_ids,
+                "extraction_method": extraction_method,
+                "validation_status": "ACCEPTED" if not is_neg else "REJECTED",
                 "evidence": [],
             }
             relations.append(rel_dict)

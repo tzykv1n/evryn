@@ -649,7 +649,8 @@
   // Query Submission
   async function submitQuery(text) {
     dockInput();
-    showProcessing("EXTRACTING CAUSAL RELATIONSHIPS...");
+    const selectedEngine = document.querySelector('input[name="extraction_engine"]:checked')?.value || "nlp_baseline";
+    showProcessing(`EXTRACTING CAUSAL RELATIONSHIPS [${selectedEngine.toUpperCase()}]...`);
 
     try {
       const res = await fetch("/api/extract", {
@@ -658,6 +659,7 @@
         body: JSON.stringify({
           text: text,
           session_id: activeSessionId,
+          system_mode: selectedEngine,
         }),
       });
 

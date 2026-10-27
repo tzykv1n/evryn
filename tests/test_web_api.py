@@ -271,3 +271,26 @@ def test_deduplicate_sessions(client):
     titles_after = [s["title"] for s in sessions_after if "Heat activates HSP90" in s["title"]]
     assert len(titles_after) == 1
 
+
+def test_extract_with_system_modes(client):
+    """Verify Phase 2.2 selectable extraction backends via API."""
+    text = "Activation of PmrB directly upregulates PmrA transcription."
+
+    # 1. System A (NLP baseline)
+    res_a = client.post("/api/extract", json={"text": text, "system_mode": "nlp_baseline"})
+    assert res_a.status_code == 200
+    assert len(res_a.json()["relations"]) >= 1
+
+    # 2. System B (LLM-only)
+    res_b = client.post("/api/extract", json={"text": text, "system_mode": "llm_only"})
+    assert res_b.status_code == 200
+    assert len(res_b.json()["relations"]) >= 1
+
+    # 3. System C (Hybrid LLM + Validation)
+    res_c = client.post("/api/extract", json={"text": text, "system_mode": "hybrid"})
+    assert res_c.status_code == 200
+    assert len(res_c.json()["relations"]) >= 1
+    rel = res_c.json()["relations"][0]
+    assert rel["validation_status"] == "ACCEPTED"
+
+

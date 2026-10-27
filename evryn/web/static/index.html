@@ -77,6 +77,23 @@
         <button class="test-example-chip" data-example="example_e" title="Example E: Malformed or empty input validation">Empty (E)</button>
       </div>
 
+      <!-- Phase 2.2 Extraction Engine Mode Selector -->
+      <div id="extraction-engine-bar" class="extraction-engine-bar" style="display:flex;align-items:center;gap:12px;margin-top:6px;font-size:11px;color:var(--text-muted, #64748b);">
+        <span class="test-examples-label" style="font-weight:600;letter-spacing:0.05em;">ENGINE:</span>
+        <label class="engine-radio-label" title="System A: Rule-based dependency parser and trigger grammar" style="display:flex;align-items:center;gap:4px;cursor:pointer;">
+          <input type="radio" name="extraction_engine" value="nlp_baseline" checked style="cursor:pointer;">
+          <span>System A (NLP Baseline)</span>
+        </label>
+        <label class="engine-radio-label" title="System B: LLM candidate proposition without strict validation" style="display:flex;align-items:center;gap:4px;cursor:pointer;">
+          <input type="radio" name="extraction_engine" value="llm_only" style="cursor:pointer;">
+          <span>System B (LLM Only)</span>
+        </label>
+        <label class="engine-radio-label" title="System C: Hybrid LLM + 9-stage deterministic validation" style="display:flex;align-items:center;gap:4px;cursor:pointer;">
+          <input type="radio" name="extraction_engine" value="hybrid" style="cursor:pointer;">
+          <span style="font-weight:600;color:var(--primary, #0d9488);">System C (Hybrid LLM + Validation)</span>
+        </label>
+      </div>
+
       <!-- Plus Popover Menu -->
       <div id="plus-menu" class="plus-menu hidden" role="menu">
         <button id="menu-upload-btn" class="menu-item" role="menuitem">Upload Documents (PDF, TXT, DOCX)</button>

@@ -67,7 +67,10 @@ def extract_causal_relations(req: ExtractionRequest):
         raise HTTPException(status_code=400, detail="Input text cannot be empty.")
     try:
         updated_session = service.process_text_input(
-            text=req.text, session_id=req.session_id
+            text=req.text,
+            session_id=req.session_id,
+            system_mode=req.system_mode or "nlp_baseline",
+            model_name=req.model_name,
         )
         return updated_session
     except Exception as e:
