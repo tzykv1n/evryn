@@ -77,6 +77,8 @@ GLOBAL_SYNONYMS = {
     "bax": "BAX",
     "lps": "Lipopolysaccharide",
     "lipopolysaccharides": "Lipopolysaccharide",
+    "lipopolysaccharide": "Lipopolysaccharide",
+    "lipopolysacharide": "Lipopolysaccharide",
     "b-cell lymphoma 2": "Bcl-2",
     "bcl2": "Bcl-2",
     "bcl-2": "Bcl-2",
@@ -361,6 +363,12 @@ class PaperEntityNormalizer:
         cleaned = re.sub(r"^(?:abstract|introduction|background|methods|results|discussion|conclusion|page\s+\d+)\s+", "", cleaned, flags=re.IGNORECASE)
         cleaned = re.sub(r"^the\s+|^a\s+|^an\s+", "", cleaned, flags=re.IGNORECASE)
         cleaned = re.sub(r"^(?:phosphorylated|activated|active|nuclear|cytosolic|membrane-anchored|elevated|stabilized|secreted|soluble|dimerized|pro-apoptotic)\s+", "", cleaned, flags=re.IGNORECASE)
+        cleaned = re.sub(
+            r"^(?:various|all|certain|key|specific|major)?\s*(?:components?|elements?|fractions?|modifications?)\s+(?:of|to|in)\s+(?:the\s+)?",
+            "",
+            cleaned,
+            flags=re.IGNORECASE,
+        )
         if getattr(self, "enable_appositive_role_stripping", True):
             cleaned = re.sub(
                 r"^(?:receptor/regulator|receptor|regulator|sensor\s+kinase|response\s+regulator|transcriptional\s+regulator|activator\s+protein|activator|chaperone\s+protein|chaperone)\s+",
@@ -504,7 +512,7 @@ class PaperEntityNormalizer:
                 if "outer membrane protein" in ke_l:
                     known_vocab.update(["omp", "omps", "omp3b", "omp25", "ompa", "ompc", "ompf"])
                 if "lipopolysaccharide" in ke_l:
-                    known_vocab.add("lps")
+                    known_vocab.update(["lps", "lipopolysaccharides", "lipopolysacharide", "lipopolysacharides"])
                 if ke_l.endswith(" resistance"):
                     noun = ke_l[:-len(" resistance")]
                     known_vocab.add(f"resistance to {noun}")

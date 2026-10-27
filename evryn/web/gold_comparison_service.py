@@ -200,10 +200,10 @@ class GoldComparisonService:
         session_overrides = self._session_adjudications.get(session_id, {})
 
         for r in clean_relations:
-            c_name = r.get("cause_name", "")
-            e_name = r.get("effect_name", "")
+            c_name = r.get("cause_name") or r.get("cause_canonical") or r.get("cause") or ""
+            e_name = r.get("effect_name") or r.get("effect_canonical") or r.get("effect") or ""
             is_trans = bool(r.get("is_transitive", False))
-            r_id = r.get("id", "")
+            r_id = r.get("id") or r.get("assertion_id") or ""
 
             # Match against direct first
             matched_gold_edge = None
@@ -231,7 +231,8 @@ class GoldComparisonService:
 
             # Get evidence quote
             ev_list = r.get("evidence", [])
-            evidence_quote = ev_list[0].get("sentence_text") if ev_list else r.get("evidence_sentence_ids", "")
+            evidence_quote = ev_list[0].get("sentence_text") if ev_list else (r.get("evidence_quote") or r.get("sentence_text") or "")
+            page_num = ev_list[0].get("page_number", 1) if ev_list else r.get("page_number", 1)
 
             item_data = {
                 "relation_id": r_id,
@@ -242,7 +243,7 @@ class GoldComparisonService:
                 "is_transitive": is_trans,
                 "confidence": r.get("confidence", 0.90),
                 "evidence_quote": evidence_quote,
-                "page_number": ev_list[0].get("page_number", 1) if ev_list else 1,
+                "page_number": page_num,
                 "is_match": is_match,
                 "matched_gold": matched_gold_edge,
                 "match_type": match_type,

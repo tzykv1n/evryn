@@ -33,6 +33,8 @@
   const viewTabExamples = document.getElementById("view-tab-examples");
   const viewTabBenchmark = document.getElementById("view-tab-benchmark");
   const viewTabGold = document.getElementById("view-tab-gold");
+  const viewTabDiagnostics = document.getElementById("view-tab-diagnostics");
+  const viewDiagnosticsBtn = document.getElementById("view-diagnostics-btn");
   const graphViewport = document.getElementById("graph-viewport");
   const graphEmptyState = document.getElementById("graph-empty-state");
   const copyableView = document.getElementById("copyable-view");
@@ -43,6 +45,7 @@
   const examplesView = document.getElementById("examples-view");
   const benchmarkView = document.getElementById("benchmark-view");
   const goldComparisonView = document.getElementById("gold-comparison-view");
+  const diagnosticsView = document.getElementById("diagnostics-view");
   const goldCompTitle = document.getElementById("gold-comp-title");
   const goldCompSubtitle = document.getElementById("gold-comp-subtitle");
   const goldProvenanceTag = document.getElementById("gold-provenance-tag");
@@ -161,28 +164,38 @@
   let selectedRelation = null;
   let isSubmitting = false;
 
-  // Initialize Graph Renderer
+  // Synchronized Highlighting (Cross-Panel Hover without Viewport Transform Coupling)
+  function onHoverExtractedNode(node, isEnter) {
+    if (!isSplitGraphMode || !goldGraphRenderer) return;
+    const name = node ? (node.canonical_name || node.name) : null;
+    if (isEnter && name) {
+      goldGraphRenderer.highlightNode(name);
+    } else {
+      goldGraphRenderer.clearNodeHighlight();
+    }
+  }
+
+  function onHoverGoldNode(node, isEnter) {
+    if (!isSplitGraphMode || !graphRenderer) return;
+    const name = node ? (node.canonical_name || node.name) : null;
+    if (isEnter && name) {
+      graphRenderer.highlightNode(name);
+    } else {
+      graphRenderer.clearNodeHighlight();
+    }
+  }
+
+  // Initialize Graph Renderer (Pass extracted wrapper to calculate bounding box correctly)
+  const extractedContainerId = document.getElementById("extracted-svg-wrapper") ? "extracted-svg-wrapper" : "graph-viewport";
   graphRenderer = new CausalGraphRenderer(
-    "graph-viewport",
+    extractedContainerId,
     "causal-graph-svg",
     onSelectRelation,
     onSelectNode,
-    onLayoutChanged
+    onLayoutChanged,
+    onHoverExtractedNode
   );
-
-  // Setup Toolbar Controls
-  document.getElementById("graph-fit-btn").addEventListener("click", () => {
-    graphRenderer.fitToView();
-    if (isSplitGraphMode && goldGraphRenderer) goldGraphRenderer.fitToView();
-  });
-  document.getElementById("graph-zoom-in").addEventListener("click", () => {
-    graphRenderer.zoomIn();
-    if (isSplitGraphMode && goldGraphRenderer) goldGraphRenderer.zoomIn();
-  });
-  document.getElementById("graph-zoom-out").addEventListener("click", () => {
-    graphRenderer.zoomOut();
-    if (isSplitGraphMode && goldGraphRenderer) goldGraphRenderer.zoomOut();
-  });
+  window.graphRenderer = graphRenderer;
 
   // Split-Graph Extracted / Gold Elements & Renderer
   const splitGraphToggleBtn = document.getElementById("split-graph-toggle-btn");
@@ -194,13 +207,93 @@
   const goldPanelPmcid = document.getElementById("gold-panel-pmcid");
   const goldGraphUnavailable = document.getElementById("gold-graph-unavailable");
 
+  // Shared Toolbar Controls & Split Target Selector
+  const splitTargetControl = document.getElementById("split-target-control");
+  const targetExtractedBtn = document.getElementById("target-extracted-btn");
+  const targetGoldBtn = document.getElementById("target-gold-btn");
+  const realignGraphsBtn = document.getElementById("realign-graphs-btn");
+  const resetLayoutBtn = document.getElementById("reset-layout-btn");
+
   let isSplitGraphMode = false;
+  let activeGraphTarget = "extracted"; // "extracted" | "gold"
+
+  function setActiveGraphTarget(target) {
+    activeGraphTarget = target === "gold" ? "gold" : "extracted";
+    if (targetExtractedBtn) targetExtractedBtn.classList.toggle("active", activeGraphTarget === "extracted");
+    if (targetGoldBtn) targetGoldBtn.classList.toggle("active", activeGraphTarget === "gold");
+    if (extractedGraphPanel) extractedGraphPanel.classList.toggle("panel-target-active", activeGraphTarget === "extracted");
+    if (goldGraphPanel) goldGraphPanel.classList.toggle("panel-target-active", activeGraphTarget === "gold");
+  }
+
+  if (targetExtractedBtn) {
+    targetExtractedBtn.addEventListener("click", () => setActiveGraphTarget("extracted"));
+  }
+  if (targetGoldBtn) {
+    targetGoldBtn.addEventListener("click", () => setActiveGraphTarget("gold"));
+  }
+
+  const extractedSvgWrapper = document.getElementById("extracted-svg-wrapper");
+  const goldSvgWrapper = document.getElementById("gold-svg-wrapper");
+  if (extractedSvgWrapper) {
+    extractedSvgWrapper.addEventListener("mousedown", () => {
+      if (isSplitGraphMode && activeGraphTarget !== "extracted") setActiveGraphTarget("extracted");
+    });
+  }
+  if (goldSvgWrapper) {
+    goldSvgWrapper.addEventListener("mousedown", () => {
+      if (isSplitGraphMode && activeGraphTarget !== "gold") setActiveGraphTarget("gold");
+    });
+  }
+
+  function getActiveRenderer() {
+    if (isSplitGraphMode && activeGraphTarget === "gold" && goldGraphRenderer) {
+      return goldGraphRenderer;
+    }
+    return graphRenderer;
+  }
+
+  // Setup Shared Toolbar Controls Routed to Active Renderer
+  document.getElementById("graph-fit-btn").addEventListener("click", () => {
+    const r = getActiveRenderer();
+    if (r) r.fitToView();
+  });
+  document.getElementById("graph-zoom-in").addEventListener("click", () => {
+    const r = getActiveRenderer();
+    if (r) r.zoomIn();
+  });
+  document.getElementById("graph-zoom-out").addEventListener("click", () => {
+    const r = getActiveRenderer();
+    if (r) r.zoomOut();
+  });
+  if (resetLayoutBtn) {
+    resetLayoutBtn.addEventListener("click", () => {
+      const r = getActiveRenderer();
+      if (r && typeof r.resetLayout === "function") {
+        r.resetLayout();
+      }
+    });
+  }
+  if (realignGraphsBtn) {
+    realignGraphsBtn.addEventListener("click", () => {
+      if (!isSplitGraphMode || !goldGraphRenderer || !graphRenderer) return;
+      // Realign instantaneous node positions without permanent coupling
+      if (activeGraphTarget === "gold") {
+        goldGraphRenderer.alignLayoutWith(graphRenderer, true);
+      } else {
+        graphRenderer.alignLayoutWith(goldGraphRenderer, true);
+      }
+    });
+  }
+
   let goldGraphRenderer = new CausalGraphRenderer(
     "gold-svg-wrapper",
     "gold-graph-svg",
     onSelectGoldRelation,
-    onSelectGoldNode
+    onSelectGoldNode,
+    null,
+    onHoverGoldNode
   );
+  window.goldGraphRenderer = goldGraphRenderer;
   let cachedGoldStandards = new Map();
 
   function onSelectGoldRelation(relData) {
@@ -253,6 +346,11 @@
 
     if (extractedPanelHeader) extractedPanelHeader.classList.toggle("hidden", !isSplitGraphMode);
     if (goldGraphPanel) goldGraphPanel.classList.toggle("hidden", !isSplitGraphMode);
+    if (splitTargetControl) splitTargetControl.classList.toggle("hidden", !isSplitGraphMode);
+    if (realignGraphsBtn) realignGraphsBtn.classList.toggle("hidden", !isSplitGraphMode);
+    if (!isSplitGraphMode) {
+      setActiveGraphTarget("extracted");
+    }
 
     if (isSplitGraphMode) {
       let detectedPmcid = currentLoadedPmcid;
@@ -372,9 +470,15 @@
     }
 
     setTimeout(() => {
-      if (graphRenderer) graphRenderer.handleResize();
-      if (isSplitGraphMode && goldGraphRenderer) goldGraphRenderer.handleResize();
-    }, 60);
+      if (graphRenderer) {
+        graphRenderer.handleResize();
+        graphRenderer.fitToView();
+      }
+      if (isSplitGraphMode && goldGraphRenderer) {
+        goldGraphRenderer.handleResize();
+        goldGraphRenderer.fitToView();
+      }
+    }, 80);
   }
 
   function showGoldUnavailable(pmcid) {
@@ -391,7 +495,7 @@
     });
   }
 
-  // 5-View Tab Switcher
+  // Multi-View Tab Switcher
   function switchView(tabName) {
     if (viewTabGraph) viewTabGraph.classList.toggle("active", tabName === "graph");
     if (viewTabCopyable) viewTabCopyable.classList.toggle("active", tabName === "copyable");
@@ -399,6 +503,7 @@
     if (viewTabExamples) viewTabExamples.classList.toggle("active", tabName === "examples");
     if (viewTabBenchmark) viewTabBenchmark.classList.toggle("active", tabName === "benchmark");
     if (viewTabGold) viewTabGold.classList.toggle("active", tabName === "gold");
+    if (viewTabDiagnostics) viewTabDiagnostics.classList.toggle("active", tabName === "diagnostics");
 
     if (viewTabGraph) viewTabGraph.setAttribute("aria-selected", tabName === "graph");
     if (viewTabCopyable) viewTabCopyable.setAttribute("aria-selected", tabName === "copyable");
@@ -406,6 +511,7 @@
     if (viewTabExamples) viewTabExamples.setAttribute("aria-selected", tabName === "examples");
     if (viewTabBenchmark) viewTabBenchmark.setAttribute("aria-selected", tabName === "benchmark");
     if (viewTabGold) viewTabGold.setAttribute("aria-selected", tabName === "gold");
+    if (viewTabDiagnostics) viewTabDiagnostics.setAttribute("aria-selected", tabName === "diagnostics");
 
     if (graphViewport) graphViewport.classList.toggle("hidden", tabName !== "graph");
     if (copyableView) copyableView.classList.toggle("hidden", tabName !== "copyable");
@@ -413,6 +519,7 @@
     if (examplesView) examplesView.classList.toggle("hidden", tabName !== "examples");
     if (benchmarkView) benchmarkView.classList.toggle("hidden", tabName !== "benchmark");
     if (goldComparisonView) goldComparisonView.classList.toggle("hidden", tabName !== "gold");
+    if (diagnosticsView) diagnosticsView.classList.toggle("hidden", tabName !== "diagnostics");
 
     if (tabName === "benchmark") {
       inputContainer.classList.add("hidden");
@@ -424,6 +531,11 @@
       if (graphRenderer) graphRenderer.pause();
       resultsView.classList.remove("hidden");
       loadGoldComparisonData();
+    } else if (tabName === "diagnostics") {
+      inputContainer.classList.add("hidden");
+      if (graphRenderer) graphRenderer.pause();
+      resultsView.classList.remove("hidden");
+      loadDiagnosticsData();
     } else {
       inputContainer.classList.remove("hidden");
       if (!activeSessionData) {
@@ -455,6 +567,8 @@
   if (viewTabExamples) viewTabExamples.addEventListener("click", () => switchView("examples"));
   if (viewTabBenchmark) viewTabBenchmark.addEventListener("click", () => switchView("benchmark"));
   if (viewTabGold) viewTabGold.addEventListener("click", () => switchView("gold"));
+  if (viewTabDiagnostics) viewTabDiagnostics.addEventListener("click", () => switchView("diagnostics"));
+  if (viewDiagnosticsBtn) viewDiagnosticsBtn.addEventListener("click", () => switchView("diagnostics"));
 
   // 1-Click Copy Graph Button
   copyGraphBtn.addEventListener("click", () => {
@@ -471,8 +585,11 @@
   // Physics Preset Selector
   physicsPresetSelect.addEventListener("change", (e) => {
     const preset = e.target.value;
-    graphRenderer.setPhysicsPreset(preset);
-    if (activeSessionId) {
+    const r = getActiveRenderer();
+    if (r && typeof r.setPhysicsPreset === "function") {
+      r.setPhysicsPreset(preset);
+    }
+    if (activeSessionId && activeGraphTarget === "extracted") {
       fetch(`/api/sessions/${activeSessionId}/physics`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -487,9 +604,11 @@
       alert("Please click and select an edge in the graph first to tighten its tension.");
       return;
     }
-    const newTension = graphRenderer.tightenEdge(selectedRelation.id);
+    const r = getActiveRenderer();
+    if (!r || typeof r.tightenEdge !== "function") return;
+    const newTension = r.tightenEdge(selectedRelation.id);
     updateTensionBadge(newTension);
-    if (activeSessionId) {
+    if (activeSessionId && activeGraphTarget === "extracted") {
       fetch(`/api/sessions/${activeSessionId}/physics`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -500,9 +619,11 @@
 
   loosenEdgeBtn.addEventListener("click", () => {
     if (!selectedRelation) return;
-    const newTension = graphRenderer.loosenEdge(selectedRelation.id);
+    const r = getActiveRenderer();
+    if (!r || typeof r.loosenEdge !== "function") return;
+    const newTension = r.loosenEdge(selectedRelation.id);
     updateTensionBadge(newTension);
-    if (activeSessionId) {
+    if (activeSessionId && activeGraphTarget === "extracted") {
       fetch(`/api/sessions/${activeSessionId}/physics`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -963,8 +1084,8 @@
   // Query Submission
   async function submitQuery(text) {
     dockInput();
-    const selectedEngine = document.querySelector('input[name="extraction_engine"]:checked')?.value || "nlp_baseline";
-    showProcessing(`EXTRACTING CAUSAL RELATIONSHIPS [${selectedEngine.toUpperCase()}]...`);
+    const selectedEngine = "nlp_baseline";
+    showProcessing("EXTRACTING CAUSAL RELATIONSHIPS [SYSTEM A: NLP ENGINE]...");
 
     try {
       const res = await fetch("/api/extract", {
@@ -3133,6 +3254,228 @@
         loadPaperToWorkspace(activeModalPaperId, `Paper ${activeModalPaperId}`);
       }
     });
+  }
+
+  // ==========================================================================
+  // Phase 2.7 Pipeline Diagnostics, Error Breakdown, and Controlled Ablations
+  // ==========================================================================
+  let cachedDiagnosticsData = null;
+  let activeErrorFilter = "all";
+
+  async function loadDiagnosticsData() {
+    const diagGrid = document.getElementById("diagnostics-stages-grid");
+    const provenanceTag = document.getElementById("diagnostics-provenance-tag");
+
+    let pmcid = currentLoadedPmcid;
+    if (!pmcid && activeSessionData && activeSessionData.title) {
+      const m = activeSessionData.title.match(/PMC\d+/i);
+      if (m) pmcid = m[0].toUpperCase();
+    }
+    if (!pmcid && queryInput && queryInput.value) {
+      const m = queryInput.value.match(/PMC\d+/i);
+      if (m) pmcid = m[0].toUpperCase();
+    }
+    if (!pmcid) pmcid = "PMC1804205";
+
+    if (provenanceTag) provenanceTag.textContent = `PMCID: ${pmcid}`;
+
+    if (diagGrid) {
+      diagGrid.innerHTML = `<div style="grid-column: 1/-1; padding: 20px; text-align: center; color: #64748b; font-family: var(--font-mono);">ANALYZING 8 PIPELINE STAGES &amp; EXTRACTED RELATIONS...</div>`;
+    }
+
+    try {
+      const res = await fetch(`/api/diagnostics/pipeline/${encodeURIComponent(pmcid)}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      cachedDiagnosticsData = data;
+      renderDiagnosticsUI(data);
+    } catch (err) {
+      console.error("Diagnostics load error:", err);
+      if (diagGrid) {
+        diagGrid.innerHTML = `<div style="grid-column: 1/-1; padding: 14px; color: #dc2626; font-family: var(--font-mono);">Failed to load diagnostics: ${escapeHtml(err.message)}</div>`;
+      }
+    }
+  }
+
+  function renderDiagnosticsUI(data) {
+    if (!data) return;
+
+    // 1. Render Stages Grid
+    const diagGrid = document.getElementById("diagnostics-stages-grid");
+    if (diagGrid && data.stage_breakdown) {
+      diagGrid.innerHTML = data.stage_breakdown.map(s => `
+        <div class="stage-card">
+          <div class="stage-card-header">
+            <span class="stage-card-num">STAGE ${s.stage}</span>
+            <span class="stage-card-status">${escapeHtml((s.status || "ACTIVE").toUpperCase())}</span>
+          </div>
+          <div class="stage-card-name">${escapeHtml(s.name)}</div>
+          <div class="stage-card-metric">
+            <span class="stage-card-count">${s.count}</span>
+            <span class="stage-card-unit">${escapeHtml(s.unit || "")}</span>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    // 2. Update error counts & badges
+    const counts = data.error_counts || {};
+    const totalRelations = (data.diagnostic_relations || []).length;
+
+    const setCnt = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val || 0;
+    };
+    setCnt("cnt-err-all", totalRelations);
+    setCnt("cnt-err-direction", counts["direction_inversion"]);
+    setCnt("cnt-err-negation", counts["negation_polarity"]);
+    setCnt("cnt-err-speculative", counts["speculative_hypothesis"]);
+    setCnt("cnt-err-alias", counts["alias_merging"]);
+    setCnt("cnt-err-duplicate", counts["duplicate_normalization"]);
+    setCnt("cnt-err-missing", counts["missing_direct"]);
+    setCnt("cnt-err-transitive", counts["unsupported_transitive"]);
+    setCnt("cnt-err-preamble", counts["citation_preamble"]);
+
+    renderDiagnosticsTable(data.diagnostic_relations || []);
+  }
+
+  function renderDiagnosticsTable(relations) {
+    const tbody = document.getElementById("diagnostics-table-tbody");
+    if (!tbody) return;
+
+    const filtered = relations.filter(r => {
+      if (activeErrorFilter === "all") return true;
+      return r.error_class === activeErrorFilter;
+    });
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #64748b; padding: 24px; font-family: var(--font-mono);">No relations in selected category.</td></tr>`;
+      return;
+    }
+
+    const badgeClassMap = {
+      "direction_inversion": "badge-err-direction",
+      "negation_polarity": "badge-err-negation",
+      "speculative_hypothesis": "badge-err-speculative",
+      "alias_merging": "badge-err-alias",
+      "duplicate_normalization": "badge-err-duplicate",
+      "missing_direct": "badge-err-missing",
+      "unsupported_transitive": "badge-err-transitive",
+      "citation_preamble": "badge-err-preamble"
+    };
+
+    tbody.innerHTML = filtered.map(r => {
+      const badgeCls = badgeClassMap[r.error_class] || "badge-err-duplicate";
+      return `
+        <tr>
+          <td>
+            <strong>${escapeHtml(r.cause)}</strong> ➔ <strong>${escapeHtml(r.effect)}</strong>
+            <div style="font-size: 10px; color: #64748b; margin-top: 2px;">Type: ${escapeHtml(r.relation_type || "causes")}</div>
+          </td>
+          <td>
+            <span class="status-chip" style="font-size: 9px; padding: 1px 4px;">${r.is_cross ? "CROSS-PAGE" : "DIRECT"}</span>
+          </td>
+          <td>
+            <span class="badge-err ${badgeCls}">${escapeHtml(r.error_class_name || r.error_class)}</span>
+          </td>
+          <td style="font-size: 11px;">
+            <div style="font-style: italic; color: #1e293b; margin-bottom: 4px;">"${escapeHtml(r.evidence_quote || "N/A")}"</div>
+            <div style="font-size: 10px; color: #64748b;">Page: ${r.page_number || "N/A"} &bull; Rule: ${escapeHtml(r.rule_source || "Syntax Clause")}</div>
+          </td>
+          <td style="font-size: 11px; color: #334155;">
+            ${escapeHtml(r.rationale || "Diagnostic analysis performed.")}
+          </td>
+        </tr>
+      `;
+    }).join("");
+  }
+
+  // Error Filter Chips Click
+  const errorChipsContainer = document.getElementById("diagnostics-error-chips");
+  if (errorChipsContainer) {
+    errorChipsContainer.addEventListener("click", (e) => {
+      const chip = e.target.closest(".status-chip");
+      if (!chip) return;
+      const filter = chip.dataset.errorFilter;
+      if (!filter) return;
+      activeErrorFilter = filter;
+      errorChipsContainer.querySelectorAll(".status-chip").forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      if (cachedDiagnosticsData) {
+        renderDiagnosticsTable(cachedDiagnosticsData.diagnostic_relations || []);
+      }
+    });
+  }
+
+  // Diagnostics Reload
+  const diagReloadBtn = document.getElementById("diagnostics-reload-btn");
+  if (diagReloadBtn) {
+    diagReloadBtn.addEventListener("click", () => {
+      loadDiagnosticsData();
+    });
+  }
+
+  // Live Controlled Ablations Button & Runner
+  const runAblationsBtn = document.getElementById("run-ablations-btn");
+  if (runAblationsBtn) {
+    runAblationsBtn.addEventListener("click", async () => {
+      const tbody = document.getElementById("diagnostics-ablations-tbody");
+      if (tbody) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: #64748b; padding: 20px; font-family: var(--font-mono);">RUNNING CONTROLLED ABLATION EXPERIMENTS ON REFERENCE PAPERS...</td></tr>`;
+      }
+      runAblationsBtn.disabled = true;
+      runAblationsBtn.textContent = "RUNNING...";
+
+      try {
+        const res = await fetch("/api/diagnostics/ablations");
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        renderAblationsTable(data.ablations || []);
+      } catch (err) {
+        console.error("Ablations run error:", err);
+        if (tbody) {
+          tbody.innerHTML = `<tr><td colspan="6" style="color: #dc2626; padding: 14px;">Ablation benchmark failed: ${escapeHtml(err.message)}</td></tr>`;
+        }
+      } finally {
+        runAblationsBtn.disabled = false;
+        runAblationsBtn.textContent = "▶ RUN LIVE ABLATIONS";
+      }
+    });
+  }
+
+  function renderAblationsTable(ablations) {
+    const tbody = document.getElementById("diagnostics-ablations-tbody");
+    if (!tbody) return;
+
+    tbody.innerHTML = ablations.map(a => {
+      const isBase = a.variant === "baseline";
+      const rowCls = isBase ? "ablation-row-baseline" : "";
+      return `
+        <tr class="${rowCls}">
+          <td>
+            <strong>${escapeHtml(a.name)}</strong>
+            <div style="font-size: 10px; color: #64748b;">${escapeHtml(a.variant)}</div>
+          </td>
+          <td>
+            <div>${(a.direct_precision * 100).toFixed(1)}% / ${(a.direct_recall * 100).toFixed(1)}%</div>
+            <strong style="font-size: 12px;">F1: ${a.direct_f1.toFixed(4)}</strong>
+            <div style="font-size: 9px; color: #64748b;">TP:${a.direct_tp} FP:${a.direct_fp} FN:${a.direct_fn}</div>
+          </td>
+          <td>
+            <div>${(a.cross_precision * 100).toFixed(1)}% / ${(a.cross_recall * 100).toFixed(1)}%</div>
+            <strong style="font-size: 12px;">F1: ${a.cross_f1.toFixed(4)}</strong>
+            <div style="font-size: 9px; color: #64748b;">TP:${a.cross_tp} FP:${a.cross_fp} FN:${a.cross_fn}</div>
+          </td>
+          <td>
+            <strong style="font-size: 13px; color: ${a.false_transitive_jumps > 3 ? '#dc2626' : '#0f172a'};">${a.false_transitive_jumps}</strong>
+          </td>
+          <td>${a.runtime_seconds.toFixed(2)}s</td>
+          <td style="font-size: 11px;">
+            ${escapeHtml(a.empirical_finding || a.impact || "")}
+          </td>
+        </tr>
+      `;
+    }).join("");
   }
 
   function escapeHtml(str) {

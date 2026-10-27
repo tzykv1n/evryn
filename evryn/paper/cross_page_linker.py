@@ -69,11 +69,13 @@ class CrossPageLinker:
         max_transitive_hops: int = 2,
         min_confidence: float = 0.58,
         enable_transitive_invariants: bool = True,
+        enable_adapter_invariants: bool = True,
     ):
         self.min_page_distance = min_page_distance
         self.max_transitive_hops = max_transitive_hops
         self.min_confidence = min_confidence
         self.enable_transitive_invariants = enable_transitive_invariants
+        self.enable_adapter_invariants = enable_adapter_invariants
 
     def find_cross_page_links(
         self,
@@ -147,7 +149,7 @@ class CrossPageLinker:
                         if (path[0].lower(), path[-1].lower()) in TCSTS_REVERSE_PAIRS:
                             continue
                         # Invariant 4: Post-translational adapter proteins should not initiate transitive chains to terminal phenotypes
-                        if path[0].lower() in ADAPTER_PROTEINS and path[-1].lower() in TERMINAL_PHENOTYPES:
+                        if self.enable_adapter_invariants and path[0].lower() in ADAPTER_PROTEINS and path[-1].lower() in TERMINAL_PHENOTYPES:
                             continue
 
                     e_first = g.edges[path[0], path[1]]

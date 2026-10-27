@@ -16,6 +16,7 @@ from evryn.web.db import SessionStore
 from evryn.web.extractor_service import ExtractionService
 from evryn.web.test_examples_service import TestExamplesService
 from evryn.web.gold_comparison_service import GoldComparisonService
+from evryn.web.pipeline_diagnostics_service import PipelineDiagnosticsService
 from evryn.web.schemas import (
     ExtractionRequest,
     ContinuationRequest,
@@ -528,6 +529,18 @@ def adjudicate_relation(req: AdjudicateRequest):
         category=req.category,
         note=req.note or "",
     )
+
+
+@app.get("/api/diagnostics/pipeline/{pmcid}")
+def get_pipeline_diagnostics(pmcid: str):
+    diag_svc = PipelineDiagnosticsService.get_instance()
+    return diag_svc.analyze_pipeline_run(pmcid)
+
+
+@app.get("/api/diagnostics/ablations")
+def get_controlled_ablations():
+    diag_svc = PipelineDiagnosticsService.get_instance()
+    return diag_svc.run_controlled_ablations()
 
 
 # Mount static assets

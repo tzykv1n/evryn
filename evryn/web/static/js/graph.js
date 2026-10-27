@@ -3,7 +3,7 @@
  * Real force simulation, explicit collision avoidance, direct dragging, and evidence inspection.
  */
 class CausalGraphRenderer {
-  constructor(containerId, svgId, onSelectRelation, onSelectNode, onLayoutChanged) {
+  constructor(containerId, svgId, onSelectRelation, onSelectNode, onLayoutChanged, onHoverNode) {
     this.container = document.getElementById(containerId);
     this.svg = document.getElementById(svgId);
     this.transformGroup = this.svg
@@ -23,6 +23,7 @@ class CausalGraphRenderer {
     this.onSelectRelation = onSelectRelation || function () {};
     this.onSelectNode = onSelectNode || function () {};
     this.onLayoutChanged = onLayoutChanged || function () {};
+    this.onHoverNode = onHoverNode || function () {};
 
     this.nodes = [];
     this.relations = [];
@@ -301,11 +302,50 @@ class CausalGraphRenderer {
     this.updateTransform();
   }
 
-  alignLayoutWith(otherRenderer) {
+  resetLayout() {
+    if (!this.nodes || this.nodes.length === 0) return;
+    const rect = this.container ? this.container.getBoundingClientRect() : { width: 600, height: 400 };
+    const cX = rect.width > 50 ? rect.width / 2 : 300;
+    const cY = rect.height > 50 ? rect.height / 2 : 200;
+    const count = this.nodes.length;
+    this.nodes.forEach((n, idx) => {
+      const angle = (idx * 2 * Math.PI) / Math.max(1, count);
+      const radius = Math.min(cX, cY) * 0.65;
+      n.x = cX + radius * Math.cos(angle);
+      n.y = cY + radius * Math.sin(angle);
+      n.vx = 0;
+      n.vy = 0;
+      n.isPinned = false;
+    });
+    this.restartSimulation(1.0);
+    this.fitToView();
+  }
+
+  highlightNode(nodeName) {
+    if (!nodeName || !this.nodesLayer) return;
+    const norm = nodeName.toLowerCase().replace(/[^a-z0-9]/g, "");
+    for (const n of this.nodes) {
+      const nNorm = (n.canonical_name || n.name).toLowerCase().replace(/[^a-z0-9]/g, "");
+      if (n.groupElem) {
+        if (nNorm === norm || nNorm.includes(norm) || norm.includes(nNorm)) {
+          n.groupElem.classList.add("synced-highlight");
+        } else {
+          n.groupElem.classList.remove("synced-highlight");
+        }
+      }
+    }
+  }
+
+  clearNodeHighlight() {
+    if (!this.nodesLayer) return;
+    this.nodesLayer.querySelectorAll(".synced-highlight").forEach(el => el.classList.remove("synced-highlight"));
+  }
+
+  alignLayoutWith(otherRenderer, shouldRestart = false) {
     if (!otherRenderer || !otherRenderer.nodeMap) return;
     let anyMatched = false;
     for (const node of this.nodes) {
-      const norm = node.canonical_name.toLowerCase().replace(/[^a-z0-9]/g, "");
+      const norm = (node.canonical_name || node.name).toLowerCase().replace(/[^a-z0-9]/g, "");
       for (const [otherName, otherNode] of otherRenderer.nodeMap.entries()) {
         const otherNorm = otherName.toLowerCase().replace(/[^a-z0-9]/g, "");
         if (norm === otherNorm || norm.includes(otherNorm) || otherNorm.includes(norm)) {
@@ -320,6 +360,9 @@ class CausalGraphRenderer {
     }
     if (anyMatched) {
       this.tick();
+      if (shouldRestart) {
+        this.restartSimulation(0.3);
+      }
       this.fitToView();
     }
   }
@@ -532,6 +575,7 @@ class CausalGraphRenderer {
       g.dataset.nodeName = n.name;
       g.dataset.category = n.category || "Unclassified";
       g.dataset.sentenceIds = (n.evidence_sentence_ids || []).join(",");
+      n.groupElem = g;
 
       // Rectangle
       const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
@@ -609,6 +653,18 @@ class CausalGraphRenderer {
         e.stopPropagation();
         if (!this.hasMovedDrag) {
           this.selectNode(n.name);
+        }
+      });
+
+      g.addEventListener("mouseenter", () => {
+        if (this.onHoverNode) {
+          this.onHoverNode(n, true);
+        }
+      });
+
+      g.addEventListener("mouseleave", () => {
+        if (this.onHoverNode) {
+          this.onHoverNode(n, false);
         }
       });
 

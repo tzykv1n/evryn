@@ -360,7 +360,7 @@ TCSTS_AND_RE = re.compile(
 )
 
 LEADING_NOISE_RE = re.compile(
-    r"^(?:abstract|introduction|background|methods|results|discussion|conclusions?|summary|subsequently|consequently|in\s+turn|thus|therefore|meanwhile|furthermore|in\s+addition|moreover|importantly|however|rather|under\s+[^,]+|in\s+[^,]+|once\s+activated|treatment\s+with|treatment\s+of|administration\s+of|elevated|cellular|active|activated|phosphorylated|stabilized|nuclear|extracellular|soluble|membrane-anchored|high|higher|low|lower|direct|recombinant|by|via|upon|(?:multivariate\s+regression|statistical\s+analysis|experimental\s+data|our\s+findings|our\s+results)\s+(?:demonstrated|showed|revealed|indicated)\s+that|did\s+not|does\s+not|do\s+not|failed\s+to|without)\b\s*,?\s*",
+    r"^(?:abstract|introduction|background|methods|results|discussion|conclusions?|summary|subsequently|consequently|in\s+turn|thus|therefore|meanwhile|furthermore|in\s+addition|moreover|importantly|however|rather|likewise|similarly|conversely|in\s+contrast|notably|under\s+[^,]+|in\s+[^,]+|once\s+activated|treatment\s+with|treatment\s+of|administration\s+of|elevated|cellular|active|activated|phosphorylated|stabilized|nuclear|extracellular|soluble|membrane-anchored|high|higher|low|lower|direct|recombinant|by|via|upon|(?:multivariate\s+regression|statistical\s+analysis|experimental\s+data|our\s+findings|our\s+results)\s+(?:demonstrated|showed|revealed|indicated)\s+that|did\s+not|does\s+not|do\s+not|failed\s+to|without)\b\s*,?\s*",
     re.IGNORECASE,
 )
 ARTICLES_RE = re.compile(r"^(?:the|a|an|this|these|those|our|their|its)\s+", re.IGNORECASE)
@@ -418,6 +418,7 @@ DISALLOWED_ENTITY_WORDS = {
     "analysis", "analyses", "observation", "observations", "conditions", "condition", "author", "authors",
     "role", "roles", "effect", "effects", "response", "responses", "function", "functions",
     "level", "levels", "gene", "genes", "protein", "proteins", "production", "synthesis", "expression", "transcription", "activation",
+    "modification", "modifications", "change", "changes",
     # Discourse connectors & preambles
     "whether", "however", "moreover", "furthermore", "meanwhile", "consequently", "subsequently",
     "therefore", "thus", "instead", "whereas", "although", "while", "since", "because",
@@ -498,6 +499,7 @@ class PaperCausalExtractor:
         enable_agent_nominal_activation: bool = True,
         enable_homology_filter: bool = True,
         enable_relative_clause_barrier: bool = False,
+        enable_cited_preamble_filter: bool = True,
     ):
         self.normalizer = normalizer or PaperEntityNormalizer()
         self.enable_env_grammar = enable_env_grammar
@@ -508,6 +510,7 @@ class PaperCausalExtractor:
         self.enable_terminal_phenotype_invariant = enable_terminal_phenotype_invariant
         self.enable_tcsts_directional_invariant = enable_tcsts_directional_invariant
         self.enable_document_context = enable_document_context
+        self.enable_cited_preamble_filter = enable_cited_preamble_filter
         self.enable_locus_encoding_inference = enable_locus_encoding_inference
         self.enable_phenotype_defect_inference = enable_phenotype_defect_inference
         self.enable_speculation_and_sibling_validation = enable_speculation_and_sibling_validation
@@ -1197,7 +1200,7 @@ class PaperCausalExtractor:
             return None
 
         # Reject candidates whose spans fall entirely within an introductory intent or cited literature preamble
-        if INTENT_PREAMBLE_RE.search(text) or CITED_PREAMBLE_RE.search(text):
+        if INTENT_PREAMBLE_RE.search(text) or (getattr(self, "enable_cited_preamble_filter", True) and CITED_PREAMBLE_RE.search(text)):
             c_idx = text.find(",")
             if c_idx != -1 and max(e1, e2) <= c_idx:
                 return None
@@ -1363,6 +1366,14 @@ class PaperCausalExtractor:
         # Clean biological noun modifiers (e.g. "low level of hilD", "expression of HilE")
         cleaned = re.sub(
             r"^(?:the|a|an)?\s*(?:low|high|elevated|reduced|increased|decreased|abnormal|altered|excessive)?\s*(?:level|levels|expression|activity|amount|abundance|transcription|phosphorylation|presence|loss|absence)\s+of\s+",
+            "",
+            cleaned,
+            flags=re.IGNORECASE,
+        ).strip()
+
+        # Clean structural component prefixes (e.g. "various components of the lipopolysaccharide")
+        cleaned = re.sub(
+            r"^(?:the|a|an)?\s*(?:various|all|certain|key|specific|major|downstream)?\s*(?:components?|elements?|fractions?)\s+(?:of|in)\s+(?:the\s+)?",
             "",
             cleaned,
             flags=re.IGNORECASE,

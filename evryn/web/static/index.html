@@ -76,26 +76,22 @@
         <button id="plus-btn" class="plus-btn" aria-label="Add documents or examples" title="Upload documents or select examples" aria-haspopup="menu" aria-expanded="false">+</button>
       </div>
 
-      <!-- Phase 2.3 Extraction Engine Mode Selector -->
-      <div id="extraction-engine-bar" class="extraction-engine-bar">
-        <span class="engine-bar-label">ENGINE:</span>
-        <div class="engine-toggle-group" role="radiogroup" aria-label="Extraction Engine Selection">
-          <label class="engine-toggle-btn active" id="engine-btn-nlp" title="System A: Repaired Rule-Based NLP Pipeline with clause awareness and 100% provenance">
-            <input type="radio" name="extraction_engine" value="nlp_baseline" checked>
-            <span class="engine-badge">System A</span>
-            <span class="engine-title">NLP Baseline</span>
-          </label>
-          <label class="engine-toggle-btn" id="engine-btn-llm" title="System B: LLM candidate proposition without strict validation">
-            <input type="radio" name="extraction_engine" value="llm_only">
-            <span class="engine-badge">System B</span>
-            <span class="engine-title">LLM Only</span>
-          </label>
-          <label class="engine-toggle-btn" id="engine-btn-hybrid" title="System C: Hybrid LLM + 9-stage deterministic validation">
-            <input type="radio" name="extraction_engine" value="hybrid">
-            <span class="engine-badge">System C</span>
-            <span class="engine-title">Hybrid</span>
-          </label>
+      <!-- Phase 2.7 Pipeline Status & System A Production Banner -->
+      <div id="pipeline-status-bar" class="pipeline-status-bar">
+        <div class="pipeline-status-badge">
+          <span class="status-indicator-dot"></span>
+          <span class="pipeline-status-name">SYSTEM A: REPAIRED NLP ENGINE</span>
         </div>
+        <div class="pipeline-status-meta">
+          <span class="meta-item">Clause-Aware Parsing</span>
+          <span class="meta-item-sep">&bull;</span>
+          <span class="meta-item">Deterministic Grounding</span>
+          <span class="meta-item-sep">&bull;</span>
+          <span class="meta-item">Invariant Guarded</span>
+        </div>
+        <button id="view-diagnostics-btn" class="pipeline-diagnostics-link" title="Open Pipeline Diagnostics, Error Breakdown & Ablations">
+          DIAGNOSTICS &amp; ERROR ANALYSIS &rarr;
+        </button>
       </div>
 
       <!-- Plus Popover Menu (On-Demand Actions & Recent Examples) -->
@@ -150,21 +146,37 @@
         <div class="graph-toolbar">
           <div class="toolbar-left">
             <span id="graph-stats" class="graph-stats">0 NODES &nbsp;|&nbsp; 0 RELATIONS</span>
-            <!-- Synchronized 5-View Tabs -->
+            <!-- Synchronized View Tabs -->
             <div class="view-tabs" role="tablist">
               <button id="view-tab-graph" class="view-tab active" role="tab" aria-selected="true" title="Interactive Physics Graph">GRAPH</button>
               <button id="view-tab-table" class="view-tab" role="tab" aria-selected="false" title="Structured Table View">TABLE</button>
               <button id="view-tab-copyable" class="view-tab" role="tab" aria-selected="false" title="Copyable Plain-Text Graph">COPYABLE</button>
-              <button id="view-tab-benchmark" class="view-tab" role="tab" aria-selected="false" title="Phase 2.3 Benchmark Evaluation Dashboard">BENCHMARK</button>
+              <button id="view-tab-benchmark" class="view-tab" role="tab" aria-selected="false" title="Benchmark Evaluation Dashboard">BENCHMARK</button>
               <button id="view-tab-gold" class="view-tab" role="tab" aria-selected="false" title="Gold Standard Comparison & Adjudication">GOLD COMPARISON</button>
+              <button id="view-tab-diagnostics" class="view-tab" role="tab" aria-selected="false" title="Pipeline Diagnostics, Error Analysis & Controlled Ablations">DIAGNOSTICS &amp; ERRORS</button>
             </div>
           </div>
 
           <div class="graph-actions">
+            <!-- Target Graph Selector in Split Mode -->
+            <div id="split-target-control" class="split-target-control hidden" title="Select which graph toolbar controls operate on">
+              <span class="toolbar-label">ACTIVE:</span>
+              <div class="target-btn-group" role="group" aria-label="Target Graph">
+                <button id="target-extracted-btn" class="target-btn active" data-target="extracted" title="Direct toolbar controls to Extracted Graph">EXTRACTED</button>
+                <button id="target-gold-btn" class="target-btn" data-target="gold" title="Direct toolbar controls to Gold Standard Graph">GOLD</button>
+              </div>
+            </div>
+
+            <!-- Realign Corresponding Nodes (Decoupled instant alignment) -->
+            <button id="realign-graphs-btn" class="toolbar-btn realign-btn hidden" title="Realign corresponding nodes for visual comparison (independent movement retained)">REALIGN NODES</button>
+
+            <!-- Reset Layout Button -->
+            <button id="reset-layout-btn" class="toolbar-btn" title="Reset node positions to default circular layout for active graph">RESET LAYOUT</button>
+
             <!-- Physics Preset Selector -->
             <div class="physics-control-group">
               <label for="physics-preset-select" class="toolbar-label">PHYSICS:</label>
-              <select id="physics-preset-select" class="toolbar-select" title="Physics simulation preset">
+              <select id="physics-preset-select" class="toolbar-select" title="Physics simulation preset for active graph">
                 <option value="rubber_band" selected>Rubber Band</option>
                 <option value="string">Slack String</option>
                 <option value="inelastic">Inelastic</option>
@@ -181,9 +193,9 @@
             <!-- Split Extracted / Gold Toggle -->
             <button id="split-graph-toggle-btn" class="toolbar-btn split-toggle-btn" title="Toggle Split View: Extracted Graph vs Reference Gold Standard Graph">SPLIT: EXTRACTED / GOLD</button>
 
-            <button id="graph-fit-btn" class="toolbar-btn" title="Fit to View">FIT</button>
-            <button id="graph-zoom-in" class="toolbar-btn" title="Zoom In">+</button>
-            <button id="graph-zoom-out" class="toolbar-btn" title="Zoom Out">−</button>
+            <button id="graph-fit-btn" class="toolbar-btn" title="Fit active graph to view">FIT</button>
+            <button id="graph-zoom-in" class="toolbar-btn" title="Zoom In active graph">+</button>
+            <button id="graph-zoom-out" class="toolbar-btn" title="Zoom Out active graph">−</button>
           </div>
         </div>
 
@@ -642,6 +654,98 @@
                 </thead>
                 <tbody id="gold-comparison-tbody">
                   <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- View 6: Pipeline Diagnostics, 8 Error Classes & Controlled Ablations View -->
+        <div id="diagnostics-view" class="diagnostics-view hidden">
+          <div class="benchmark-toolbar">
+            <div class="benchmark-header-left">
+              <span class="benchmark-title">PIPELINE DIAGNOSTICS &amp; ERROR ANALYSIS</span>
+              <span class="benchmark-subtitle">8-Stage Pipeline Invariants, Canonical Error Taxonomy, and Empirical Ablations</span>
+            </div>
+            <div class="benchmark-header-right">
+              <span id="diagnostics-provenance-tag" class="benchmark-section-tag">PMCID: PMC1804205</span>
+              <button id="diagnostics-reload-btn" class="text-btn" title="Re-run pipeline diagnostics">↺ RE-ANALYZE</button>
+            </div>
+          </div>
+
+          <!-- Section 1: Stage-by-Stage Processing Cards Grid -->
+          <div class="diagnostics-section">
+            <div class="diagnostics-section-header">
+              <span class="diagnostics-section-title">STAGE-BY-STAGE PIPELINE THROUGHPUT &amp; INVARIANTS</span>
+              <span class="diagnostics-section-tag">System A Core NLP Pipeline</span>
+            </div>
+            <div id="diagnostics-stages-grid" class="diagnostics-stages-grid">
+              <!-- Dynamically populated from /api/diagnostics/pipeline/{pmcid} -->
+            </div>
+          </div>
+
+          <!-- Section 2: Canonical 8 Error Classes Filter & Adjudication Breakdown -->
+          <div class="diagnostics-section" style="margin-top: 18px;">
+            <div class="diagnostics-section-header">
+              <span class="diagnostics-section-title">CANONICAL 8 SCIENTIFIC RELATION ERROR CLASSES</span>
+              <span class="diagnostics-section-tag">Empirical Failure Mode Adjudication</span>
+            </div>
+            <div id="diagnostics-error-chips" class="diagnostics-error-chips">
+              <button class="status-chip active" data-error-filter="all" id="chip-err-all">All Relations (<span id="cnt-err-all">0</span>)</button>
+              <button class="status-chip" data-error-filter="direction_inversion" id="chip-err-direction">1. Direction Inversion (<span id="cnt-err-direction">0</span>)</button>
+              <button class="status-chip" data-error-filter="negation_polarity" id="chip-err-negation">2. Polarity / Negation (<span id="cnt-err-negation">0</span>)</button>
+              <button class="status-chip" data-error-filter="speculative_hypothesis" id="chip-err-speculative">3. Speculative / Intent (<span id="cnt-err-speculative">0</span>)</button>
+              <button class="status-chip" data-error-filter="alias_merging" id="chip-err-alias">4. Alias / Complex (<span id="cnt-err-alias">0</span>)</button>
+              <button class="status-chip" data-error-filter="duplicate_normalization" id="chip-err-duplicate">5. Duplicate Normalization (<span id="cnt-err-duplicate">0</span>)</button>
+              <button class="status-chip" data-error-filter="missing_direct" id="chip-err-missing">6. Missing Direct FN (<span id="cnt-err-missing">0</span>)</button>
+              <button class="status-chip" data-error-filter="unsupported_transitive" id="chip-err-transitive">7. Unsupported Transitive (<span id="cnt-err-transitive">0</span>)</button>
+              <button class="status-chip" data-error-filter="citation_preamble" id="chip-err-preamble">8. Citation Preamble (<span id="cnt-err-preamble">0</span>)</button>
+            </div>
+
+            <!-- Diagnostics Relations Table -->
+            <div class="benchmark-table-wrapper" style="margin-top: 10px;">
+              <table class="benchmark-table diagnostics-table">
+                <thead>
+                  <tr>
+                    <th style="width: 22%;">Causal Relation</th>
+                    <th style="width: 10%;">Scope</th>
+                    <th style="width: 20%;">Error Taxonomy Class</th>
+                    <th style="width: 28%;">Evidence &amp; Provenance</th>
+                    <th style="width: 20%;">Diagnostic Analysis &amp; Invariants</th>
+                  </tr>
+                </thead>
+                <tbody id="diagnostics-table-tbody">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section 3: Controlled Ablation Experiments Table -->
+          <div class="diagnostics-section" style="margin-top: 22px; margin-bottom: 24px;">
+            <div class="diagnostics-section-header">
+              <div class="diagnostics-header-wrap">
+                <span class="diagnostics-section-title">CONTROLLED ABLATION MATRIX (EMPIRICAL VERIFICATION)</span>
+                <span class="diagnostics-section-tag">Tested Live on Grounded Reference Papers</span>
+              </div>
+              <button id="run-ablations-btn" class="action-btn-primary" style="padding: 4px 12px; font-size: 11px;">
+                ▶ RUN LIVE ABLATIONS
+              </button>
+            </div>
+            <div class="benchmark-table-wrapper" style="margin-top: 10px;">
+              <table class="benchmark-table ablations-table">
+                <thead>
+                  <tr>
+                    <th style="width: 22%;">Ablation Variant</th>
+                    <th style="width: 14%;">Direct P / R / F1</th>
+                    <th style="width: 14%;">Cross P / R / F1</th>
+                    <th style="width: 10%;">False Jumps</th>
+                    <th style="width: 8%;">Runtime</th>
+                    <th style="width: 32%;">Empirical Finding &amp; Causal Invariant</th>
+                  </tr>
+                </thead>
+                <tbody id="diagnostics-ablations-tbody">
+                  <!-- Dynamically populated from /api/diagnostics/ablations -->
                 </tbody>
               </table>
             </div>
