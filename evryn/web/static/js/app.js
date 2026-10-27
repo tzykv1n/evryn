@@ -171,9 +171,225 @@
   );
 
   // Setup Toolbar Controls
-  document.getElementById("graph-fit-btn").addEventListener("click", () => graphRenderer.fitToView());
-  document.getElementById("graph-zoom-in").addEventListener("click", () => graphRenderer.zoomIn());
-  document.getElementById("graph-zoom-out").addEventListener("click", () => graphRenderer.zoomOut());
+  document.getElementById("graph-fit-btn").addEventListener("click", () => {
+    graphRenderer.fitToView();
+    if (isSplitGraphMode && goldGraphRenderer) goldGraphRenderer.fitToView();
+  });
+  document.getElementById("graph-zoom-in").addEventListener("click", () => {
+    graphRenderer.zoomIn();
+    if (isSplitGraphMode && goldGraphRenderer) goldGraphRenderer.zoomIn();
+  });
+  document.getElementById("graph-zoom-out").addEventListener("click", () => {
+    graphRenderer.zoomOut();
+    if (isSplitGraphMode && goldGraphRenderer) goldGraphRenderer.zoomOut();
+  });
+
+  // Split-Graph Extracted / Gold Elements & Renderer
+  const splitGraphToggleBtn = document.getElementById("split-graph-toggle-btn");
+  const extractedGraphPanel = document.getElementById("extracted-graph-panel");
+  const extractedPanelHeader = document.getElementById("extracted-panel-header");
+  const extractedPanelBadge = document.getElementById("extracted-panel-badge");
+  const goldGraphPanel = document.getElementById("gold-graph-panel");
+  const goldPanelBadge = document.getElementById("gold-panel-badge");
+  const goldPanelPmcid = document.getElementById("gold-panel-pmcid");
+  const goldGraphUnavailable = document.getElementById("gold-graph-unavailable");
+
+  let isSplitGraphMode = false;
+  let goldGraphRenderer = new CausalGraphRenderer(
+    "gold-svg-wrapper",
+    "gold-graph-svg",
+    onSelectGoldRelation,
+    onSelectGoldNode
+  );
+  let cachedGoldStandards = new Map();
+
+  function onSelectGoldRelation(relData) {
+    if (!relData) return;
+    const isTransitive = !!relData.is_transitive;
+    const isMatched = !!relData.is_matched;
+    const evidenceInspector = document.getElementById("evidence-inspector");
+    if (!evidenceInspector) return;
+
+    evidenceInspector.innerHTML = `
+      <div class="evidence-panel-header">
+        <span class="evidence-tag gold-badge">${isTransitive ? "CROSS-PAGE GOLD" : "DIRECT GOLD"}</span>
+        <span class="evidence-status-pill ${isMatched ? "status-matched" : "status-missed"}">${isMatched ? "MATCHED (TP)" : "MISSED (FN)"}</span>
+        <span class="evidence-title">${escapeHtml(relData.cause_name || relData.source)} ➔ ${escapeHtml(relData.effect_name || relData.target)}</span>
+      </div>
+      <div class="evidence-panel-body">
+        <div class="evidence-row"><strong>Standard Source:</strong> ${escapeHtml(currentLoadedPmcid || "Reference Ground Truth")} Ground Truth</div>
+        <div class="evidence-row"><strong>Relation Category:</strong> ${isTransitive ? "Cross-page inferred ground-truth dependency" : "Direct reference biochemical relation"}</div>
+        <div class="evidence-row"><strong>Adjudication Status:</strong> ${isMatched ? "Extracted by system as true positive." : "Reference annotation absent from current predictions."}</div>
+      </div>
+    `;
+    evidenceInspector.classList.remove("hidden");
+  }
+
+  function onSelectGoldNode(nodeData) {
+    if (!nodeData) return;
+    const evidenceInspector = document.getElementById("evidence-inspector");
+    if (!evidenceInspector) return;
+
+    evidenceInspector.innerHTML = `
+      <div class="evidence-panel-header">
+        <span class="evidence-tag gold-badge">GOLD ENTITY</span>
+        <span class="evidence-title">${escapeHtml(nodeData.canonical_name || nodeData.name)}</span>
+      </div>
+      <div class="evidence-panel-body">
+        <div class="evidence-row"><strong>Canonical Name:</strong> ${escapeHtml(nodeData.canonical_name || nodeData.name)}</div>
+        <div class="evidence-row"><strong>Paper:</strong> ${escapeHtml(currentLoadedPmcid || "Benchmark Reference")}</div>
+      </div>
+    `;
+    evidenceInspector.classList.remove("hidden");
+  }
+
+  async function updateSplitGraphView() {
+    if (!graphViewport) return;
+    graphViewport.classList.toggle("split-mode", isSplitGraphMode);
+    if (splitGraphToggleBtn) {
+      splitGraphToggleBtn.classList.toggle("active", isSplitGraphMode);
+      splitGraphToggleBtn.textContent = isSplitGraphMode ? "SPLIT: ON" : "SPLIT: EXTRACTED / GOLD";
+    }
+
+    if (extractedPanelHeader) extractedPanelHeader.classList.toggle("hidden", !isSplitGraphMode);
+    if (goldGraphPanel) goldGraphPanel.classList.toggle("hidden", !isSplitGraphMode);
+
+    if (isSplitGraphMode) {
+      let detectedPmcid = currentLoadedPmcid;
+      if (!detectedPmcid && activeSessionData && activeSessionData.title) {
+        const m = activeSessionData.title.match(/PMC\d+/i);
+        if (m) detectedPmcid = m[0].toUpperCase();
+      }
+      if (!detectedPmcid && queryInput && queryInput.value) {
+        const m = queryInput.value.match(/PMC\d+/i);
+        if (m) detectedPmcid = m[0].toUpperCase();
+      }
+
+      if (detectedPmcid) {
+        try {
+          let gt = cachedGoldStandards.get(detectedPmcid);
+          if (!gt) {
+            const res = await fetch(`/api/examples/gold/${detectedPmcid}`);
+            if (res.ok) {
+              const resData = await res.json();
+              gt = resData.ground_truth || resData;
+              cachedGoldStandards.set(detectedPmcid, gt);
+            }
+          }
+
+          if (gt) {
+            if (goldGraphUnavailable) goldGraphUnavailable.classList.add("hidden");
+            if (goldPanelPmcid) goldPanelPmcid.textContent = `${detectedPmcid} REFERENCE STANDARD`;
+
+            const entities = gt.canonical_entities || [];
+            const directEdges = gt.direct_edges || [];
+            const crossEdges = gt.cross_page_edges || [];
+
+            const extractedRels = activeSessionData && activeSessionData.relations ? activeSessionData.relations : [];
+            const norm = (s) => (s || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+
+            function isMatchedInExtracted(src, tgt) {
+              const sN = norm(src);
+              const tN = norm(tgt);
+              return extractedRels.some(r => {
+                const rS = norm(r.cause_name || r.source || r.cause);
+                const rT = norm(r.effect_name || r.target || r.effect);
+                return (rS === sN || rS.includes(sN) || sN.includes(rS)) &&
+                       (rT === tN || rT.includes(tN) || tN.includes(rT));
+              });
+            }
+
+            const goldNodes = entities.map((name, idx) => {
+              const extractedNode = graphRenderer && graphRenderer.nodeMap ? graphRenderer.nodeMap.get(name) : null;
+              return {
+                id: `gold_node_${idx}`,
+                name: name,
+                canonical_name: name,
+                label: name,
+                category: "Gene/Protein",
+                x: extractedNode ? extractedNode.x : null,
+                y: extractedNode ? extractedNode.y : null,
+              };
+            });
+
+            const goldEdges = [];
+            let matchedCount = 0;
+            directEdges.forEach(([src, tgt], idx) => {
+              const matched = isMatchedInExtracted(src, tgt);
+              if (matched) matchedCount++;
+              goldEdges.push({
+                id: `gold_dir_${idx}`,
+                cause_name: src,
+                effect_name: tgt,
+                source: src,
+                target: tgt,
+                is_transitive: false,
+                edge_style: "solid",
+                is_matched: matched,
+                edge_color: matched ? "#16a34a" : "#64748b",
+                marker_id: matched ? "gold-arrowhead-matched" : "gold-arrowhead-missed",
+                confidence: 1.0,
+                evidence_quote: "Direct ground truth annotation",
+              });
+            });
+
+            crossEdges.forEach(([src, tgt], idx) => {
+              const matched = isMatchedInExtracted(src, tgt);
+              if (matched) matchedCount++;
+              goldEdges.push({
+                id: `gold_cross_${idx}`,
+                cause_name: src,
+                effect_name: tgt,
+                source: src,
+                target: tgt,
+                is_transitive: true,
+                edge_style: "dashed",
+                is_matched: matched,
+                edge_color: matched ? "#16a34a" : "#94a3b8",
+                marker_id: matched ? "gold-arrowhead-matched" : "gold-arrowhead-missed",
+                confidence: 1.0,
+                evidence_quote: "Cross-page inferred ground truth reference",
+              });
+            });
+
+            if (goldPanelBadge) {
+              goldPanelBadge.textContent = `${goldEdges.length} GOLD EDGES (${matchedCount} MATCHED)`;
+            }
+
+            goldGraphRenderer.setData(goldNodes, goldEdges);
+            goldGraphRenderer.alignLayoutWith(graphRenderer);
+            goldGraphRenderer.fitToView();
+          } else {
+            showGoldUnavailable(detectedPmcid);
+          }
+        } catch (e) {
+          console.warn("Gold split view fetch error:", e);
+          showGoldUnavailable(detectedPmcid);
+        }
+      } else {
+        showGoldUnavailable(null);
+      }
+    }
+
+    setTimeout(() => {
+      if (graphRenderer) graphRenderer.handleResize();
+      if (isSplitGraphMode && goldGraphRenderer) goldGraphRenderer.handleResize();
+    }, 60);
+  }
+
+  function showGoldUnavailable(pmcid) {
+    if (goldGraphUnavailable) goldGraphUnavailable.classList.remove("hidden");
+    if (goldPanelBadge) goldPanelBadge.textContent = "0 RELATIONS";
+    if (goldPanelPmcid) goldPanelPmcid.textContent = pmcid ? `${pmcid} (NO REFERENCE GOLD)` : "NO REFERENCE GOLD";
+    if (goldGraphRenderer) goldGraphRenderer.clear();
+  }
+
+  if (splitGraphToggleBtn) {
+    splitGraphToggleBtn.addEventListener("click", () => {
+      isSplitGraphMode = !isSplitGraphMode;
+      updateSplitGraphView();
+    });
+  }
 
   // 5-View Tab Switcher
   function switchView(tabName) {
@@ -1311,6 +1527,7 @@
 
     activeSessionId = null;
     activeSessionData = null;
+    currentLoadedPmcid = exampleId.toLowerCase().startsWith("pmc") ? exampleId.toUpperCase() : null;
     closeInspector();
 
     dockInput();
@@ -1633,6 +1850,13 @@
       tensions: data.physics_tensions || {},
       preset: data.physics_preset || "rubber_band",
     });
+
+    if (extractedPanelBadge) {
+      extractedPanelBadge.textContent = `${relations.length} EXTRACTED RELATIONS`;
+    }
+    if (isSplitGraphMode) {
+      updateSplitGraphView();
+    }
 
     // If currently on copyable view, update text immediately
     if (!copyableView.classList.contains("hidden")) {
@@ -2891,6 +3115,7 @@
       const data = await res.json();
       activeSessionId = data.session_id;
       activeSessionData = data;
+      currentLoadedPmcid = (pmcid || "").toUpperCase();
       dockInput();
       renderSession(data);
       refreshSessionList();

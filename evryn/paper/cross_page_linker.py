@@ -29,6 +29,18 @@ TERMINAL_PHENOTYPES = {
     "spi2",
     "spi-2",
     "opsonophagocytosis",
+    "polymyxin b",
+    "polymyxin",
+    "antimicrobial resistance",
+    "antibiotic resistance",
+}
+
+ADAPTER_PROTEINS = {
+    "pmrd",
+    "irap",
+    "irad",
+    "iram",
+    "rssb",
 }
 
 TCSTS_REVERSE_PAIRS = {
@@ -120,7 +132,8 @@ class CrossPageLinker:
                     paths = []
 
                 for path in paths:
-                    if len(path) <= 2 or len(path) > self.max_transitive_hops + 1:
+                    # Hops = len(path) - 2 intermediate hops (e.g. 1 intermediate node = 1 hop, 2 intermediate nodes = 2 hops)
+                    if len(path) <= 2 or (len(path) - 2) > self.max_transitive_hops:
                         continue
 
                     if self.enable_transitive_invariants:
@@ -132,6 +145,9 @@ class CrossPageLinker:
                             continue
                         # Invariant 3: Directional biological invariants (TCSTS reverse pairs)
                         if (path[0].lower(), path[-1].lower()) in TCSTS_REVERSE_PAIRS:
+                            continue
+                        # Invariant 4: Post-translational adapter proteins should not initiate transitive chains to terminal phenotypes
+                        if path[0].lower() in ADAPTER_PROTEINS and path[-1].lower() in TERMINAL_PHENOTYPES:
                             continue
 
                     e_first = g.edges[path[0], path[1]]

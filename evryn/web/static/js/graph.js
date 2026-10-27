@@ -6,9 +6,19 @@ class CausalGraphRenderer {
   constructor(containerId, svgId, onSelectRelation, onSelectNode, onLayoutChanged) {
     this.container = document.getElementById(containerId);
     this.svg = document.getElementById(svgId);
-    this.transformGroup = document.getElementById("graph-transform-group");
-    this.edgesLayer = document.getElementById("edges-layer");
-    this.nodesLayer = document.getElementById("nodes-layer");
+    this.transformGroup = this.svg
+      ? (this.svg.querySelector(".graph-transform-group") ||
+         this.svg.querySelector("#" + (this.svg.id === "gold-graph-svg" ? "gold-" : "") + "graph-transform-group") ||
+         this.svg.querySelector("g"))
+      : document.getElementById("graph-transform-group");
+    this.edgesLayer = this.svg
+      ? (this.svg.querySelector(".edges-layer") ||
+         this.svg.querySelector("#" + (this.svg.id === "gold-graph-svg" ? "gold-" : "") + "edges-layer"))
+      : document.getElementById("edges-layer");
+    this.nodesLayer = this.svg
+      ? (this.svg.querySelector(".nodes-layer") ||
+         this.svg.querySelector("#" + (this.svg.id === "gold-graph-svg" ? "gold-" : "") + "nodes-layer"))
+      : document.getElementById("nodes-layer");
 
     this.onSelectRelation = onSelectRelation || function () {};
     this.onSelectNode = onSelectNode || function () {};
@@ -173,6 +183,7 @@ class CausalGraphRenderer {
   }
 
   initEvents() {
+    if (!this.container) return;
     // Wheel Zoom
     this.container.addEventListener("wheel", (e) => {
       e.preventDefault();
@@ -288,6 +299,29 @@ class CausalGraphRenderer {
     this.panX = rect.width / 2 - midX * this.scale;
     this.panY = rect.height / 2 - midY * this.scale;
     this.updateTransform();
+  }
+
+  alignLayoutWith(otherRenderer) {
+    if (!otherRenderer || !otherRenderer.nodeMap) return;
+    let anyMatched = false;
+    for (const node of this.nodes) {
+      const norm = node.canonical_name.toLowerCase().replace(/[^a-z0-9]/g, "");
+      for (const [otherName, otherNode] of otherRenderer.nodeMap.entries()) {
+        const otherNorm = otherName.toLowerCase().replace(/[^a-z0-9]/g, "");
+        if (norm === otherNorm || norm.includes(otherNorm) || otherNorm.includes(norm)) {
+          node.x = otherNode.x;
+          node.y = otherNode.y;
+          node.vx = 0;
+          node.vy = 0;
+          anyMatched = true;
+          break;
+        }
+      }
+    }
+    if (anyMatched) {
+      this.tick();
+      this.fitToView();
+    }
   }
 
   restartSimulation(alphaValue) {
@@ -454,13 +488,15 @@ class CausalGraphRenderer {
       const edgeColor = rel.data.edge_color || (polarity === "negative" ? "#dc2626" : (polarity === "association" ? "#64748b" : "#0f172a"));
       const edgeStyle = rel.data.edge_style || (polarity === "association" ? "dotted" : (isTransitive ? "dashed" : "solid"));
 
-      let markerId = "arrowhead-positive";
-      if (isSuppressed) {
-        markerId = "arrowhead-negated";
-      } else if (polarity === "negative") {
-        markerId = "arrowhead-negative";
-      } else if (polarity === "association") {
-        markerId = "arrowhead-association";
+      let markerId = rel.data.marker_id || "arrowhead-positive";
+      if (!rel.data.marker_id) {
+        if (isSuppressed) {
+          markerId = "arrowhead-negated";
+        } else if (polarity === "negative") {
+          markerId = "arrowhead-negative";
+        } else if (polarity === "association") {
+          markerId = "arrowhead-association";
+        }
       }
 
       const path = document.createElementNS("http://www.w3.org/2000/svg", "path");

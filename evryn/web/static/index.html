@@ -178,6 +178,9 @@
             </button>
             <button id="loosen-edge-btn" class="toolbar-btn hidden" title="Reset / Loosen selected edge tension">RESET T</button>
 
+            <!-- Split Extracted / Gold Toggle -->
+            <button id="split-graph-toggle-btn" class="toolbar-btn split-toggle-btn" title="Toggle Split View: Extracted Graph vs Reference Gold Standard Graph">SPLIT: EXTRACTED / GOLD</button>
+
             <button id="graph-fit-btn" class="toolbar-btn" title="Fit to View">FIT</button>
             <button id="graph-zoom-in" class="toolbar-btn" title="Zoom In">+</button>
             <button id="graph-zoom-out" class="toolbar-btn" title="Zoom Out">−</button>
@@ -186,92 +189,180 @@
 
         <!-- View 1: SVG Graph Canvas -->
         <div id="graph-viewport" class="graph-viewport">
-          <svg id="causal-graph-svg" class="causal-graph-svg">
-            <defs>
-              <!-- Positive Causal Arrowhead (Dark charcoal #0f172a) -->
-              <marker
-                id="arrowhead"
-                viewBox="0 0 10 10"
-                refX="9"
-                refY="5"
-                markerWidth="8"
-                markerHeight="8"
-                orient="auto-start-reverse"
-              >
-                <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#0f172a" />
-              </marker>
-              <marker
-                id="arrowhead-positive"
-                viewBox="0 0 10 10"
-                refX="9"
-                refY="5"
-                markerWidth="8"
-                markerHeight="8"
-                orient="auto-start-reverse"
-              >
-                <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#0f172a" />
-              </marker>
-              <!-- Negative Causal Arrowhead (Red #dc2626) -->
-              <marker
-                id="arrowhead-negative"
-                viewBox="0 0 10 10"
-                refX="9"
-                refY="5"
-                markerWidth="8"
-                markerHeight="8"
-                orient="auto-start-reverse"
-              >
-                <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#dc2626" />
-              </marker>
-              <!-- Association Arrowhead (Slate #64748b) -->
-              <marker
-                id="arrowhead-association"
-                viewBox="0 0 10 10"
-                refX="9"
-                refY="5"
-                markerWidth="7"
-                markerHeight="7"
-                orient="auto-start-reverse"
-              >
-                <path d="M 0 2 L 8 5 L 0 8 z" fill="#64748b" />
-              </marker>
-              <!-- Suppressed / Negated Arrowhead (Muted #94a3b8) -->
-              <marker
-                id="arrowhead-negated"
-                viewBox="0 0 10 10"
-                refX="9"
-                refY="5"
-                markerWidth="7"
-                markerHeight="7"
-                orient="auto-start-reverse"
-              >
-                <path d="M 0 2 L 8 5 L 0 8 z" fill="#94a3b8" />
-              </marker>
-              <!-- Selected Edge Marker -->
-              <marker
-                id="arrowhead-selected"
-                viewBox="0 0 10 10"
-                refX="9"
-                refY="5"
-                markerWidth="9"
-                markerHeight="9"
-                orient="auto-start-reverse"
-              >
-                <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb" />
-              </marker>
-            </defs>
-            <g id="graph-transform-group">
-              <g id="edges-layer"></g>
-              <g id="nodes-layer"></g>
-            </g>
-          </svg>
+          <!-- Extracted Graph Panel -->
+          <div id="extracted-graph-panel" class="graph-panel extracted-panel">
+            <div id="extracted-panel-header" class="split-panel-header hidden">
+              <div class="split-panel-title-wrap">
+                <span class="split-panel-title">EXTRACTED GRAPH</span>
+                <span class="split-panel-engine-tag" id="extracted-panel-engine">SYSTEM A (REPAIRED NLP)</span>
+              </div>
+              <span class="split-panel-badge" id="extracted-panel-badge">0 RELATIONS</span>
+            </div>
+            <div id="extracted-svg-wrapper" class="graph-svg-wrapper">
+              <svg id="causal-graph-svg" class="causal-graph-svg">
+                <defs>
+                  <!-- Positive Causal Arrowhead (Dark charcoal #0f172a) -->
+                  <marker
+                    id="arrowhead"
+                    viewBox="0 0 10 10"
+                    refX="9"
+                    refY="5"
+                    markerWidth="8"
+                    markerHeight="8"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#0f172a" />
+                  </marker>
+                  <marker
+                    id="arrowhead-positive"
+                    viewBox="0 0 10 10"
+                    refX="9"
+                    refY="5"
+                    markerWidth="8"
+                    markerHeight="8"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#0f172a" />
+                  </marker>
+                  <!-- Matched Arrowhead (Green #16a34a) -->
+                  <marker
+                    id="arrowhead-matched"
+                    viewBox="0 0 10 10"
+                    refX="9"
+                    refY="5"
+                    markerWidth="8"
+                    markerHeight="8"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#16a34a" />
+                  </marker>
+                  <!-- Negative Causal Arrowhead (Red #dc2626) -->
+                  <marker
+                    id="arrowhead-negative"
+                    viewBox="0 0 10 10"
+                    refX="9"
+                    refY="5"
+                    markerWidth="8"
+                    markerHeight="8"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#dc2626" />
+                  </marker>
+                  <!-- Association Arrowhead (Slate #64748b) -->
+                  <marker
+                    id="arrowhead-association"
+                    viewBox="0 0 10 10"
+                    refX="9"
+                    refY="5"
+                    markerWidth="7"
+                    markerHeight="7"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M 0 2 L 8 5 L 0 8 z" fill="#64748b" />
+                  </marker>
+                  <!-- Suppressed / Negated Arrowhead (Muted #94a3b8) -->
+                  <marker
+                    id="arrowhead-negated"
+                    viewBox="0 0 10 10"
+                    refX="9"
+                    refY="5"
+                    markerWidth="7"
+                    markerHeight="7"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M 0 2 L 8 5 L 0 8 z" fill="#94a3b8" />
+                  </marker>
+                  <!-- Selected Edge Marker -->
+                  <marker
+                    id="arrowhead-selected"
+                    viewBox="0 0 10 10"
+                    refX="9"
+                    refY="5"
+                    markerWidth="9"
+                    markerHeight="9"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb" />
+                  </marker>
+                </defs>
+                <g id="graph-transform-group" class="graph-transform-group">
+                  <g id="edges-layer" class="edges-layer"></g>
+                  <g id="nodes-layer" class="nodes-layer"></g>
+                </g>
+              </svg>
 
-          <!-- Empty / Clean Extraction State -->
-          <div id="graph-empty-state" class="graph-empty-state hidden">
-            <div class="empty-state-card">
-              <div class="empty-state-heading">Select an example or enter scientific text to extract grounded causal relations.</div>
-              <div class="empty-state-text">
-                EVRYN extracts directional causal assertions with evidence quotes, section coordinates, and edge polarity.
+              <!-- Empty / Clean Extraction State -->
+              <div id="graph-empty-state" class="graph-empty-state hidden">
+                <div class="empty-state-card">
+                  <div class="empty-state-heading">Select an example or enter scientific text to extract grounded causal relations.</div>
+                  <div class="empty-state-text">
+                    EVRYN extracts directional causal assertions with evidence quotes, section coordinates, and edge polarity.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gold Standard Graph Panel -->
+          <div id="gold-graph-panel" class="graph-panel gold-panel hidden">
+            <div id="gold-panel-header" class="split-panel-header">
+              <div class="split-panel-title-wrap">
+                <span class="split-panel-title">GOLD STANDARD GRAPH</span>
+                <span class="split-panel-engine-tag" id="gold-panel-pmcid">REFERENCE GROUND TRUTH</span>
+              </div>
+              <span class="split-panel-badge" id="gold-panel-badge">0 RELATIONS</span>
+            </div>
+            <div id="gold-svg-wrapper" class="graph-svg-wrapper">
+              <svg id="gold-graph-svg" class="causal-graph-svg">
+                <defs>
+                  <marker
+                    id="gold-arrowhead-positive"
+                    viewBox="0 0 10 10"
+                    refX="9"
+                    refY="5"
+                    markerWidth="8"
+                    markerHeight="8"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#0f172a" />
+                  </marker>
+                  <marker
+                    id="gold-arrowhead-matched"
+                    viewBox="0 0 10 10"
+                    refX="9"
+                    refY="5"
+                    markerWidth="8"
+                    markerHeight="8"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#16a34a" />
+                  </marker>
+                  <marker
+                    id="gold-arrowhead-missed"
+                    viewBox="0 0 10 10"
+                    refX="9"
+                    refY="5"
+                    markerWidth="8"
+                    markerHeight="8"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94a3b8" />
+                  </marker>
+                </defs>
+                <g id="gold-graph-transform-group" class="graph-transform-group">
+                  <g id="gold-edges-layer" class="edges-layer"></g>
+                  <g id="gold-nodes-layer" class="nodes-layer"></g>
+                </g>
+              </svg>
+
+              <!-- Gold Graph Unavailable / Empty State -->
+              <div id="gold-graph-unavailable" class="gold-graph-unavailable hidden">
+                <div class="empty-state-card">
+                  <div class="empty-state-heading">No Reference Gold Standard Available</div>
+                  <div class="empty-state-text">
+                    Reference gold annotations are available for benchmark papers (e.g. PMC1804205, PMC2884542). Open an example from the library to view its reference standard graph.
+                  </div>
+                </div>
               </div>
             </div>
           </div>

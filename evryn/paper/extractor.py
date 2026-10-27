@@ -173,7 +173,8 @@ PASSIVE_INDICATORS = [
     r"\b(?:is|was|are|were)?\s*required\s+for(?:\s+\w+){0,5}\s+in\s+response\s+to\b",
     r"\b(?:is|was|are|were)?\s*(?:also\s+)?(?:repressed|suppressed|down-?regulated|downregulated|reduced|decreased|attenuated|diminished|lost)\s+(?:\w+\s+){0,3}in\s+(?:the\s+)?(?:\w+\s+)?mutants?\b",
     r"\b(?:become|becomes|became|could\s+become|may\s+become)?\s*phosphorylated\s+(?:from|by)\b",
-    r"\b(?:is|are|was|were)?\s*(?:necessary|required|essential)\s+for(?:\s+a)?(?:\s+\w+){0,3}\s+response\s+to\b",
+    r"\b(?:is|are|was|were)?\s*(?:necessary|required|essential)\s+for(?:\s+a)?(?:\s+\w+){0,3}\s+(?:responding|response|sensing)\s+to\b",
+    r"\b(?:responds?|responded|responding)\s+to\b",
     r"\b(?:is|was|are|were)?\s*(?:expressed|transcribed|produced|activated|induced)\s+in\s+response\s+to\b",
     r"\bunder\s+(?:the\s+)?(?:control|regulation)\s+of\b",
 ]
@@ -389,6 +390,11 @@ COORDINATING_BOUNDARY_RE = re.compile(
 
 INTENT_PREAMBLE_RE = re.compile(
     r"^\s*(?:To\s+(?:identify|determine|investigate|evaluate|test|examine|assess|explore|clarify|confirm)\b|In\s+order\s+to\s+(?:identify|determine|investigate|evaluate|test|examine)\b)",
+    re.IGNORECASE,
+)
+
+CITED_PREAMBLE_RE = re.compile(
+    r"^\s*(?:Because|Since|Given\s+that|As)\b.*?\([A-Za-z]+(?:\s+et\s+al\.)?,\s*\d{4}\)",
     re.IGNORECASE,
 )
 
@@ -1190,8 +1196,8 @@ class PaperCausalExtractor:
         if EVIDENTIAL_BOUNDARY_RE.search(between_text):
             return None
 
-        # Reject candidates whose spans fall entirely within an introductory intent preamble
-        if INTENT_PREAMBLE_RE.search(text):
+        # Reject candidates whose spans fall entirely within an introductory intent or cited literature preamble
+        if INTENT_PREAMBLE_RE.search(text) or CITED_PREAMBLE_RE.search(text):
             c_idx = text.find(",")
             if c_idx != -1 and max(e1, e2) <= c_idx:
                 return None
