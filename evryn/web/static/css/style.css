@@ -21,7 +21,6 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  border-radius: 0 !important;
 }
 
 body, html {
@@ -681,8 +680,8 @@ body, html {
   color: #0f172a;
   font-family: var(--font-mono);
   font-size: 11px;
-  padding: 2px 8px;
-  border-radius: 3px;
+  padding: 3px 8px;
+  border-radius: 4px;
   cursor: pointer;
   transition: all 0.15s ease;
   display: inline-flex;
@@ -694,6 +693,88 @@ body, html {
   background: #0f172a;
   color: #ffffff;
   border-color: #0f172a;
+}
+
+/* Compact Canvas Control Cluster [ FIT | + | − | ↺ ] */
+.canvas-controls-group {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  background: #ffffff;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.cluster-btn {
+  background: #ffffff;
+  border: none;
+  border-right: 1px solid #e2e8f0;
+  color: #0f172a;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 9px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.cluster-btn:last-child {
+  border-right: none;
+}
+
+.cluster-btn:hover, .cluster-btn:focus {
+  background: #09090b;
+  color: #ffffff;
+}
+
+/* Physics Popover Menu */
+.physics-popover-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.physics-popover-btn {
+  font-weight: 600;
+}
+
+.physics-popover-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.12);
+  padding: 10px 12px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 190px;
+}
+
+.physics-popover-menu.hidden {
+  display: none !important;
+}
+
+.popover-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.popover-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: #64748b;
+  letter-spacing: 0.05em;
 }
 
 .tighten-btn {
@@ -885,8 +966,14 @@ body, html {
   transition: stroke-width 0.15s ease, fill 0.15s ease, stroke 0.15s ease;
 }
 
-.graph-node:hover rect, .graph-node.selected rect {
-  stroke-width: 2.5px;
+.graph-node:hover rect {
+  stroke-width: 2px;
+}
+
+.graph-node.selected rect {
+  stroke: #2563eb !important;
+  stroke-width: 2.5px !important;
+  filter: drop-shadow(0 2px 8px rgba(37, 99, 235, 0.35)) !important;
 }
 
 /* Category soft fills & subtle strokes */
@@ -974,7 +1061,13 @@ body, html {
 }
 
 .graph-edge.selected, .graph-edge:hover {
-  stroke-width: 3.5px !important;
+  stroke-width: 3.2px !important;
+}
+
+.graph-edge.incident-highlighted {
+  stroke-width: 2.6px !important;
+  stroke: #2563eb !important;
+  filter: drop-shadow(0 1px 3px rgba(37, 99, 235, 0.3));
 }
 
 /* Expandable / Collapsible Graph Legend */
@@ -1357,6 +1450,169 @@ body.inspector-open .graph-legend {
   font-family: var(--font-mono);
   font-size: 10px;
   color: var(--text-muted, #64748b);
+}
+
+/* Refined Structured Evidence Inspector */
+.inspector-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.inspector-status-chip {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.inspector-status-chip.chip-positive {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.inspector-status-chip.chip-negative {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.inspector-status-chip.chip-association {
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+.inspector-status-chip.chip-inferred {
+  background: #f5f3ff;
+  color: #5b21b6;
+  border: 1px solid #ddd6fe;
+}
+
+.inspector-relation-title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.relation-entity {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.3;
+}
+
+.relation-connector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #475569;
+  padding-left: 2px;
+}
+
+.relation-arrow {
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.relation-type-tag {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.inspector-meta-bar {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-top: 6px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.badge-contradiction {
+  background: #fef2f2;
+  color: #dc2626;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid #fca5a5;
+}
+
+.inspector-quote-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 3px solid #0f172a;
+  border-radius: 4px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  transition: all 0.15s ease;
+}
+
+.inspector-quote-card:hover {
+  border-color: #cbd5e1;
+  border-left-color: #2563eb;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+}
+
+.inspector-quote-text {
+  font-style: italic;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.inspector-provenance-meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.node-inspector-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.node-category-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.node-cat-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: #475569;
+}
+
+.inspector-node-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 8px;
+  line-height: 1.3;
 }
 
 /* Buttons */

@@ -248,9 +248,10 @@ class ArgumentAwareSemEvalClassifier:
     """
     Task-appropriate causal relation classifier for SemEval-2010 Task 8.
     Inspects the syntactic and lexical context between the marked <e1> and <e2> nominal arguments.
+    Supports legacy Phase 3.3 mode (reconcile_directionality=False) and Phase 3.4 reconciled mode.
     """
 
-    FORWARD_PATTERNS = [
+    LEGACY_FORWARD_PATTERNS = [
         r"\b(?:causes?|caused|causing)\b",
         r"\b(?:leads?|led|leading)\s+to\b",
         r"\b(?:results?|resulted|resulting)\s+in\b",
@@ -259,6 +260,36 @@ class ArgumentAwareSemEvalClassifier:
         r"\b(?:induces?|induced|inducing)\b",
         r"\b(?:generates?|generated|generating)\b",
         r"\b(?:provokes?|provoked|provoking)\b",
+        r"\b(?:brings?|brought)\s+about\b",
+        r"\b(?:gives?|gave)\s+rise\s+to\b",
+        r"\bcauses?\s+of\b",
+        r"\breasons?\s+for\b",
+    ]
+
+    LEGACY_REVERSE_PATTERNS = [
+        r"\b(?:is|was|are|were|been)?\s*caused\s+by\b",
+        r"\b(?:results?|resulted|resulting)\s+from\b",
+        r"\b(?:arises?|arose|arising)\s+from\b",
+        r"\b(?:stems?|stemmed|stemming)\s+from\b",
+        r"\b(?:is|was|are|were|been)?\s*induced\s+by\b",
+        r"\b(?:is|was|are|were|been)?\s*triggered\s+by\b",
+        r"\b(?:is|was|are|were|been)?\s*produced\s+by\b",
+        r"\bdue\s+to\b",
+        r"\bas\s+a\s+(?:direct\s+)?consequence\s+of\b",
+        r"\bin\s+response\s+to\b",
+        r"\bfollows?\s+from\b",
+        r"\b(?:suffers?|suffered|died|pains?|headaches?|damage|injury|illness|harm)\s+from\b",
+    ]
+
+    FORWARD_PATTERNS = [
+        r"\b(?:causes?|caused|causing)\b(?!\s+(?:by|from)\b)",
+        r"\b(?:leads?|led|leading)\s+to\b",
+        r"\b(?:results?|resulted|resulting)\s+in\b",
+        r"\b(?:triggers?|triggered|triggering)\b(?!\s+(?:by|from)\b)",
+        r"\b(?:produces?|produced|producing)\b(?!\s+(?:by|from)\b)",
+        r"\b(?:induces?|induced|inducing)\b(?!\s+(?:by|from)\b)",
+        r"\b(?:generates?|generated|generating)\b(?!\s+(?:by|from)\b)",
+        r"\b(?:provokes?|provoked|provoking)\b(?!\s+(?:by|from)\b)",
         r"\b(?:brings?|brought)\s+about\b",
         r"\b(?:gives?|gave)\s+rise\s+to\b",
         r"\bcauses?\s+of\b",
@@ -279,6 +310,9 @@ class ArgumentAwareSemEvalClassifier:
         r"\bfollows?\s+from\b",
         r"\b(?:suffers?|suffered|died|pains?|headaches?|damage|injury|illness|harm)\s+from\b",
     ]
+
+    def __init__(self, reconcile_directionality: bool = False):
+        self.reconcile_directionality = reconcile_directionality
 
     def classify_sample(self, sample: SemEvalSample) -> Optional[Tuple[str, str]]:
         """
@@ -306,13 +340,25 @@ class ArgumentAwareSemEvalClassifier:
         if ";" in between or ("." in between and not between.endswith(".")):
             return None
 
-        for pat in self.FORWARD_PATTERNS:
-            if re.search(pat, between):
-                return (sample.e1_text, sample.e2_text) if e1_first else (sample.e2_text, sample.e1_text)
+        if self.reconcile_directionality:
+            # Phase 3.4: Check reverse/passive patterns first so specific causative agent prepositions govern direction
+            for pat in self.REVERSE_PATTERNS:
+                if re.search(pat, between):
+                    return (sample.e2_text, sample.e1_text) if e1_first else (sample.e1_text, sample.e2_text)
 
-        for pat in self.REVERSE_PATTERNS:
-            if re.search(pat, between):
-                return (sample.e2_text, sample.e1_text) if e1_first else (sample.e1_text, sample.e2_text)
+            # Check forward causative patterns second
+            for pat in self.FORWARD_PATTERNS:
+                if re.search(pat, between):
+                    return (sample.e1_text, sample.e2_text) if e1_first else (sample.e2_text, sample.e1_text)
+        else:
+            # Phase 3.3 Legacy: Forward patterns checked first
+            for pat in self.LEGACY_FORWARD_PATTERNS:
+                if re.search(pat, between):
+                    return (sample.e1_text, sample.e2_text) if e1_first else (sample.e2_text, sample.e1_text)
+
+            for pat in self.LEGACY_REVERSE_PATTERNS:
+                if re.search(pat, between):
+                    return (sample.e2_text, sample.e1_text) if e1_first else (sample.e1_text, sample.e2_text)
 
         return None
 

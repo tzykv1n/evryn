@@ -184,11 +184,13 @@ PASSIVE_INDICATORS = [
 ]
 
 NEGATION_PATTERNS = [
-    r"\b(?:did\s+not|does\s+not|do\s+not)\s+(?:induce|cause|inhibit|activate|alter|affect|change|promote|decrease|increase|reduce|suppress|block|associate|correlate)\b",
+    r"\b(?:did\s+not|does\s+not|do\s+not|cannot|could\s+not|will\s+not)\s+(?:induce|cause|inhibit|activate|alter|affect|change|promote|decrease|increase|reduce|suppress|block|associate|correlate|confer|restore|rescue)\b",
     r"\b(?:is\s+not|are\s+not|was\s+not|were\s+not)\s+(?:associated\s+with|correlated\s+with|linked\s+to|caused\s+by|induced\s+by|altered\s+by|affected\s+by|sufficient\s+to)\b",
     r"\b(?:is\s+not|are\s+not|was\s+not|were\s+not)\s+(?:altered|affected|changed|induced|inhibited|decreased|increased|reduced|attenuated)\b",
     r"\b(?:is\s+not|are\s+not|was\s+not|were\s+not)\s+significantly\s+attenuated\b",
-    r"\bfailed\s+to\s+(?:induce|cause|inhibit|activate|alter|affect|change|promote|decrease|increase|reduce|suppress|block)\b",
+    r"\b(?:fails?|failed|failing)\s+to\s+(?:induce|cause|inhibit|activate|alter|affect|change|promote|decrease|increase|reduce|suppress|block|confer|restore|rescue)\b",
+    r"\bunable\s+to\s+(?:induce|cause|inhibit|activate|alter|affect|promote|rescue|restore|confer)\b",
+    r"\blacks?\s+(?:the\s+)?ability\s+to\b",
     r"\bno\s+significant\s+(?:effect|change|increase|decrease|alteration|induction|inhibition|association|correlation)\b",
     r"\bwithout\s+(?:affecting|altering|changing|inducing|inhibiting|decreasing|increasing|reducing)\b",
     r"\bnot\s+(?:significantly\s+)?(?:associated\s+with|correlated\s+with|linked\s+to)\b",
@@ -291,7 +293,7 @@ ACTIVE_MATRIX_CAUSATIVE_VERBS = re.compile(
     r"induces?|induced|inducing|activates?|activated|activating|promotes?|promoted|promoting|"
     r"stimulates?|stimulated|stimulating|represses?|repressed|repressing|inhibits?|inhibited|inhibiting|"
     r"downregulates?|downregulated|downregulating|upregulates?|upregulated|upregulating|"
-    r"triggers?|triggered|triggering)\b",
+    r"triggers?|triggered|triggering)\b(?!\s+(?:by|from)\b)",
     re.IGNORECASE,
 )
 
@@ -1367,9 +1369,17 @@ class PaperCausalExtractor:
             flags=re.IGNORECASE,
         ).strip()
 
-        # Clean biological noun modifiers (e.g. "low level of hilD", "expression of HilE")
+        # Clean biological noun modifiers (e.g. "low level of hilD", "expression of HilE", "inhibition of COX-2")
         cleaned = re.sub(
-            r"^(?:the|a|an)?\s*(?:low|high|elevated|reduced|increased|decreased|abnormal|altered|excessive)?\s*(?:level|levels|expression|activity|amount|abundance|transcription|phosphorylation|presence|loss|absence)\s+of\s+",
+            r"^(?:the|a|an)?\s*(?:low|high|elevated|reduced|increased|decreased|abnormal|altered|excessive)?\s*(?:level|levels|expression|activity|amount|abundance|transcription|phosphorylation|presence|loss|absence|activation|induction|stimulation|up-?regulation|inhibition|repression|suppression|down-?regulation|acetylation|cleavage)\s+of\s+",
+            "",
+            cleaned,
+            flags=re.IGNORECASE,
+        ).strip()
+
+        # Clean trailing agent phrase (e.g. "COX-2 by Aspirin" -> "COX-2")
+        cleaned = re.sub(
+            r"\s+by\s+(?:the\s+)?[A-Za-z0-9_\-\/]+(?:\s+[A-Za-z0-9_\-\/]+)?$",
             "",
             cleaned,
             flags=re.IGNORECASE,
@@ -1471,6 +1481,65 @@ class PaperCausalExtractor:
                 clause_unc = self._calculate_uncertainty(clause_str, sent.section_title)
                 clause_has_associative = False
                 claimed_verb_spans: List[Tuple[int, int]] = []
+
+                # Phase 3.4: Nominal causative extraction: "activation/inhibition/phosphorylation of <Effect> by <Cause>"
+                NOMINAL_CAUSATION_RE = re.compile(
+                    r"\b(?:direct\s+|indirect\s+)?(activation|induction|stimulation|up-?regulation|inhibition|repression|suppression|down-?regulation|phosphorylation|acetylation|cleavage)\s+of\s+([^,;\.]+?)\s+by\s+([^,;\.]+)",
+                    re.IGNORECASE,
+                )
+                NOMINAL_CUT_TERMS = re.compile(
+                    r"\s+\b(?:under|in|during|following|upon|at|via|to|for|with|within|promotes?|promoted|reduces?|reduced|leads?|led|causes?|caused|induces?|induced|inhibits?|inhibited|occurs?|occurred|mediates?|mediated|activates?|activated|suppresses?|suppressed|is|was|are|were)\b.*$",
+                    re.IGNORECASE,
+                )
+                for nom_m in NOMINAL_CAUSATION_RE.finditer(clause_str):
+                    nom_act = nom_m.group(1).lower()
+                    nom_eff_raw = NOMINAL_CUT_TERMS.sub("", nom_m.group(2)).strip()
+                    nom_cause_raw = NOMINAL_CUT_TERMS.sub("", nom_m.group(3)).strip()
+                    nom_cause_cand = self._clean_phrase(nom_cause_raw)
+                    nom_eff_cand = self._clean_phrase(nom_eff_raw)
+                    nom_cause_canon = self.normalizer.canonicalize(nom_cause_cand, local_abbr, known_entities)
+                    nom_eff_canon = self.normalizer.canonicalize(nom_eff_cand, local_abbr, known_entities)
+
+                    if (
+                        nom_cause_canon
+                        and nom_eff_canon
+                        and len(nom_cause_canon) >= 2
+                        and len(nom_eff_canon) >= 2
+                        and nom_cause_canon.lower() != nom_eff_canon.lower()
+                        and nom_cause_canon.lower() not in {"it", "we", "this", "these", "they", "there"}
+                        and nom_eff_canon.lower() not in {"it", "this", "these", "they", "there"}
+                    ):
+                        nom_rel = (
+                            CausalRelationType.DOWNREGULATES
+                            if any(w in nom_act for w in ["inhibit", "repress", "suppress", "down"])
+                            else CausalRelationType.UPREGULATES
+                        )
+                        nom_dedup = (nom_cause_canon, nom_eff_canon, sent.sentence_id)
+                        if nom_dedup not in seen_keys:
+                            seen_keys.add(nom_dedup)
+                            asrt_id = f"asrt_{doc_id[:6]}_{sent.page_number}_{idx:04d}"
+                            idx += 1
+                            results.append(
+                                CausalAssertion(
+                                    assertion_id=asrt_id,
+                                    cause=nom_cause_cand,
+                                    cause_canonical=nom_cause_canon,
+                                    effect=nom_eff_cand,
+                                    effect_canonical=nom_eff_canon,
+                                    direction="FORWARD",
+                                    relation_type=nom_rel,
+                                    is_negated=has_clause_neg,
+                                    uncertainty_score=clause_unc,
+                                    sentence_id=sent.sentence_id,
+                                    page_number=sent.page_number,
+                                    section_title=sent.section_title,
+                                    confidence=0.91,
+                                    evidence_quote=clause_str,
+                                    char_span=(sent.start_char, sent.end_char),
+                                    evidence_status=EvidenceStatus.MEASURED_FACT,
+                                )
+                            )
+                            claimed_verb_spans.append((nom_m.start(), nom_m.end()))
 
                 for pat_re, rel_type, is_passive in COMPILED_SYNTACTIC_PATTERNS:
                     if clause_has_associative and rel_type in (CausalRelationType.DOWNREGULATES, CausalRelationType.UPREGULATES):

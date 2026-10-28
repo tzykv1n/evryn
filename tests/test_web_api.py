@@ -380,4 +380,20 @@ def test_phase3_3_api_endpoint(client):
     assert sem["canonical_directional_metrics"]["f1"] == 0.3908
 
 
+def test_phase3_4_api_endpoint(client):
+    """Verify Phase 3.4 canonical evaluation metrics API endpoint."""
+    res = client.get("/api/phase3_4/results")
+    assert res.status_code == 200
+    data = res.json()
+    assert data["phase"] == "3.4"
+    assert "direct_extraction_evaluation" in data
+    assert "semeval2010_task8_evaluation" in data
+    assert "composition_models_benchmark" in data
+    sem = data["semeval2010_task8_evaluation"]
+    assert sem["true_positives"] == 236
+    assert sem["direction_inversions"] == 3
+    assert sem["directional_f1"] > 0.79
+
+
+
 

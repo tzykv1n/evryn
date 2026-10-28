@@ -1,0 +1,200 @@
+{
+  "phase": "3.4",
+  "timestamp": "2026-10-28T05:43:22.070983+00:00",
+  "branch": "phase3.4-premium-ui-and-causal-intelligence",
+  "runtime_seconds": 0.722,
+  "phase1_pdf_sha256": {
+    "main.pdf": "4e7eb0ffb6390260b4d0e8bea70abc420237d7a952ebd7fa977ad2db8b8fce5d",
+    "Temporal_Causal_Knowledge_Phase1_Presentation.pdf": "dfeafd264a583442d9cf8a647db5f0465d5cbeaf3f488135eb10138ebefc822b"
+  },
+  "direct_extraction_evaluation": {
+    "accuracy": 1.0,
+    "total_test_cases": 6,
+    "passed_cases": 6,
+    "details": [
+      {
+        "test_case_id": "err_nominal_act",
+        "name": "Nominal Causative Activation",
+        "text": "We observed activation of ssrB by SlyA under acidic conditions.",
+        "expected": "SlyA -> SsrB (UPREGULATES, neg=False)",
+        "extracted": [
+          "SlyA -> SsrB (UPREGULATES, neg=False)"
+        ],
+        "passed": true
+      },
+      {
+        "test_case_id": "err_nominal_inhib",
+        "name": "Nominal Causative Inhibition",
+        "text": "Inhibition of COX-2 by Aspirin reduces fever.",
+        "expected": "Aspirin -> COX-2 (DOWNREGULATES, neg=False)",
+        "extracted": [
+          "Aspirin -> COX-2 (DOWNREGULATES, neg=False)"
+        ],
+        "passed": true
+      },
+      {
+        "test_case_id": "err_nominal_phospho",
+        "name": "Phosphorylation Nominal Causation",
+        "text": "Phosphorylation of STAT3 by JAK2 promotes tumor cell survival.",
+        "expected": "JAK2 -> STAT3 (UPREGULATES, neg=False)",
+        "extracted": [
+          "JAK2 -> STAT3 (UPREGULATES, neg=False)"
+        ],
+        "passed": true
+      },
+      {
+        "test_case_id": "err_negation_fails",
+        "name": "Present Tense Failure Negation",
+        "text": "Loss of PmrA fails to induce polymyxin resistance.",
+        "expected": "PmrA -> Antibiotic Resistance (UPREGULATES, neg=True)",
+        "extracted": [
+          "PmrA -> Antibiotic Resistance (UPREGULATES, neg=True)"
+        ],
+        "passed": true
+      },
+      {
+        "test_case_id": "err_dependency_direction",
+        "name": "Inverted Dependency Construction",
+        "text": "SlyA depends on acidic pH for transcriptional activation.",
+        "expected": "Acid pH -> SlyA (UPREGULATES, neg=False)",
+        "extracted": [
+          "Acid pH -> SlyA (UPREGULATES, neg=False)"
+        ],
+        "passed": true
+      },
+      {
+        "test_case_id": "err_multi_clause",
+        "name": "Clause-Chained Causation",
+        "text": "Overexpression of GeneA leads to GeneB upregulation, which in turn suppresses GeneC.",
+        "expected": "GeneA -> GeneB (DIRECT_CAUSE, neg=False)",
+        "extracted": [
+          "GeneA -> GeneB (DIRECT_CAUSE, neg=False)",
+          "GeneB -> GeneC (DOWNREGULATES, neg=False)"
+        ],
+        "passed": true
+      }
+    ]
+  },
+  "extraction_ablations": {
+    "full_system_a_phase3_4": {
+      "description": "System A with all Phase 3.4 repairs active (nominal causation, negation patterns, entity cleaning, lookahead guards)",
+      "accuracy": 1.0,
+      "passed": 6,
+      "total": 6
+    },
+    "ablation_no_nominal_causation": {
+      "description": "Without two-stage nominal causative extraction (activation/inhibition of X by Y)",
+      "accuracy": 0.5,
+      "passed": 3,
+      "total": 6,
+      "delta_f1": -0.5
+    },
+    "ablation_no_expanded_negation": {
+      "description": "Without expanded negation triggers (fails to, cannot, unable to)",
+      "accuracy": 0.8333,
+      "passed": 5,
+      "total": 6,
+      "delta_f1": -0.1667
+    },
+    "ablation_no_agent_phrase_cleaner": {
+      "description": "Without agent preposition cleaner ('by Agent' retained in entity string)",
+      "accuracy": 0.6667,
+      "passed": 4,
+      "total": 6,
+      "delta_f1": -0.3333
+    }
+  },
+  "semeval2010_task8_evaluation": {
+    "dataset": "SemEval-2010 Task 8 (Directional Cause-Effect sub-task)",
+    "test_sentences_evaluated": 2717,
+    "gold_cause_effect_instances": 328,
+    "true_positives": 236,
+    "false_positives": 31,
+    "false_negatives_misses": 89,
+    "direction_inversions": 3,
+    "reconciled_false_negatives": 92,
+    "directional_precision": 0.8839,
+    "directional_recall": 0.7195,
+    "directional_f1": 0.7933,
+    "binary_precision": 0.8951,
+    "binary_recall": 0.7287,
+    "binary_f1": 0.8034,
+    "reconciliation_equation_holds": true
+  },
+  "composition_models_benchmark": {
+    "total_training_instances": 29,
+    "features_used": [
+      "hop_count",
+      "min_confidence",
+      "mean_confidence",
+      "net_polarity",
+      "has_inhibitory",
+      "has_speculative",
+      "is_adapter_source",
+      "traverses_sink",
+      "is_phenotype_target",
+      "page_span",
+      "is_reverse_effector",
+      "is_fork_sibling"
+    ],
+    "models_comparison": {
+      "random_forest": {
+        "macro_precision": 0.9667,
+        "macro_recall": 0.98,
+        "macro_f1": 0.9713,
+        "log_loss": 0.2371
+      },
+      "logistic_regression": {
+        "macro_precision": 0.8733,
+        "macro_recall": 0.9,
+        "macro_f1": 0.858,
+        "log_loss": 0.7743
+      },
+      "deterministic_rules": {
+        "macro_precision": 0.3179,
+        "macro_recall": 0.44,
+        "macro_f1": 0.3126,
+        "log_loss": null
+      },
+      "heuristic_weighting": {
+        "macro_precision": 0.5503,
+        "macro_recall": 0.64,
+        "macro_f1": 0.5374,
+        "log_loss": null
+      }
+    },
+    "per_class_breakdown_rf": {
+      "DIRECT_SUPPORTED": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 7
+      },
+      "INDETERMINATE": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 3
+      },
+      "MULTI_HOP_SUPPORTED": {
+        "precision": 0.8333,
+        "recall": 1.0,
+        "f1": 0.9091,
+        "support": 5
+      },
+      "PLAUSIBLE_COMPOSED": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 4
+      },
+      "UNSUPPORTED_SHORTCUT": {
+        "precision": 1.0,
+        "recall": 0.9,
+        "f1": 0.9474,
+        "support": 10
+      }
+    },
+    "class_imbalance_notes": "Classes are balanced using class_weight='balanced' in sklearn. Negative classes (UNSUPPORTED_SHORTCUT and INDETERMINATE) prevent over-generative path formation."
+  }
+}

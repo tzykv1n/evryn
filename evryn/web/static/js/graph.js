@@ -585,8 +585,8 @@ class CausalGraphRenderer {
       rect.setAttribute("height", n.height);
       rect.setAttribute("x", -n.width / 2);
       rect.setAttribute("y", -n.height / 2);
-      rect.setAttribute("rx", "5");
-      rect.setAttribute("ry", "5");
+      rect.setAttribute("rx", "6");
+      rect.setAttribute("ry", "6");
 
       if (n.colorFill) {
         rect.style.fill = n.colorFill;
@@ -789,12 +789,24 @@ class CausalGraphRenderer {
     const allEdges = this.edgesLayer.querySelectorAll(".graph-edge");
     allEdges.forEach((e) => {
       e.classList.remove("selected");
+      e.classList.remove("incident-highlighted");
       const defaultMarker = e.dataset.defaultMarker || "arrowhead-positive";
       e.setAttribute("marker-end", `url(#${defaultMarker})`);
       if (e.dataset.edgeColor) {
         e.setAttribute("stroke", e.dataset.edgeColor);
       }
     });
+
+    if (nodeName) {
+      (this.activeRelations || []).forEach((rel) => {
+        if ((rel.source && rel.source.name === nodeName) || (rel.target && rel.target.name === nodeName)) {
+          if (rel.pathElem) {
+            rel.pathElem.classList.add("incident-highlighted");
+            rel.pathElem.setAttribute("marker-end", "url(#arrowhead-selected)");
+          }
+        }
+      });
+    }
 
     const nodeObj = this.nodeMap.get(nodeName);
     if (nodeObj) {

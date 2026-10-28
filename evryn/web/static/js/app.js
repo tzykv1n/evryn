@@ -121,6 +121,9 @@
   const loadPaperWorkspaceBtn = document.getElementById("load-paper-workspace-btn");
 
   // Physics & Tighten Controls
+  const physicsPopoverWrap = document.getElementById("physics-popover-wrap");
+  const physicsPopoverBtn = document.getElementById("physics-popover-btn");
+  const physicsPopoverMenu = document.getElementById("physics-popover-menu");
   const physicsPresetSelect = document.getElementById("physics-preset-select");
   const tightenEdgeBtn = document.getElementById("tighten-edge-btn");
   const tensionBadge = document.getElementById("tension-badge");
@@ -653,6 +656,35 @@
       console.warn("Clipboard write failed:", err);
     });
   });
+
+  // Physics Popover Toggle & Outside-Click Handling
+  if (physicsPopoverBtn && physicsPopoverMenu) {
+    physicsPopoverBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isHidden = physicsPopoverMenu.classList.contains("hidden");
+      if (isHidden) {
+        physicsPopoverMenu.classList.remove("hidden");
+        physicsPopoverBtn.setAttribute("aria-expanded", "true");
+      } else {
+        physicsPopoverMenu.classList.add("hidden");
+        physicsPopoverBtn.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    document.addEventListener("click", (e) => {
+      if (physicsPopoverWrap && !physicsPopoverWrap.contains(e.target)) {
+        physicsPopoverMenu.classList.add("hidden");
+        physicsPopoverBtn.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !physicsPopoverMenu.classList.contains("hidden")) {
+        physicsPopoverMenu.classList.add("hidden");
+        physicsPopoverBtn.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
 
   // Physics Preset Selector
   physicsPresetSelect.addEventListener("change", (e) => {
@@ -2470,13 +2502,14 @@
     } else {
       for (const ev of evList) {
         evHtml += `
-          <div class="evidence-card">
-            <div class="evidence-header">
-              <span>${ev.filename || "Input"} &bull; Page ${ev.page_number}</span>
-              <span>${ev.evidence_status}</span>
+          <div class="inspector-quote-card evidence-card">
+            <div class="inspector-quote-text evidence-quote">“${ev.sentence_text}”</div>
+            <div class="inspector-provenance-meta evidence-meta">
+              <span><strong>${ev.filename || "Input"}</strong> &bull; Page ${ev.page_number}</span>
+              <span>Section: ${ev.section_title || "Results"}</span>
+              <span>Offsets: [${ev.char_start}:${ev.char_end}]</span>
+              ${ev.evidence_status ? `<span style="font-weight:600; color:#0f172a;">${ev.evidence_status}</span>` : ""}
             </div>
-            <div class="evidence-quote">“${ev.sentence_text}”</div>
-            <div class="evidence-meta">Section: ${ev.section_title || "Results"} &bull; Offsets: [${ev.char_start}:${ev.char_end}]</div>
           </div>
         `;
       }
@@ -2510,29 +2543,38 @@
         ? "NEGATIVE EFFECT (causes reduction / inverse)"
         : (rel.effect_polarity === "association" ? "ASSOCIATION (non-directional correlation)" : "DIRECT EMPIRICAL EVIDENCE"));
 
+    const chipClass = isTransitive ? 'chip-inferred' : (rel.effect_polarity === 'negative' ? 'chip-negative' : (rel.effect_polarity === 'association' ? 'chip-association' : 'chip-positive'));
+
     inspectorBody.innerHTML = `
-      <div style="margin-bottom:16px;">
-        <div class="${isTransitive ? 'edge-badge-inferred' : 'edge-badge-direct'}">
+      <div class="inspector-card">
+        <div class="inspector-status-chip ${chipClass} ${isTransitive ? 'edge-badge-inferred' : 'edge-badge-direct'}">
           ${polarityLabel}
         </div>
-        <div style="font-size:16px; font-weight:700;">
-          ${rel.cause_name}${rel.source_state ? ` <span style="font-size:12px; font-weight:500; color:#555;">[State: ${rel.source_state}]</span>` : ""}
+        <div class="inspector-relation-title">
+          <div class="relation-entity cause-entity">
+            ${rel.cause_name}${rel.source_state ? ` <span style="font-size:12px; font-weight:500; color:#555;">[State: ${rel.source_state}]</span>` : ""}
+          </div>
+          <div class="relation-connector">
+            <span class="relation-arrow">&darr;</span>
+            <span class="relation-type-tag">${rel.is_negated ? "[REFUTED / NEGATED] " : ""}${rel.relation_type} &bull; ${isTransitive ? "INFERRED CROSS-PAGE" : "DIRECT LOCAL"}</span>
+          </div>
+          <div class="relation-entity effect-entity">
+            ${rel.effect_name}${rel.target_state ? ` <span style="font-size:12px; font-weight:500; color:#555;">[State: ${rel.target_state}]</span>` : ""}
+          </div>
         </div>
-        <div style="font-family:var(--font-mono); font-size:11px; margin:4px 0; color:#444;">
-          ${rel.is_negated ? "[REFUTED / NEGATED] " : ""}${rel.relation_type} &bull; ${isTransitive ? "INFERRED CROSS-PAGE" : "DIRECT LOCAL"}
+        <div class="inspector-meta-bar">
+          <span>Confidence: ${(rel.confidence * 100).toFixed(1)}%</span>
+          <span>&bull;</span>
+          <span>Uncertainty: ${rel.uncertainty_score}</span>
+          <span>&bull;</span>
+          <span>Tension: ${curTension}</span>
+          ${rel.is_suppressed ? `<span class="badge-suppressed">[SUPPRESSED: Negated]</span>` : ""}
+          ${rel.has_contradiction ? `<span class="badge-contradiction">[CONTRADICTION DETECTED]</span>` : ""}
         </div>
-        <div style="font-size:16px; font-weight:700;">
-          &darr; ${rel.effect_name}${rel.target_state ? ` <span style="font-size:12px; font-weight:500; color:#555;">[State: ${rel.target_state}]</span>` : ""}
-        </div>
-      </div>
-      <div style="font-size:11px; font-family:var(--font-mono); margin-bottom:12px;">
-        Confidence: ${(rel.confidence * 100).toFixed(1)}% &bull; Uncertainty: ${rel.uncertainty_score} &bull; Tension: ${curTension}
-        ${rel.is_suppressed ? "<br/><span style='color:#64748b; font-weight:600;'>[SUPPRESSED FROM GRAPH: Negated claim]</span>" : ""}
-        ${rel.has_contradiction ? "<br/><span style='color:#dc2626; font-weight:700;'>[CONTRADICTORY EVIDENCE DETECTED]</span>" : ""}
       </div>
       ${hopsHtml}
-      <hr style="border:none; border-top:1px solid #e2e8f0; margin:12px 0;" />
-      <div style="font-weight:700; font-size:11px; font-family:var(--font-mono); margin-bottom:8px;">GROUNDED EVIDENCE (${evList.length}):</div>
+      <hr style="border:none; border-top:1px solid #e2e8f0; margin:14px 0;" />
+      <div style="font-weight:700; font-size:11px; font-family:var(--font-mono); margin-bottom:10px; color:#334155;">GROUNDED EVIDENCE (${evList.length}):</div>
       ${evHtml}
     `;
   }
@@ -2580,25 +2622,29 @@
     const stateBadge = node.state ? `<span style="font-size:10px; font-weight:700; font-family:var(--font-mono); background:#fef2f2; color:#b91c1c; padding:2px 6px; border-radius:3px;">STATE: ${node.state}${deltaStr}</span>` : "";
 
     inspectorBody.innerHTML = `
-      <div style="margin-bottom:8px;">
-        <div style="display:flex; align-items:center; gap:6px; margin-bottom:6px;">
-          <span style="font-size:10px; font-weight:700; font-family:var(--font-mono); color:#475569;">CATEGORY:</span>
-          <select id="node-cat-override-select" class="toolbar-select" style="font-size:11px; padding:2px 4px;">
-            ${catOptions}
-          </select>
+      <div class="inspector-card">
+        <div class="node-inspector-header">
+          <div class="node-category-wrap">
+            <span class="node-cat-label">CATEGORY:</span>
+            <select id="node-cat-override-select" class="toolbar-select">
+              ${catOptions}
+            </select>
+          </div>
+          ${stateBadge}
         </div>
-        ${node.category_confidence ? `<div style="font-family:var(--font-mono); font-size:10px; color:#64748b; margin-bottom:4px;">Confidence: ${(node.category_confidence * 100).toFixed(0)}% ${node.category_rationale ? `&bull; ${node.category_rationale}` : ""}</div>` : ""}
-        ${stateBadge}
+        ${node.category_confidence ? `<div style="font-family:var(--font-mono); font-size:10px; color:#64748b; margin-bottom:6px;">Confidence: ${(node.category_confidence * 100).toFixed(0)}% ${node.category_rationale ? `&bull; ${node.category_rationale}` : ""}</div>` : ""}
+        <div class="inspector-node-title">${nodeName}</div>
+        <div class="inspector-meta-bar">
+          <span>In-Degree: ${inc.length}</span>
+          <span>&bull;</span>
+          <span>Out-Degree: ${out.length}</span>
+        </div>
       </div>
-      <div style="font-size:18px; font-weight:700; margin-bottom:4px;">${nodeName}</div>
-      <div style="font-family:var(--font-mono); font-size:11px; color:#555; margin-bottom:12px;">
-        In-Degree: ${inc.length} &bull; Out-Degree: ${out.length}
-      </div>
-      <hr style="border:none; border-top:1px solid #e2e8f0; margin:12px 0;" />
-      <div style="font-weight:700; font-size:11px; font-family:var(--font-mono); margin-bottom:6px;">INCOMING CAUSAL INFLUENCES:</div>
-      <ul style="padding-left:18px; margin-bottom:16px; font-size:12px;">${incHtml || "<li>None</li>"}</ul>
-      <div style="font-weight:700; font-size:11px; font-family:var(--font-mono); margin-bottom:6px;">OUTGOING CAUSAL TARGETS:</div>
-      <ul style="padding-left:18px; font-size:12px;">${outHtml || "<li>None</li>"}</ul>
+      <hr style="border:none; border-top:1px solid #e2e8f0; margin:14px 0;" />
+      <div style="font-weight:700; font-size:11px; font-family:var(--font-mono); margin-bottom:8px; color:#334155;">INCOMING CAUSAL INFLUENCES (${inc.length}):</div>
+      <ul style="padding-left:18px; margin-bottom:16px; font-size:12px; line-height:1.6;">${incHtml || "<li style='color:#94a3b8;'>None</li>"}</ul>
+      <div style="font-weight:700; font-size:11px; font-family:var(--font-mono); margin-bottom:8px; color:#334155;">OUTGOING CAUSAL TARGETS (${out.length}):</div>
+      <ul style="padding-left:18px; font-size:12px; line-height:1.6;">${outHtml || "<li style='color:#94a3b8;'>None</li>"}</ul>
     `;
 
     const catSelect = document.getElementById("node-cat-override-select");

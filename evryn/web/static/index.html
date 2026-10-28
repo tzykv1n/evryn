@@ -173,34 +173,43 @@
             </div>
 
             <!-- Realign Corresponding Nodes (Decoupled instant alignment) -->
-            <button id="realign-graphs-btn" class="toolbar-btn realign-btn hidden" title="Realign corresponding nodes for visual comparison (independent movement retained)">REALIGN NODES</button>
-
-            <!-- Reset Layout Button -->
-            <button id="reset-layout-btn" class="toolbar-btn" title="Reset node positions to default circular layout for active graph">RESET LAYOUT</button>
-
-            <!-- Physics Preset Selector -->
-            <div class="physics-control-group">
-              <label for="physics-preset-select" class="toolbar-label">PHYSICS:</label>
-              <select id="physics-preset-select" class="toolbar-select" title="Physics simulation preset for active graph">
-                <option value="rubber_band" selected>Rubber Band</option>
-                <option value="string">Slack String</option>
-                <option value="inelastic">Inelastic</option>
-                <option value="rigid">Rigid</option>
-              </select>
-            </div>
-
-            <!-- Stylized T Tighten Edge Button -->
-            <button id="tighten-edge-btn" class="toolbar-btn tighten-btn" title="Tighten selected edge (Tension 1-5)">
-              <span class="tighten-letter">T</span><span id="tension-badge" class="tension-badge hidden">1</span>
-            </button>
-            <button id="loosen-edge-btn" class="toolbar-btn hidden" title="Reset / Loosen selected edge tension">RESET T</button>
+            <button id="realign-graphs-btn" class="toolbar-btn realign-btn hidden" title="Realign corresponding nodes for visual comparison (independent movement retained)">REALIGN</button>
 
             <!-- Split Extracted / Gold Toggle -->
-            <button id="split-graph-toggle-btn" class="toolbar-btn split-toggle-btn" title="Toggle Split View: Extracted Graph vs Reference Gold Standard Graph">SPLIT: EXTRACTED / GOLD</button>
+            <button id="split-graph-toggle-btn" class="toolbar-btn split-toggle-btn" title="Toggle Split View: Extracted Graph vs Reference Gold Standard Graph">SPLIT VIEW</button>
 
-            <button id="graph-fit-btn" class="toolbar-btn" title="Fit active graph to view">FIT</button>
-            <button id="graph-zoom-in" class="toolbar-btn" title="Zoom In active graph">+</button>
-            <button id="graph-zoom-out" class="toolbar-btn" title="Zoom Out active graph">−</button>
+            <!-- Physics Popover Trigger & Menu -->
+            <div id="physics-popover-wrap" class="physics-popover-wrap">
+              <button id="physics-popover-btn" class="toolbar-btn physics-popover-btn" type="button" aria-haspopup="dialog" aria-expanded="false" title="Physics simulation and edge tension controls">
+                PHYSICS ▾
+              </button>
+              <div id="physics-popover-menu" class="physics-popover-menu hidden" role="dialog" aria-label="Physics Settings">
+                <div class="popover-row">
+                  <label for="physics-preset-select" class="popover-label">PRESET:</label>
+                  <select id="physics-preset-select" class="toolbar-select" title="Physics simulation preset for active graph">
+                    <option value="rubber_band" selected>Rubber Band</option>
+                    <option value="string">Slack String</option>
+                    <option value="inelastic">Inelastic</option>
+                    <option value="rigid">Rigid</option>
+                  </select>
+                </div>
+                <div class="popover-row">
+                  <span class="popover-label">TENSION:</span>
+                  <button id="tighten-edge-btn" class="toolbar-btn tighten-btn" title="Tighten selected edge (Tension 1-5)">
+                    <span class="tighten-letter">T</span><span id="tension-badge" class="tension-badge hidden">1</span>
+                  </button>
+                  <button id="loosen-edge-btn" class="toolbar-btn hidden" title="Reset / Loosen selected edge tension">RESET T</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Compact Canvas Control Cluster [ FIT | + | − | ↺ ] -->
+            <div id="canvas-controls" class="canvas-controls-group" role="group" aria-label="Canvas controls">
+              <button id="graph-fit-btn" class="cluster-btn" title="Fit active graph to view">FIT</button>
+              <button id="graph-zoom-in" class="cluster-btn" title="Zoom In active graph">+</button>
+              <button id="graph-zoom-out" class="cluster-btn" title="Zoom Out active graph">−</button>
+              <button id="reset-layout-btn" class="cluster-btn" title="Reset node positions to default layout for active graph">↺</button>
+            </div>
           </div>
         </div>
 
