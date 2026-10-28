@@ -1947,7 +1947,9 @@
       }
     }
 
-    graphStats.textContent = `${nodes.length} NODES  |  ${relations.length} CAUSAL RELATIONS`;
+    const highConfCount = relations.filter(r => (r.confidence || 0) >= 0.8).length;
+    const highConfPct = relations.length > 0 ? Math.round((highConfCount / relations.length) * 100) : 0;
+    graphStats.textContent = `${relations.length} EXTRACTED RELATIONS  •  ${highConfCount} HIGH-CONFIDENCE (${highConfPct}%)  •  ${nodes.length} GROUNDED ENTITIES`;
 
     // Populate Table View (matches exactly all 9 <thead> columns)
     tableBody.innerHTML = "";
@@ -2086,32 +2088,20 @@
 
     if (benchmarkCardsRow) {
       benchmarkCardsRow.innerHTML = `
-        <div class="benchmark-kpi-card">
+        <div class="benchmark-kpi-card primary-card">
           <div class="benchmark-kpi-label">Direct Macro F1</div>
           <div class="benchmark-kpi-value">${(nlpMacro.direct_f1_mean || 0).toFixed(4)}</div>
           <div class="benchmark-kpi-sub">95% CI: [${(nlpMacro.direct_f1_ci?.[0] || 0).toFixed(4)}, ${(nlpMacro.direct_f1_ci?.[1] || 0).toFixed(4)}]</div>
         </div>
-        <div class="benchmark-kpi-card">
-          <div class="benchmark-kpi-label">Direct Micro P / R / F1</div>
-          <div class="benchmark-kpi-value">${(nlpMicroD.f1 || 0).toFixed(3)}</div>
-          <div class="benchmark-kpi-sub">P: ${(nlpMicroD.precision || 0).toFixed(3)} &bull; R: ${(nlpMicroD.recall || 0).toFixed(3)} (TP=${nlpMicroD.tp || 0}, FP=${nlpMicroD.fp || 0})</div>
-        </div>
-        <div class="benchmark-kpi-card">
+        <div class="benchmark-kpi-card primary-card">
           <div class="benchmark-kpi-label">Cross-Page Macro F1</div>
           <div class="benchmark-kpi-value">${(nlpMacro.cross_f1_mean || 0).toFixed(4)}</div>
           <div class="benchmark-kpi-sub">95% CI: [${(nlpMacro.cross_f1_ci?.[0] || 0).toFixed(4)}, ${(nlpMacro.cross_f1_ci?.[1] || 0).toFixed(4)}]</div>
         </div>
-        <div class="benchmark-kpi-card">
-          <div class="benchmark-kpi-label">False Transitive Jumps</div>
-          <div class="benchmark-kpi-value" style="color:${(nlpData.micro_metrics?.total_false_transitive_jumps || 0) <= 11 ? '#0d9488' : '#e11d48'};">
-            ${nlpData.micro_metrics?.total_false_transitive_jumps || 0}
-          </div>
-          <div class="benchmark-kpi-sub">Spurious Cross-Page Leap Count</div>
-        </div>
-        <div class="benchmark-kpi-card">
-          <div class="benchmark-kpi-label">Directional Accuracy</div>
-          <div class="benchmark-kpi-value" style="color:#0d9488;">${((nlpMacro.direction_accuracy_mean || 1.0) * 100).toFixed(1)}%</div>
-          <div class="benchmark-kpi-sub">Biological Invariant Alignment</div>
+        <div class="benchmark-kpi-card primary-card">
+          <div class="benchmark-kpi-label">Invariant Integrity</div>
+          <div class="benchmark-kpi-value">${((nlpMacro.direction_accuracy_mean || 1.0) * 100).toFixed(1)}%</div>
+          <div class="benchmark-kpi-sub">False Transitive Jumps: ${nlpData.micro_metrics?.total_false_transitive_jumps || 0}</div>
         </div>
       `;
     }

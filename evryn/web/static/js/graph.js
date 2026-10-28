@@ -258,10 +258,12 @@ class CausalGraphRenderer {
   }
 
   updateTransform() {
-    this.transformGroup.setAttribute(
-      "transform",
-      `translate(${this.panX}, ${this.panY}) scale(${this.scale})`
-    );
+    if (this.transformGroup && this.transformGroup.setAttribute) {
+      this.transformGroup.setAttribute(
+        "transform",
+        `translate(${this.panX}, ${this.panY}) scale(${this.scale})`
+      );
+    }
   }
 
   zoomIn() {
@@ -505,8 +507,8 @@ class CausalGraphRenderer {
   }
 
   renderElements() {
-    this.edgesLayer.innerHTML = "";
-    this.nodesLayer.innerHTML = "";
+    if (this.edgesLayer) this.edgesLayer.innerHTML = "";
+    if (this.nodesLayer) this.nodesLayer.innerHTML = "";
 
     if (!this.nodes || this.nodes.length === 0) {
       const emptyText = document.createElementNS("http://www.w3.org/2000/svg", "text");
@@ -518,7 +520,7 @@ class CausalGraphRenderer {
       emptyText.setAttribute("font-family", "var(--font-mono, monospace)");
       emptyText.setAttribute("font-size", "12");
       emptyText.textContent = "No causal relationships extracted.";
-      this.nodesLayer.appendChild(emptyText);
+      if (this.nodesLayer) this.nodesLayer.appendChild(emptyText);
       return;
     }
 
@@ -563,7 +565,7 @@ class CausalGraphRenderer {
         this.selectRelation(rel.data.id);
       });
 
-      this.edgesLayer.appendChild(path);
+      if (this.edgesLayer) this.edgesLayer.appendChild(path);
       rel.pathElem = path;
     }
 
@@ -668,7 +670,7 @@ class CausalGraphRenderer {
         }
       });
 
-      this.nodesLayer.appendChild(g);
+      if (this.nodesLayer) this.nodesLayer.appendChild(g);
       n.groupElem = g;
     }
 
@@ -859,8 +861,12 @@ class CausalGraphRenderer {
   }
 
   clearSentenceHighlights() {
-    this.nodesLayer.querySelectorAll(".sentence-highlighted").forEach((el) => el.classList.remove("sentence-highlighted"));
-    this.edgesLayer.querySelectorAll(".sentence-highlighted").forEach((el) => el.classList.remove("sentence-highlighted"));
+    if (this.nodesLayer && this.nodesLayer.querySelectorAll) {
+      this.nodesLayer.querySelectorAll(".sentence-highlighted").forEach((el) => el.classList.remove("sentence-highlighted"));
+    }
+    if (this.edgesLayer && this.edgesLayer.querySelectorAll) {
+      this.edgesLayer.querySelectorAll(".sentence-highlighted").forEach((el) => el.classList.remove("sentence-highlighted"));
+    }
   }
 }
 
