@@ -111,6 +111,11 @@ TCSTS_COGNATE_PAIRS = {
     ("rets", "gacs"), ("gacs", "rets"),
 }
 
+GENERIC_PIVOT_EXCLUSIONS = {
+    "tcs", "two component system", "two component systems", "regulator",
+    "virulence", "phenotype", "growth", "survival", "biofilm", "host colonization"
+}
+
 
 class CrossPaperLinker:
     def __init__(self, normalizer: Optional[PaperEntityNormalizer] = None):
@@ -144,6 +149,8 @@ class CrossPaperLinker:
             for e1 in c1.edges:
                 pivot_candidate = e1.target
                 pivot_norm = self._norm(pivot_candidate)
+                if pivot_norm in GENERIC_PIVOT_EXCLUSIONS:
+                    continue
 
                 for c2 in chains_doc2:
                     for e2 in c2.edges:

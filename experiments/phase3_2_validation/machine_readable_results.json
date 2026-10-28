@@ -1,0 +1,383 @@
+{
+  "phase": "3.2",
+  "timestamp": "2026-10-28T02:46:39Z",
+  "commit": "43dff07",
+  "branch": "phase3.2-independent-validation-production-gate",
+  "total_runtime_seconds": 3.48,
+  "track1_and_2_composition_validation": {
+    "group_aware_logo": {
+      "evaluation_protocol": "LeaveOneGroupOut by source paper (N=4 papers: PMC2682197, PMC2651894, PMC2774163, PMC2714965)",
+      "total_instances": 29,
+      "rule_baseline": {
+        "accuracy": 0.4828,
+        "macro_f1": 0.3126
+      },
+      "phase3_heuristic": {
+        "accuracy": 0.2759,
+        "macro_f1": 0.2112
+      },
+      "logistic_regression": {
+        "accuracy": 0.5517,
+        "macro_f1": 0.4946
+      },
+      "random_forest": {
+        "accuracy": 0.7241,
+        "macro_f1": 0.6604
+      }
+    },
+    "untouched_held_out": {
+      "evaluation_protocol": "Untouched held-out papers (N=4 papers: PMC1804205, PMC2581603, PMC2242835, PMC2358977)",
+      "total_test_instances": 20,
+      "rule_baseline": {
+        "accuracy": 0.85,
+        "macro_f1": 0.7184
+      },
+      "random_forest": {
+        "accuracy": 0.95,
+        "macro_f1": 0.7818,
+        "per_class": {
+          "DIRECT_SUPPORTED": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 8.0
+          },
+          "INDETERMINATE": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 1.0
+          },
+          "MULTI_HOP_SUPPORTED": {
+            "precision": 0.8333333333333334,
+            "recall": 1.0,
+            "f1-score": 0.9090909090909091,
+            "support": 5.0
+          },
+          "PLAUSIBLE_COMPOSED": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1-score": 0.0,
+            "support": 1.0
+          },
+          "UNSUPPORTED_SHORTCUT": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 5.0
+          },
+          "accuracy": 0.95,
+          "macro avg": {
+            "precision": 0.7666666666666667,
+            "recall": 0.8,
+            "f1-score": 0.7818181818181819,
+            "support": 20.0
+          },
+          "weighted avg": {
+            "precision": 0.9083333333333334,
+            "recall": 0.95,
+            "f1-score": 0.9272727272727274,
+            "support": 20.0
+          }
+        }
+      }
+    }
+  },
+  "track3_semeval_task8_framing": {
+    "task_definition": "SemEval-2010 Task 8 Directional Cause-Effect Classification (Sub-task)",
+    "dataset_version": "Official SemEval-2010 Task 8 TEST_FILE_FULL.TXT",
+    "total_test_sentences": 2717,
+    "total_gold_causal": 328,
+    "baselines": {
+      "majority_class": {
+        "total_test_samples": 2717,
+        "total_gold_causal": 328,
+        "true_positives": 0,
+        "false_positives": 0,
+        "false_negatives": 328,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "simple_lexical_keyword": {
+        "total_test_samples": 2717,
+        "total_gold_causal": 328,
+        "true_positives": 106,
+        "false_positives": 119,
+        "false_negatives": 115,
+        "precision": 0.4711,
+        "recall": 0.4796,
+        "f1": 0.4753
+      },
+      "phase3_unassisted_whole_doc": {
+        "precision": 0.1262,
+        "recall": 0.0518,
+        "f1": 0.0734,
+        "notes": "Failure due to applying whole-document biomedical entity recognizer to general domain while ignoring <e1>/<e2> markers"
+      },
+      "phase3_1_argument_aware_classifier": {
+        "total_test_samples": 2717,
+        "total_gold_causal": 328,
+        "true_positives": 119,
+        "false_positives": 162,
+        "false_negatives": 83,
+        "precision": 0.4235,
+        "recall": 0.5891,
+        "f1": 0.4928
+      }
+    },
+    "promotion_gate_decision": "EXPERIMENTAL / SPECIALIZED SUB-TASK (Solves directional Cause-Effect; does not classify other 8 SemEval relation types)"
+  },
+  "track4_and_5_biocause_and_scierc": {
+    "biocause": {
+      "dataset_name": "BioCause Standoff Biomedical Causal Corpus",
+      "license": "CC BY-NC-SA 3.0",
+      "total_document_sections": 198,
+      "unique_pmc_articles": 20,
+      "total_causality_relations": 851,
+      "cross_sentence_relations": 491,
+      "provenance": "NaCTeM BioCause Corpus (Mihaila et al., BMC Bioinformatics 2013)",
+      "schema_mapping": "Brat standoff T (Entity/Trigger) and R (Causality: Cause, Effect) mapped to EVRYN CausalAssertion",
+      "status": "PARSED_AND_STANDARDIZED"
+    },
+    "scierc": {
+      "dataset_name": "SciERC Multi-Relation Scientific Corpus",
+      "license": "CC BY-NC 4.0 / Research Use",
+      "total_abstracts": 500,
+      "total_entities": 8098,
+      "total_relations": 6394,
+      "relation_type_breakdown": {
+        "USED-FOR": 2437,
+        "PART-OF": 270,
+        "HYPONYM-OF": 477,
+        "COREF": 1675,
+        "EVALUATE-FOR": 454,
+        "CONJUNCTION": 583,
+        "COMPARE": 234,
+        "FEATURE-OF": 264
+      },
+      "causal_relation_count": 0,
+      "schema_fidelity_finding": "SciERC annotates generic scientific relations (USED-FOR, FEATURE-OF, HYPONYM-OF, PART-OF, EVALUATE-FOR). None are causal. EVRYN preserves non-causal integrity without artificial causal relabeling.",
+      "status": "NON_CAUSAL_BOUNDARY_VERIFIED"
+    }
+  },
+  "track6_cross_paper_adjudication": {
+    "total_adjudicated_bridges": 15,
+    "verified_same_species_chains": 5,
+    "verified_orthology_hypotheses": 5,
+    "rejected_spurious_shortcuts": 5,
+    "precision_on_reviewed_sample": 0.6667,
+    "sample_adjudicated_links": [
+      {
+        "source_doc_id": "PMC1804205",
+        "target_doc_id": "PMC2581603",
+        "source_entity": "PmrB",
+        "pivot_entity": "PmrA",
+        "target_entity": "arn Operon",
+        "confidence": 0.7011,
+        "evidence_doc1": "The PmrA protein and its cognate sensor kinase PmrB form a two-component regulatory system that is required for virulence in mice (Gunn et al., 2000),...",
+        "evidence_doc2": "Under conditions of limiting magnesium, PhoP and PmrA bind to the promoter of the CAP resistance operon PA3552\u2013PA3559 (arnBCADTEF-ugd) and induce its ...",
+        "adjudication_verdict": "VERIFIED_ORTHOLOGY_HYPOTHESIS",
+        "reviewer_rationale": "Cross-species orthology hypothesis (Salmonella PmrB/PmrA -> Pseudomonas arn operon). Biologically plausible conserved mechanism."
+      },
+      {
+        "source_doc_id": "PMC1804205",
+        "target_doc_id": "PMC2581603",
+        "source_entity": "Acid pH",
+        "pivot_entity": "PhoQ -> PhoP",
+        "target_entity": "PhoPQ",
+        "confidence": 0.694,
+        "evidence_doc1": "Although it has been suggested that the Salmonella PhoQ protein senses acid pH (Aranda et al., 1992) or responds to both pH and Mg2+ (Bearson et al., ...",
+        "evidence_doc2": "As an intracellular pathogen, the PhoPQ system of Salmonella typhimurium is activated by limiting magnesium in vitro and phoP-regulated genes are also...",
+        "adjudication_verdict": "VERIFIED_ORTHOLOGY_HYPOTHESIS",
+        "reviewer_rationale": "Cross-species orthology hypothesis (Salmonella PmrB/PmrA -> Pseudomonas arn operon). Biologically plausible conserved mechanism."
+      },
+      {
+        "source_doc_id": "PMC1804205",
+        "target_doc_id": "PMC2581603",
+        "source_entity": "Acid pH",
+        "pivot_entity": "PmrB -> PmrA",
+        "target_entity": "arn Operon",
+        "confidence": 0.6863,
+        "evidence_doc1": "The fact that the PmrB H35A and the E64A mutant proteins displayed partial activity in response to ferric iron but were severely impaired in their abi...",
+        "evidence_doc2": "Under conditions of limiting magnesium, PhoP and PmrA bind to the promoter of the CAP resistance operon PA3552\u2013PA3559 (arnBCADTEF-ugd) and induce its ...",
+        "adjudication_verdict": "VERIFIED_ORTHOLOGY_HYPOTHESIS",
+        "reviewer_rationale": "Cross-species orthology hypothesis (Salmonella PmrB/PmrA -> Pseudomonas arn operon). Biologically plausible conserved mechanism."
+      },
+      {
+        "source_doc_id": "PMC1804205",
+        "target_doc_id": "PMC2581603",
+        "source_entity": "PmrD",
+        "pivot_entity": "PmrA",
+        "target_entity": "arn Operon",
+        "confidence": 0.679,
+        "evidence_doc1": "The low Mg2+ activation of the PmrA protein requires PhoQ, a protein that senses extracellular Mg2+ levels (Vescovi et al., 1996), PhoQ's cognate regu...",
+        "evidence_doc2": "Under conditions of limiting magnesium, PhoP and PmrA bind to the promoter of the CAP resistance operon PA3552\u2013PA3559 (arnBCADTEF-ugd) and induce its ...",
+        "adjudication_verdict": "VERIFIED_ORTHOLOGY_HYPOTHESIS",
+        "reviewer_rationale": "Cross-species orthology hypothesis (Salmonella PmrB/PmrA -> Pseudomonas arn operon). Biologically plausible conserved mechanism."
+      },
+      {
+        "source_doc_id": "PMC1804205",
+        "target_doc_id": "PMC2581603",
+        "source_entity": "Acid pH",
+        "pivot_entity": "PhoQ -> PhoP",
+        "target_entity": "arn Operon",
+        "confidence": 0.679,
+        "evidence_doc1": "Although it has been suggested that the Salmonella PhoQ protein senses acid pH (Aranda et al., 1992) or responds to both pH and Mg2+ (Bearson et al., ...",
+        "evidence_doc2": "Under conditions of limiting magnesium, PhoP and PmrA bind to the promoter of the CAP resistance operon PA3552\u2013PA3559 (arnBCADTEF-ugd) and induce its ...",
+        "adjudication_verdict": "VERIFIED_ORTHOLOGY_HYPOTHESIS",
+        "reviewer_rationale": "Cross-species orthology hypothesis (Salmonella PmrB/PmrA -> Pseudomonas arn operon). Biologically plausible conserved mechanism."
+      },
+      {
+        "source_doc_id": "PMC1804205",
+        "target_doc_id": "PMC2639726",
+        "source_entity": "Acid pH",
+        "pivot_entity": "PhoQ",
+        "target_entity": "PhoP",
+        "confidence": 0.7167,
+        "evidence_doc1": "Although it has been suggested that the Salmonella PhoQ protein senses acid pH (Aranda et al., 1992) or responds to both pH and Mg2+ (Bearson et al., ...",
+        "evidence_doc2": "For the two-component regulator ssrA/ssrB we constructed in-frame deletions missing ssrA, ssrB or both; for the other two two-component regulators, ph...",
+        "adjudication_verdict": "VERIFIED_SUPPORTED_CHAIN",
+        "reviewer_rationale": "Same-species (Salmonella enterica) multi-document cascade: Acid pH -> PhoQ/PhoP -> SlyA -> SPI-2."
+      },
+      {
+        "source_doc_id": "PMC1804205",
+        "target_doc_id": "PMC2639726",
+        "source_entity": "Acid pH",
+        "pivot_entity": "PhoQ -> PhoP",
+        "target_entity": "to PssrB [45]",
+        "confidence": 0.6639,
+        "evidence_doc1": "Although it has been suggested that the Salmonella PhoQ protein senses acid pH (Aranda et al., 1992) or responds to both pH and Mg2+ (Bearson et al., ...",
+        "evidence_doc2": "Some of the 14 regulators in this study have been previously shown to directly regulate ssrA/ssrB; OmpR binding to PssrA\n/ssrB\n[60],[61]; SlyA binding...",
+        "adjudication_verdict": "VERIFIED_SUPPORTED_CHAIN",
+        "reviewer_rationale": "Same-species (Salmonella enterica) multi-document cascade: Acid pH -> PhoQ/PhoP -> SlyA -> SPI-2."
+      },
+      {
+        "source_doc_id": "PMC1804205",
+        "target_doc_id": "PMC2639726",
+        "source_entity": "Acid pH",
+        "pivot_entity": "PhoQ -> PhoP",
+        "target_entity": "SsrB",
+        "confidence": 0.6563,
+        "evidence_doc1": "Although it has been suggested that the Salmonella PhoQ protein senses acid pH (Aranda et al., 1992) or responds to both pH and Mg2+ (Bearson et al., ...",
+        "evidence_doc2": "In agreement with this model, SlyA and PhoP counteract H-NS silencing at pagC\n[85],[87]. Thus, one explanation for the transcription we observe follow...",
+        "adjudication_verdict": "VERIFIED_SUPPORTED_CHAIN",
+        "reviewer_rationale": "Same-species (Salmonella enterica) multi-document cascade: Acid pH -> PhoQ/PhoP -> SlyA -> SPI-2."
+      },
+      {
+        "source_doc_id": "PMC1804205",
+        "target_doc_id": "PMC2639726",
+        "source_entity": "Acid pH",
+        "pivot_entity": "PhoQ -> PhoP",
+        "target_entity": "SlyA",
+        "confidence": 0.6563,
+        "evidence_doc1": "Although it has been suggested that the Salmonella PhoQ protein senses acid pH (Aranda et al., 1992) or responds to both pH and Mg2+ (Bearson et al., ...",
+        "evidence_doc2": "In agreement with this model, SlyA and PhoP counteract H-NS silencing at pagC\n[85],[87]. Thus, one explanation for the transcription we observe follow...",
+        "adjudication_verdict": "VERIFIED_SUPPORTED_CHAIN",
+        "reviewer_rationale": "Same-species (Salmonella enterica) multi-document cascade: Acid pH -> PhoQ/PhoP -> SlyA -> SPI-2."
+      },
+      {
+        "source_doc_id": "PMC1804205",
+        "target_doc_id": "PMC2639726",
+        "source_entity": "Acid pH",
+        "pivot_entity": "PhoQ -> PhoP",
+        "target_entity": "SPI-2",
+        "confidence": 0.6563,
+        "evidence_doc1": "Although it has been suggested that the Salmonella PhoQ protein senses acid pH (Aranda et al., 1992) or responds to both pH and Mg2+ (Bearson et al., ...",
+        "evidence_doc2": "In agreement with this model, SlyA and PhoP counteract H-NS silencing at pagC\n[85],[87]. Thus, one explanation for the transcription we observe follow...",
+        "adjudication_verdict": "VERIFIED_SUPPORTED_CHAIN",
+        "reviewer_rationale": "Same-species (Salmonella enterica) multi-document cascade: Acid pH -> PhoQ/PhoP -> SlyA -> SPI-2."
+      }
+    ]
+  },
+  "track7_external_direct_extraction": {
+    "split_name": "EXTERNAL (Untouched by prior rule tuning)",
+    "paper_count": 4,
+    "open_vocabulary_full_text": {
+      "macro_precision": 0.0717,
+      "macro_recall": 0.6,
+      "macro_f1": 0.1279,
+      "per_paper": [
+        {
+          "pmcid": "PMC2816692",
+          "precision": 0.0976,
+          "recall": 0.8,
+          "f1": 0.1739,
+          "tp": 4,
+          "fp": 37,
+          "fn": 1
+        },
+        {
+          "pmcid": "PMC2829055",
+          "precision": 0.037,
+          "recall": 0.4,
+          "f1": 0.0678,
+          "tp": 2,
+          "fp": 52,
+          "fn": 3
+        },
+        {
+          "pmcid": "PMC2858072",
+          "precision": 0.0732,
+          "recall": 0.6,
+          "f1": 0.1304,
+          "tp": 3,
+          "fp": 38,
+          "fn": 2
+        },
+        {
+          "pmcid": "PMC2885601",
+          "precision": 0.0789,
+          "recall": 0.6,
+          "f1": 0.1395,
+          "tp": 3,
+          "fp": 35,
+          "fn": 2
+        }
+      ]
+    },
+    "canonical_entity_focused": {
+      "macro_precision": 0.4375,
+      "macro_recall": 0.55,
+      "macro_f1": 0.4808,
+      "per_paper": [
+        {
+          "pmcid": "PMC2816692",
+          "precision": 0.5,
+          "recall": 0.8,
+          "f1": 0.6154,
+          "tp": 4,
+          "fp": 4,
+          "fn": 1
+        },
+        {
+          "pmcid": "PMC2829055",
+          "precision": 0.25,
+          "recall": 0.4,
+          "f1": 0.3077,
+          "tp": 2,
+          "fp": 6,
+          "fn": 3
+        },
+        {
+          "pmcid": "PMC2858072",
+          "precision": 0.6,
+          "recall": 0.6,
+          "f1": 0.6,
+          "tp": 3,
+          "fp": 2,
+          "fn": 2
+        },
+        {
+          "pmcid": "PMC2885601",
+          "precision": 0.4,
+          "recall": 0.4,
+          "f1": 0.4,
+          "tp": 2,
+          "fp": 3,
+          "fn": 3
+        }
+      ]
+    }
+  }
+}

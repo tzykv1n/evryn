@@ -352,4 +352,17 @@ def test_phase3_api_endpoints(client):
     assert "bridges_discovered_count" in pair1
 
 
+def test_phase3_2_api_endpoint(client):
+    """Verify Phase 3.2 independent validation results API endpoint."""
+    res = client.get("/api/phase3_2/results")
+    assert res.status_code == 200
+    data = res.json()
+    assert data["phase"] == "3.2"
+    assert "track1_and_2_composition_validation" in data
+    assert "track3_semeval_task8_framing" in data
+    assert "track4_and_5_biocause_and_scierc" in data
+    assert "track6_cross_paper_adjudication" in data
+    assert "track7_external_direct_extraction" in data
+
+
 
