@@ -21,6 +21,10 @@
   const processingIndicator = document.getElementById("processing-indicator");
   const processingText = document.getElementById("processing-text");
   const resultsView = document.getElementById("results-view");
+  const graphWrapper = document.getElementById("graph-wrapper");
+  const workspaceResearch = document.getElementById("workspace-research");
+  const navModeExplore = document.getElementById("nav-mode-explore");
+  const navModeResearch = document.getElementById("nav-mode-research");
   const graphStats = document.getElementById("graph-stats");
   const batchSection = document.getElementById("batch-section");
   const batchCards = document.getElementById("batch-cards");
@@ -497,83 +501,140 @@
     });
   }
 
-  // Multi-View Tab Switcher
-  function switchView(tabName) {
-    if (viewTabGraph) viewTabGraph.classList.toggle("active", tabName === "graph");
-    if (viewTabCopyable) viewTabCopyable.classList.toggle("active", tabName === "copyable");
-    if (viewTabTable) viewTabTable.classList.toggle("active", tabName === "table");
-    if (viewTabExamples) viewTabExamples.classList.toggle("active", tabName === "examples");
-    if (viewTabBenchmark) viewTabBenchmark.classList.toggle("active", tabName === "benchmark");
-    if (viewTabGold) viewTabGold.classList.toggle("active", tabName === "gold");
-    if (viewTabDiagnostics) viewTabDiagnostics.classList.toggle("active", tabName === "diagnostics");
-    if (viewTabChains) viewTabChains.classList.toggle("active", tabName === "chains");
+  // 3-Activity Workspace State (Explore, Evaluate, Research)
+  let currentMode = "explore";
+  let currentExploreTab = "graph";
+  let currentResearchTab = "chains";
 
-    if (viewTabGraph) viewTabGraph.setAttribute("aria-selected", tabName === "graph");
-    if (viewTabCopyable) viewTabCopyable.setAttribute("aria-selected", tabName === "copyable");
-    if (viewTabTable) viewTabTable.setAttribute("aria-selected", tabName === "table");
-    if (viewTabExamples) viewTabExamples.setAttribute("aria-selected", tabName === "examples");
-    if (viewTabBenchmark) viewTabBenchmark.setAttribute("aria-selected", tabName === "benchmark");
-    if (viewTabGold) viewTabGold.setAttribute("aria-selected", tabName === "gold");
-    if (viewTabDiagnostics) viewTabDiagnostics.setAttribute("aria-selected", tabName === "diagnostics");
-    if (viewTabChains) viewTabChains.setAttribute("aria-selected", tabName === "chains");
+  function switchMode(mode) {
+    currentMode = mode;
+    if (navModeExplore) {
+      navModeExplore.classList.toggle("active", mode === "explore");
+      navModeExplore.setAttribute("aria-selected", mode === "explore");
+    }
+    if (viewTabGold) {
+      viewTabGold.classList.toggle("active", mode === "evaluate");
+      viewTabGold.setAttribute("aria-selected", mode === "evaluate");
+    }
+    if (navModeResearch) {
+      navModeResearch.classList.toggle("active", mode === "research");
+      navModeResearch.setAttribute("aria-selected", mode === "research");
+    }
 
-    if (graphViewport) graphViewport.classList.toggle("hidden", tabName !== "graph");
-    if (copyableView) copyableView.classList.toggle("hidden", tabName !== "copyable");
-    if (tableView) tableView.classList.toggle("hidden", tabName !== "table");
-    if (examplesView) examplesView.classList.toggle("hidden", tabName !== "examples");
-    if (benchmarkView) benchmarkView.classList.toggle("hidden", tabName !== "benchmark");
-    if (goldComparisonView) goldComparisonView.classList.toggle("hidden", tabName !== "gold");
-    if (diagnosticsView) diagnosticsView.classList.toggle("hidden", tabName !== "diagnostics");
-    if (chainsView) chainsView.classList.toggle("hidden", tabName !== "chains");
-
-    if (tabName === "benchmark") {
-      inputContainer.classList.add("hidden");
-      if (graphRenderer) graphRenderer.pause();
-      resultsView.classList.remove("hidden");
-      loadBenchmarkData();
-    } else if (tabName === "gold") {
-      inputContainer.classList.add("hidden");
-      if (graphRenderer) graphRenderer.pause();
-      resultsView.classList.remove("hidden");
-      loadGoldComparisonData();
-    } else if (tabName === "diagnostics") {
-      inputContainer.classList.add("hidden");
-      if (graphRenderer) graphRenderer.pause();
-      resultsView.classList.remove("hidden");
-      loadDiagnosticsData();
-    } else if (tabName === "chains") {
-      inputContainer.classList.add("hidden");
-      if (graphRenderer) graphRenderer.pause();
-      resultsView.classList.remove("hidden");
-      loadChainsData();
-    } else {
+    if (mode === "explore") {
+      if (graphWrapper) graphWrapper.classList.remove("hidden");
+      if (goldComparisonView) goldComparisonView.classList.add("hidden");
+      if (workspaceResearch) workspaceResearch.classList.add("hidden");
       inputContainer.classList.remove("hidden");
       if (!activeSessionData) {
-        if (tabName === "graph") {
+        if (currentExploreTab === "graph") {
           resultsView.classList.remove("hidden");
         } else {
           resultsView.classList.add("hidden");
         }
       } else {
         dockInput();
-        if (tabName === "copyable") {
-          copyableText.textContent = generateCopyableGraphText(activeSessionData);
-          if (graphRenderer) graphRenderer.pause();
-        } else if (tabName === "table") {
-          if (graphRenderer) graphRenderer.pause();
-        } else if (tabName === "graph") {
-          if (graphRenderer) {
-            graphRenderer.resume();
-            graphRenderer.fitToView();
-          }
-        }
+      }
+      switchExploreTab(currentExploreTab || "graph");
+    } else if (mode === "evaluate") {
+      if (graphWrapper) graphWrapper.classList.add("hidden");
+      if (goldComparisonView) goldComparisonView.classList.remove("hidden");
+      if (workspaceResearch) workspaceResearch.classList.add("hidden");
+      inputContainer.classList.add("hidden");
+      if (graphRenderer) graphRenderer.pause();
+      resultsView.classList.remove("hidden");
+      loadGoldComparisonData();
+    } else if (mode === "research") {
+      if (graphWrapper) graphWrapper.classList.add("hidden");
+      if (goldComparisonView) goldComparisonView.classList.add("hidden");
+      if (workspaceResearch) workspaceResearch.classList.remove("hidden");
+      inputContainer.classList.add("hidden");
+      if (graphRenderer) graphRenderer.pause();
+      resultsView.classList.remove("hidden");
+      switchResearchTab(currentResearchTab || "chains");
+    }
+  }
+
+  function switchExploreTab(tabName) {
+    currentExploreTab = tabName;
+    if (viewTabGraph) {
+      viewTabGraph.classList.toggle("active", tabName === "graph");
+      viewTabGraph.setAttribute("aria-selected", tabName === "graph");
+    }
+    if (viewTabCopyable) {
+      viewTabCopyable.classList.toggle("active", tabName === "copyable");
+      viewTabCopyable.setAttribute("aria-selected", tabName === "copyable");
+    }
+    if (viewTabTable) {
+      viewTabTable.classList.toggle("active", tabName === "table");
+      viewTabTable.setAttribute("aria-selected", tabName === "table");
+    }
+
+    if (graphViewport) graphViewport.classList.toggle("hidden", tabName !== "graph");
+    if (copyableView) copyableView.classList.toggle("hidden", tabName !== "copyable");
+    if (tableView) tableView.classList.toggle("hidden", tabName !== "table");
+
+    if (tabName === "copyable") {
+      if (activeSessionData) {
+        copyableText.textContent = generateCopyableGraphText(activeSessionData);
+      }
+      if (graphRenderer) graphRenderer.pause();
+    } else if (tabName === "table") {
+      if (graphRenderer) graphRenderer.pause();
+    } else if (tabName === "graph") {
+      if (graphRenderer) {
+        graphRenderer.resume();
+        graphRenderer.fitToView();
       }
     }
   }
 
-  viewTabGraph.addEventListener("click", () => switchView("graph"));
-  viewTabCopyable.addEventListener("click", () => switchView("copyable"));
-  viewTabTable.addEventListener("click", () => switchView("table"));
+  function switchResearchTab(tabName) {
+    currentResearchTab = tabName;
+    if (viewTabChains) {
+      viewTabChains.classList.toggle("active", tabName === "chains");
+      viewTabChains.setAttribute("aria-selected", tabName === "chains");
+    }
+    if (viewTabBenchmark) {
+      viewTabBenchmark.classList.toggle("active", tabName === "benchmark");
+      viewTabBenchmark.setAttribute("aria-selected", tabName === "benchmark");
+    }
+    if (viewTabDiagnostics) {
+      viewTabDiagnostics.classList.toggle("active", tabName === "diagnostics");
+      viewTabDiagnostics.setAttribute("aria-selected", tabName === "diagnostics");
+    }
+
+    if (chainsView) chainsView.classList.toggle("hidden", tabName !== "chains");
+    if (benchmarkView) benchmarkView.classList.toggle("hidden", tabName !== "benchmark");
+    if (diagnosticsView) diagnosticsView.classList.toggle("hidden", tabName !== "diagnostics");
+
+    if (tabName === "chains") {
+      loadChainsData();
+    } else if (tabName === "benchmark") {
+      loadBenchmarkData();
+    } else if (tabName === "diagnostics") {
+      loadDiagnosticsData();
+    }
+  }
+
+  // Unified Multi-View / Mode Router
+  function switchView(tabName) {
+    if (tabName === "graph" || tabName === "copyable" || tabName === "table") {
+      currentExploreTab = tabName;
+      switchMode("explore");
+    } else if (tabName === "gold") {
+      switchMode("evaluate");
+    } else if (tabName === "chains" || tabName === "benchmark" || tabName === "diagnostics") {
+      currentResearchTab = tabName;
+      switchMode("research");
+    }
+  }
+
+  if (navModeExplore) navModeExplore.addEventListener("click", () => switchMode("explore"));
+  if (navModeResearch) navModeResearch.addEventListener("click", () => switchMode("research"));
+  if (viewTabGraph) viewTabGraph.addEventListener("click", () => switchView("graph"));
+  if (viewTabCopyable) viewTabCopyable.addEventListener("click", () => switchView("copyable"));
+  if (viewTabTable) viewTabTable.addEventListener("click", () => switchView("table"));
   if (viewTabExamples) viewTabExamples.addEventListener("click", () => switchView("examples"));
   if (viewTabBenchmark) viewTabBenchmark.addEventListener("click", () => switchView("benchmark"));
   if (viewTabGold) viewTabGold.addEventListener("click", () => switchView("gold"));

@@ -1,0 +1,266 @@
+{
+  "phase": "3.3",
+  "timestamp": "2026-10-28T03:27:36Z",
+  "branch": "phase3.3-evaluation-integrity-and-ui-redesign",
+  "canonical_evaluation_contract": "TP + FN == Total Gold across all tracks",
+  "semeval_reconciliation": {
+    "evaluation_task": "SemEval-2010 Task 8 Directional Cause-Effect Classification (Sub-task)",
+    "full_semeval_task_scope": "Official SemEval-2010 Task 8 is a 19-class problem (9 relation types x 2 directions + Other). EVRYN evaluates the directional Cause-Effect sub-task (Cause-Effect(e1,e2), Cause-Effect(e2,e1), Non-Causal) as an out-of-domain sanity transfer test.",
+    "dataset_statistics": {
+      "total_test_samples": 2717,
+      "total_gold_cause_effect": 328,
+      "total_model_predictions": 281,
+      "total_non_causal_test_samples": 2389
+    },
+    "canonical_confusion_matrix": {
+      "true_positives": 119,
+      "direction_inversions_fp_and_fn": 126,
+      "pure_unpredicted_fn": 83,
+      "non_causal_false_alarms_fp": 36,
+      "true_negatives": 2353,
+      "reconciled_total_fn": 209,
+      "reconciled_total_fp": 162,
+      "reconciled_gold_check": true,
+      "reconciled_pred_check": true
+    },
+    "canonical_directional_metrics": {
+      "precision": 0.4235,
+      "recall": 0.3628,
+      "f1": 0.3908,
+      "gold_denominator": 328,
+      "prediction_denominator": 281
+    },
+    "binary_causal_detection_metrics": {
+      "precision": 0.8719,
+      "recall": 0.747,
+      "f1": 0.8046,
+      "interpretation": "Evaluates ability to recognize causal sentences regardless of argument order."
+    },
+    "legacy_phase3_1_metrics": {
+      "precision": 0.4235,
+      "recall": 0.5891,
+      "f1": 0.4928,
+      "note": "Preserved for historical traceability."
+    },
+    "discrepancy_register": [
+      {
+        "metric": "SemEval-2010 Task 8 Cause-Effect Recall",
+        "historical_phase3_1_reported_value": 0.5891,
+        "canonical_reconciled_value": 0.3628,
+        "denominator_change": "202 -> 328",
+        "root_cause": "In Phase 3.1, 126 direction inversions on gold causal sentences were incremented as FP without being added to the FN denominator. This compressed the recall denominator from the actual 328 gold test sentences down to (119 TP + 83 FN = 202), inflating reported recall. When direction inversion is strictly counted as both a missed true direction (FN) and a spurious prediction (FP), the true canonical recall across all 328 gold instances is 119/328 = 0.3628.",
+        "status": "RECONCILED"
+      },
+      {
+        "metric": "SemEval-2010 Task 8 Cause-Effect F1 Score",
+        "historical_phase3_1_reported_value": 0.4928,
+        "canonical_reconciled_value": 0.3908,
+        "denominator_change": "Harmonic mean with R=0.5891 -> Harmonic mean with R=0.3628",
+        "root_cause": "Derived from the inflated recall denominator (202 instead of 328). Canonical F1 = 2 * (119/281) * (119/328) / (119/281 + 119/328) = 238 / 609 = 0.3908.",
+        "status": "RECONCILED"
+      },
+      {
+        "metric": "SemEval False Positive Count Reconciliation",
+        "historical_phase3_1_reported_value": "162 FP (table) vs 36 FP (error analysis statement)",
+        "canonical_reconciled_value": "162 Directional FP (126 direction inversions + 36 non-causal false alarms)",
+        "denominator_change": "N/A (Subset Disambiguation)",
+        "root_cause": "The error analysis statement '36 false positives' referred strictly to false alarms on true negative sentences (2,389 non-causal test sentences, yielding 36/2389 = 1.5% false alarm rate, P_binary=87.2%). The table's 162 FP included both the 36 non-causal false alarms PLUS the 126 direction inversions on causal sentences. Both numbers are mathematically correct under their respective sub-definitions.",
+        "status": "RESOLVED_AND_DISAMBIGUATED"
+      },
+      {
+        "metric": "Candidate Chains Count (341 vs 13,292)",
+        "historical_phase3_1_reported_value": "13,292 in exploratory generator vs 341 in benchmark table",
+        "canonical_reconciled_value": "341 Entity-Focused Chains (Benchmark) vs 13,292 Open-Graph Paths (Whole Document)",
+        "denominator_change": "Canonical Benchmark Entity Filter",
+        "root_cause": "13,292 candidate paths were generated when exhaustively walking open relations across full raw PDF text. 341 is the clean path inventory when restricted to curated canonical entities. The UI and documentation now explicitly label 341 as 'Canonical Entity-Focused Chains' and 13,292 as 'Open-Graph Combinatorial Paths'.",
+        "status": "CATEGORICALLY_SEPARATED"
+      }
+    ]
+  },
+  "composition_validation": {
+    "protocol": "Group-Aware Leave-One-Group-Out Cross-Validation by Source Paper (N=4 Train Papers)",
+    "total_instances": 29,
+    "random_forest_macro_f1": 0.6604,
+    "random_forest_accuracy": 0.7241,
+    "untouched_held_out_test_papers": [
+      "PMC1804205",
+      "PMC2581603",
+      "PMC2242835",
+      "PMC2358977"
+    ],
+    "status": "VALIDATED_WITHOUT_LEAKAGE"
+  },
+  "benchmark_provenance_audit": {
+    "split_manifest_version": "2.0.0",
+    "total_papers": 20,
+    "split_counts": {
+      "train": 4,
+      "dev": 8,
+      "locked_test": 4,
+      "external": 4
+    },
+    "papers_provenance": [
+      {
+        "pmcid": "PMC1804205",
+        "title": "Acid pH activation of the PmrA/PmrB two-component regulatory system of Salmonella enterica",
+        "split": "dev",
+        "role": "Development & Error Analysis (Influenced rule tuning and syntactic patterns)",
+        "strictly_isolated_from_rule_tuning": false,
+        "gold_relations_count": 45
+      },
+      {
+        "pmcid": "PMC1874608",
+        "title": "Mlc regulation of Salmonella pathogenicity island I gene expression via hilE repression",
+        "split": "dev",
+        "role": "Development & Error Analysis (Influenced rule tuning and syntactic patterns)",
+        "strictly_isolated_from_rule_tuning": false,
+        "gold_relations_count": 72
+      },
+      {
+        "pmcid": "PMC1913099",
+        "title": "Novel Algorithms Reveal Streptococcal Transcriptomes and Clues about Undefined Genes",
+        "split": "dev",
+        "role": "Development & Error Analysis (Influenced rule tuning and syntactic patterns)",
+        "strictly_isolated_from_rule_tuning": false,
+        "gold_relations_count": 1
+      },
+      {
+        "pmcid": "PMC1974823",
+        "title": "Porphyromonas gingivalis short fimbriae are regulated by a FimS/FimR two-component system",
+        "split": "dev",
+        "role": "Development & Error Analysis (Influenced rule tuning and syntactic patterns)",
+        "strictly_isolated_from_rule_tuning": false,
+        "gold_relations_count": 21
+      },
+      {
+        "pmcid": "PMC2242835",
+        "title": "Control of M. tuberculosis ESAT-6 Secretion and Specific T Cell Recognition by PhoP",
+        "split": "dev",
+        "role": "Development & Error Analysis (Influenced rule tuning and syntactic patterns)",
+        "strictly_isolated_from_rule_tuning": false,
+        "gold_relations_count": 25
+      },
+      {
+        "pmcid": "PMC2266911",
+        "title": "Comparative analysis of the Photorhabdus luminescens and the Yersinia enterocolitica genomes: uncovering candidate genes involved in insect pathogenicity",
+        "split": "dev",
+        "role": "Development & Error Analysis (Influenced rule tuning and syntactic patterns)",
+        "strictly_isolated_from_rule_tuning": false,
+        "gold_relations_count": 17
+      },
+      {
+        "pmcid": "PMC2358977",
+        "title": "SalK/SalR, a Two-Component Signal Transduction System, Is Essential for Full Virulence of Highly Invasive Streptococcus suis Serotype 2",
+        "split": "dev",
+        "role": "Development & Error Analysis (Influenced rule tuning and syntactic patterns)",
+        "strictly_isolated_from_rule_tuning": false,
+        "gold_relations_count": 19
+      },
+      {
+        "pmcid": "PMC2430206",
+        "title": "The GraRS regulatory system controls Staphylococcus aureus susceptibility to antimicrobial host defenses",
+        "split": "dev",
+        "role": "Development & Error Analysis (Influenced rule tuning and syntactic patterns)",
+        "strictly_isolated_from_rule_tuning": false,
+        "gold_relations_count": 6
+      },
+      {
+        "pmcid": "PMC2565068",
+        "title": "Incompetence of Neutrophils to Invasive Group A streptococcus Is Attributed to Induction of Plural Virulence Factors by Dysfunction of a Regulator",
+        "split": "locked_test",
+        "role": "Locked Benchmark Evaluation (Fixed test set, evaluated without parameter re-tuning)",
+        "strictly_isolated_from_rule_tuning": true,
+        "gold_relations_count": 7
+      },
+      {
+        "pmcid": "PMC2581603",
+        "title": "Extracellular DNA Chelates Cations and Induces Antibiotic Resistance in Pseudomonas aeruginosa Biofilms",
+        "split": "locked_test",
+        "role": "Locked Benchmark Evaluation (Fixed test set, evaluated without parameter re-tuning)",
+        "strictly_isolated_from_rule_tuning": true,
+        "gold_relations_count": 27
+      },
+      {
+        "pmcid": "PMC2593050",
+        "title": "The Two-Component Regulatory System VicRK is Important to Virulence of Streptococcus equi Subspecies equi",
+        "split": "locked_test",
+        "role": "Locked Benchmark Evaluation (Fixed test set, evaluated without parameter re-tuning)",
+        "strictly_isolated_from_rule_tuning": true,
+        "gold_relations_count": 6
+      },
+      {
+        "pmcid": "PMC2639726",
+        "title": "Coordinated Regulation of Virulence during Systemic Infection of Salmonella enterica Serovar Typhimurium",
+        "split": "locked_test",
+        "role": "Locked Benchmark Evaluation (Fixed test set, evaluated without parameter re-tuning)",
+        "strictly_isolated_from_rule_tuning": true,
+        "gold_relations_count": 16
+      },
+      {
+        "pmcid": "PMC2651894",
+        "title": "RpoE fine tunes expression of a subset of SsrB-regulated virulence factors in Salmonella enterica serovar Typhimurium",
+        "split": "train",
+        "role": "Composition Classifier Training (Source of cross-paper composition pairs)",
+        "strictly_isolated_from_rule_tuning": true,
+        "gold_relations_count": 14
+      },
+      {
+        "pmcid": "PMC2682197",
+        "title": "Mycobacterium tuberculosis Universal Stress Protein Rv2623 Regulates Bacillary Growth by ATP-Binding: Requirement for Establishing Chronic Persistent Infection",
+        "split": "train",
+        "role": "Composition Classifier Training (Source of cross-paper composition pairs)",
+        "strictly_isolated_from_rule_tuning": true,
+        "gold_relations_count": 6
+      },
+      {
+        "pmcid": "PMC2714965",
+        "title": "Caenorhabditis elegans Semi-Automated Liquid Screen Reveals a Specialized Role for the Chemotaxis Gene cheB2 in Pseudomonas aeruginosa Virulence",
+        "split": "train",
+        "role": "Composition Classifier Training (Source of cross-paper composition pairs)",
+        "strictly_isolated_from_rule_tuning": true,
+        "gold_relations_count": 8
+      },
+      {
+        "pmcid": "PMC2774163",
+        "title": "A Novel Signaling Network Essential for Regulating Pseudomonas aeruginosa Biofilm Development",
+        "split": "train",
+        "role": "Composition Classifier Training (Source of cross-paper composition pairs)",
+        "strictly_isolated_from_rule_tuning": true,
+        "gold_relations_count": 14
+      },
+      {
+        "pmcid": "PMC2816692",
+        "title": "Structural and Biochemical Characterization of SrcA, a Multi-Cargo Type III Secretion Chaperone in Salmonella Required for Pathogenic Association with a Host",
+        "split": "external",
+        "role": "External Generalization Holdout (Untouched papers, zero extraction rule fitting)",
+        "strictly_isolated_from_rule_tuning": true,
+        "gold_relations_count": 9
+      },
+      {
+        "pmcid": "PMC2829055",
+        "title": "Transit through the Flea Vector Induces a Pretransmission Innate Immunity Resistance Phenotype in Yersinia pestis",
+        "split": "external",
+        "role": "External Generalization Holdout (Untouched papers, zero extraction rule fitting)",
+        "strictly_isolated_from_rule_tuning": true,
+        "gold_relations_count": 7
+      },
+      {
+        "pmcid": "PMC2858072",
+        "title": "Transcriptome Analysis of the Brucella abortus BvrR/BvrS Two-Component Regulatory System",
+        "split": "external",
+        "role": "External Generalization Holdout (Untouched papers, zero extraction rule fitting)",
+        "strictly_isolated_from_rule_tuning": true,
+        "gold_relations_count": 61
+      },
+      {
+        "pmcid": "PMC2885601",
+        "title": "IgG Endopeptidase SeMac does not Inhibit Opsonophagocytosis of Streptococcus equi Subspecies equi by Horse Polymorphonuclear Leukocytes",
+        "split": "external",
+        "role": "External Generalization Holdout (Untouched papers, zero extraction rule fitting)",
+        "strictly_isolated_from_rule_tuning": true,
+        "gold_relations_count": 36
+      }
+    ]
+  },
+  "elapsed_seconds": 0.561
+}

@@ -365,4 +365,19 @@ def test_phase3_2_api_endpoint(client):
     assert "track7_external_direct_extraction" in data
 
 
+def test_phase3_3_api_endpoint(client):
+    """Verify Phase 3.3 canonical evaluation metrics API endpoint."""
+    res = client.get("/api/phase3_3/results")
+    assert res.status_code == 200
+    data = res.json()
+    assert data["phase"] == "3.3"
+    assert "semeval_reconciliation" in data
+    assert "composition_validation" in data
+    assert "benchmark_provenance_audit" in data
+    sem = data["semeval_reconciliation"]
+    assert sem["canonical_directional_metrics"]["recall"] == 0.3628
+    assert sem["canonical_directional_metrics"]["precision"] == 0.4235
+    assert sem["canonical_directional_metrics"]["f1"] == 0.3908
+
+
 

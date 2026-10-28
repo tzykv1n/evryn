@@ -591,6 +591,15 @@ def get_phase3_2_results():
     raise HTTPException(status_code=404, detail="Phase 3.2 validation results not found.")
 
 
+@app.get("/api/phase3_3/results")
+def get_phase3_3_results():
+    res_path = os.path.join(REPO_ROOT, "experiments", "phase3_3_evaluation", "canonical_metrics.json")
+    if os.path.exists(res_path):
+        with open(res_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    raise HTTPException(status_code=404, detail="Phase 3.3 canonical metrics not found.")
+
+
 # Mount static assets
 if os.path.exists(STATIC_DIR):
     @app.middleware("http")
